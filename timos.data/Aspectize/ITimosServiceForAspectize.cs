@@ -17,10 +17,10 @@ namespace timos.data.Aspectize
         /// <param name="strPassword"></param>
         /// <returns></returns>
         CResultAErreur OpenSession(string strLogin, string strPassword);
-
-        CResultAErreur GetTodosForUser(int nIdSessin, string keyUtilisateur);
-
-        CResultAErreur SaveToDo(int nIdSession, DataSet ds);
+        void CloseSession(int nIdSession);
+        CResultAErreur GetTodosForUser(int nIdSession, string keyUtilisateur);
+        CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo);
+        CResultAErreur SaveTodo(int nIdSession, DataSet ds);
 
 
     }
