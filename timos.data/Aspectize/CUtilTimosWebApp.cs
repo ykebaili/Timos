@@ -19,7 +19,5 @@ namespace timos.data.Aspectize
         public const string c_champUserLogin = "TIMOS_USER_LOGIN";
         public const string c_champSessionId = "TIMOS_SESSION_ID";
 
-
-
     }
 }
