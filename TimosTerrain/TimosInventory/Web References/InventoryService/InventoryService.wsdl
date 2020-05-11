@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBaseConfig">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdSession" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBaseConfigResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetBaseConfigResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSites">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdSession" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="nIdSites" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetSitesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSitesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEquipments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdSession" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="nIdSiteContenant" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEquipmentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEquipmentsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReferencesSites">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdSession" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReferencesSitesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReferencesSitesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenSession">
+        <s:complexType />
+      </s:element>
+      <s:element name="OpenSessionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="OpenSessionResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSurvey">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdSession" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ds">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSurveyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendSurveyResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseSession">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdSession" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseSessionResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBaseConfigSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBaseConfig" />
+  </wsdl:message>
+  <wsdl:message name="GetBaseConfigSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBaseConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSites" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSitesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEquipmentsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEquipments" />
+  </wsdl:message>
+  <wsdl:message name="GetEquipmentsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEquipmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReferencesSitesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReferencesSites" />
+  </wsdl:message>
+  <wsdl:message name="GetReferencesSitesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReferencesSitesResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenSessionSoapIn">
+    <wsdl:part name="parameters" element="tns:OpenSession" />
+  </wsdl:message>
+  <wsdl:message name="OpenSessionSoapOut">
+    <wsdl:part name="parameters" element="tns:OpenSessionResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendSurveySoapIn">
+    <wsdl:part name="parameters" element="tns:SendSurvey" />
+  </wsdl:message>
+  <wsdl:message name="SendSurveySoapOut">
+    <wsdl:part name="parameters" element="tns:SendSurveyResponse" />
+  </wsdl:message>
+  <wsdl:message name="CloseSessionSoapIn">
+    <wsdl:part name="parameters" element="tns:CloseSession" />
+  </wsdl:message>
+  <wsdl:message name="CloseSessionSoapOut">
+    <wsdl:part name="parameters" element="tns:CloseSessionResponse" />
+  </wsdl:message>
+  <wsdl:portType name="InventoryServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBaseConfig">
+      <wsdl:input message="tns:GetBaseConfigSoapIn" />
+      <wsdl:output message="tns:GetBaseConfigSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSites">
+      <wsdl:input message="tns:GetSitesSoapIn" />
+      <wsdl:output message="tns:GetSitesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEquipments">
+      <wsdl:input message="tns:GetEquipmentsSoapIn" />
+      <wsdl:output message="tns:GetEquipmentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReferencesSites">
+      <wsdl:input message="tns:GetReferencesSitesSoapIn" />
+      <wsdl:output message="tns:GetReferencesSitesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenSession">
+      <wsdl:input message="tns:OpenSessionSoapIn" />
+      <wsdl:output message="tns:OpenSessionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSurvey">
+      <wsdl:input message="tns:SendSurveySoapIn" />
+      <wsdl:output message="tns:SendSurveySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseSession">
+      <wsdl:input message="tns:CloseSessionSoapIn" />
+      <wsdl:output message="tns:CloseSessionSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="InventoryServiceSoap" type="tns:InventoryServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBaseConfig">
+      <soap:operation soapAction="http://tempuri.org/GetBaseConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSites">
+      <soap:operation soapAction="http://tempuri.org/GetSites" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEquipments">
+      <soap:operation soapAction="http://tempuri.org/GetEquipments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReferencesSites">
+      <soap:operation soapAction="http://tempuri.org/GetReferencesSites" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenSession">
+      <soap:operation soapAction="http://tempuri.org/OpenSession" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSurvey">
+      <soap:operation soapAction="http://tempuri.org/SendSurvey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseSession">
+      <soap:operation soapAction="http://tempuri.org/CloseSession" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="InventoryServiceSoap12" type="tns:InventoryServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBaseConfig">
+      <soap12:operation soapAction="http://tempuri.org/GetBaseConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSites">
+      <soap12:operation soapAction="http://tempuri.org/GetSites" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEquipments">
+      <soap12:operation soapAction="http://tempuri.org/GetEquipments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReferencesSites">
+      <soap12:operation soapAction="http://tempuri.org/GetReferencesSites" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenSession">
+      <soap12:operation soapAction="http://tempuri.org/OpenSession" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSurvey">
+      <soap12:operation soapAction="http://tempuri.org/SendSurvey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseSession">
+      <soap12:operation soapAction="http://tempuri.org/CloseSession" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="InventoryService">
+    <wsdl:port name="InventoryServiceSoap" binding="tns:InventoryServiceSoap">
+      <soap:address location="http://localhost:1111/TimosWeb/InventoryService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="InventoryServiceSoap12" binding="tns:InventoryServiceSoap12">
+      <soap12:address location="http://localhost:1111/TimosWeb/InventoryService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

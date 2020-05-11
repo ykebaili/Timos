@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>futurocom.win32.snmp</RootNamespace>
+    <AssemblyName>futurocom.win32.snmp</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="futurocom.easyquery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\futurocom.easyquery.dll</HintPath>
+    </Reference>
+    <Reference Include="futurocom.win32.easyquery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\futurocom.win32.easyquery.dll</HintPath>
+    </Reference>
+    <Reference Include="MagicLibrary, Version=1.7.4.0, Culture=neutral, PublicKeyToken=3a6eb82f876a49bc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\MagicLibrary.DLL</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=2.0.0.1, Culture=neutral, PublicKeyToken=6ab76d8179563588, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\sc2i.formulaire\bin\Debug\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire.win32.editor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.formulaire.win32.editor.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.win32.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.data.dynamic, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.win32.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.win32.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="alarmes\CFormEditAgentFinder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="alarmes\CFormEditAgentFinder.Designer.cs">
+      <DependentUpon>CFormEditAgentFinder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="alarmes\CFormEditCreateurAlarme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="alarmes\CFormEditCreateurAlarme.Designer.cs">
+      <DependentUpon>CFormEditCreateurAlarme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="alarmes\CFormEditeTrapHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="alarmes\CFormEditeTrapHandler.Designer.cs">
+      <DependentUpon>CFormEditeTrapHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="alarmes\CFormEditTrapFieldSupplementaire.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="alarmes\CFormEditTrapFieldSupplementaire.Designer.cs">
+      <DependentUpon>CFormEditTrapFieldSupplementaire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="alarmes\CPanelEditAgentFinder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="alarmes\CPanelEditAgentFinder.Designer.cs">
+      <DependentUpon>CPanelEditAgentFinder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="alarmes\CPanelEditTrapHandler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="alarmes\CPanelEditTrapHandler.Designer.cs">
+      <DependentUpon>CPanelEditTrapHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="alarmes\CFormEditTrapField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="alarmes\CFormEditTrapField.Designer.cs">
+      <DependentUpon>CFormEditTrapField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CControleOptionsTableSnmpScalar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CControleOptionsTableSnmpScalar.Designer.cs">
+      <DependentUpon>CControleOptionsTableSnmpScalar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CControlTrapVariable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CControlTrapVariable.Designer.cs">
+      <DependentUpon>CControlTrapVariable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormEditEasyQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditEasyQuery.Designer.cs">
+      <DependentUpon>CFormEditEasyQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormSendTrap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormSendTrap.Designer.cs">
+      <DependentUpon>CFormSendTrap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormSetupInterrogationSNMP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormSetupInterrogationSNMP.Designer.cs">
+      <DependentUpon>CFormSetupInterrogationSNMP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormVisuTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormVisuTable.Designer.cs">
+      <DependentUpon>CFormVisuTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CMibList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CMibList.Designer.cs">
+      <DependentUpon>CMibList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CMibTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CPanelDetailTrap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CPanelDetailTrap.Designer.cs">
+      <DependentUpon>CPanelDetailTrap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CPanelDetailObjetDossier.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CPanelDetailObjetDossier.Designer.cs">
+      <DependentUpon>CPanelDetailObjetDossier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CPanelDetailNotification.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CPanelDetailNotification.Designer.cs">
+      <DependentUpon>CPanelDetailNotification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CPanelDetailObjectType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CPanelDetailObjectType.Designer.cs">
+      <DependentUpon>CPanelDetailObjectType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="hotelpolling\CControleEditeHotelPolledData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="hotelpolling\CControleEditeHotelPolledData.Designer.cs">
+      <DependentUpon>CControleEditeHotelPolledData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="hotelpolling\CFormEditeHotelPollingSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="hotelpolling\CFormEditeHotelPollingSetup.Designer.cs">
+      <DependentUpon>CFormEditeHotelPollingSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="hotelpolling\CPanelHotelPoolingSetup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="hotelpolling\CPanelHotelPoolingSetup.Designer.cs">
+      <DependentUpon>CPanelHotelPoolingSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="polling\CControleEditeRemplissageChampDonneeCumulee.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="polling\CControleEditeRemplissageChampDonneeCumulee.Designer.cs">
+      <DependentUpon>CControleEditeRemplissageChampDonneeCumulee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="polling\CFormEditePollingSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="polling\CFormEditePollingSetup.Designer.cs">
+      <DependentUpon>CFormEditePollingSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="polling\CPanelPoolingSetup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="polling\CPanelPoolingSetup.Designer.cs">
+      <DependentUpon>CPanelPoolingSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CSNMPClassViewer.cs" />
+    <Compile Include="CFormViewSNMPResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormViewSNMPResult.Designer.cs">
+      <DependentUpon>CFormViewSNMPResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CWndMibBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CWndMibBrowser.Designer.cs">
+      <DependentUpon>CWndMibBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGridLinkLabelColumn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IMibNavigator.cs" />
+    <Compile Include="CMibNavigatorHistory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="alarmes\CFormEditAgentFinder.resx">
+      <DependentUpon>CFormEditAgentFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="alarmes\CFormEditCreateurAlarme.resx">
+      <DependentUpon>CFormEditCreateurAlarme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="alarmes\CFormEditeTrapHandler.resx">
+      <DependentUpon>CFormEditeTrapHandler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="alarmes\CFormEditTrapFieldSupplementaire.resx">
+      <DependentUpon>CFormEditTrapFieldSupplementaire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="alarmes\CPanelEditAgentFinder.resx">
+      <DependentUpon>CPanelEditAgentFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="alarmes\CPanelEditTrapHandler.resx">
+      <DependentUpon>CPanelEditTrapHandler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="alarmes\CFormEditTrapField.resx">
+      <DependentUpon>CFormEditTrapField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CControleOptionsTableSnmpScalar.resx">
+      <DependentUpon>CControleOptionsTableSnmpScalar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CControlTrapVariable.resx">
+      <DependentUpon>CControlTrapVariable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditEasyQuery.resx">
+      <DependentUpon>CFormEditEasyQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormSendTrap.resx">
+      <DependentUpon>CFormSendTrap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormSetupInterrogationSNMP.resx">
+      <DependentUpon>CFormSetupInterrogationSNMP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormViewSNMPResult.resx">
+      <DependentUpon>CFormViewSNMPResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormVisuTable.resx">
+      <DependentUpon>CFormVisuTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CMibList.resx">
+      <DependentUpon>CMibList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CMibTree.resx">
+      <DependentUpon>CMibTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CPanelDetailTrap.resx">
+      <DependentUpon>CPanelDetailTrap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CPanelDetailObjetDossier.resx">
+      <DependentUpon>CPanelDetailObjetDossier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CPanelDetailNotification.resx">
+      <DependentUpon>CPanelDetailNotification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CPanelDetailObjectType.resx">
+      <DependentUpon>CPanelDetailObjectType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="hotelpolling\CControleEditeHotelPolledData.resx">
+      <DependentUpon>CControleEditeHotelPolledData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="hotelpolling\CFormEditeHotelPollingSetup.resx">
+      <DependentUpon>CFormEditeHotelPollingSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="hotelpolling\CPanelHotelPoolingSetup.resx">
+      <DependentUpon>CPanelHotelPoolingSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="polling\CControleEditeRemplissageChampDonneeCumulee.resx">
+      <DependentUpon>CControleEditeRemplissageChampDonneeCumulee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="polling\CFormEditePollingSetup.resx">
+      <DependentUpon>CFormEditePollingSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="polling\CPanelPoolingSetup.resx">
+      <DependentUpon>CPanelPoolingSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CWndMibBrowser.resx">
+      <DependentUpon>CWndMibBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="futurocom.snmp.win32.fr" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1302782113_reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1302795858_advancedsettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\futurocom.snmp\futurocom.snmp.csproj">
+      <Project>{D40EACEE-48DA-4559-86D2-63BC6F89E821}</Project>
+      <Name>futurocom.snmp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\futurocom.supervision\futurocom.supervision.csproj">
+      <Project>{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}</Project>
+      <Name>futurocom.supervision</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Duplicate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="entitesnmp\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

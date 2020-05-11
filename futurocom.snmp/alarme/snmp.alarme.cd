@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="futurocom.snmp.alarme.CBaseTrapHandlers">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <AssociationLine Name="m_listeHandlers" Type="System.Collections.Generic.List&lt;T&gt;" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.25" Y="2.223" />
+        <Point X="2.828" Y="2.223" />
+        <Point X="2.828" Y="3.009" />
+        <Point X="5" Y="3.009" />
+        <Point X="5" Y="2.759" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAFAIAAABAAAAAAAEAGAAABSAAAAAwhAAACA=</HashCode>
+      <FileName>alarme\CBaseTrapHandlers.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_listeHandlers" />
+      <Field Name="m_listeQueries" />
+      <Field Name="m_agentAssocie" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="futurocom.snmp.alarme.CTrapHandler">
+    <Position X="7" Y="1" Width="1.5" />
+    <AssociationLine Name="m_trapManager" Type="futurocom.snmp.alarme.CBaseTrapHandlers" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7" Y="4.22" />
+        <Point X="1.5" Y="4.22" />
+        <Point X="1.5" Y="3.835" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>gAIAAZAEEgQ1QIAAABEABQAAICAEAAAEAFAIkBAIgBA=</HashCode>
+      <FileName>alarme\CTrapHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_listeFields" />
+      <Field Name="m_trapManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Collections.Generic.List&lt;T&gt;" Collapsed="true">
+    <Position X="4.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="futurocom.snmp.dynamic.CDynamicSnmpAgent" Collapsed="true">
+    <Position X="4.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAJACAAEAAABABoQQAAAAABAAAgAgGAgAACAAABAAA=</HashCode>
+      <FileName>dynamic\CDynamicSnmpAgent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="futurocom.snmp.IObjectTree" Collapsed="true">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgABAACBAIAAABAABAAEIAAAAAAAAwAAgAAA=</HashCode>
+      <FileName>IObjectTree.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

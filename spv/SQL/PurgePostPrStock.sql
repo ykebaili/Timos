@@ -1,0 +1,19 @@
+drop FUNCTION CablEquip;
+drop FUNCTION CablSsEquip;
+-- drop FUNCTION EquipsDuTypeq;			inutile pour une mise a jour depuis version 2.4.13
+drop FUNCTION exportform;
+drop FUNCTION Rapport2223_InPreRapport;
+drop FUNCTION Rapport2223_ChercheAcces;
+drop FUNCTION RapportDep_InPreRapport;
+drop FUNCTION RapportDependance;
+drop FUNCTION RapportErrimp;
+drop FUNCTION RapportFiltrage;
+drop FUNCTION RapportFiltrageGlobal;
+drop FUNCTION RapportListeIGPS;
+drop FUNCTION RapportRole;
+drop FUNCTION GetDataPort;
+drop FUNCTION GetIdPortsCables;
+drop FUNCTION GetIdPortsEquip;
+drop FUNCTION GetIdPrestsPort;
+drop FUNCTION GetNbSlotsEquip;
+drop FUNCTION GetNbSlotsOQPEquip;

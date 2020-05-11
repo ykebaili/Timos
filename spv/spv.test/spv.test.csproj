@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E4E38AF-9482-407C-9168-5EFBFC3256E2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>spv.test</RootNamespace>
+    <AssemblyName>spv.test</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="CSpvTestApp.cs" />
+    <Compile Include="CSpvTestClient.cs" />
+    <Compile Include="CSpvTestMIB.cs" />
+    <Compile Include="CSpvTestRegistre.cs" />
+    <Compile Include="CSpvTestSite.cs" />
+    <Compile Include="CSpvTestLiaison.cs" />
+    <Compile Include="CSpvTestTypeq.cs" />
+    <Compile Include="CSpvTestTypeSite.cs" />
+    <Compile Include="CStefTestLiaisonsEtSchemas.cs" />
+    <Compile Include="program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CLicenceLogicielPrtct, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\CLicenceLogicielPrtct.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=1.0.3435.28990, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=1.0.3435.29044, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=1.0.3435.29052, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.serveur, Version=1.0.3435.29061, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents, Version=1.0.3435.29083, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.documents.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.drawing, Version=1.0.3435.29003, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=1.0.3435.29012, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=1.0.3435.29049, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=1.0.3435.29006, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.server, Version=1.0.3435.29056, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.multitiers.server.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process, Version=1.0.3435.29081, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.process.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process.serveur, Version=1.0.3435.29087, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.process.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.ressources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.ressources.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.data, Version=1.0.3446.18187, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tiag.interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\tiag.interface.dll</HintPath>
+    </Reference>
+    <Reference Include="timos.client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\timos\bin\Debug\timos.client.dll</HintPath>
+    </Reference>
+    <Reference Include="timos.data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\timos\bin\Debug\timos.data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SpvTimos.nunit" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\spv.data\spv.data.csproj">
+      <Project>{B5E49F80-B60C-4767-B30D-EB79D196143D}</Project>
+      <Name>spv.data</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

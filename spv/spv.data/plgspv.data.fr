@@ -1,0 +1,152 @@
+1;Commande commutation
+2;Entrée alarme
+3;Sortie boucle
+4;Sortie alarme série
+5;Trap snmp
+6;Système
+7;Alarme GSite
+8;Type d'accès alarme @1
+9;Non défini
+10;Site Terrestre
+11;Groupes de sites
+12;Implantation géographique
+100;Avertissement
+101;Indéterminé
+102;Mineur
+103;Majeur
+104;Critique
+105;Masqué par Brigadier
+106;Masqué par Administrateur
+107;Communication
+108;Qualité de service
+109;Erreur de traitement
+110;Equipement
+111;Environnement
+112;Normale
+
+20000;Paramètre d'affichage d'alarmes en cours @1
+20001;Impossible d'instancier le requeteur serveur SNMP
+20002;OID @1
+20003;Variable @1
+20004;Table @1, Variable @2
+20005;Erreur lors de la création de la requête SNMP OID
+20006;Impossible de superviser ce type de lien comme liaison de sites
+20007;Le service @1
+20007;Impossible de superviser les liens de ce type car des liens existants ne sont pas liés à des extremités sur site
+20008;Impossible de superviser un lien sans type
+20009;Impossible de superviser un lien de type @1
+20010;Impossible de superviser un lien sans extremité
+20011;Impossible de superviser un lien avec une direction @1
+20012;Impossible de superviser un lien avec un sens @1
+20013;Type d'accès de transmission @1
+20014;L'accès de transmission @1
+20015;Aucun site Timos pour le site @1
+20016;#Erreur
+20017;Le site supervisé @1 n'existe pas
+20018;Une  boucle a été detectée dans le service @1
+20019;SNMP champ custom
+20020;Met à jour les champs SNMP à partir de SNMP
+20021;Transfert des équipements découverts
+20021;Impossible de transferer l'équipement @1 car l'équipement contenant est inconnu
+20021;Ok
+20022;Mineure
+20023;Perte de redondance
+20024;Non fonctionnel
+20025;Pas d'accès alarme
+20026;Sélectionner une famille pour les types découverts
+20027;La famille d'équipement @1 n'existe pas. Découverte abandonnée
+20028;Schéma supervisé @1
+20029;Element de graphe réseau @1
+20030;Type d'élement incorrect
+20031;Impossible d'associer l'élément au graphe réseau
+20032;Impossible de trouver le schéma @1
+20033;Vérification des entités de supervision
+
+
+30000;Système
+30001;Impossible de trouver l'OID pour l'objet SNMP @1
+30002;Impossible de trouver le type pour l'objet SNMP @1
+30003;Table @1, Variable  @2
+30004;Acces @1
+30005;Information de masquage du câblage d'accès alarme @1
+30006;Accès alarme @1
+30007;Acquittement @1
+30008;Relation alarme masquante /alarme masquée
+30009;Couleur d'alarme @1
+30010;Cause d'extension d'acès alarme @1
+30011;Extension de type d'accès alarme @1
+30012;Câblage d'équipements @1
+30013;Relation équipement/câblage
+30014;Cause d'alarme @1
+30015;Client @1
+30016;Equipement @1
+30017;Masquage d'équipement @1
+30018;Source de masquage d'équipment @1
+30019;Redécouverte d'équipement @1
+30020;Erreur SPV @1
+30021;Extrémité de site @1 
+30022;Famille SPV @1
+30023;Famille de modules MIB @1
+30024;Fin d'alarme @1
+30025;Lien réseau SPV @1
+30026;Relation lien réseau/Câblage d'équipement
+30027;Lien supportant du lien @1
+30028;Etat opérationnel du lien réseau @1
+30029;Lien d'accès alarme @1
+30030;Lien accès transmission @1
+30031;Alarm message @1
+30032;MessageEM @1
+30033;Enumération MIB @1
+30034;Module MIB @1
+30035;Objet MIB @1
+30036;Table MIB @1
+30037;Trap MIB @1
+30038;Variable MIB @1
+30039;Parameter @1
+30040;Noeud de graphe @1
+30041;Etat du noeud de graphe @1
+30042;Etat du schéma @1
+30043;Site SPV @1
+30044;Type d'équipment SPV @1
+30045;Relation Type d'équipment / module MIB
+30046;Relation d'inclusion des types d'équipements
+30047;Type de service @1
+30048;Type de lien SPV @1
+30049;Accès groupe @1
+30050;Etat opérationnel du site @1
+30051;Relation Câblage / Equipement
+30052;Enregistrement des index et des clés primaires
+30053;Information dynamique du lien alarme
+
+
+ 
+50000;Alarme gérée non trouvée en BDD
+50001;Accès alarme non trouvé
+50002;On ne peut effacer un accès câblé
+50003;Extrémité A -> Extrémité B
+50004;Extrémité B -> Extrémité A
+50005;Bidirectionnelle
+50006;Accès alarme déjà câblé (entrée ou sortie)
+50008;Cas inconnu dans le calcul d'unicité
+50009;Objet père non renseigné
+50010;DataRowState non prévu pour cette fonction
+50011;Erreur dans le calcul d'unicité de l'alarme gérée
+50012;Evénement réseau : @1
+50013;Données de l'alarme : @2
+50014;Début d'alarme
+50015;Fin d'alarme
+50016;Alarme non trouvée
+50017;Impossible de déclencher une alarme pour ce type d'accès
+50018;Impossible de déclencher une alarme sur cet accès
+
+60000;Masquage brigadier
+60001;Masquage administrateur
+60006;Alarme physique
+60007;Alarme confirmée
+60008;Alarme fréquente
+60009;Alarme système
+60010;Alarme de superviseur
+60011;maj
+60012;Consultation alarmes en cours @1
+60013;Consultation alarmes en cours @1 mailing liste
+60014;Acces alarme est câblé. Equipement @1

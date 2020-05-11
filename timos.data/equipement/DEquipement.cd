@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="timos.data.CEquipement">
+    <Position X="5.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>equipement\CEquipement.cs</FileName>
+      <HashCode>AgAaQAAEAoAJCQgEQQUAgAACEIAYAYACBCCACAAAAAQ=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TypeEquipement" />
+      <Property Name="Contraintes" />
+      <Property Name="Definisseurs" />
+      <Property Name="DefinisseursDeChamps" />
+      <Property Name="DonnateursEO" />
+      <Property Name="Emplacement" />
+      <Property Name="EmplacementInitial" />
+      <Property Name="EmplacementActeur" />
+      <Property Name="EmplacementSite" />
+      <Property Name="EmplacementStock" />
+      <Property Name="EquipementContenant" />
+      <Property Name="EquipementsContenus" />
+      <Property Name="HeritiersEO" />
+      <Property Name="Mouvements" />
+      <Property Name="RelationsChampsCustom" />
+      <Property Name="Statut" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CTypeEquipement" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <FileName>equipement\CTypeEquipement.cs</FileName>
+      <HashCode>ECA+AYQFAtgAICAwgScoAAAkYhQbJwmEBYKiCBAoBIA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="sc2i.data.CListeObjetsDonnees" Collapsed="true">
+    <Position X="2.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.acteurs.CActeur" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>acteurs\CActeur.cs</FileName>
+      <HashCode>AkEeABQkg8QACAjFAS1ARCAAEDEYAYEgBbKGWAgYQRQ=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CSite" Collapsed="true">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>sites\CSite.cs</FileName>
+      <HashCode>gkEyEKAkAqiAIAQwASUgAAAAgAAYAYQABCSCCACAAQA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CStock" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>equipement\CStock.cs</FileName>
+      <HashCode>AAASAAAAAoAAgAAgAQQAAAAAAAAIAQAAAASACAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CStatutEquipement" Collapsed="true">
+    <Position X="2.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>equipement\CStatutEquipement.cs</FileName>
+      <HashCode>AAAwgAAAAAAAAAAgAASgAAAAAAAIIQAAAACACAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.Sécurité.CGenerateurFiltreAffichage" Collapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>securite\CGenerateurFiltreAffichage.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="sc2i.process.IDefinisseurEvenements" Collapsed="true">
+    <Position X="2.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="sc2i.data.dynamic.IDefinisseurChampCustom" Collapsed="true">
+    <Position X="8.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="timos.securite.IElementAEO" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>securite\IElementAEO.cs</FileName>
+      <HashCode>AAACAAAAAgAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="timos.data.IEmplacementEquipement" Collapsed="true">
+    <Position X="8.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>equipement\IEmplacementEquipement.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

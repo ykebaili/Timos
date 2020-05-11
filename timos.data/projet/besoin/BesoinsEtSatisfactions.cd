@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="timos.data.projet.besoin.CBesoin">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>joW4ALCiAnCBoAAoCAYcgBEEzAwIgSwKRAWMiDCYgUA=</HashCode>
+      <FileName>projet\besoin\CBesoin.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="BesoinParent" />
+      <Property Name="PhaseSpecifications" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.projet.besoin.CRelationBesoin_Satisfaction" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AgBQAAAABAAAAAAAgAQAAAAgAAAICQgAABIACAQCAAA=</HashCode>
+      <FileName>projet\besoin\CRelationBesoin_Satisfaction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Besoin" />
+      <Property Name="Satisfaction" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="timos.data.projet.besoin.CPhaseSpecifications" Collapsed="true">
+    <Position X="1" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACYAIAAAAAABAAoAAQAAQAAQAAIAQQAAACADCAQAAA=</HashCode>
+      <FileName>projet\besoin\CPhaseSpecifications.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="timos.data.projet.besoin.ISatisfactionBesoin" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AACIAAAAAAAAAAAIAAAAAAAAQAAAAAAAAAAAACAQAAA=</HashCode>
+      <FileName>projet\besoin\ISatisfactionBesoin.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="timos.data.projet.besoin.ISatisfactionBesoinAvecSousBesoins" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>projet\besoin\ISatisfactionBesoin.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>futurocom.supervision</RootNamespace>
+    <AssemblyName>futurocom.supervision</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="sc2i.common, Version=2.0.0.1, Culture=neutral, PublicKeyToken=6ab76d8179563588, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="alarmes\CBaseAffichageListeAlarmes.cs" />
+    <Compile Include="alarmes\CParametreAffichageListeAlarmes.cs" />
+    <Compile Include="alarmes\CParametreFiltrageAlarmes.cs" />
+    <Compile Include="alarmes\CTypeElementPourFiltreAlarme.cs" />
+    <Compile Include="ALTRACE.cs" />
+    <Compile Include="CAlarmeACreer.cs" />
+    <Compile Include="CCurentBaseTypesAlarmes.cs" />
+    <Compile Include="CDefinitionProprieteDynamiqueChampAlarme.cs" />
+    <Compile Include="CEtatAlarme.cs" />
+    <Compile Include="alarmes\CFiltreAlarme.cs" />
+    <Compile Include="CGestionnaireAlarmesSupervision.cs" />
+    <Compile Include="CListeEntitesSupervisionAId.cs" />
+    <Compile Include="CLocalAlarme.cs" />
+    <Compile Include="CLocalAlarmeAffichee.cs" />
+    <Compile Include="CLocalSeveriteAlarme.cs" />
+    <Compile Include="CLocalTypeAlarme.cs" />
+    <Compile Include="CModeCalculEtatParent.cs" />
+    <Compile Include="CLocalChampAlarme.cs" />
+    <Compile Include="CLocalRelationTypeAlarmeChampAlarme.cs" />
+    <Compile Include="CLocalParametrageFiltrageAlarmes.cs" />
+    <Compile Include="CLocalCategorieMasquageAlarme.cs" />
+    <Compile Include="CTypeElementSupervise.cs" />
+    <Compile Include="expression\CFormulesSupervision.cs" />
+    <Compile Include="IAlarme.cs" />
+    <Compile Include="IBaseFiltrageAlarmes.cs" />
+    <Compile Include="IBaseTypesAlarmes.cs" />
+    <Compile Include="IEntiteDeclencheuseAlarme.cs" />
+    <Compile Include="IEntiteSupervisionAId.cs" />
+    <Compile Include="alarmes\IFiltreAlarme.cs" />
+    <Compile Include="IGestionnaireAlarmes.cs" />
+    <Compile Include="IParametrageFiltrageAlarmes.cs" />
+    <Compile Include="ITraiteurAcquittementAlarme.cs" />
+    <Compile Include="ITraiteurAlarme.cs" />
+    <Compile Include="ITraiteurRetombeeManuelleAlarme.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="synchronisation\CDonneesSynchronisationBaseDistante.cs" />
+    <Compile Include="synchronisation\CGestionnaireTransactionsSynchroniseur.cs" />
+    <Compile Include="synchronisation\COperationSynchronisationSurAgentSynchronisation.cs" />
+    <Compile Include="synchronisation\CSynchroniseurBaseDistante.cs" />
+    <Compile Include="synchronisation\CTransactionSynchroniseur.cs" />
+    <Compile Include="synchronisation\IAgentSynchronisation.cs" />
+    <Compile Include="synchronisation\IOperationSynchronisation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="futurocom.supervision.fr" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

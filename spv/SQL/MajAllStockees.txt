@@ -1,0 +1,13 @@
+-- MajAllStockees.txt
+ACCEPT Path     CHAR PROMPT 'Saisissez le chemin d''acc?s aux scripts SQL : '
+spool c:\temp\MajAllStockees.log
+Start "&Path\PrStock.txt"
+Start "&Path\PrStockEvol.txt"
+Start "&Path\PurgePrStock.sql"
+Start "&Path\SuitBas2.txt"
+Start "&Path\SuitBas2Evol.txt"
+Start "&Path\PurgeSuitBas2.txt"
+Start "&Path\PostPrStock.txt"
+start "&Path\PurgeTables.txt"
+spool off
+

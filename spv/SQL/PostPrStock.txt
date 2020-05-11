@@ -1,0 +1,3739 @@
+--=======================================================================================--
+--
+-- JP. le 09/05/2001 : Création des vues et traitements à exécuter après PrStock et Suitbas2
+--
+--=======================================================================================--
+
+-- Occupation de la liaison
+CREATE OR REPLACE VIEW V1004_01 AS
+(
+    select LIAI_ID, CLIENT_NOM, PROG_PROD, PROG_NOM, GetEcr (PROG.PROG_ID,PROG_LIAI_RESEAU) "ECR",
+	GetLiaiNom (LIAI_ID) "LIAI NOM"
+    from    PROG_LIAI, PROG, CLIENT
+    where   PROG.PROG_ID = PROG_LIAI.PROG_ID and
+	    PROG.CLIENT_ID = CLIENT.CLIENT_ID
+);
+
+
+--=======================================================================================--
+--
+--	Création de la vue donnant le nom complet de la famille d'un typeq, 
+--	ainsi que l'Id de la famille "Père"
+--
+--=======================================================================================--
+
+CREATE OR REPLACE VIEW V_FAMILLE AS
+(
+    select TYPEQ_ID, SubStr (GetFamilyName (TYPEQ.FAMILLE_ID), 0, 80) "FAMILY_NAME", GetFamilyFather (TYPEQ.FAMILLE_ID) "FATHER_ID"
+        from TYPEQ
+);
+
+
+-- Noms des familles seulement
+
+CREATE OR REPLACE VIEW V_FAMILLE2 AS
+(
+    select unique TYPEQ_CLASSID, SubStr (GetFamilyName (TYPEQ.FAMILLE_ID), 0, 80) "FAMILY_NAME", GetFamilyFather (TYPEQ.FAMILLE_ID) "FATHER_ID"
+        from TYPEQ
+);
+
+
+--=======================================================================================--
+--
+--	Création de la vue pour le rapport V1018_01 -- SUPPRIME
+--
+--=======================================================================================--
+
+/*
+-- Liste des câblages utilisant l'équipement
+CREATE OR REPLACE VIEW V1018_01 AS
+(select
+    EQUIP.EQUIP_ID, CABLEQU."CABLEQU_NOM", PROG."PROG_NOM" "PL_NOM", 
+	GetEquipNom (EQUIP.EQUIP_ID, 1) "NOM", TYPEQ_NOM
+from
+    CABLEQU_EQUIP, CABLEQU, PROG_CABLEQU, PROG, EQUIP
+where		-- Câblages de Programmes dans lesquels figure l'équipement
+    CABLEQU_EQUIP."EQUIP_ID" = EQUIP."EQUIP_ID" and
+    CABLEQU."CABLEQU_ID" = PROG_CABLEQU."CABLEQU_ID" and
+    PROG_CABLEQU."PROG_ID" = PROG."PROG_ID" and
+    CABLEQU_EQUIP.CABLEQU_ID = CABLEQU.CABLEQU_ID
+union
+select
+    EQUIP.EQUIP_ID, CABLEQU."CABLEQU_NOM", GetLiaiNom (LIAI_CABLEQU.LIAI_ID) "PL_NOM", 
+	GetEquipNom (EQUIP.EQUIP_ID, 1) "NOM", TYPEQ_NOM
+from
+    CABLEQU_EQUIP, CABLEQU, LIAI_CABLEQU, EQUIP
+where		-- Câblages de Liaisons dans lesquels figure l'équipement
+    CABLEQU_EQUIP."EQUIP_ID" = EQUIP."EQUIP_ID" and   
+    CABLEQU."CABLEQU_ID" = LIAI_CABLEQU."CABLEQU_ID" and
+    CABLEQU_EQUIP.CABLEQU_ID = CABLEQU.CABLEQU_ID
+union
+select
+    SOUS_EQUIP."EQUIP_ID", CABLEQU."CABLEQU_NOM", PROG."PROG_NOM" "PL_NOM", 
+	GetEquipNom (SOUS_EQUIP.EQUIP_ID, 1) "NOM", SOUS_EQUIP.TYPEQ_NOM
+from
+    EQUIP "EQUIP", EQUIP "SOUS_EQUIP", CABLEQU_EQUIP, CABLEQU, PROG_CABLEQU, PROG
+where		-- Câblages de Programme dans lesquels figure une carte de l'équipement
+    SOUS_EQUIP."EQUIP_ID" = CABLEQU_EQUIP."EQUIP_ID" and
+    CABLEQU_EQUIP.CABLEQU_ID = CABLEQU.CABLEQU_ID and
+    CABLEQU."CABLEQU_ID" = PROG_CABLEQU."CABLEQU_ID" and
+    PROG_CABLEQU."PROG_ID" = PROG."PROG_ID" and
+    SOUS_EQUIP."EQUIP_BINDINGID" = EQUIP."EQUIP_ID"
+union
+select
+    SOUS_EQUIP."EQUIP_ID", CABLEQU."CABLEQU_NOM", GetLiaiNom (LIAI_CABLEQU.LIAI_ID) "PL_NOM", 
+	GetEquipNom (SOUS_EQUIP.EQUIP_ID, 1) "NOM", SOUS_EQUIP.TYPEQ_NOM
+from
+    EQUIP "EQUIP", EQUIP "SOUS_EQUIP", CABLEQU_EQUIP, CABLEQU, LIAI_CABLEQU
+where		-- Câblages de Liaisons dans lesquels figure une carte de l'équipement
+    SOUS_EQUIP."EQUIP_ID" = CABLEQU_EQUIP."EQUIP_ID" and
+    CABLEQU_EQUIP.CABLEQU_ID = CABLEQU.CABLEQU_ID and
+    CABLEQU."CABLEQU_ID" = LIAI_CABLEQU."CABLEQU_ID"and
+    SOUS_EQUIP."EQUIP_BINDINGID" = EQUIP."EQUIP_ID"
+);
+*/
+
+
+CREATE OR REPLACE VIEW V1018_01a AS
+(select
+    EQUIP_ID, GetEquipNom (EQUIP_ID, 1) "NOM" , TYPEQ_NOM
+from EQUIP
+);
+
+
+--=======================================================================================--
+--
+-- Vue sur les équipements qui font appel à un message série :
+-- Création de cette vue pour construire le rapport correspondant
+--
+--=======================================================================================--
+CREATE OR REPLACE VIEW EquipUseMess AS
+	SELECT DISTINCT acces.mess_id, acces.equip_id, mess_nom
+	FROM mess, acces
+	WHERE acces.mess_id IS NOT NULL
+	AND mess.mess_id = acces.mess_id
+	UNION
+	SELECT DISTINCT bitmess.mess_id, equip.equip_id, mess.mess_nom
+	FROM bitmess, acces, equip, mess
+	WHERE acces.acces_id = acces1_id
+	AND   equip.equip_id = acces.equip_id
+	AND   mess.mess_id = bitmess.mess_id;
+/
+
+
+--=======================================================================================--
+--
+-- Vue IS :
+-- Création de cette vue pour construire le rapport des IS présentes
+--
+--=======================================================================================--
+CREATE OR REPLACE VIEW ISPresente AS
+	SELECT DISTINCT substr (site_equip_comment, 1, 5) is_nom
+	FROM equip
+	WHERE typeq_id in (1, 2)
+	AND equip_detect = 1;
+/
+
+--=======================================================================================--
+--
+-- Vue sur les objets câblés aux IS (équipement, site, liaison) dont les paramètres d'alarme
+-- sont différents de l'alarme gérée d'origine (gravité, tempo, sonnerie, acquittement).
+-- Création de cette vue pour construire le rapport correspondant
+--
+--=======================================================================================--
+
+CREATE OR REPLACE VIEW DiffAlarmCabl AS
+select 'EQUIPEMENT' "OBJET CABLE",
+	 'TYPE D''EQUIPEMENT' "OBJET ORIGINE",
+	 B.alarmgeree_grave Cablage_grave,
+	 alarmgeree.alarmgeree_grave Alarm_grave,
+	 A.alarmgeree_min Cablage_tempo,
+	 alarmgeree.alarmgeree_min Alarm_tempo,
+	 decode (A.alarmgeree_son, 1, 'x', ' ') Cablage_sonnerie,
+	 decode (alarmgeree.alarmgeree_son, 1, 'x', ' ') Alarm_sonnerie,
+	 decode (A.alarmgeree_acq, 1, 'x', ' ') Cablage_acq,
+	 decode (alarmgeree.alarmgeree_acq, 1, 'x', ' ') Alarm_acq,
+	 acces.acces_nom "NOM DE L'ACCES OU NUMERO BIT",
+	 equip.site_id SITE_A, 0 "SITE_B",
+	 decode (nvl (equip.baie_id, 0), 0, site_equip_comment,
+		   rpad (salle_nom, 10) ||
+		   '/' || rpad (salle_baie_trav, 3) ||
+		   '/' || rpad (salle_baie_cadre, 3) ||
+		   '/' || nvl (rpad (baie_equip_niche, 3), '   ') ||
+		   '/' || nvl (rpad (baie_equip_empl, 3), '   ') ||
+		   '/' || baie_equip_carte) OBJET_NOM,
+	 typeq.typeq_nom
+from acces_accesc A, acces_accesc_rep B, acces, equip, typeq, alarmgeree, baie, salle
+where acces.acces_id = A.acces1_id
+and A.acces_accesc_id = B.acces_accesc_id
+and equip.equip_id = acces.equip_id
+and typeq.typeq_id = equip.typeq_id
+and baie.baie_id (+) = equip.baie_id
+and salle.salle_id (+) = baie.salle_id
+and alarmgeree.alarmgeree_id = A.alarmgeree_id
+and (B.alarmgeree_grave != alarmgeree.alarmgeree_grave or
+     A.alarmgeree_min   != alarmgeree.alarmgeree_min or
+     A.alarmgeree_son   != alarmgeree.alarmgeree_son or
+     A.alarmgeree_acq   != alarmgeree.alarmgeree_acq)
+union
+select 'EQUIPEMENT',
+	 'MESSAGE SERIE',
+	 bitmess.alarmgeree_grave Cablage_grave,
+	 alarmgeree.alarmgeree_grave Alarm_grave,
+	 bitmess.alarmgeree_min Cablage_tempo,
+	 alarmgeree.alarmgeree_min Alarm_tempo,
+	 decode (bitmess.alarmgeree_son, 1, 'x', ' ') Cablage_sonnerie,
+	 decode (alarmgeree.alarmgeree_son, 1, 'x', ' ') Alarm_sonnerie,
+	 decode (bitmess.alarmgeree_acq, 1, 'x', ' ') Cablage_acq,
+	 decode (alarmgeree.alarmgeree_acq, 1, 'x', ' ') Alarm_acq,
+	 to_char (bitmess_nbit),
+	 equip.site_id, 0,
+	 decode (nvl (equip.baie_id, 0), 0, site_equip_comment,
+		   rpad (salle_nom, 10) ||
+		   '/' || rpad (salle_baie_trav, 3) ||
+		   '/' || rpad (salle_baie_cadre, 3) ||
+		   '/' || nvl (rpad (baie_equip_niche, 3), '   ') ||
+		   '/' || nvl (rpad (baie_equip_empl, 3), '   ') ||
+		   '/' || baie_equip_carte) OBJET_NOM,
+	 typeq.typeq_nom
+from bitmess, acces, equip, typeq, alarmgeree, baie, salle
+where acces.acces_id = bitmess.acces1_id
+and equip.equip_id = acces.equip_id
+and typeq.typeq_id = equip.typeq_id
+and baie.baie_id (+) = equip.baie_id
+and salle.salle_id (+) = baie.salle_id
+and alarmgeree.alarmgeree_id = bitmess.alarmgeree_id
+and (bitmess.alarmgeree_grave != alarmgeree.alarmgeree_grave or
+     bitmess.alarmgeree_min != alarmgeree.alarmgeree_min or
+     bitmess.alarmgeree_son != alarmgeree.alarmgeree_son or
+     bitmess.alarmgeree_acq != alarmgeree.alarmgeree_acq)
+union
+select 'SITE',
+	 'SITE',
+	 B.alarmgeree_grave,
+	 alarmgeree.alarmgeree_grave,
+	 A.alarmgeree_min,
+	 alarmgeree.alarmgeree_min,
+	 decode (A.alarmgeree_son, 1, 'x', ' '),
+	 decode (alarmgeree.alarmgeree_son, 1, 'x', ' '),
+	 decode (A.alarmgeree_acq, 1, 'x', ' '),
+	 decode (alarmgeree.alarmgeree_acq, 1, 'x', ' '),
+	 acces.acces_nom, site.site_id, 0, site_nom, ''
+from acces_accesc A, acces_accesc_rep B, acces, site, alarmgeree
+where acces.acces_id = A.acces1_id
+and A.acces_accesc_id = B.acces_accesc_id
+and site.site_id = acces.site_id
+and alarmgeree.alarmgeree_id = A.alarmgeree_id
+and (B.alarmgeree_grave != alarmgeree.alarmgeree_grave or
+     A.alarmgeree_min   != alarmgeree.alarmgeree_min or
+     A.alarmgeree_son   != alarmgeree.alarmgeree_son or
+     A.alarmgeree_acq   != alarmgeree.alarmgeree_acq)
+union
+select 'LIAISON',
+	 'LIAISON',
+	 D.alarmgeree_grave,
+	 alarmgeree.alarmgeree_grave,
+	 C.alarmgeree_min,
+	 alarmgeree.alarmgeree_min,
+	 decode (C.alarmgeree_son, 1, 'x', ' '),
+	 decode (alarmgeree.alarmgeree_son, 1, 'x', ' '),
+	 decode (C.alarmgeree_acq, 1, 'x', ' '),
+	 decode (alarmgeree.alarmgeree_acq, 1, 'x', ' '),
+	 acces.acces_nom, D.site_id, D.site_id,
+	 A.ext_nom || '-' || B.ext_nom || ' ' || liai_num, ''
+from acces_accesc C, acces_accesc_rep D, acces, liai, ext A, ext B, alarmgeree
+where acces.acces_id = C.acces1_id
+and C.acces_accesc_id = D.acces_accesc_id
+and liai.liai_id = acces.liai_id
+and A.ext_id = liai_extaid
+and B.ext_id = liai_extbid
+and alarmgeree.alarmgeree_id = C.alarmgeree_id
+and (D.alarmgeree_grave != alarmgeree.alarmgeree_grave or
+     C.alarmgeree_min   != alarmgeree.alarmgeree_min or
+     C.alarmgeree_son   != alarmgeree.alarmgeree_son or
+     C.alarmgeree_acq   != alarmgeree.alarmgeree_acq);
+/
+
+--=======================================================================================--
+--
+-- Vue sur les Mibs d'un type d'équipement
+-- Création de cette vue pour construire le rapport correspondant
+--
+--=======================================================================================--
+
+create or replace view typeqliste as
+SELECT TYPEQ."TYPEQ_ID",
+    TYPEQ."TYPEQ_NOM", TYPEQ."TYPEQ_CLASSID", TYPEQ."TYPEQ_COMMUT", TYPEQ."TYPEQ_COMMENT", TYPEQ."TYPEQ_ALIM", TYPEQ."TYPEQ_DALIM",
+    TYPEQ_FABRIC."TYPEQ_FABRIC_REF", TYPEQ_FABRIC."TYPEQ_FABRIC_REFDOC",
+    V_FAMILLE."FAMILY_NAME",
+    GetMibs (TYPEQ."TYPEQ_ID") MIBMODULE,
+    FABRIC."FABRIC_NOM",
+    FNCT."FNCT_NOM"
+FROM
+    V_FAMILLE,     TYPEQ,     TYPEQ_FABRIC,     TYPEQ_FNCT,     FABRIC,     FNCT
+WHERE
+    TYPEQ."TYPEQ_ID" = V_FAMILLE."TYPEQ_ID" AND      TYPEQ."TYPEQ_ID" = TYPEQ_FNCT."TYPEQ_ID" (+) AND      TYPEQ."TYPEQ_ID" = TYPEQ_FABRIC."TYPEQ_ID" AND      TYPEQ_FNCT."FNCT_ID" = FNCT."FNCT_ID" (+) AND      TYPEQ_FABRIC."FABRIC_ID" = FABRIC."FABRIC_ID"   
+ORDER BY
+    V_FAMILLE."FAMILY_NAME" ASC,
+    TYPEQ."TYPEQ_NOM" ASC;
+/
+
+--=============================================================================
+--   Script de création du rapport indiquant les objets des domaines d'un rôle
+--	Version du 05/11/2001
+--   
+--	Retourne  0 en cas d'erreur Oracle
+--	Retourne  1 si OK
+--  
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION RapportRole
+(
+    RoleId	NUMBER		-- Id. du rôle
+)
+RETURN NUMBER
+
+IS
+
+    EquipNom	VARCHAR2 (80);	-- Nom d'un équipement du rôle
+    LiaiNom	VARCHAR2 (80);	-- Nom d'une liaison du rôle
+
+    Cursor CProg is
+    	select PROG_NOM
+	    from PROG, PROG_DOMAIN, ROLE_DOMAIN
+	    where PROG.PROG_ID = PROG_DOMAIN.PROG_ID and
+	          PROG_DOMAIN.DOMAIN_ID = ROLE_DOMAIN.DOMAIN_ID and
+	          ROLE_DOMAIN.ROLE_ID = RoleId
+	    order by PROG_NOM;
+
+    Cursor CSite is
+    	select SITE_NOM from SITE, SITE_DOMAIN, ROLE_DOMAIN
+	    where SITE.SITE_ID = SITE_DOMAIN.SITE_ID and
+	          SITE_DOMAIN.DOMAIN_ID = ROLE_DOMAIN.DOMAIN_ID and
+	          ROLE_DOMAIN.ROLE_ID = RoleId
+	    order by SITE_NOM;
+
+    Cursor CEquip is
+    	select EQUIP_ID from EQUIP_DOMAIN, ROLE_DOMAIN
+	    where EQUIP_DOMAIN.DOMAIN_ID = ROLE_DOMAIN.DOMAIN_ID and
+	          ROLE_DOMAIN.ROLE_ID = RoleId;
+
+    Cursor CLiai is
+    	select LIAI_ID from LIAI_DOMAIN, ROLE_DOMAIN
+	    where LIAI_DOMAIN.DOMAIN_ID = ROLE_DOMAIN.DOMAIN_ID and
+	          ROLE_DOMAIN.ROLE_ID = RoleId;
+
+BEGIN
+
+    delete PRERAPPORT
+	where CLASS_ID = 6 and BDD_ID = RoleId;
+
+    for vProg in CProg loop
+--	dbms_output.put_line (vProg.PROG_NOM);
+    	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, CH01, CH02)
+	    values (SEQ_PRERAPPORT.NEXTVAL, 6, RoleId, 'PRESTATIONS', vProg.PROG_NOM);
+    end loop;
+
+    for vSite in CSite loop
+--	dbms_output.put_line (vSite.SITE_NOM);
+    	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, CH01, CH02)
+	    values (SEQ_PRERAPPORT.NEXTVAL, 6, RoleId, 'SITES', vSite.SITE_NOM);
+    end loop;
+
+    for vEquip in CEquip loop
+	select GetEquipNom (vEquip.EQUIP_ID, 1) into EquipNom from dual;
+--	dbms_output.put_line (to_char (vEquip.EQUIP_ID) || EquipNom);
+    	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, CH01, CH02)
+	    values (SEQ_PRERAPPORT.NEXTVAL, 6, RoleId, 'EQUIPEMENTS', EquipNom);
+    end loop;
+
+    for vLiai in CLiai loop
+	select GetLiaiNom (vLiai.LIAI_ID) into LiaiNom from dual;
+--	dbms_output.put_line (to_char (vLiai.LIAI_ID) || LiaiNom);
+    	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, CH01, CH02)
+	    values (SEQ_PRERAPPORT.NEXTVAL, 6, RoleId, 'LIAISONS', LiaiNom);
+    end loop;
+
+    return 1;
+
+EXCEPTION
+    when OTHERS then
+	dbms_output.put_line ('Erreur détectée');
+	return 0;
+
+END 	RapportRole;
+/
+
+
+--=============================================================================
+--   Script de création de la fonction GetIdPortsEquip
+--
+--	Cette fonction retourne la liste des Id des ports d'un équipement, séparés par des ;
+--	Donne aussi les Id des ports des équipements inclus (traitement récursif).
+--	Ex. : Id1;Id2; etc...
+--	Le nombre total de caractères ramenés doit être inférieur à 4000 (y compris les ;)
+--
+--	Retourne  '' (chaîne vide) si la liste est vide
+--	Retourne  ERR en cas d'erreur
+--  
+--	Création JPB le 30/08/03
+-- JPB  Modif le 01/03/06 : tests sur AccesType pour l'internationalisation.
+--
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION GetIdPortsEquip
+(
+    EquipId	NUMBER		-- Id. de l'équipement
+)
+RETURN VARCHAR2
+
+IS
+    Result	VARCHAR2 (4000); -- Résultat
+
+    CURSOR  cPort IS
+	select ACCES_ID from ACCES, PARAM
+	    where EQUIP_ID  = EquipId   and
+		  ACCES_TYPE = PARAM_ID and
+		  PARAM_ID not in (1, 2, 4, 7, 9);
+--		      ('Entrée alarme', 'Sortie alarme', 'TRAP SNMP');
+
+    CURSOR  cInc IS
+	select EQUIP_ID from EQUIP
+	    where EQUIP_BINDINGID = EquipId;
+
+BEGIN
+    Result := '';
+
+    -- Ports de l'équipement
+    for vPort in cPort loop
+	Result := Result || to_char (vPort.ACCES_ID) || ';' ;
+    end loop;
+
+    -- Ports des équipements inclus
+    for vInc in cInc loop
+	Result := Result || GetIdPortsEquip (vInc.EQUIP_ID);
+    end loop;
+
+    return Result;
+
+EXCEPTION
+    when OTHERS then
+	return 'ERR';
+
+END 	GetIdPortsEquip;
+/
+
+
+--=============================================================================
+--   Script de création de la fonction GetIdPortsCables
+--
+--	Cette fonction retourne la liste des Id des ports câblés d'un équipement, séparés par des ;
+--	Donne aussi les Id des ports câblés des équipements inclus (traitement récursif).
+--	Ex. : Id1;Id2; etc...
+--	Le nombre total de caractères ramenés doit être inférieur à 4000 (y compris les ;)
+--
+--	Retourne  '' (chaîne vide) si la liste est vide
+--	Retourne  ERR en cas d'erreur
+--  
+--	Création JPB le 30/08/03
+-- JPB  Modif le 01/03/06 : tests sur AccesType pour l'internationalisation.
+--
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION GetIdPortsCables
+(
+    EquipId	NUMBER		-- Id. de l'équipement
+)
+RETURN VARCHAR2
+
+IS
+    Result	VARCHAR2 (4000); -- Résultat
+
+    CURSOR  cPort IS
+	select ACCES_ID from ACCES, PARAM
+	    where EQUIP_ID  = EquipId   and
+		  ACCES_TYPE = PARAM_ID and
+		  ACCES_NBOCC > 0	and
+		  PARAM_ID not in (1, 2, 4, 7, 9);
+--		      ('Entrée alarme', 'Sortie alarme', 'TRAP SNMP');
+
+    CURSOR  cInc IS
+	select EQUIP_ID from EQUIP
+	    where EQUIP_BINDINGID = EquipId;
+
+BEGIN
+    Result := '';
+
+    -- Ports de l'équipement
+    for vPort in cPort loop
+	Result := Result || to_char (vPort.ACCES_ID) || ';' ;
+    end loop;
+
+    -- Ports des équipements inclus
+    for vInc in cInc loop
+	Result := Result || GetIdPortsCables (vInc.EQUIP_ID);
+    end loop;
+
+    return Result;
+
+EXCEPTION
+    when OTHERS then
+	return 'ERR';
+
+END 	GetIdPortsCables;
+/
+
+
+--=============================================================================
+--   Script de création de la fonction GetDataPort
+--
+--	Cette fonction retourne le n° de slot (ou -1 si numéro vide), 
+--	le nom et le type du port défini par son Id.
+--	Ces valeurs sont séparées par des ;
+--
+--	Retourne  ERR en cas d'erreur
+--  
+--	Création JPB le 30/08/03
+--
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION GetDataPort
+(
+    PortId	NUMBER		-- Id. du port
+)
+RETURN VARCHAR2
+
+IS
+
+    Slot	VARCHAR2 (40);  -- Nom du slot
+    NomPort	VARCHAR2 (40);	-- Nom du port
+    TypePort	VARCHAR2 (40);	-- Type de port
+
+    Result	VARCHAR2 (130);	-- Resultat
+
+BEGIN
+
+    Slot := '-1';
+
+    select BAIE_EQUIP_CARTE, ACCES_NOM, PARAM_VALEUR
+	into Slot, NomPort, TypePort
+	from ACCES, EQUIP, PARAM
+	where ACCES_ID = PortId and
+	      ACCES.EQUIP_ID   = EQUIP.EQUIP_ID and
+	      ACCES.ACCES_TYPE = PARAM.PARAM_ID;
+
+    Result := Slot || ';' || NomPort || ';' || TypePort || ';' ;
+    return Result;
+
+EXCEPTION
+    when OTHERS then
+	return 'ERR';
+
+END 	GetDataPort;
+/
+
+
+--=============================================================================
+--   Script de création de la fonction GetIdPrestsPort
+--
+--	Cette fonction retourne la liste des Id des prestations traversant le port, 
+-- 	défini par son Id.
+--	Ex. : Id1;Id2; etc...
+--	Le nombre total de caractères ramenés doit être inférieur à 4000 (y compris les ;)
+--	En cas de débordement, on arrête la recherche et on termine la chaîne de retour par '+'
+--
+--	Pour avoir le nom de la prestation, faire : select PROG_NOM from PROG where PROG_ID = ***;
+--
+--	Retourne  '' (chaîne vide) si la liste est vide
+--	Retourne  ERR en cas d'erreur
+--  
+--	Création JPB le 30/08/03
+--
+-- ZN 6/11/07 à fair. Attend la routage pour InterBU
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION GetIdPrestsPort
+(
+    PortId	NUMBER		-- Id. du port
+)
+RETURN VARCHAR2
+
+IS
+
+    Result	VARCHAR2 (130);	-- Resultat
+    ProgId	NUMBER;		-- Id d'une prestation ramenée
+
+    -- Recherche de la liaison connectée sur un port
+    Cursor cLiaiX (Id NUMBER) is
+	select LIAI_CABLEQU.LIAI_ID from ACCES_ACCESC, LIAI_CABLEQU
+	    where (ACCES1_ID = Id or ACCES2_ID = Id) and
+		  ACCES_BINDINGID  = CABLEQU_ID;
+
+BEGIN
+
+    Result := '';
+
+    -- Recherche de la liaison connectée sur le port
+    -- Une liaison est connectée sur un accès, si cet accès est connecté
+    -- dans le câblage de cette liaison.
+
+    for vLiaiX in cLiaiX (PortId) loop
+	-- Recherche des prestations utilisant cette liaison
+    	select PROG_ID into ProgId
+    	    from PROG_LIAI
+    	    where LIAI_ID = vLiaiX.LIAI_ID;
+     /* union 
+      select PROG_ID 
+      	    from PROG_top, top_LIAI
+    	    where LIAI_ID = vLiaiX.LIAI_ID
+          and prog_top.top_id = top_liai.top_id;*/
+          
+    
+    	Result := Result || to_char (ProgId) || ';' ;
+    
+    	if (LENGTH (Result) > 3995) then
+    	    Result := Result || '+;' ;
+    	    exit;
+    	end if;
+    end loop;
+
+    return Result;
+
+EXCEPTION
+    when OTHERS then
+	return 'ERR';
+
+END 	GetIdPrestsPort;
+/
+
+
+--=============================================================================
+--   Script de création de la fonction GetNbSlotsEquip
+--
+--	Cette fonction retourne le nombre de slots d'un équipement défini par son Id.
+--	Ce nombre correspond au "Nombre de slots" affiché dans l'onglet "Dimensions / Contenance"
+--	du type d'équipement correspondant à l'équipement.
+--  
+--	Création JPB le 30/08/03
+--
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION GetNbSlotsEquip
+(
+    EquipId	NUMBER		-- Id. de l'équipement
+)
+RETURN NUMBER
+
+IS
+
+    Result	NUMBER;		-- Resultat
+
+BEGIN
+
+    Result := 0;
+
+    select TYPEQ_NBCXION into Result
+	from TYPEQ, EQUIP
+	where EQUIP_ID = EquipId and
+	      EQUIP.TYPEQ_ID = TYPEQ.TYPEQ_ID;
+
+    return Result;
+
+END	GetNbSlotsEquip;
+/
+
+
+--=============================================================================
+--   Script de création de la fonction GetNbSlotsOQPEquip
+--
+--	Cette fonction retourne le nombre de slots utilisés d'un équipement défini par son Id.
+--
+--	Création JPB le 30/08/03
+--  
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION GetNbSlotsOQPEquip
+(
+    EquipId	NUMBER		-- Id. de l'équipement
+)
+RETURN NUMBER
+
+IS
+
+    Result	NUMBER;		-- Resultat
+
+BEGIN
+
+    Result := 0;
+
+    select count (*) into Result
+	from EQUIP
+	where EQUIP_BINDINGID = EquipId and
+	      BAIE_EQUIP_CARTE is not NULL;
+
+    return Result;
+
+END	GetNbSlotsOQPEquip;
+/
+
+
+--=============================================================================
+--   Script de création du rapport "Liste des câblages de l'équipement"
+--   Ce rapport indique pour l'équipement sélectionné :
+--	* le nom de l'équipement et de son type
+--	* le nom des câblages où l'équip. est utilisé, et pour chacun d'eux
+--	* le nom du programme ou de la liaison correspondante
+--	* le n° de slot (carte incluse)
+--	* le nom de l'accès correspondant
+--   
+--	Retourne  0 en cas d'erreur Oracle
+--	Retourne  1 si OK
+--  
+--	Création JPB le 30/08/03
+--	Modif. ZN le 6/11/07 prend en compte des topologies
+
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION CablSsEquip
+(
+    EquipId	NUMBER,		-- Id. du ss. équipement
+    EquipNom	VARCHAR2,	-- Nom de l'équipement
+    TypeqNom	VARCHAR2,	-- Nom du type de l'équipement
+    EnglobId	NUMBER		-- Id. de l'équipement englobant
+)
+RETURN NUMBER
+
+IS
+    CONST_CLASS_EXPORT CONSTANT integer := 16;	 -- Identification des rapports de ce type
+
+    SsTypeqNom	VARCHAR2 (40);	-- Nom du type du sous équipement
+    SlotNom	VARCHAR2 (10);	-- Nom du slot
+    PortId	NUMBER;		-- Id du port
+    PortNom	VARCHAR2 (40);	-- Nom du port
+    PortType	VARCHAR2 (40);	-- Type du port
+    CablNom	VARCHAR2 (40);	-- Nom du câblage
+    ProgLiaiTopNom	VARCHAR2 (120);	-- Nom du programme ou de la liaison ou de la topologie trouvé
+    NbrCabl	NUMBER;		-- Nb. de câblages trouvé
+
+    -- Liste des câblages de l'équipement
+    Cursor cCabl is
+	select CABLEQU_ID from CABLEQU_EQUIP
+	    where EQUIP_ID = EquipId;
+
+    -- Liste des cartes incluses dans l'équipement
+    Cursor cBoard is
+	select EQUIP_ID from EQUIP
+	    where EQUIP_BINDINGID = EquipId;
+
+    -- Liste des accès des équipements qui sont dans le câblage étudié
+    -- Pas d'accès si l'équipement n'est relié à aucun autre
+    Cursor cAcces (CablequId NUMBER) is
+	select ACCES1_ID A from ACCES_ACCESC
+	    where ACCES_BINDINGID = CablequId and
+		  ACCES1_ID in (select ACCES_ID from ACCES where EQUIP_ID = EquipId)
+	union
+	select ACCES2_ID A from ACCES_ACCESC
+	    where ACCES_BINDINGID = CablequId and
+		  ACCES2_ID in (select ACCES_ID from ACCES where EQUIP_ID = EquipId);
+BEGIN
+
+    select TYPEQ_NOM, BAIE_EQUIP_CARTE
+	into SsTypeqNom, SlotNom
+	from EQUIP
+	where EQUIP_ID = EquipId;
+
+    if (ToNumber (SlotNom) >= 0) then	-- le n° de carte est un nombre
+	SlotNom := TO_CHAR (ToNumber (SlotNom), '0999');
+    end if;
+
+    NbrCabl := 0;
+    for vCabl in cCabl loop
+	select CABLEQU_NOM into CablNom
+	    from CABLEQU
+	    where CABLEQU_ID = vCabl.CABLEQU_ID;
+
+	select PROG_NOM into ProgLiaiTopNom
+	    from PROG_CABLEQU, PROG
+	    where CABLEQU_ID = vCabl.CABLEQU_ID and
+		  PROG_CABLEQU.PROG_ID = PROG.PROG_ID
+	union
+	select TOP_NOM 
+	    from TOP_CABLEQU, TOP
+	    where CABLEQU_ID = vCabl.CABLEQU_ID and
+		  top_CABLEQU.top_id = top.top_id 
+  union
+	select GetLiaiNom (LIAI_CABLEQU.LIAI_ID)
+	    from LIAI_CABLEQU
+	    where CABLEQU_ID = vCabl.CABLEQU_ID;
+
+	PortNom  := '';
+	PortType := '';
+	for vAcces in cAcces (vCabl.CABLEQU_ID) loop
+	    PortId := vAcces.A;
+
+    	    select ACCES_NOM, PARAM_VALEUR
+	    	into PortNom, PortType
+	    	from ACCES, PARAM
+	    	where ACCES_ID = PortId and
+	     	      ACCES.ACCES_TYPE = PARAM.PARAM_ID;
+	end loop;
+
+    	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, 
+				CH01, CH02, CH03, CH04, CH05, CH06, CH07, CH08, CH99)
+	    values (SEQ_PRERAPPORT.NEXTVAL, CONST_CLASS_EXPORT, EnglobId, 
+		    EquipNom, TypeqNom, SsTypeqNom, ProgLiaiTopNom, SlotNom, PortNom, PortType, 
+		    CablNom, EquipId);
+  
+	NbrCabl	:= NbrCabl +1;
+    end loop;
+
+    -- Equipements inclus
+    for vBoard in cBoard loop
+	NbrCabl := NbrCabl + CablSsEquip (vBoard.EQUIP_ID, EquipNom, TypeqNom, EnglobId);
+    end loop;
+
+    return NbrCabl;
+
+EXCEPTION
+    when OTHERS then
+	dbms_output.put_line ('Erreur détectée');
+	return 0;
+
+END 	CablSsEquip;
+/
+
+
+-------------------------------------------------------------------------------------------------
+-- Modif. X.L. le 11/01/06 pour passer TypeqNom et CablNom en dimension par rapport à la colonne
+-- de table. En effet, si la colonne de table est augmentée en taille et que la donnée dépasse
+-- la taille initiale de la variable, il y a erreur ce qui est normal.
+--
+-- Modif. ZN le 6/11/07 prend en compte des topologies
+--
+CREATE OR REPLACE FUNCTION CablEquip
+(
+    EquipId	NUMBER		-- Id. de l'équipement
+)
+RETURN NUMBER
+
+IS
+    CONST_CLASS_EXPORT CONSTANT integer := 16;	 -- Identification des rapports de ce type
+
+    EquipNom	VARCHAR2 (120);	-- Nom de l'équipement
+    TypeqNom	typeq.typeq_nom%TYPE;	-- Nom du type de l'équipement
+    SlotNom	VARCHAR2 (10);	-- Nom du slot
+    PortId	NUMBER;		-- Id du port
+    PortNom	VARCHAR2 (40);	-- Nom du port
+    PortType	VARCHAR2 (40);	-- Type du port
+    CablNom	cablequ.cablequ_nom%TYPE;	-- Nom du câblage
+    ProgLiaiTopNom	VARCHAR2 (120);	-- Nom du programme ou de la liaison ou de la topologie trouvé
+    NbrCabl	NUMBER;		-- Nb. de câblages trouvé
+
+    -- Liste des câblages de l'équipement
+    Cursor cCabl is
+	select CABLEQU_ID from CABLEQU_EQUIP
+	    where EQUIP_ID = EquipId;
+
+    -- Liste des cartes incluses dans l'équipement
+    Cursor cBoard is
+	select EQUIP_ID from EQUIP
+	    where EQUIP_BINDINGID = EquipId;
+
+    -- Liste des accès des équipements qui sont dans le câblage étudié
+    -- Pas d'accès si l'équipement n'est relié à aucun autre
+    Cursor cAcces (CablequId NUMBER) is
+	select ACCES1_ID A from ACCES_ACCESC
+	    where ACCES_BINDINGID = CablequId and
+		  ACCES1_ID in (select ACCES_ID from ACCES where EQUIP_ID = EquipId)
+	union
+	select ACCES2_ID A from ACCES_ACCESC
+	    where ACCES_BINDINGID = CablequId and
+		  ACCES2_ID in (select ACCES_ID from ACCES where EQUIP_ID = EquipId);
+
+BEGIN
+    delete PRERAPPORT
+	where CLASS_ID = CONST_CLASS_EXPORT;
+
+    select GetEquipNom (EQUIP_ID, 1) "NOM", TYPEQ_NOM, BAIE_EQUIP_CARTE
+	into EquipNom, TypeqNom, SlotNom
+	from EQUIP
+	where EQUIP_ID = EquipId;
+
+    if (ToNumber (SlotNom) >= 0) then	-- le n° de carte est un nombre
+	SlotNom := TO_CHAR (ToNumber (SlotNom), '0999');
+    end if;
+
+    NbrCabl := 0;
+    for vCabl in cCabl loop
+	select CABLEQU_NOM into CablNom
+	    from CABLEQU
+	    where CABLEQU_ID = vCabl.CABLEQU_ID;
+
+	select PROG_NOM into ProgLiaiTopNom
+	    from PROG_CABLEQU, PROG
+	    where CABLEQU_ID = vCabl.CABLEQU_ID and
+		  PROG_CABLEQU.PROG_ID = PROG.PROG_ID
+	union
+	select TOP_NOM 
+  	    from TOP_CABLEQU, TOP
+	    where CABLEQU_ID = vCabl.CABLEQU_ID and
+		  top_CABLEQU.top_id = top.top_id 
+	union
+	select GetLiaiNom (LIAI_CABLEQU.LIAI_ID)
+	    from LIAI_CABLEQU
+	    where CABLEQU_ID = vCabl.CABLEQU_ID;
+
+	PortNom  := '';
+	PortType := '';
+	for vAcces in cAcces (vCabl.CABLEQU_ID) loop
+	    PortId := vAcces.A;
+
+    	    select ACCES_NOM, PARAM_VALEUR
+	    	into PortNom, PortType
+	    	from ACCES, PARAM
+	    	where ACCES_ID = PortId and
+	     	      ACCES.ACCES_TYPE = PARAM.PARAM_ID;
+	end loop;
+
+    	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, 
+				CH01, CH02, CH04, CH05, CH06, CH07, CH08, CH99)
+	    values (SEQ_PRERAPPORT.NEXTVAL, CONST_CLASS_EXPORT, EquipId, 
+		    EquipNom, TypeqNom, ProgLiaiTopNom, SlotNom, PortNom, PortType, CablNom, EquipId);
+  
+	NbrCabl	:= NbrCabl +1;
+    end loop;
+
+    -- Equipements inclus
+    for vBoard in cBoard loop
+	NbrCabl := NbrCabl + CablSsEquip (vBoard.EQUIP_ID, EquipNom, TypeqNom, EquipId);
+    end loop;
+
+    if (NbrCabl = 0) then
+    	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, CH01, CH02, CH99)
+	    values (SEQ_PRERAPPORT.NEXTVAL, CONST_CLASS_EXPORT, EquipId, 
+		    EquipNom, TypeqNom, EquipId);
+    end if;
+
+    return 1;
+
+EXCEPTION
+    when OTHERS then
+	dbms_output.put_line ('Erreur détectée');
+	return 0;
+
+END 	CablEquip;
+/
+
+
+---------------------------------------------------------------------------
+--
+-- Préparation des données pour le rapport sur les fiches
+-- Ce rapport liste les champs d'une fiche avec leur valeur
+--
+-- Retourne 1 si succès, 0 si échec
+--
+-- Les champs remplis dans la table PRERAPPORT sont les suivants :
+--	- PRERAPPORT_ID		: ID de l'enregistrement PRERAPPORT
+--	- CLASS_ID		: Classe du rapport (23)
+--	- CH100			: Nom de l'objet dont le rapport est demandé
+--	- CH99			: ID de cet objet
+--	- CH98			: CLASSID de cet objet
+--	- CH97			: Nom de l'onglet
+--	- CH96			: N° ordre de l'onglet
+--	- CH01			: Nom du champ
+--	- CH02			: Valeur du champ
+-- X.L. modif. le 03/09/07 : correction d'un bug qui faisait que la véritable
+-- erreur détectée dans la procédure n'était pas renvoyée. Dans le traitement
+-- d'une exception, on a pas le droit d'exploiter raise_application_error
+-- pour une erreur Oracle. Pour renvoyer une erreur Oracle appeler RAISE.
+--
+----------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION ExportForm
+(
+	BddId		NUMBER,		-- ID en bdd de l'objet
+	ClassId		NUMBER,		-- CLASSID de l'objet
+	Droits		VARCHAR2	-- Droits sur les onglets :
+					-- Chaîne valant 0011000.... où l'on trouve un chiffre 
+					-- (0 ou 1) pour chaque onglet, dans l'ordre des onglets 
+					-- de la fiche : 0 accès interdit, 1 : accès autorisé.
+)
+RETURN NUMBER
+
+IS
+	CONST_CLASS_EXPORT CONSTANT integer := 24;	-- Identification des rapports de ce type
+
+    	integrity_error  exception;
+    	errno            integer;
+    	errmsg           char(200);
+
+	TableName	VARCHAR2 (30);			-- Nom de la table de l'objet
+	TypId		NUMBER;
+	FichTable	VARCHAR2 (30);			-- Nom de la table où est définie la fiche (structure)
+	FicheId		NUMBER;				-- ID de la fiche
+	TypeqAccesId	NUMBER;
+	EquipId		NUMBER;
+	AccesNom	VARCHAR2 (40);
+
+	cursor_name 	NUMBER;				-- ID du curseur dynamique
+	DynOrder	VARCHAR2 (200);			-- Ordre SQL dynamique
+	Result		NUMBER;				-- Résultat de la requête dynamique
+
+	Val		VARCHAR2 (256);			-- Une colonne VAL_USERxx
+	ObjetNom	VARCHAR2 (80);			-- Nom de l'objet
+	SqlReqTable	VARCHAR2 (30);			-- Requête SQL ("Lien" par champ de la fiche)
+	Val2		VARCHAR2 (256);			-- Banal
+	SaisieNom	SAISIE.SAISIE_NOM%TYPE;		-- Nom du champ de saisie
+
+	Auto		Varchar2 (1);			-- 0 : onglet interdit, 1 : autorisé
+
+	CURSOR CurOnglet IS
+		SELECT onglet_id, onglet_nom, onglet_idx
+		FROM onglet
+		WHERE fiche_id = FicheId
+		ORDER BY onglet_idx;
+
+	CURSOR CurSai (OngletId NUMBER) IS
+		SELECT saisie_nom, saisie_libelle, saisie_id, sqlreq_id
+		FROM saisie
+		WHERE onglet_id = OngletId
+		ORDER BY saisie_id;
+
+	CURSOR CurVal (OngletId NUMBER) IS
+		SELECT * FROM valeurs
+		WHERE onglet_id = OngletId
+		 AND
+		((TableName = 'MODELSITE'	AND modelsite_id 	= BddId) OR
+		(TableName = 'TYPSITE'		AND typsite_id 	  	= BddId) OR
+		(TableName = 'SITE' 		AND site_id 	  	= BddId) OR
+		(TableName = 'TYPEQ' 		AND typeq_id 	  	= BddId) OR
+		(TableName = 'MODELEQUIP' 	AND modelequip_id 	= BddId) OR
+		(TableName = 'EQUIP' 		AND equip_id 		= BddId) OR
+		(TableName = 'TYPLIAI' 		AND typliai_id 		= BddId) OR
+		(TableName = 'MODELLIAI' 	AND modelliai_id 	= BddId) OR
+		(TableName = 'LIAI' 		AND liai_id 		= BddId) OR
+		(TableName = 'MODELPROG' 	AND modelprog_id 	= BddId) OR
+		(TableName = 'PROG' 		AND prog_id 		= BddId) OR
+		(TableName = 'TOP' 		AND top_id 		= BddId) OR
+		(TableName = 'CLIENT' 		AND client_id 		= BddId) OR
+		(TableName = 'PERIF' 		AND perif_id 		= BddId) OR
+		(TableName = 'ALARMGEREE' 	AND alarmgeree_id 	= BddId) OR
+		(TableName = 'SCRIPT' 		AND script_id 		= BddId) OR
+		(TableName = 'ACCES' 		AND acces_id 		= BddId) OR
+		(TableName = 'TYPPROG'		AND typprog_id		= BddId) OR
+		(TableName = 'FAMILLE'		AND famille_id		= BddId));
+
+	CURSOR CurCode (SaisieId NUMBER, Code VARCHAR2) IS
+		SELECT codesaisie_libelle FROM codesaisie WHERE saisie_id = SaisieId AND codesaisie_code = Code;
+
+BEGIN
+	-- Acquisition de la table correspondant à la classe de l'objet
+	TableName := GetTableNom (ClassId);
+	IF TableName = 'NULL' THEN
+		dbms_output.put_line ('Table non trouvée par le ClassId');
+		return 0;
+	END IF;
+
+	-- Effacement du pré-rapport restant
+	DELETE prerapport WHERE bdd_id = BddId AND ch98 = ClassId AND class_id = CONST_CLASS_EXPORT;
+
+	FichTable := TableName;
+
+	IF TableName = 'PROG' THEN
+		-- Le programme est-il typé
+		SELECT typprog_id INTO TypId FROM prog WHERE prog_id = BddId;
+		IF TypId IS NOT NULL AND TypId > 0 THEN
+			FichTable := 'TYPPROG';
+		END IF;
+	ELSIF TableName = 'SITE' THEN
+		-- Le site est-il typé
+		SELECT typsite_id INTO TypId FROM site WHERE site_id = BddId;
+		IF TypId IS NOT NULL AND TypId > 0 THEN
+			FichTable := 'TYPSITE';
+		END IF;
+	ELSIF TableName = 'EQUIP' THEN
+		SELECT typeq_id, GetEquipNom (BddId, 0) INTO TypId, ObjetNom FROM equip WHERE equip_id = BddId;
+		FichTable := 'TYPEQ';
+	ELSIF TableName = 'LIAI' THEN
+		SELECT typliai_id, GetLiaiNom (BddId) INTO TypId, ObjetNom FROM liai WHERE liai_id = BddId;
+		FichTable := 'TYPLIAI';
+	ELSIF TableName = 'ACCES' THEN
+		-- Est-ce un accès d'équipement
+		SELECT equip_id, acces_nom INTO EquipId, AccesNom FROM acces WHERE acces_id = BddId;
+		IF EquipId IS NOT NULL THEN
+			SELECT acces_id INTO TypId
+			FROM acces, equip
+			WHERE equip.equip_id = EquipId
+			AND acces.typeq_id = equip.typeq_id
+			AND acces_nom = AccesNom;
+		END IF;
+	END IF;
+
+	IF TypId IS NULL OR TypId = 0 THEN
+		TypId := BddId;
+	END IF;
+
+	-- Recherche du nom de l'objet
+	IF TableName != 'EQUIP' AND TableName != 'LIAI' THEN
+		DynOrder := 'SELECT ' || TableName || '_NOM FROM ' || TableName || ' WHERE ' 
+			 || TableName || '_ID = ' || BddId;
+		cursor_name := DBMS_SQL.OPEN_CURSOR;
+		DBMS_SQL.PARSE (cursor_name, DynOrder, dbms_sql.native);	
+		DBMS_SQL.DEFINE_COLUMN (cursor_name, 1, ObjetNom, 80);
+		Result := DBMS_SQL.EXECUTE_AND_FETCH (cursor_name);	 -- Une seule rangée attendue
+		DBMS_SQL.COLUMN_VALUE (cursor_name, 1,  ObjetNom);
+		DBMS_SQL.close_cursor (cursor_name);
+	END IF;
+
+	-- Recherche de la fiche
+	DynOrder := 'SELECT fiche_id FROM fiche WHERE ' || FichTable || '_ID = ' || TypId;
+
+	cursor_name := DBMS_SQL.OPEN_CURSOR;
+	DBMS_SQL.PARSE (cursor_name, DynOrder, dbms_sql.native);
+	DBMS_SQL.DEFINE_COLUMN (cursor_name, 1, FicheId);
+	Result := DBMS_SQL.EXECUTE_AND_FETCH (cursor_name);	 -- Une seule rangée attendue
+	DBMS_SQL.COLUMN_VALUE (cursor_name, 1,  FicheId);
+	DBMS_SQL.close_cursor (cursor_name);
+
+	IF FicheId IS NULL THEN
+		dbms_output.put_line ('Fiche non trouvée');
+		RETURN 1;
+	END IF;		
+
+	-- Recherche des onglets de la fiche et des champs de saisie
+	FOR rCurOnglet IN CurOnglet LOOP
+		-- Recherche des valeurs correspondantes
+		Auto := SUBSTR (Droits, rCurOnglet.ONGLET_IDX +1, 1);
+		if (Auto = '0') then
+		   	GOTO Loop;
+		end if;
+
+		FOR rCurVal IN CurVal (rCurOnglet.onglet_id) LOOP
+			FOR rCurSai IN CurSai (rCurOnglet.onglet_id) LOOP
+				-- Recherche de la valeur du champ
+				Val := NULL;
+
+				IF rCurVal.saisie1_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user1;					
+				ELSIF rCurVal.saisie2_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user2;
+				ELSIF rCurVal.saisie3_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user3;
+				ELSIF rCurVal.saisie4_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user4;
+				ELSIF rCurVal.saisie5_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user5;
+				ELSIF rCurVal.saisie6_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user6;
+				ELSIF rCurVal.saisie7_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user7;
+				ELSIF rCurVal.saisie8_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user8;
+				ELSIF rCurVal.saisie9_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user9;
+				ELSIF rCurVal.saisie10_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user10;
+				ELSIF rCurVal.saisie11_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user11;
+				ELSIF rCurVal.saisie12_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user12;
+				ELSIF rCurVal.saisie13_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user13;
+				ELSIF rCurVal.saisie14_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user14;
+				ELSIF rCurVal.saisie15_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user15;
+				ELSIF rCurVal.saisie16_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user16;
+				ELSIF rCurVal.saisie17_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user17;
+				ELSIF rCurVal.saisie18_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user18;
+				ELSIF rCurVal.saisie19_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user19;
+				ELSIF rCurVal.saisie20_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user20;
+				ELSIF rCurVal.saisie21_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user21;
+				ELSIF rCurVal.saisie22_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user22;
+				ELSIF rCurVal.saisie23_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user23;
+				ELSIF rCurVal.saisie24_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user24;
+				ELSIF rCurVal.saisie25_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user25;
+				ELSIF rCurVal.saisie26_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user26;
+				ELSIF rCurVal.saisie27_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user27;
+				ELSIF rCurVal.saisie28_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user28;
+				ELSIF rCurVal.saisie29_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user29;
+				ELSIF rCurVal.saisie30_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user30;
+				ELSIF rCurVal.saisie31_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user31;
+				ELSIF rCurVal.saisie32_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user32;
+				ELSIF rCurVal.saisie33_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user33;
+				ELSIF rCurVal.saisie34_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user34;
+				ELSIF rCurVal.saisie35_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user35;
+				ELSIF rCurVal.saisie36_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user36;
+				ELSIF rCurVal.saisie37_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user37;
+				ELSIF rCurVal.saisie38_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user38;
+				ELSIF rCurVal.saisie39_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user39;
+				ELSIF rCurVal.saisie40_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user40;
+				ELSIF rCurVal.saisie41_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user41;
+				ELSIF rCurVal.saisie42_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user42;
+				ELSIF rCurVal.saisie43_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user43;
+				ELSIF rCurVal.saisie44_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user44;
+				ELSIF rCurVal.saisie45_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user45;
+				ELSIF rCurVal.saisie46_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user46;
+				ELSIF rCurVal.saisie47_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user47;
+				ELSIF rCurVal.saisie48_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user48;
+				ELSIF rCurVal.saisie49_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user49;
+				ELSIF rCurVal.saisie50_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user20;
+				ELSIF rCurVal.saisie51_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user51;
+				ELSIF rCurVal.saisie52_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user52;
+				ELSIF rCurVal.saisie53_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user53;
+				ELSIF rCurVal.saisie54_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user54;
+				ELSIF rCurVal.saisie55_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user55;
+				ELSIF rCurVal.saisie56_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user56;
+				ELSIF rCurVal.saisie57_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user57;
+				ELSIF rCurVal.saisie58_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user58;
+				ELSIF rCurVal.saisie59_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user59;
+				ELSIF rCurVal.saisie60_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user60;
+				ELSIF rCurVal.saisie61_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user61;
+				ELSIF rCurVal.saisie62_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user62;
+				ELSIF rCurVal.saisie63_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user63;
+				ELSIF rCurVal.saisie64_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user64;
+				ELSIF rCurVal.saisie65_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user65;
+				ELSIF rCurVal.saisie66_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user66;
+				ELSIF rCurVal.saisie67_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user67;
+				ELSIF rCurVal.saisie68_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user68;
+				ELSIF rCurVal.saisie69_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user69;
+				ELSIF rCurVal.saisie70_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user70;
+				ELSIF rCurVal.saisie71_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user71;
+				ELSIF rCurVal.saisie72_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user72;
+				ELSIF rCurVal.saisie73_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user73;
+				ELSIF rCurVal.saisie74_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user74;
+				ELSIF rCurVal.saisie75_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user75;
+				ELSIF rCurVal.saisie76_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user76;
+				ELSIF rCurVal.saisie77_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user77;
+				ELSIF rCurVal.saisie78_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user78;
+				ELSIF rCurVal.saisie79_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user79;
+				ELSIF rCurVal.saisie80_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user80;
+				ELSIF rCurVal.saisie81_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user81;
+				ELSIF rCurVal.saisie82_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user82;
+				ELSIF rCurVal.saisie83_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user83;
+				ELSIF rCurVal.saisie84_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user84;
+				ELSIF rCurVal.saisie85_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user85;
+				ELSIF rCurVal.saisie86_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user86;
+				ELSIF rCurVal.saisie87_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user87;
+				ELSIF rCurVal.saisie88_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user88;
+				ELSIF rCurVal.saisie89_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user89;
+				ELSIF rCurVal.saisie90_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user90;
+				ELSIF rCurVal.saisie91_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user91;
+				ELSIF rCurVal.saisie92_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user92;
+				ELSIF rCurVal.saisie93_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user93;
+				ELSIF rCurVal.saisie94_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user94;
+				ELSIF rCurVal.saisie95_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user95;
+				ELSIF rCurVal.saisie96_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user96;
+				ELSIF rCurVal.saisie97_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user97;
+				ELSIF rCurVal.saisie98_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user98;
+				ELSIF rCurVal.saisie99_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user99;
+				ELSIF rCurVal.saisie100_id = rCurSai.saisie_id THEN
+					Val := rCurVal.val_user100;
+				END IF;
+
+				/*
+				IF rCurSai.sqlreq_id IS NOT NULL THEN
+					SELECT sqlreq_table INTO SqlReqTable FROM sqlreq
+					WHERE sqlreq_id = rCurSai.sqlreq_id;
+
+					IF SqlReqTable IS NOT NULL THEN
+						DynOrder := 'SELECT ' || SqlReqTable || '_nom FROM ' 
+							 || SqlReqTable || ' WHERE ' || SqlReqTable 
+							 || '_id = to_number (' || Val || ')';
+
+						cursor_name := DBMS_SQL.OPEN_CURSOR;
+						DBMS_SQL.PARSE (cursor_name, DynOrder, dbms_sql.native);
+						DBMS_SQL.DEFINE_COLUMN (cursor_name, 1, Val2, 40);
+						Result := DBMS_SQL.EXECUTE_AND_FETCH (cursor_name);
+						DBMS_SQL.COLUMN_VALUE (cursor_name, 1,  Val2);
+						DBMS_SQL.close_cursor (cursor_name);
+
+						Val := Val2;
+					END IF;
+				ELSE
+				*/
+				FOR rCurCode IN CurCode (rCurSai.saisie_id, Val) LOOP
+					Val := rCurCode.codesaisie_libelle;
+					EXIT;
+				END LOOP;
+
+				IF rCurSai.sqlreq_id IS NOT NULL AND Val IS NOT NULL AND Val != '*' THEN
+					IF rCurSai.sqlreq_id = 1 THEN
+						select CLIENT_NOM into Val2 from CLIENT where CLIENT_ID = Val;
+						Val := Val2;
+					ELSIF rCurSai.sqlreq_id IN (2, 3) THEN
+						select FABRIC_NOM into Val2 from FABRIC where FABRIC_ID = Val;
+						Val := Val2;
+					ELSIF rCurSai.sqlreq_id IN (4, 5, 6) THEN
+						select PROG_NOM into Val2 from PROG where PROG_ID = Val;
+						Val := Val2;
+					ELSIF rCurSai.sqlreq_id = 7 THEN
+						select SITE_NOM into Val2 from SITE where SITE_ID = Val;
+						Val := Val2;
+					END IF;
+				END IF;
+
+				-- Si le libellé du champ de saisie est rempli, c'est lui qu'on présente
+				-- sinon, c'est le nom du champ.
+				IF (rCurSai.saisie_libelle IS NOT NULL) THEN
+					SaisieNom := rCurSai.saisie_libelle;
+				ELSE
+					SaisieNom := rCurSai.saisie_nom;
+				END IF;
+
+				INSERT INTO prerapport (prerapport_id, bdd_id, class_id, ch100, ch99, 
+							ch98, ch97, ch96, ch01, ch02)
+				VALUES (seq_prerapport.NEXTVAL, BddId, CONST_CLASS_EXPORT, ObjetNom, BddId, 
+					ClassId, rCurOnglet.onglet_nom, rCurOnglet.onglet_idx, 
+					SaisieNom, Val);
+			END LOOP;
+			EXIT;
+		END LOOP;
+
+		<<Loop>>
+		NULL;
+	END LOOP;
+	
+	RETURN 1;
+
+EXCEPTION
+    when others then
+        errno  := SQLCODE;
+        errmsg := SQLERRM (errno);
+
+        -- dbms_output.put_line ('Errno ' || to_char (errno) || ' ErrMsg ' || errmsg);
+        --SetTrace ('Errno ' || to_char (errno) || ' ErrMsg ' || errmsg);
+        -- raise_application_error (errno, errmsg);
+       RAISE;
+       
+       return 0;
+
+/*
+	WHEN OTHERS THEN
+		dbms_output.put_line ('Erreur détectée');
+		RETURN 0;
+*/
+END ExportForm;
+/
+
+
+--================================================================================
+--										--
+-- Traitement pour le rapport 21 "RapportDependance". Permet de remplir la	--
+-- table PRERAPPORT.								--
+--										--
+--										--
+--	Retourne   1 = Insertion PRERAPPORT OK.					--
+--	Retourne   0 = Insertion PRERAPPORT Annulée.				--
+--	Retourne  -1 = Table (objet dépendant) non traitée par cette fonction,	--
+--                     si ce cas arrive, ajouter un traitement pour la table	--
+--		       en question.						--
+--	Retourne  -2 = si un des paramétre est null.				--
+--   										--
+--	Remarque : la châine suivante "-- Ajout traitement ici --" peut être	--
+--		   trouvée dans le code. Elle indique juste que l'on peut	--
+--		   ajouter du code supplémentaire (recherche d'informations).	--
+-- 										--
+-- Création JFL le 23/02/05							--
+-- MAJ 	    JFL le 10/03/05 : prise en compte MAJ2116, Sites / Liaisons inclus	--
+-- MAJ	    JFL le 25/05/05 : affiche le SITE_NOM pour un objet USERL.		--
+--================================================================================
+CREATE OR REPLACE FUNCTION RapportDep_InPreRapport
+(
+    BddID	NUMBER,		-- Objet_ID				Ex : 1
+    BddClassID	NUMBER,		-- Objet_ClassId 			Ex : 1027
+    BddTabNom 	VARCHAR2,	-- Nom de la table de l'objet		Ex : 'CONTACT' 
+    BddPKColNom VARCHAR2,	-- Nom de la colonne PK de l'objet	Ex : 'CONTACT_ID'
+    OddID	NUMBER,		-- Objet_Dépendant_ID.
+    OddTabNom	VARCHAR2,	-- Nom de la table de l'objet dépendant.
+    OddPKColNom	VARCHAR2	-- Nom de la colonne PK de l'objet dépendant.
+)
+RETURN NUMBER IS
+
+    Result	number;
+
+    -- Table PreRapport --
+    Ch04	varchar2(256);		-- Nom/Référence Objet dépendant.
+    Ch05	varchar2(256);		-- Divers.
+    Ch06	varchar2(256);		-- Divers.
+    Ch07	varchar2(256);		-- Divers.
+    Ch08	varchar2(256);		-- Libellé des choses stockées dans Ch05..07
+    BddNom	varchar2(256);		-- Nom de l'objet.
+    OddClassID	varchar2(256);		-- Classid de l'objet dépendant.
+
+    -- SQL DYN --
+    OrdreSql   	varchar2(2000);
+    CDynId	int;
+    RetCDyn	int;
+
+    -- Divers (Banal) --
+    sTmp	varchar2(80);
+    NomTmp	varchar2(40);
+    StrTmp	varchar2(40);
+    iTmp	number;
+    iRet    	number;
+    TmpID	number;
+
+    cursor cuFamilleNom is
+	select FAMILLE_NOM 
+	from FAMILLE 
+	where FAMILLE_ID = TmpID;
+
+    cursor cuContactPrenom is
+	select CONTACT_PRENOM 
+	from CONTACT
+	where CONTACT_ID = OddID;
+
+    cursor cuInfoClient is
+	select CLIENT_ID, FAMILLE_ID, PROG_CRITERE
+	from PROG
+	where PROG_ID = OddID
+	and PROG_LIAIBOUND is null
+	and PROG_SITEBOUND is null;		-- ne concerne que les progs réels.
+
+    -- Recherche des Sites / Liaisons INCLUS.
+    cursor curSiteInclus is
+	select SITE_ID	from PROG_SITE	where PROG_ID = OddID 
+	union
+	select SITE_ID	from PROG_TOP, TOP_SITE	where PROG_ID = OddID and
+	prog_top.top_id=top_site.top_id ;
+
+    cursor curLiaiInclus is
+	select LIAI_ID	from PROG_LIAI where PROG_ID = OddID
+  union
+  select LIAI_ID	from PROG_top, top_LIAI where PROG_ID = OddID
+  and PROG_top.top_id= top_LIAI.top_id ;
+
+    -- Recherche le type de PROG :  vrai programme ou vue physique
+    -- associée à un Objet Site / Liaison.
+    cursor curCheckProg is
+	select PROG_SITEBOUND,PROG_LIAIBOUND 
+	from PROG 
+	where PROG_ID = OddID;
+
+    -- Recherche le site d'un utilisateur.
+    cursor curSiteUser is
+	select SITE_NOM
+	from SITE
+	where SITE_ID = (
+	    select SITE_ID
+	    from USERL
+	    where USERL_ID = OddID);
+
+BEGIN
+
+    NomTmp 	:= 'NULL';
+    Ch04   	:= '';
+    Ch05   	:= '';
+    Ch06   	:= '';
+    Ch07   	:= '';
+    Ch08   	:= '';
+    BddNom 	:= '';
+    OddClassID 	:= '';
+    iTmp 	:= null;
+
+    --DBMS_OUTPUT.PUT_LINE(OddID);
+    IF (BddID IS NULL OR BddClassID IS NULL OR BddTabNom   IS NULL OR  BddPKColNom IS NULL OR 
+        OddID IS NULL OR OddTabNom  IS NULL OR OddPKColNom IS NULL) THEN
+	return -2;
+    END IF;
+
+    --===========================================--
+    -- Recherche informations Objet propriétaire --
+    --					         --
+    --===========================================--
+
+    -------------------------------------------------------
+    -- Recherche du Nom/Référence/Numéro de l'objet Bdd. --
+    -------------------------------------------------------
+    IF (BddTabNom = 'EQUIP' OR BddTabNom = 'ACCES_ACCESC') THEN
+	BddNom := GetEquipNom(BddID, 1);
+
+    ELSIF (BddTabNom = 'LIAI') THEN
+	select LIAI_NUM into BddNom from LIAI where LIAI_ID = BddID;
+
+    ELSIF (BddTabNom = 'BITMESS') THEN
+	select BITMESS_NBIT into iTmp from BITMESS where BITMESS_ID = BddID;
+	BddNom := to_char(iTmp);
+
+    ELSE
+    	StrTmp := BddTabNom || '_NOM';
+    	NomTmp := CheckNomCol (BddTabNom, StrTmp);
+
+    	IF (NomTmp != 'NULL') THEN
+	    OrdreSql := 'select ' || NomTmp || ' from ' || BddTabNom || ' where ' || BddPKColNom || ' = ' || BddID;
+
+	    CDynId := dbms_sql.open_cursor;
+	    dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	    dbms_sql.define_column (CDynId, 1, sTmp, 40);
+	    RetCDyn := dbms_sql.execute(CDynId);
+
+    	    IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+	    	dbms_sql.column_value (CDynId, 1, sTmp);	    
+   	    	BddNom := sTmp;
+
+            END IF;
+
+	    dbms_sql.close_cursor (CDynId);
+
+    	END IF;
+
+    END IF;
+
+    --DBMS_OUTPUT.PUT_LINE('1 ' || OrdreSql);
+
+    --===================================================--
+    -- Recherche informations communes Objets Dépendants --
+    --							 --
+    --===================================================--
+
+    -------------------------------------
+    -- Recherche classid de cet Objet. --
+    -------------------------------------
+    StrTmp := OddTabNom || '_CLASSID';
+    NomTmp := CheckNomCol (OddTabNom, StrTmp);
+
+    IF (NomTmp != 'NULL') THEN
+	OrdreSql := 'select ' || NomTmp || ' from ' || OddTabNom || ' where ' || OddPKColNom || ' = ' || OddID;
+
+	--DBMS_OUTPUT.PUT_LINE('2.1 ' || OrdreSql);
+
+	CDynId := dbms_sql.open_cursor;
+	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	dbms_sql.define_column (CDynId, 1, iTmp);
+	RetCDyn := dbms_sql.execute(CDynId);
+
+    	IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+	    dbms_sql.column_value (CDynId, 1, iTmp);
+	    OddClassID := to_char(iTmp);
+
+        END IF;
+
+	dbms_sql.close_cursor (CDynId);
+
+    END IF;
+
+    --DBMS_OUTPUT.PUT_LINE('2.1 ' || OrdreSql);
+
+    ----------------------------------------
+    -- Récup. Nom/Référence Objet (Ch04). --
+    ----------------------------------------
+    StrTmp := OddTabNom || '_NOM';
+    NomTmp := CheckNomCol (OddTabNom, StrTmp);
+    Ch04   := null;
+
+    IF (NomTmp != 'NULL') THEN
+	OrdreSql := 'select ' || NomTmp || ' from ' || OddTabNom || ' where ' || OddPKColNom || ' = ' || OddID;
+
+	CDynId := dbms_sql.open_cursor;
+	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	dbms_sql.define_column (CDynId, 1, sTmp, 40);
+	RetCDyn := dbms_sql.execute(CDynId);
+
+    	IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+	    dbms_sql.column_value (CDynId, 1, sTmp);	    
+   	    Ch04 := sTmp;
+
+        END IF;
+
+	dbms_sql.close_cursor (CDynId);
+
+    END IF;
+
+    --DBMS_OUTPUT.PUT_LINE('2.2 ' || OrdreSql);
+
+    -------------------------------------------------------------------------------
+    -- Recherche informations Objets Dépendants au cas par cas (de Ch05 à Ch08). --
+    -------------------------------------------------------------------------------
+    IF (OddTabNom = 'SITE'    OR OddTabNom = 'TOP'     OR OddTabNom = 'TYPLIAI' OR
+	OddTabNom = 'TYPPROG' OR OddTabNom = 'TYPSITE' OR OddTabNom = 'TYPEQ') THEN
+
+    	-- Récup. du NOM de famille (Ch05).
+
+	OrdreSql := 'select FAMILLE_ID from ' || OddTabNom || ' where ' || OddPKColNom || ' = ' || OddID;
+
+	CDynId := dbms_sql.open_cursor;
+	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	dbms_sql.define_column (CDynId, 1, iTmp);
+	RetCDyn := dbms_sql.execute(CDynId);
+
+   	IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+     	    dbms_sql.column_value (CDynId, 1, iTmp);
+
+	    TmpID := iTmp;
+
+	    FOR rCuFamilleNom IN cuFamilleNom LOOP
+		Ch05 := rCuFamilleNom.FAMILLE_NOM;
+		EXIT;
+	    END LOOP;
+
+        END IF;
+
+    	dbms_sql.close_cursor (CDynId);
+
+	Ch08 := ' Famille';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'PERIF' OR OddTabNom = 'SALLE' OR OddTabNom = 'CABLEQU') THEN
+
+	-- Récup. Nom Site et Nom Famille (si celle-ci existe).
+
+	OrdreSql := 'select SITE_ID from ' || OddTabNom || ' where ' || OddPKColNom || ' = ' || OddID;
+
+	CDynId := dbms_sql.open_cursor;
+	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	dbms_sql.define_column (CDynId, 1, iTmp);
+	RetCDyn := dbms_sql.execute(CDynId);
+
+   	IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+     	    dbms_sql.column_value (CDynId, 1, iTmp);
+
+	    select SITE_NOM, FAMILLE_ID into Ch05, TmpID 
+	    from SITE 
+	    where SITE_ID = iTmp;
+
+	    FOR rCuFamilleNom IN cuFamilleNom LOOP
+		Ch06 := rCuFamilleNom.FAMILLE_NOM;
+		EXIT;
+	    END LOOP;
+
+        END IF;
+
+    	dbms_sql.close_cursor (CDynId);
+
+	Ch08 := ' Site, Famille';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'BAIE' OR OddTabNom = 'REPART') THEN
+
+	-- Récup. Nom Salle, Nom Site et Nom Famille (si celle-ci existe).
+
+	OrdreSql := 'select SALLE_ID from ' || OddTabNom || ' where ' || OddPKColNom || ' = ' || OddID;
+
+	CDynId := dbms_sql.open_cursor;
+	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	dbms_sql.define_column (CDynId, 1, iTmp);
+	RetCDyn := dbms_sql.execute(CDynId);
+
+   	IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+     	    dbms_sql.column_value (CDynId, 1, iTmp);
+
+	    select SALLE_NOM, SITE_ID into Ch05, TmpID 
+	    from SALLE 
+	    where SALLE_ID = iTmp;
+
+	    iTmp := TmpID;
+
+	    select SITE_NOM, FAMILLE_ID into Ch06, TmpID 
+	    from SITE 
+	    where SITE_ID = iTmp;
+
+	    FOR rCuFamilleNom IN cuFamilleNom LOOP
+		Ch07 := rCuFamilleNom.FAMILLE_NOM;
+		EXIT;
+	    END LOOP;
+
+        END IF;
+
+    	dbms_sql.close_cursor (CDynId);
+
+	Ch08 := ' Salle, Site, Famille';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'EXT') THEN
+
+	select EXT_VILLE into Ch05
+	from EXT 
+    	where EXT_ID = OddID;
+
+	Ch08 := ' Site (Ville)';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'LIAI') THEN
+
+	Ch04 := GetLiaiNom(OddID);
+
+	select LIAI_DEBIT, LIAI_UDEBIT, TYPLIAI_NOM into iTmp, TmpID, ch07
+	from LIAI
+	where LIAI_ID = OddID;
+
+	Ch05 := to_char(iTmp);
+
+	IF (TmpID = 0) THEN
+	    Ch06 := 'b/s - Hz';
+
+	ELSIF (TmpID = 1) THEN
+	    Ch06 := 'Kb/s - KHz';
+
+	ELSIF (TmpID = 2) THEN
+	    Ch06 := 'Mb/s - MHz';
+
+	ELSE
+	    Ch06 := 'Gb/s - GHz';
+
+	END IF;
+
+	Ch08 := ' Débit, Unité débit, Type';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'EQUIP') THEN
+
+	Ch04 := GetEquipNom(OddID, 1);
+
+	select TYPEQ_NOM, EQUIP_REF, EQUIP_ADDRIP, EQUIP_INDEXSNMP into Ch05, Ch06, Ch07, sTmp
+	from EQUIP
+	where EQUIP_ID = OddID;
+
+	IF (Ch07 is not null OR sTmp is not null) THEN
+	    Ch07 := Ch07 || ' / ' || sTmp;
+
+	END IF;
+
+	Ch08 := ' Type, Référence, Adresse IP / Index SNMP';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'BITMESS') THEN
+
+	select BITMESS_NBIT, MESS_ID into iTmp, TmpID
+	from BITMESS
+	where BITMESS_ID = OddID;
+
+	Ch04 := to_char(iTmp);
+
+	select MESS_NOM into Ch05
+	from MESS
+	where MESS_ID = TmpID;
+
+	Ch08 := ' Message';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'CONTACT') THEN
+
+	FOR rCuContactPrenom IN cuContactPrenom LOOP
+	    Ch05 := rCuContactPrenom.CONTACT_PRENOM;
+	    EXIT;
+	END LOOP;
+
+	Ch08 := ' Prénom';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'REGLETTE') THEN
+	
+	select REPART_ID into TmpID
+	from REGLETTE
+	where REGL_ID = OddID;
+
+	select REPART_NOM, SALLE_ID into Ch04, iTmp
+ 	from REPART
+	where REPART_ID = TmpID;
+
+	TmpID := iTmp;
+
+	select SALLE_NOM, SITE_ID into Ch05, iTmp
+	from SALLE
+	where SALLE_ID = TmpID;
+
+	TmpID := iTmp;
+
+	select SITE_NOM, FAMILLE_ID into Ch06, iTmp
+	from SITE
+	where SITE_ID = TmpID;
+
+	TmpID := iTmp;
+
+	FOR rCuFamilleNom IN cuFamilleNom LOOP
+	    Ch07 := rCuFamilleNom.FAMILLE_NOM;
+	    EXIT;
+	END LOOP;
+
+	Ch08 := ' Salle, Site, Famille';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'PROG') THEN 
+
+	-------------------------------------------------------------------------------
+	-- Recherche le type de l'objet PROG : si vrai programme ou une vue Physique --
+	-------------------------------------------------------------------------------
+    	iTmp	:= null;
+    	TmpID	:= null;
+
+	FOR rCurCheckProg IN curCheckProg LOOP
+    	    iTmp  := rCurCheckProg.PROG_SITEBOUND;
+    	    TmpID := rCurCheckProg.PROG_LIAIBOUND;
+	    EXIT;
+	END LOOP;
+
+	IF (BddTabNom = 'SITE' AND iTmp IS NOT NULL) THEN
+
+    	    TmpID := null;
+
+	    -- Recherche des sites inclus.
+	    FOR rCurSiteInclus IN curSiteInclus LOOP
+		TmpID := rCurSiteInclus.SITE_ID;
+
+		IF (TmpID IS NOT NULL) THEN
+		    iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                     TmpID, 'SITE', 'SITE_ID');
+		ELSE
+		    EXIT;
+
+		END IF;
+
+	    END LOOP;
+
+	    ------------------------------------------------------
+	    -- On quitte la fonction afin de ne pas sauvegarder	--
+	    -- ce programme "Virtuel" dans la table PreRapport.	--
+	    ------------------------------------------------------
+	    return 0;
+
+	ELSIF (BddTabNom = 'LIAI' AND TmpID IS NOT NULL) THEN
+
+    	    TmpID := null;
+
+	    -- Recherche des Liaisons inclus.
+	    FOR rCurLiaiInclus IN curLiaiInclus LOOP
+		TmpID := rCurLiaiInclus.LIAI_ID;
+
+		IF (TmpID IS NOT NULL) THEN
+		    iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                     TmpID, 'LIAI', 'LIAI_ID');
+		ELSE
+		    EXIT;
+
+		END IF;
+
+	    END LOOP;
+
+	    ------------------------------------------------------
+	    -- On quitte la fonction afin de ne pas sauvegarder	--
+	    -- ce programme "Virtuel" dans la table PreRapport.	--
+	    ------------------------------------------------------
+	    return 0;
+
+	ELSIF (iTmp IS NULL AND TmpID IS NULL) THEN -- C'est une vrai prestation.
+
+	    -- Récup. Nom famille, Nom client et critère.
+	    iTmp := null;
+
+	    FOR rCuInfoClient IN cuInfoClient LOOP
+	    	iTmp  := rCuInfoClient.CLIENT_ID;
+	    	TmpID := rCuInfoClient.FAMILLE_ID;
+	    	Ch07  := rCuInfoClient.PROG_CRITERE;
+	    	EXIT;
+	    END LOOP;
+
+	    IF (iTmp IS NOT NULL) THEN
+
+	    	FOR rCuFamilleNom IN cuFamilleNom LOOP
+	    	    Ch05 := rCuFamilleNom.FAMILLE_NOM;
+	    	    EXIT;
+	    	END LOOP;
+
+	    	select CLIENT_NOM into Ch06
+	    	from CLIENT 
+	    	where CLIENT_ID = iTmp;
+
+	    	Ch08 := ' Famille, Client, Critère';
+
+	    ELSE -- Concerne un prog virtuel (Sites / Liaisons inclus).
+	    	return 0; -- On annule l'insert dans PreRapport.
+
+	    END IF;
+
+	END IF;
+
+	    Result := 1;
+
+    ELSIF (OddTabNom = 'USERL') THEN
+
+	-- On recherche le site propriétaire.
+	FOR rCurSiteUser IN curSiteUser LOOP
+	    Ch05 := rCurSiteUser.SITE_NOM;
+	    EXIT;
+	END LOOP;
+
+	Ch08 := ' Site';
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'ACCES'     OR OddTabNom = 'CLIENT' OR OddTabNom = 'FABRIC'    OR OddTabNom = 'FNCT'   OR
+           OddTabNom = 'LIBSYMB'   OR OddTabNom = 'MESS'   OR OddTabNom = 'MIBMODULE' OR OddTabNom = 'ROLE'   OR
+           OddTabNom = 'MODELCABL' OR OddTabNom = 'ORDRE'  OR OddTabNom = 'SCRIPT'    ) THEN
+
+	-- Ajout traitement ici --
+
+	Result := 1;
+
+    ELSIF (OddTabNom = 'CONSULTAL') THEN
+
+	-- Ajout traitement ici --
+
+	Result := 1;
+
+    ELSE -- Nom de table inconnu.
+	Result := -1;
+
+    END IF;
+
+    --DBMS_OUTPUT.PUT_LINE('2.3 ' || OddTabNom);
+
+    IF (Result = 1) THEN
+    	------------------------------------------------------------------
+    	-- Format Ordre insert :					--
+   	--	- Données PreRapport.					--
+    	--	- CH01 à CH03  : Info Objet Dépendant.			--
+    	--	- CH04 à CH08  : Données à afficher Objet Dépendant.	--
+    	--	- CH96 à CH100 : Info Objet propriétaire du Rapport	--
+   	------------------------------------------------------------------
+    	insert into PRERAPPORT
+    	(PRERAPPORT_ID, CLASS_ID, BDD_ID,
+     	 CH01, CH02, CH03, 
+     	 CH04, CH05, CH06, CH07, CH08,
+     	 CH96, CH97, CH98, CH99, CH100)
+    	values
+    	(seq_prerapport.nextval, 21, BddID,
+     	 OddTabNom, OddID, OddClassID,
+     	 Ch04, Ch05, Ch06, Ch07, Ch08,
+     	 BddPKColNom, BddTabNom, BddClassID, BddID, BddNom);
+
+    	commit;
+
+    	--DBMS_OUTPUT.PUT_LINE('OddTabNom:' || OddTabNom || ' OddID:' || OddID || ' CH4-7:' || Ch04 || ' ' || Ch05 || 
+			       --' ' || Ch06 || ' ' || Ch07 || ' BddTabNom:'|| BddTabNom ||' BddID:'|| BddID);
+
+    END IF;
+
+    return Result;
+
+END RapportDep_InPreRapport;
+/
+
+
+--==============================================================================--
+--										--
+-- Ce rapport permet de lister tous les Objets qui utilisent la référence	-- 
+-- BddID passée en paramètre. 							--
+-- Ceci dans le but de déterminer tous les Objets qui sont dépendants de	-- 
+-- l'objet BddID (propriétaire de rapport).					--
+--										--
+-- Cette fonction effectue le traitement suivant :				-- 
+--										--
+--	- Vérifie que le BddID appartient à un Objet à traiter.			--
+--										--
+--	- Détermine la PK de l'objet.						--
+--										--
+--	- Recherche les objets dépendants qui utilisent cette PK 		--
+--	  comme référence FK.							--
+--										--
+--	- Vérifie que les objets dépendants sont à traiter (listes A et B).	--
+--										--
+--	- Appelle fonction "RapportDep_InPreRapport(...)" afin			--
+--	  de remplir la table PRERAPPORT. 					--
+--	  Remarque : cette fonction ne prend pas en compte les			--
+--	             objets de type LIAISON.					--
+--										--
+-- A : Liste des Objets Bdd traités :						--
+--	ACCES   BAIE      BITMESS   CLIENT  CONSULTAL CONTACT   CABLEQU		--
+--	EQUIP   EXT       FABRIC    FNCT    LIAI      LIBSYMB 			--	
+--	MESS    MIBMODULE MODELCABL ORDRE   PERIF     PROG 			--
+--	REPART  ROLE      REGLETTE  SALLE   SCRIPT    SITE			-- 
+--      TOP 	TYPEQ     TYPLIAI   TYPPROG TYPSITE   USERL			--	 
+--										--
+-- B : Liste des Objets dépendants traités :					--
+--										--
+--	Liste A  +								--
+--	ACCES_BITMESS   ACCES_MESS CABLEQU_EQUIP LIAI_CABLEQU 			--   
+--	PROG_CABLEQU    PROG_LIAI  ROLE_DOMAIN   REGLETTE_ACCES			--
+--	TOP_LIAI   	TOP_SITE   TYPEQ_FABRIC	 TYPEQ_FNCT  			--	
+--	TYPEQ_TYPEQ	PROG_SITE  EQUIP_FNCT	 TYPLIAI_TYPLIAI		--
+--	ROLE_USER       EQUIP_FNCT TOP_CABLEQU	 TYPEQ_MIBMODULE 		--
+--	MODELPROG_LIAI  LIAI_LIAIC PRO_SERVICE					--
+--										--
+--	Retourne  1  = Traitement OK.						--
+-- 	Retourne -1  = Paramètre ClassID inconnu.				--
+-- 	Retourne -2  = Objet propriétaire non traité par cette fonction.	--
+-- 	Retourne -3  = Objet propriétaire sans PK.				--
+--										--
+-- Création JFL le 21/02/05							--
+-- MAJ      JFL le 10/03/05 : Prise en compte MAJ2116 (Sites/Liais inclus).	--
+--==============================================================================--
+CREATE OR REPLACE FUNCTION RapportDependance
+(
+    BddID	NUMBER,		   	-- ID Objet
+    BddClassID	NUMBER			-- ClassId Objet
+)
+RETURN NUMBER IS
+
+    -- Objet propriétaire du rapport --
+    BddTabNom		varchar2(30);	-- Table de la table l'Objet.
+    BddPKColNom		varchar2(30);	-- Nom de la colonne PK.
+    BddPKConsNom	varchar2(30);	-- Nom de la contrainte PK.
+
+    -- Objets dépendants --
+    OddID		number;		-- ID de l'objet dépendant.
+    OddTabNom		varchar2(30);	-- Nom des tables dépendantes.
+    OddTabNomRU		varchar2(30);	-- Référence Unique pour curseur (Nom table liaison dépendante).
+
+    OddPKColNom		varchar2(30);	-- Nom de la colonne PK.
+    OddPKConsNom	varchar2(30);	-- Nom de la contrainte PK.
+
+    OddFKColNom		varchar2(30);	-- Nom de la colonne FK qui pointe sur la PK (de l'objet pro).
+    OddFKConsNom	varchar2(30);	-- Nom de la contrainte FK.
+
+    -- Fonction LiaiSens / Table LINK --
+    sRetFK		varchar2(30);	-- Retour de la fonction LiaiSens (Table jointure).
+    LinkL		varchar2(30);	-- Colonne LINK.LINK_RIGHT
+    LinkR		varchar2(30);	-- Colonne LINK.LINK_RIGHT
+    ColNameL		varchar2(30);	-- Colonne LINK.COLNAME_LEFT
+    ColNameR		varchar2(30);	-- Colonne LINK.COLNAME_RIGHT
+    FKNameL		varchar2(30);	-- Colonne LINK.FKNAME_LEFT
+    FKNameR		varchar2(30);	-- Colonne LINK.FKNAME_RIGHT
+
+    -- SQL DYNAMIQUE --
+    CDynId		int;		-- Curseur.
+    RetCDyn		int;
+    OrdreSql   		varchar2(2000);	-- Ordre SQL à executer.
+
+    -- Banal --
+    CheckOk		varchar2(30);
+    TmpConsNom		varchar2(30);
+    iRet		number;
+    TmpID		number;
+    AccesC01Id		number;
+    AccesC02Id		number;
+
+    -- Curseurs --
+    --
+    -- Recherche le nom Colonne / Contrainte de la PK de l'objet propriétaire.
+    cursor curObjetPK is
+	select COLUMN_NAME, CONSTRAINT_NAME
+	from user_cons_columns
+	where constraint_name = (
+		select constraint_name
+		from user_constraints
+		where table_name    = BddTabNom
+		and constraint_type ='P');
+
+    -- Recherche les tables dépendantes de cette PK.
+    cursor curTabDep is
+	select distinct TABLE_NAME
+ 	from USER_CONSTRAINTS
+	where R_CONSTRAINT_NAME = BddPKConsNom
+ 	and CONSTRAINT_TYPE     ='R';
+
+    -- Recherche les FK (table dépendante) qui pointent sur cette PK.
+    cursor curFKTabDep is
+	select COLUMN_NAME, CONSTRAINT_NAME
+	from user_cons_columns
+	where constraint_name in (
+		select CONSTRAINT_NAME
+		from USER_CONSTRAINTS
+		where TABLE_NAME      = OddTabNom 
+		and R_CONSTRAINT_NAME = BddPKConsNom
+		and CONSTRAINT_TYPE   ='R')
+	order by TABLE_NAME, COLUMN_NAME;
+
+    -- Recherche données liées à une contrainte.
+    cursor curFKData is	
+	select TABLE_NAME, COLUMN_NAME
+	from USER_CONS_COLUMNS
+	where CONSTRAINT_NAME = (
+ 		select R_CONSTRAINT_NAME
+		from USER_CONSTRAINTS
+		where TABLE_NAME    = OddTabNom
+		and CONSTRAINT_NAME = sRetFK
+		and CONSTRAINT_TYPE = 'R');
+
+    -- Recherche Nom colonne via FK depuis LINK.
+    cursor curColNameL is
+	select COLNAME_LEFT
+	from LINK
+	where LINK_NAME = OddTabNom
+	and FKNAME_LEFT = sRetFK;
+
+    cursor curColNameR is
+	select COLNAME_RIGHT
+	from LINK
+	where LINK_NAME = OddTabNom
+	and FKNAME_RIGHT = sRetFK;
+
+    -- Recherche données depuis table LINK.
+    cursor curLinkLR is
+	select LINK_LEFT, LINK_RIGHT, COLNAME_LEFT, COLNAME_RIGHT
+	from LINK
+	where LINK_NAME = OddTabNom;
+
+    -- Recherche si des ACCES_ID sont câblés.
+    cursor curAccesC01 is
+	select ACCES_ACCESC_ID from ACCES_ACCESC
+	where ACCES1_ID = OddID;
+
+    cursor curAccesC02 is
+	select ACCES_ACCESC_ID from ACCES_ACCESC
+	where ACCES2_ID = OddID;
+
+    -- Recherche le type de PROG :  vrai programme ou vue physique
+    -- associée à un Objet Site / Liaison.
+    cursor curCheckProg is
+	select PROG_SITEBOUND,PROG_LIAIBOUND 
+	from PROG 
+	where PROG_ID = TmpID;
+BEGIN
+
+    OddID	 := null;
+    OddTabNom    := null;
+    OddPKColNom  := null;
+    OddPKConsNom := null;
+    OddFKColNom  := null;
+    OddFKConsNom := null;
+
+    -- Init. Table PreRapport.
+    delete PRERAPPORT
+	where CLASS_ID = 21 and BDD_ID = BddID and CH98 = BddClassID;
+   
+    commit;
+
+    -- Recherche Nom de la Table de l'objet pro.
+    BddTabNom := GetTableNom (BddClassID);
+
+    IF (BddTabNom = 'NULL') THEN
+	return -1;	
+
+    -- Cet Objet propriétaire est à traiter?
+    ELSIF(BddTabNom != 'ACCES'     AND BddTabNom != 'BAIE'    AND BddTabNom != 'BITMESS'   AND
+          BddTabNom != 'CABLEQU'   AND BddTabNom != 'CLIENT'  AND BddTabNom != 'CONSULTAL' AND
+          BddTabNom != 'CONTACT'   AND BddTabNom != 'EQUIP'   AND BddTabNom != 'EXT'       AND
+       	  BddTabNom != 'FABRIC'    AND BddTabNom != 'FNCT'    AND BddTabNom != 'LIAI'      AND
+          BddTabNom != 'LIBSYMB'   AND BddTabNom != 'MESS'    AND BddTabNom != 'MIBMODULE' AND
+          BddTabNom != 'MODELCABL' AND BddTabNom != 'ORDRE'   AND BddTabNom != 'PERIF'     AND
+          BddTabNom != 'PROG'      AND BddTabNom != 'REPART'  AND BddTabNom != 'ROLE'      AND
+          BddTabNom != 'REGLETTE'  AND BddTabNom != 'SALLE'   AND BddTabNom != 'SCRIPT'    AND
+          BddTabNom != 'SITE'      AND BddTabNom != 'TOP'     AND BddTabNom != 'TYPEQ'     AND 
+          BddTabNom != 'TYPLIAI'   AND BddTabNom != 'TYPPROG' AND BddTabNom != 'TYPSITE'   AND
+          BddTabNom != 'USERL') THEN
+	return -2;
+
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('ObjetPropriétaire:' || BddTabNom);
+
+    -- Récup. la PK Objet Pro.
+    FOR rCurObjetPK IN curObjetPK LOOP
+	BddPKColNom  := rCurObjetPK.COLUMN_NAME;	     	-- Ex : 'SITE_ID'
+	BddPKConsNom := rCurObjetPK.CONSTRAINT_NAME;	     	-- Ex : 'PK_SITE'
+	EXIT;
+    END LOOP;
+
+    IF (BddPKColNom IS NULL OR BddPKConsNom IS NULL) THEN
+    	return -3;
+    END IF;
+
+    ----------------------------------------------
+    --						--
+    -- 		Boucle principale		--
+    --						--
+    ---------------------------------------------- 
+  
+    -- Recherche des Tables Dépendantes.
+    FOR rCurTabDep IN curTabDep LOOP
+	OddTabNom := null;
+	OddTabNom := rCurTabDep.TABLE_NAME;		 	-- Ex : 'PROG_SITE'
+
+	IF (OddTabNom IS NULL) THEN
+	    EXIT;
+	END IF;
+
+	-- Recherche des FK tables dépendantes.
+	FOR rCurFKTabDep IN curFKTabDep LOOP
+	    OddFKColNom  := null;
+	    OddFKConsNom := null;
+	    OddFKColNom  := rCurFKTabDep.COLUMN_NAME;		-- Ex : 'SITE_ID'
+	    OddFKConsNom := rCurFKTabDep.CONSTRAINT_NAME;	-- Ex : 'FK1_PROG_SITE'
+
+	    IF (OddFKColNom IS NULL OR OddFKConsNom IS NULL) THEN
+	    	EXIT;
+
+	    --==================================================--
+	    -- Tables de type LIAISON / JOINTURE (Cas général). --
+	    --							--
+	    --==================================================--
+	    ELSIF (OddTabNom = 'ACCES_BITMESS'  OR OddTabNom = 'ACCES_MESS'    OR OddTabNom = 'CABLEQU_EQUIP'  OR
+                   OddTabNom = 'EQUIP_FNCT'     OR OddTabNom = 'LIAI_CABLEQU'  OR OddTabNom = 'MODELPROG_LIAI' OR
+                   OddTabNom = 'PROG_CABLEQU'   OR 
+                   OddTabNom = 'REGLETTE_ACCES' OR OddTabNom = 'ROLE_DOMAIN'   OR OddTabNom = 'ROLE_USER'      OR
+                   OddTabNom = 'TOP_CABLEQU'    OR OddTabNom = 'TOP_LIAI'      OR OddTabNom = 'TOP_SITE'       OR
+                   OddTabNom = 'TYPEQ_FABRIC'   OR OddTabNom = 'TYPEQ_FNCT'    OR OddTabNom = 'TYPEQ_MIBMODULE') THEN
+
+		DBMS_OUTPUT.PUT_LINE('CAS01: TABLE JOINTURE CAS GENERAL = ' || OddTabNom);
+
+		sRetFK := null;
+
+		------------------------------------------------------------------------------
+		-- Vérifie si FK 'OddFKConsNom' est le point fort de la jointure.	    --
+		-- Point fort (PF) = Enregistrement père (celui qui ne peut ètre supprimé). --
+		--									    --
+		-- Si FK 'OddFKConsNom' = PF, sRetFK = 2ème FK de la jointure.		    --
+		------------------------------------------------------------------------------
+		sRetFK := LiaiSens (OddTabNom, OddFKConsNom);	-- Ex : 'FK2_PROG_SITE'.
+
+		IF (sRetFK IS NULL) THEN -- OddFKConsNom n'est pas le PF.
+		    EXIT;
+
+		ELSIF (sRetFK = '-1' OR sRetFK = '-2') THEN -- Problèmes possibles avec les paramètres.
+		    dbms_output.put_line(' ERR_01: LiaiSens =' || sRetFK || ' Paramètre en cause: ' || OddTabNom || 
+					 ',' || OddFKConsNom);
+		    EXIT;
+
+		ELSIF (sRetFK = '2') THEN -- Table jointure bidirectionnelle.
+
+		    -- Recherche l'autre FK jointure (l'autre côté de FK 'OddFKConsNom').
+		    FKNameL := null;
+		    FKNameR := null;
+
+		    select FKNAME_LEFT, FKNAME_RIGHT into FKNameL, FKNameR
+	 	    from LINK
+		    where LINK_NAME = OddTabNom;
+
+		    IF (OddFKConsNom = FKNameL) THEN
+			sRetFK := FKNameR;
+
+		    ELSIF (OddFKConsNom = FKNameR) THEN
+			sRetFK := FKNameL;
+
+		    ELSE
+			dbms_output.put_line(' ERR_02: 2ème FK non trouvée');
+			EXIT;
+
+		    END IF;
+
+		END IF;
+
+		------------------------------------------------------------------
+		-- A ce niveau : la 2ème FK est connue.  Ex : 'FK2_TYPEQ_FNCT'. --
+		-- Recherche du Nom de Colonne (2ème FK) dans table LINK.	--
+		------------------------------------------------------------------
+		OddPKColNom := null;
+
+		FOR rCurColNameL IN curColNameL LOOP
+		    OddPKColNom := rCurColNameL.COLNAME_LEFT;
+		    EXIT;
+		END LOOP;
+
+		IF (OddPKColNom IS NULL) THEN
+		    FOR rCurColNameR IN curColNameR LOOP		    	
+			OddPKColNom := rCurColNameR.COLNAME_RIGHT;	-- Ex : 'PROG_ID'
+			EXIT;
+		    END LOOP;
+
+		END IF;
+
+		IF (OddPKColNom IS NULL) THEN
+		    dbms_output.put_line(' ERR_03: Nom de Colonne (2ème FK) non trouvé');
+		    EXIT;
+
+		END IF;
+
+		OrdreSql := 'select ' || OddPKColNom || ' from ' || OddTabNom ||
+		            ' where ' || OddFKColNom || ' = ' || BddID;
+		
+		-- Rechercher via 2ème FK nom table / colonne.
+		FOR rCurFKData IN curFKData LOOP
+		    OddTabNom   := rCurFKData.TABLE_NAME;	-- Ex : 'TYPEQ'
+		    OddPKColNom := rCurFKData.COLUMN_NAME;	-- Ex : 'TYPEQ_ID'
+		    EXIT;
+		END LOOP;
+
+		IF (OddTabNom IS NULL OR OddPKColNom IS NULL) THEN
+		    dbms_output.put_line(' ERR_04: Nom Table et Nom Colonne non trouvés');
+		    EXIT;
+
+		END IF;
+
+		-- Rechercher si enregistrements dans table jointure.
+	    	CDynId := dbms_sql.open_cursor;
+	    	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	    	dbms_sql.define_column (CDynId, 1, OddID);
+	    	RetCDyn := dbms_sql.execute(CDynId);
+
+	    	LOOP
+		    OddID  := null;
+
+		    -- Lecture des enregistrements du Curseur.
+		    IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+
+			dbms_sql.column_value (CDynId, 1, OddID);
+
+			IF (OddID IS NOT NULL) THEN
+			    DBMS_OUTPUT.PUT_LINE('  VALFIND = OddID:' || OddID || ' OddTabNom:' || OddTabNom || ' OddPKColNom:'|| OddPKColNom);
+			    iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                             OddID, OddTabNom, OddPKColNom);
+
+		    	    IF (iRet = -1) THEN
+			    	dbms_output.put_line(' ERR_05: Objet dépendant "' || OddTabNom || '" inattendu');
+
+		   	    END IF;
+
+			END IF;
+
+  	    	    ELSE -- Fin du Curseur 'CDynId'.
+        	    	EXIT;
+
+      	    	    END IF;
+
+		END LOOP; 
+
+		dbms_sql.close_cursor (CDynId);
+
+	    --=======================================================--
+	    -- Tables de type LIAISON / JOINTURE (Cas Spécial n°01). --
+	    --							     --
+	    --=======================================================--
+	    ELSIF (OddTabNom = 'PROG_SITE' AND BddTabNom = 'SITE' OR OddTabNom = 'PROG_LIAI' AND BddTabNom = 'LIAI') THEN
+
+		DBMS_OUTPUT.PUT_LINE('CAS_SP01: TABLE JOINTURE PROG_SITE / PROG_LIAI');
+		
+		---------------------------------------------------------------------------
+		-- Concerne un Objet SITE / LIAI 'Enfant' d'un Objet SITE / LIAI 'Père'. --
+		-- Recherche du Père.					   		 --
+		---------------------------------------------------------------------------
+
+		OrdreSql := 'select PROG_ID from ' || OddTabNom ||
+		            ' where ' || OddFKColNom || ' = ' || BddID;
+
+		-- Rechercher si enregistrements dans table jointure.
+	    	CDynId := dbms_sql.open_cursor;
+	    	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	    	dbms_sql.define_column (CDynId, 1, TmpID);
+	    	RetCDyn := dbms_sql.execute(CDynId);
+
+	    	LOOP
+		    TmpID  := null;
+
+		    -- Lecture des enregistrements du Curseur.
+		    IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+
+			dbms_sql.column_value (CDynId, 1, TmpID);
+
+			IF (TmpID IS NOT NULL) THEN
+
+			    OddID := null;
+
+			    -- Vérifie si l'objet trouvé est le Père.
+			    IF (BddTabNom = 'SITE') THEN 
+
+			    	FOR rCurCheckProg IN curCheckProg LOOP
+				    OddID := rCurCheckProg.PROG_SITEBOUND;
+				    EXIT;
+			    	END LOOP;
+
+				OddTabNom   := BddTabNom;
+				OddPKColNom := 'SITE_ID';
+
+			    ELSE -- BddTabNom = 'LIAI'
+
+			    	FOR rCurCheckProg IN curCheckProg LOOP
+				    OddID := rCurCheckProg.PROG_LIAIBOUND;
+				    EXIT;
+			    	END LOOP;
+
+				OddTabNom   := BddTabNom;
+				OddPKColNom := 'LIAI_ID';
+
+			    END IF;
+
+			    IF (OddID IS NOT NULL) THEN
+			    	DBMS_OUTPUT.PUT_LINE('VALFIND = OddID:' || OddID || ' OddTabNom:' || OddTabNom || ' OddPKColNom:'|| OddPKColNom);
+			    	iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                             OddID, OddTabNom, OddPKColNom);
+		    	    	IF (iRet = -1) THEN
+			    	    dbms_output.put_line(' ERR_05: Objet dépendant "' || OddTabNom || '" inattendu');
+
+		   	    	END IF;
+
+			    ELSE -- C'est peut être une Vraie Prestation.
+
+				AccesC01Id := null;
+				AccesC02Id := null;
+
+			    	FOR rCurCheckProg IN curCheckProg LOOP
+				    AccesC01Id := rCurCheckProg.PROG_SITEBOUND;
+				    AccesC02Id := rCurCheckProg.PROG_LIAIBOUND;
+				    EXIT;
+			    	END LOOP;
+
+				IF (AccesC01Id IS NULL AND AccesC02Id IS NULL) THEN
+			    	    DBMS_OUTPUT.PUT_LINE('a  VALFIND = OddID:' || TmpID || ' OddTabNom:PROG OddPKColNom:PROG_ID');
+			    	    iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                                     TmpID, 'PROG', 'PROG_ID');
+				END IF;
+
+			    END IF;
+
+			END IF;
+
+  	    	    ELSE -- Fin du Curseur 'CDynId'.
+        	    	EXIT;
+
+      	    	    END IF;
+
+		END LOOP;
+
+		dbms_sql.close_cursor (CDynId);
+
+	    --=======================================================--
+	    -- Tables de type LIAISON / JOINTURE sur une même table. --
+	    --							     --
+	    --=======================================================--
+	    ELSIF (OddTabNom = 'LIAI_LIAIC' OR OddTabNom = 'TYPEQ_TYPEQ' OR OddTabNom = 'TYPLIAI_TYPLIAI') THEN
+
+		DBMS_OUTPUT.PUT_LINE('CAS02: TABLE JOINTURE MEME TABLE = ' || OddTabNom);
+
+		LinkL    := null;
+		LinkR    := null;
+		ColNameL := null;
+		ColNameR := null;
+
+		-- Recherche Données depuis table LINK.
+		FOR rCurLinkLR IN curLinkLR LOOP
+		    LinkL    := rCurLinkLR.LINK_LEFT;
+		    LinkR    := rCurLinkLR.LINK_RIGHT;
+		    ColNameL := rCurLinkLR.COLNAME_LEFT;
+		    ColNameR := rCurLinkLR.COLNAME_LEFT;
+		    EXIT;
+		END LOOP;
+
+		IF (LinkL IS NULL OR LinkR IS NULL OR ColNameL IS NULL OR ColNameR IS NOT NULL) THEN
+		    dbms_output.put_line(' ERR_06: Données non trouvées dans table LINK');
+		    EXIT;
+
+		END IF;
+
+		-- Recherche PF de la jointure.
+		IF (LinkL = 0 AND LinkR = 1) THEN
+
+		    OrdreSql := 'select ' || ColNameL || ' from ' || OddTabNom ||
+		                ' where ' || ColNameR || ' = ' || BddID;
+
+		ELSIF (LinkL = 1 AND LinkR = 0) THEN
+
+		    OrdreSql := 'select ' || ColNameR || ' from ' || OddTabNom ||
+		                ' where ' || ColNameL || ' = ' || BddID;
+
+		ELSIF (LinkL = 1 AND LinkR = 1) THEN -- Table jointure bidirectionnelle.
+		    dbms_output.put_line(' Attention01: Table jointure de type bidirectionnelle non traitée');
+		    EXIT;
+
+		ELSE -- LinkL = 0 AND LinkR = 0, ou autre ...
+		    EXIT;
+
+		END IF;
+
+		-- Rechercher si enregistrements dans table jointure.
+	    	CDynId := dbms_sql.open_cursor;
+	    	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	    	dbms_sql.define_column (CDynId, 1, OddID);
+	    	RetCDyn := dbms_sql.execute(CDynId);
+
+		-- Ex: TYPEQ_TYPEQ contient des références vers TYPEQ, idem pour le reste.
+		--
+		OddTabNom   := BddTabNom;
+		OddPKColNom := BddPKColNom;
+
+	    	LOOP
+		    OddID := null;
+
+		    -- Lecture des enregistrements du Curseur.
+		    IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+
+			dbms_sql.column_value (CDynId, 1, OddID);
+
+			IF (OddID IS NOT NULL) THEN
+			    DBMS_OUTPUT.PUT_LINE('  VALFIND = OddID:' || OddID);
+			    iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                             OddID, OddTabNom, OddPKColNom);
+
+		    	    IF (iRet = -1) THEN
+			    	dbms_output.put_line(' ERR_07: Objet dépendant "' || OddTabNom || '" inattendu');
+
+		   	    END IF;
+
+			END IF;
+
+  	    	    ELSE -- Fin du Curseur 'CDynId'.
+        	    	EXIT;
+
+      	    	    END IF;
+
+		END LOOP; 
+
+		dbms_sql.close_cursor (CDynId);
+
+		-- Quitte la boucle des FK. même si d'autres 
+		-- FKs existent pour cette jointure.
+		EXIT;
+
+	    --==========================================================================--
+	    -- Tables de type LIAISON / JOINTURE sur une même table (Cas Spécial n°01). --
+	    --									        --
+	    --==========================================================================--
+	    ELSIF (OddTabNom = 'PROG_SERVICE' AND BddTabNom = 'PROG') THEN
+
+		DBMS_OUTPUT.PUT_LINE('CAS03: TABLE JOINTURE PROG_SERVICE');
+
+		------------------------------------------------------------------------------
+	    	-- Traitement : On recherche si cette prestation appartient à un objet PROG --
+		--              (si elle n'est pas l'enfant d'un ou plusieurs Pères).	    --
+		------------------------------------------------------------------------------
+		OrdreSql := 'select prog_fluxid from prog_service where prog_id = ' || BddID;
+
+		OddTabNom   := BddTabNom;
+		OddPKColNom := 'PROG_ID';
+
+		-- Rechercher si enregistrements dans table jointure.
+	    	CDynId := dbms_sql.open_cursor;
+	    	dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	    	dbms_sql.define_column (CDynId, 1, OddID);
+	    	RetCDyn := dbms_sql.execute(CDynId);
+
+	    	LOOP
+		    OddID  := null;
+
+		    -- Lecture des enregistrements du Curseur.
+		    IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+
+			dbms_sql.column_value (CDynId, 1, OddID);
+
+			IF (OddID IS NOT NULL) THEN
+			    DBMS_OUTPUT.PUT_LINE('01  VALFIND = OddID:' || OddID || ' OddTabNom:' || OddTabNom || ' OddPKColNom:'|| OddPKColNom);
+			    iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                             OddID, OddTabNom, OddPKColNom);
+
+		    	    IF (iRet = -1) THEN
+			    	dbms_output.put_line(' ERR_05: Objet dépendant "' || OddTabNom || '" inattendu');
+
+		   	    END IF;
+
+			END IF;
+
+  	    	    ELSE -- Fin du Curseur 'CDynId'.
+        	    	EXIT;
+
+      	    	    END IF;
+
+		END LOOP; 
+
+		dbms_sql.close_cursor (CDynId);
+
+		EXIT;
+
+	    --==========================================--
+	    -- Autre table comme ACCES, REGLETTE, ...	--
+	    --						--
+	    --==========================================--
+	    ELSE
+		--DBMS_OUTPUT.PUT_LINE('CAS04: AUTRE TABLE = ' || OddTabNom);
+
+		-------------------------------------------
+		-- Filtrage des Tables à ne pas traiter. --
+		-------------------------------------------
+		if (OddTabNom = 'EXT' OR OddTabNom = 'SALLE' AND BddTabNom = 'SITE') THEN
+		    dbms_output.put_line(' FILTRE_03: Table "' || OddTabNom || '" filtrée car Objet "' || BddTabNom || '" trouvé');
+		    EXIT;
+		END IF;
+
+	    	-- Recherche existance colonne ID de type '<Nom_table>_ID'.
+	    	IF (OddTabNom = 'REGLETTE') THEN
+	    	    OddPKColNom := 'REGL_ID';
+
+	    	ELSE
+	    	    OddPKColNom := OddTabNom || '_ID';			-- Ex : 'PROG_ID'
+
+	    	END IF;
+
+	        CheckOk := CheckNomCol (OddTabNom, OddPKColNom);
+
+	    	-- Filtre les tables sans Colonne ID de type '<Nom_table>_ID'.
+	    	IF (CheckOk != 'NULL') THEN
+
+		    --DBMS_OUTPUT.PUT_LINE('CAS04: AUTRE TABLE = ' || OddTabNom);
+
+		    -- Recherche Enregistrement(s) dépendant.
+	    	    OrdreSql := 'select ' || OddPKColNom || ' from ' || OddTabNom ||
+		                ' where ' || OddFKColNom || ' = ' || BddID;
+
+	    	    CDynId := dbms_sql.open_cursor;
+	    	    dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+	    	    dbms_sql.define_column (CDynId, 1, OddID);
+	    	    RetCDyn := dbms_sql.execute(CDynId);
+
+	    	    LOOP
+	            	iRet 	:= null;
+		    	OddID  	:= null;
+
+  	    	    	IF (dbms_sql.fetch_rows (CDynId) > 0) THEN
+
+    	    	    	    -- Récup. valeurs de retour.
+		    	    dbms_sql.column_value (CDynId, 1, OddID);
+
+		    	    IF (OddTabNom = 'ACCES' AND OddID IS NOT NULL) THEN
+		    	    	AccesC01Id  := null;
+		    	    	AccesC02Id  := null;
+
+		    	    	-- Vérif. si accés câblés.
+	    		    	FOR rCurAccesC01 IN curAccesC01 LOOP
+			    	    AccesC01Id := rCurAccesC01.ACCES_ACCESC_ID;
+			    	    EXIT;
+	    		    	END LOOP;
+
+	    		    	FOR rCurAccesC02 IN curAccesC02 LOOP
+			    	    AccesC02Id := rCurAccesC02.ACCES_ACCESC_ID;
+			    	    EXIT;
+	    		    	END LOOP;
+
+	    	    	    	IF (AccesC01Id IS NOT NULL OR AccesC02Id IS NOT NULL) THEN
+    		    		    DBMS_OUTPUT.PUT_LINE('  VALFIND = OddID:' || OddID || ' OddTabNom:' || OddTabNom || ' OddPKColNom:'|| OddPKColNom);
+			    	    iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+                                                                     OddID, OddTabNom, OddPKColNom);
+
+	    	    	    	END IF;
+
+		    	    -- Bloque les tables non traitées.
+		    	    ELSIF (OddTabNom = 'BAIE'      OR OddTabNom = 'BITMESS'      OR OddTabNom = 'CABLEQU'   OR 
+                               	   OddTabNom = 'CLIENT'    OR OddTabNom = 'CONSULTAL'    OR OddTabNom = 'CONTACT'   OR 
+                                   OddTabNom = 'EQUIP'     OR OddTabNom = 'EXT'          OR OddTabNom = 'FABRIC'    OR 
+                               	   OddTabNom = 'FNCT'      OR OddTabNom = 'LIAI'         OR OddTabNom = 'LIBSYMB'   OR 
+                                   OddTabNom = 'MESS'      OR OddTabNom = 'MIBMODULE'    OR OddTabNom = 'MODELCABL' OR
+                                   OddTabNom = 'ORDRE'     OR OddTabNom = 'PERIF'        OR OddTabNom = 'PROG'      OR 
+                                   OddTabNom = 'REPART'    OR OddTabNom = 'ROLE'         OR OddTabNom = 'REGLETTE'  OR
+       			           OddTabNom = 'SALLE'     OR OddTabNom = 'SCRIPT'       OR OddTabNom = 'SITE'      OR
+       			           OddTabNom = 'TOP'       OR OddTabNom = 'TYPEQ'        OR OddTabNom = 'TYPLIAI'   OR
+       			           OddTabNom = 'TYPPROG'   OR OddTabNom = 'TYPSITE'      OR OddTabNom = 'USERL' 
+			           AND OddID IS NOT NULL) THEN
+
+    		    	        DBMS_OUTPUT.PUT_LINE('  VALFIND = OddID:' || OddID || ' OddTabNom:' || OddTabNom);			    
+			    	iRet := RapportDep_InPreRapport (BddID, BddClassID, BddTabNom, BddPKColNom, 
+							     	 OddID, OddTabNom, OddPKColNom);
+	    	            END IF;		    
+
+		    	    IF (iRet = -1) THEN
+			    	dbms_output.put_line(' ERR_10: Objet dépendant "' || OddTabNom || '" inattendu');
+
+		   	    END IF;
+
+  	    	    	ELSE -- FIN Curseur 'CDynId'.
+        	    	    EXIT;
+
+      	    	    	END IF;
+
+	    	    END LOOP; -- Curseur 'CDynId'
+
+	    	    dbms_sql.close_cursor (CDynId);
+
+		ELSE -- Ne trouve pas de colonne '<NomTable>_ID'.
+		    dbms_output.put_line(' FILTRE_04: Colonne "' || OddTabNom || '.' || OddPKColNom || '" inexistante');
+
+	    	END IF;
+
+	    END IF; -- Condition sur "OddPKColNom".
+
+	END LOOP; -- Recherche des FK tables dépendantes.
+
+   END LOOP; -- Recherche des tables dépendantes.
+
+return 1;
+
+END RapportDependance;
+/
+
+
+--==============================================================================--
+--										--
+-- Rapport 22 :									--
+--										--
+--	RapportFiltrage : ce rapport permet d'afficher les accès filtrés pour	--
+--	un type équipement, un équipement, une liaison ou un site donné.	--
+--										--
+--	Création JFL le 19/04/05						--
+--										--
+--										--
+-- Rapport 23 :									--
+--										--
+--	RapportFiltrageGlobal : Rapport identique mais liste les accès filtrés	-- 
+--	de façon globale pour les mêmes objets.					--
+--										--
+--	Création JFL le 21/04/05						--
+--										--
+-- Remarque :									--
+--										--
+--	Ces deux rapports utilisent les mêmes sous fonctions :			--
+--										--
+--		- GetTableNom (PrStock.SQL)					--
+--		- Rapport2223_InPreRapport					--
+--		- Rapport2223_ChercheAcces					--
+--										--
+--==============================================================================--
+
+
+--==============================================================================--
+--										--
+-- Réalise l'insertion des données dans la table prérapport après traitement	--
+-- des paramètres (recherche d'informations supplémentaires).			--
+--										--
+-- 	Retourne  1 = Traitement terminé avec succès.				--
+-- 	Retourne -1 = un ou plusieurs Paramètres null.				--
+-- 	Retourne -2 = Rapport autre que 22 et 23.				--
+--										--
+-- Création JFL le 19/04/05							--
+--										--
+--==============================================================================--
+CREATE OR REPLACE FUNCTION Rapport2223_InPreRapport
+(
+    AccesNom	VARCHAR2,
+    AlrmToSurv	NUMBER,
+    AlrmToAff	NUMBER,
+    MskB	NUMBER,
+    MskA	NUMBER,
+    BddTabNom	VARCHAR2,
+    BddClassID	NUMBER,
+    BddID	NUMBER,
+    BddNom	VARCHAR2,
+    NumRapport	NUMBER
+)
+RETURN NUMBER IS
+
+    -- Table PreRapport --
+    Ch02	varchar2(256);	-- ToSurv
+    Ch03	varchar2(256);	-- ToAff
+    Ch04	varchar2(256);	-- MskB
+    Ch05	varchar2(256);	-- MskA
+
+    Ch06	varchar2(256);	-- Nom du type
+    Ch07	varchar2(256);	-- Type ToSurv
+
+    Ch96	varchar2(256);	-- Bdd ToSurv
+
+    TypeId	number;
+    BddToSurv	number;
+
+    Mess	varchar2(2000);
+
+    cursor CTypeqToSurv is
+	select TYPEQ_TOSURV, TYPEQ_NOM
+	from TYPEQ 
+	where TYPEQ_ID = TypeId;
+
+    Cursor CEquipToSurv is
+	select EQUIP_TOSURV, TYPEQ_ID 
+	from equip 
+	where EQUIP_ID = BddID;
+
+BEGIN
+
+    -- Vérification des paramètres.
+    IF (AccesNom   is null OR AlrmToSurv is null OR AlrmToAff is null OR
+    	MskB       is null OR MskA       is null OR BddTabNom is null OR
+	BddClassID is null OR BddID      is null OR BddNom    is null OR
+	NumRapport is null ) THEN
+	return -1;
+    END IF;
+
+    IF (NumRapport != 22 AND NumRapport != 23) THEN
+	return -2;
+    END IF;
+
+    Ch02 := 'X';
+    Ch03 := 'X';
+    Ch04 := '';
+    Ch05 := '';
+    Ch07 := 'Oui';
+    Ch96 := 'Oui';
+
+    --------------------------------
+    -- Traitement avant insertion --
+    --------------------------------
+    IF (AlrmToSurv = 0) THEN
+	Ch02 := '';
+    END IF;
+
+    IF (AlrmToAff = 0) THEN
+	Ch03 := '';
+    END IF;
+
+    IF (MskB != 0) THEN
+	Ch04 := 'X';
+    END IF;
+
+    IF (MskA != 0) THEN
+	Ch05 := 'X';
+    END IF;
+
+    IF (BddTabNom = 'TYPEQ') THEN
+
+	TypeId := BddID;
+
+	For rCTypeqToSurv IN CTypeqToSurv LOOP
+	    BddToSurv := rCTypeqToSurv.TYPEQ_TOSURV;
+	    EXIT;
+	END LOOP;
+
+	IF (BddToSurv = 0 OR BddToSurv is null) THEN
+	    Ch96 := 'Non';
+	END IF;
+	
+	Ch07 := '';
+
+    ELSIF (BddTabNom = 'EQUIP') THEN
+
+	For rCEquipToSurv IN CEquipToSurv LOOP
+	    BddToSurv := rCEquipToSurv.EQUIP_TOSURV;
+	    TypeId    := rCEquipToSurv.TYPEQ_ID;
+	    EXIT;
+	END LOOP;
+
+	IF (BddToSurv = 0 OR BddToSurv is null) THEN
+	    Ch96 := 'Non';
+	END IF;
+
+	-- Recherche des informations sur le type de l'équipement.
+	For rCTypeqToSurv IN CTypeqToSurv LOOP
+	    BddToSurv := rCTypeqToSurv.TYPEQ_TOSURV;
+	    Ch06      := rCTypeqToSurv.TYPEQ_NOM;
+	    EXIT;
+	END LOOP;
+
+	IF (BddToSurv = 0 OR BddToSurv is null) THEN
+	    Ch07 := 'Non';
+	END IF;
+
+    ELSIF (BddTabNom = 'LIAI') THEN
+
+	select TYPLIAI_NOM into Ch06
+	from LIAI 
+	where LIAI_ID = BddID;
+
+	Ch07 := '';
+	Ch96 := '';
+
+    ELSIF (BddTabNom = 'SITE') THEN
+
+	Ch07 := '';
+	Ch96 := '';
+
+    END IF;
+
+    --------------------------------------------------------------
+    -- Format de l'ordre INSERT :				--
+    --	- Données PreRapport.					--
+    --	- CH01 à CH05  : Données sur un Accès alarme.		--
+    --	- CH06 à CH07  : Données sur le type de l'objet		--
+    --	- CH96 à CH100 : Info Objet propriétaire du Rapport	--
+    --------------------------------------------------------------
+    insert into PRERAPPORT
+    (PRERAPPORT_ID, CLASS_ID, BDD_ID,
+     CH01, CH02, CH03, CH04, CH05, CH06, CH07,
+     CH96, CH97, CH98, CH99, CH100)
+    values
+    (seq_prerapport.nextval, NumRapport, BddID,
+     AccesNom, Ch02, Ch03, Ch04, Ch05, Ch06, Ch07,
+     Ch96, BddTabNom, to_char(BddClassID), to_char(BddID), BddNom);
+
+    commit;
+    
+    Mess := 	'#1:'  || AccesNom 	|| '#2:'  || Ch02 ||'#3:' || Ch03 || 
+		'#4:'  || Ch04 		|| '#5:'  || Ch05 || 
+		'#6:'  || Ch06		|| '#7:'  || Ch07 ||
+		'#96:' || Ch96		|| '#97:' || BddTabNom 	|| '#98:' || to_char(BddClassID) || 
+		'#99:' || to_char(BddID)|| '#100:'|| BddNom;
+
+    --dbms_output.put_line(Mess);
+
+    return 1;
+
+END Rapport2223_InPreRapport;
+/
+
+
+--==============================================================================--
+--										--
+-- Recherche si un accès est cablé et filtré. Si oui, appel de la fonction	--
+-- Rapport22_InPreRapport pour réaliser l'insertion dans la table PreRapport.	--
+--										--
+-- 	Retourne  1 = Traitement terminé avec succès.				--
+-- 	Retourne -1 = Paramètre null.						--
+--										--
+-- Création JFL le 20/04/05							--
+--										--
+--==============================================================================--
+CREATE OR REPLACE FUNCTION Rapport2223_ChercheAcces
+(
+    AccesId	NUMBER,
+    AccesNom	VARCHAR2,
+    BddTabNom	VARCHAR2,
+    BddClassID	NUMBER,
+    BddID	NUMBER,
+    BddNom	VARCHAR2,
+    NumRapport	NUMBER
+)
+RETURN NUMBER IS
+
+    AccesCId	number;
+    AlrmToSurv	number(1);
+    AlrmToAff	number(1);
+    MskBriMax	number;
+    MskAdmMax	number;
+
+    iRet	number;
+
+    cursor CAccesAccesc1 is
+	select ACCES_ACCESC_ID, ALARMGEREE_TOSURV, 
+	ALARMGEREE_TOAFF, MSKBRI_MAX, MSKADM_MAX
+	from ACCES_ACCESC 
+	where ACCES1_ID = AccesId;
+
+    cursor CAccesAccesc2 is
+	select ACCES_ACCESC_ID, ALARMGEREE_TOSURV, 
+	ALARMGEREE_TOAFF, MSKBRI_MAX, MSKADM_MAX
+	from ACCES_ACCESC 
+	where ACCES2_ID = AccesId;
+
+BEGIN
+
+    IF (AccesId is null) THEN
+ 	return -1;
+    END IF;
+
+    -- Recherche accès câblés filtrés via ACCES1_ID. 
+    FOR rCAccesAccesc1 in CAccesAccesc1 LOOP
+	AccesCId	:= null;
+	AccesCId	:= rCAccesAccesc1.ACCES_ACCESC_ID;
+	AlrmToSurv	:= rCAccesAccesc1.ALARMGEREE_TOSURV;
+	AlrmToAff	:= rCAccesAccesc1.ALARMGEREE_TOAFF;
+	MskBriMax	:= rCAccesAccesc1.MSKBRI_MAX;
+	MskAdmMax	:= rCAccesAccesc1.MSKADM_MAX;
+
+	IF (AccesCId is null) THEN
+	    EXIT;
+	END IF;
+
+	IF (MskBriMax is null) THEN
+	    MskBriMax	:= 0;
+	END IF;
+
+	IF (MskAdmMax is null) THEN
+	    MskAdmMax	:= 0;
+	END IF;
+
+	IF (AlrmToSurv = 0 OR AlrmToAff = 0 OR MskBriMax != 0 OR MskAdmMax != 0) THEN
+
+	    iRet := Rapport2223_InPreRapport(AccesNom, AlrmToSurv, AlrmToAff, MskBriMax, MskAdmMax, 
+	    				      BddTabNom, BddClassID, BddID, BddNom, NumRapport);
+	END IF;
+
+    END LOOP;
+
+    -- Recherche accès câblés filtrés via ACCES2_ID. 
+    FOR rCAccesAccesc2 in CAccesAccesc2 LOOP
+	AccesCId	:= null;
+	AccesCId	:= rCAccesAccesc2.ACCES_ACCESC_ID;
+	AlrmToSurv	:= rCAccesAccesc2.ALARMGEREE_TOSURV;
+	AlrmToAff	:= rCAccesAccesc2.ALARMGEREE_TOAFF;
+	MskBriMax	:= rCAccesAccesc2.MSKBRI_MAX;
+	MskAdmMax	:= rCAccesAccesc2.MSKADM_MAX;
+
+	IF (AccesCId is null) THEN
+	    EXIT;
+	END IF;
+
+	IF (MskBriMax is null) THEN
+	    MskBriMax	:= 0;
+	END IF;
+
+	IF (MskAdmMax is null) THEN
+	    MskAdmMax	:= 0;
+	END IF;
+
+	IF (AlrmToSurv = 0 OR AlrmToAff = 0 OR MskBriMax != 0 OR MskAdmMax != 0) THEN
+
+	    iRet := Rapport2223_InPreRapport(AccesNom, AlrmToSurv, AlrmToAff, MskBriMax, MskAdmMax, 
+	    				      BddTabNom, BddClassID, BddID, BddNom, NumRapport);
+	END IF;
+
+    END LOOP;
+
+    return 1;
+
+END Rapport2223_ChercheAcces;
+/
+
+
+--==============================================================================--
+--										--
+-- Le Rapport 22 permet de :							--
+--	- rechercher les accès filtrés d'un Objet				--
+--	- sauvegarder les données trouvées dans la table PRERAPPORT		--
+--										--
+-- 	Retourne  1 = Traitement terminé avec succès.				--
+-- 	Retourne -1 = Paramètre ClassID inconnu.				--
+-- 	Retourne -2 = Objet non traité par ce rapport.				--
+--										--
+-- Création JFL le 19/04/05							--
+--										--
+--==============================================================================--
+CREATE OR REPLACE FUNCTION RapportFiltrage
+(
+    BddID	NUMBER,		   	-- ID Objet
+    BddClassID	NUMBER			-- ClassId Objet
+)
+RETURN NUMBER IS
+
+    BddTabNom	varchar2(80);	-- Nom de la table de l'Objet.
+    BddNom	varchar2(80);	-- Nom de l'objet.
+
+    AccesId	number;
+    AccesNom	ACCES.ACCES_NOM%TYPE;
+
+    AlrmId	number;
+    AlrmToSurv	number(1);
+    AlrmToAff	number(1);
+
+    iRet	number;
+    NumRapport	number;		-- Numéro du Rapport (ClassID).
+
+    -- Curseurs pour TYPEQ.
+    cursor CAccesTypeq is
+	select ACCES_ID, ACCES_NOM
+	from ACCES
+	where TYPEQ_ID = BddID;
+
+    cursor CAlarmGereeTypeq is
+	select ALARMGEREE_ID, ALARMGEREE_TOSURV, ALARMGEREE_TOAFF
+	from ALARMGEREE
+	where ACCES_ID = AccesId;
+
+    -- Curseur EQUIP.
+    cursor CAccesEquip is
+	select ACCES_ID, ACCES_Nom
+	from ACCES
+	where EQUIP_ID = BddID;
+
+    -- Curseur SITE.
+    cursor CAccesSite is
+	select ACCES_ID, ACCES_Nom
+	from ACCES
+	where SITE_ID = BddID;
+
+    -- Curseur LIAI.
+    cursor CAccesLiai is
+	select ACCES_ID, ACCES_Nom
+	from ACCES
+	where LIAI_ID = BddID;
+
+BEGIN
+
+    NumRapport := 22;
+
+    delete PRERAPPORT
+	where CLASS_ID = NumRapport and BDD_ID = BddID and CH98 = BddClassID;
+   
+    commit;
+
+    -- Recherche Nom de la Table de l'objet.
+    BddTabNom := GetTableNom (BddClassID);
+
+    IF (BddTabNom = 'NULL') THEN
+	return -1;
+
+    ELSIF (BddTabNom = 'TYPEQ') THEN
+
+  	-- Recherche le nom du type.
+	select TYPEQ_NOM into BddNom
+	from TYPEQ 
+	where TYPEQ_ID = BddID;
+
+	-- Recherche si ce type possède des Accès alarmes.
+	FOR rCAccesTypeq IN CAccesTypeq LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesTypeq.ACCES_ID;
+	    AccesNom := rCAccesTypeq.ACCES_NOM;
+
+	    IF (AccesId is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    FOR rCAlarmGereeTypeq in CAlarmGereeTypeq LOOP
+		AlrmId     := null;
+		AlrmId     := rCAlarmGereeTypeq.ALARMGEREE_ID;
+		AlrmToAff  := rCAlarmGereeTypeq.ALARMGEREE_TOAFF;
+		AlrmToSurv := rCAlarmGereeTypeq.ALARMGEREE_TOSURV;
+
+	    	IF (AlrmId  is null) THEN
+		    EXIT;
+	    	END IF;
+
+		-- Vérifie si cette alarme est filtrée.
+		IF (AlrmToAff = 0 OR AlrmToSurv = 0) THEN
+
+		    iRet := Rapport2223_InPreRapport(AccesNom, AlrmToSurv, AlrmToAff, 0, 0, 
+						      BddTabNom, BddClassID, BddID, BddNom, NumRapport);
+			
+		END IF;
+
+	    END LOOP;
+
+	END LOOP;
+
+    ELSIF (BddTabNom = 'EQUIP') THEN
+
+	-- Recherche le nom de l'équipement.
+	BddNom := GetEquipNom(BddID, 1);
+
+	-- Recherche si cet équipement possède des Accès alarmes.
+	FOR rCAccesEquip IN CAccesEquip LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesEquip.ACCES_ID;
+	    AccesNom := rCAccesEquip.ACCES_NOM;
+
+	    IF (AccesId is null OR AccesNom is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    iRet := Rapport2223_ChercheAcces(AccesId, AccesNom, BddTabNom, 
+						BddClassID, BddID, BddNom, NumRapport);
+
+	END LOOP;
+
+    ELSIF (BddTabNom = 'SITE') THEN
+
+	-- Recherche le nom du site.
+	select SITE_NOM into BddNom
+	from SITE 
+	where SITE_ID = BddID;
+
+	-- Recherche si ce site possède des Accès alarmes.
+	FOR rCAccesSite IN CAccesSite LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesSite.ACCES_ID;
+	    AccesNom := rCAccesSite.ACCES_NOM;
+
+	    IF (AccesId is null OR AccesNom is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    iRet := Rapport2223_ChercheAcces(AccesId, AccesNom, BddTabNom, 
+						BddClassID, BddID, BddNom, NumRapport);
+
+	END LOOP;
+
+    ELSIF (BddTabNom = 'LIAI') THEN
+
+	-- Recherche le nom de la liaison.
+	BddNom := GetLiaiNom(BddID);
+
+	-- Recherche si cette liaison possède des Accès alarmes.
+	FOR rCAccesLiai IN CAccesLiai LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesLiai.ACCES_ID;
+	    AccesNom := rCAccesLiai.ACCES_NOM;
+
+	    IF (AccesId is null OR AccesNom is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    iRet := Rapport2223_ChercheAcces(AccesId, AccesNom, BddTabNom, 
+						BddClassID, BddID, BddNom, NumRapport);
+
+	END LOOP;
+
+    ELSE
+	return -2;
+
+    END IF;
+
+    return 1;
+
+END RapportFiltrage;
+/
+
+
+--==============================================================================--
+--										--
+-- Le Rapport 23 permet de :							--
+--	- rechercher les accès filtrés des Objets TYPEQ, EQUIP, SITE, LIAI	--
+--	- sauvegarder les données trouvées dans la table PRERAPPORT		--
+--										--
+-- 	Retourne  1 = Traitement terminé avec succès.				--
+--										--
+-- Création JFL le 21/04/05							--
+--										--
+--==============================================================================--
+CREATE OR REPLACE FUNCTION RapportFiltrageGlobal
+RETURN NUMBER IS
+
+    BddID	number;
+    BddClassID	number;
+    BddTabNom	varchar2(80);	-- Nom de la table de l'Objet.
+    BddNom	varchar2(80);	-- Nom de l'objet.
+
+    AccesId	number;
+    AccesNom	ACCES.ACCES_NOM%TYPE;
+
+    AlrmId	number;
+    AlrmToSurv	number(1);
+    AlrmToAff	number(1);
+
+    iRet	number;
+    NumRapport	number;
+
+    -- Curseurs pour TYPEQ.
+    cursor CTypeq is
+	select TYPEQ_ID, TYPEQ_NOM 
+	from TYPEQ 
+	where TYPEQ_CLASSID = 1024
+	order by TYPEQ_NOM;
+
+    cursor CAccesTypeq is
+	select ACCES_ID, ACCES_NOM
+	from ACCES
+	where TYPEQ_ID = BddID;
+
+    cursor CAlarmGereeTypeq is
+	select ALARMGEREE_ID, ALARMGEREE_TOSURV, ALARMGEREE_TOAFF
+	from ALARMGEREE
+	where ACCES_ID = AccesId;
+
+    -- Curseur EQUIP.
+    cursor CEquip is
+	select EQUIP_ID
+	from EQUIP
+	where EQUIP_CLASSID = 1018;
+
+    cursor CAccesEquip is
+	select ACCES_ID, ACCES_Nom
+	from ACCES
+	where EQUIP_ID = BddID;
+
+    -- Curseur SITE.
+    cursor CSite is
+	select SITE_ID, SITE_NOM 
+	from SITE
+	where SITE_CLASSID = 1008
+	order by SITE_NOM;
+
+    cursor CAccesSite is
+	select ACCES_ID, ACCES_Nom
+	from ACCES
+	where SITE_ID = BddID;
+
+    -- Curseur LIAI.
+    cursor CLiai is
+	select LIAI_ID
+	from LIAI
+	where LIAI_CLASSID = 1004
+	order by LIAI_NUM;
+
+    cursor CAccesLiai is
+	select ACCES_ID, ACCES_Nom
+	from ACCES
+	where LIAI_ID = BddID;
+
+BEGIN
+
+    NumRapport := 23;
+
+    delete PRERAPPORT
+	where CLASS_ID = NumRapport;
+   
+    commit;
+
+    BddTabNom := 'TYPEQ';
+
+    FOR rCTypeq in CTypeq LOOP
+	BddID 	   := null;
+	BddID 	   := rCTypeq.TYPEQ_ID;
+	BddNom 	   := rCTypeq.TYPEQ_NOM;
+
+	IF (BddID is null) THEN
+	    EXIT;
+	END IF;
+
+	-- Recherche si ce type possède des Accès alarmes.
+	FOR rCAccesTypeq IN CAccesTypeq LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesTypeq.ACCES_ID;
+	    AccesNom := rCAccesTypeq.ACCES_NOM;
+
+	    IF (AccesId is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    FOR rCAlarmGereeTypeq in CAlarmGereeTypeq LOOP
+		AlrmId     := null;
+		AlrmId     := rCAlarmGereeTypeq.ALARMGEREE_ID;
+		AlrmToAff  := rCAlarmGereeTypeq.ALARMGEREE_TOAFF;
+		AlrmToSurv := rCAlarmGereeTypeq.ALARMGEREE_TOSURV;
+
+	    	IF (AlrmId  is null) THEN
+		    EXIT;
+	    	END IF;
+
+		-- Vérifie si cette alarme est filtrée.
+		IF (AlrmToAff = 0 OR AlrmToSurv = 0) THEN
+
+		    iRet := Rapport2223_InPreRapport(AccesNom, AlrmToSurv, AlrmToAff, 0, 0, 
+						   	BddTabNom, 1024, BddID, BddNom, NumRapport);
+			
+		END IF;
+
+	    END LOOP;
+
+	END LOOP;
+
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Fin du cas TYPEQ');
+
+    BddTabNom := 'EQUIP';
+
+    FOR rCEquip in CEquip LOOP
+	BddID 	   := null;
+	BddID 	   := rCEquip.EQUIP_ID;
+
+	IF (BddID is null) THEN
+	    EXIT;
+	END IF;
+
+	BddNom := GetEquipNom(BddID, 1);
+
+	-- Recherche si cet équipement possède des Accès alarmes.
+	FOR rCAccesEquip IN CAccesEquip LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesEquip.ACCES_ID;
+	    AccesNom := rCAccesEquip.ACCES_NOM;
+
+	    IF (AccesId is null OR AccesNom is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    iRet := Rapport2223_ChercheAcces(AccesId, AccesNom, BddTabNom,
+						1018, BddID, BddNom, NumRapport);
+
+	END LOOP;
+
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Fin du cas EQUIP');
+
+    BddTabNom := 'SITE';
+
+    FOR rCSite in CSite LOOP
+	BddID 	   := null;
+	BddID 	   := rCSite.SITE_ID;
+	BddNom 	   := rCSite.SITE_NOM;
+
+	IF (BddID is null) THEN
+	    EXIT;
+	END IF;
+
+	-- Recherche si ce site possède des Accès alarmes.
+	FOR rCAccesSite IN CAccesSite LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesSite.ACCES_ID;
+	    AccesNom := rCAccesSite.ACCES_NOM;
+
+	    IF (AccesId is null OR AccesNom is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    iRet := Rapport2223_ChercheAcces(AccesId, AccesNom, BddTabNom,
+						1008, BddID, BddNom, NumRapport);
+
+	END LOOP;
+
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Fin du cas SITE');
+
+    BddTabNom := 'LIAI';
+
+    FOR rCLiai in CLiai LOOP
+	BddID 	   := null;
+	BddID 	   := rCLiai.LIAI_ID;
+
+	IF (BddID is null) THEN
+	    EXIT;
+	END IF;
+
+	BddNom := GetLiaiNom(BddID);
+
+	-- Recherche si cette liaison possède des Accès alarmes.
+	FOR rCAccesLiai IN CAccesLiai LOOP
+	    AccesId  := null;
+	    AccesNom := null;
+
+	    AccesId  := rCAccesLiai.ACCES_ID;
+	    AccesNom := rCAccesLiai.ACCES_NOM;
+
+	    IF (AccesId is null OR AccesNom is null) THEN
+		EXIT;
+	    END IF;
+
+	    -- Recherche si des accès câblés sont filtrés.
+	    iRet := Rapport2223_ChercheAcces(AccesId, AccesNom, BddTabNom,
+						1004, BddID, BddNom, NumRapport);
+
+	END LOOP;
+
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Fin du cas LIAI');
+
+    return 1;
+
+END RapportFiltrageGlobal;
+/
+
+--================================================================================
+--										--
+-- Traitement pour le rapport 39 "RapportErrimp". Permet de remplir la		--
+-- table PRERAPPORT avec les données de la table ERRIMP, table contenant les	--
+-- messages d'erreus liés aux imports de données via un fichier (TDF).	    	--
+--										--
+--	Retourne   1 = Insertion PRERAPPORT OK.					--
+--	Retourne   0 = Insertion PRERAPPORT Annulée.				--
+-- 										--
+-- Création JFL le 28/02/2007							--
+-- Modif.   JFL le 23/03/2007 : ajout de l'heure d'import.			--
+-- Modif.   JFL le 28/03/2007 : contrôle la taille des variables.		--
+-- Modif.   JFL le 24/05/2007 : ajout ERRIMP_FILELINE. 				--
+-- Modif.   JFL le 26/65/2007 : supp. ERRIMP_FILELINE depuis la clause where.	--
+--================================================================================
+CREATE OR REPLACE FUNCTION RapportErrimp
+(
+	BddId		NUMBER		    	-- ID en bdd de l'objet
+)
+RETURN NUMBER IS
+
+    REPORT_CLASS_ID CONSTANT integer := 39;	 -- Identification des rapports de ce type.
+
+    StrDate	    varchar2 (100);  		 -- Date de l'import.
+    StrFile	    varchar2 (255);		 -- Nom du fichier d'import.
+    StrMess	    varchar2 (255);		 -- Message d'erreur / d'import.
+    NumLine	    varchar2 (40);		 -- N° de ligne du fichier associée au message.
+
+    -- Affichage de la table ERREUR_IMPORT_TDF.
+    CURSOR CErrImp IS
+	select ERRIMP_ID, ERRIMP_MESS, ERRIMP_TABLE, ERRIMP_CLASSID,
+	       ERRIMP_NODEID, ERRIMP_FILE, ERRIMP_DATE, ERRIMP_FILELINE
+	from   ERRIMP
+	order  by ERRIMP_DATE, ERRIMP_FILE, ERRIMP_TABLE, ERRIMP_CLASSID, ERRIMP_ID;
+
+BEGIN
+    delete from PRERAPPORT where CLASS_ID = REPORT_CLASS_ID;
+
+    -- Affichage de la table ERREUR_IMPORT_TDF.
+     FOR rCA IN CErrImp LOOP
+
+	 -- Mise en forme des données trouvées pour le rapport.
+	 StrDate := to_char (rCA.ERRIMP_DATE, 'DD/MM/YYYY HH24:MI:SS');
+	 StrFile := SUBSTR (rCA.ERRIMP_FILE, 1, 255);
+	 StrMess := SUBSTR (rCA.ERRIMP_MESS, 1, 255);
+
+	 -- Contrôle du n° de ligne, une valeur à "0" indique que le
+	 -- message n'est pas une ligne du fichier mais un commentaire.
+	 if (rCA.ERRIMP_FILELINE = 0) then
+	    NumLine := '';	
+	 else
+	     NumLine := to_char(rCA.ERRIMP_FILELINE);
+	 end if;
+	 
+         insert into PRERAPPORT (
+	   PRERAPPORT_ID, CLASS_ID, BDD_ID,
+	   CH01, CH02, CH03, CH04, CH05, CH06, CH07, CH08, TMP1)
+         values (
+	   seq_prerapport.nextval, REPORT_CLASS_ID, BddId,
+	   rCA.ERRIMP_ID, StrMess, rCA.ERRIMP_TABLE, rCA.ERRIMP_CLASSID,
+	   rCA.ERRIMP_NODEID, rCA.ERRIMP_FILE, StrDate, NumLine, StrFile);
+	
+    END LOOP;
+
+    commit;
+
+    return 1;
+
+END RapportErrimp;
+/
+
+--=============================================================================
+-- Traitement pour les rapports 40 ("Liste des PS inclus dans l'IG")
+-- et 41 ("Liste des IG et des PS inclus") TDF.
+-- Permet de remplir la table PRERAPPORT avec les données de la table SITE
+-- et VALEURS.	    	
+-- IGId > 0 pour le rapport 40, IGId = 0 pour le rapport 41.						--
+--	Retourne   1 = Insertion PRERAPPORT OK.					--
+--	Retourne   0 = Insertion PRERAPPORT Annulée.				--
+-- 										--
+-- Création ZN le 22/05/2007					
+--=============================================================================
+--
+
+CREATE OR REPLACE FUNCTION RapportListeIGPS
+(
+    IGId	NUMBER		-- Id. du site IG
+)
+RETURN NUMBER
+
+IS
+
+ -- SQL DYNAMIQUE --
+    CDynId		int;		-- Curseur.
+    RetCDyn		int;
+    OrdreSql   		varchar2(2000);	-- Ordre SQL à executer.
+
+    CDynIdPhase		int;		-- Curseur.
+    RetCDynPhase	int;
+    OrdreSqlPhase	varchar2(2000);	-- Ordre SQL à executer.
+
+    IGNom	VARCHAR2 (40);	-- IG nom
+    PSNom	VARCHAR2 (40);	-- PS nom
+    IGCode      VARCHAR2 (40);	-- IG code
+    PSCode      VARCHAR2 (40);	-- PS code
+    Phase       VARCHAR2 (256); -- IG phase
+    TypeId	NUMBER;		-- typesite_Id de IG
+    siteId	NUMBER;		-- id de IG
+    prevTypeID  NUMBER;
+    posVal	NUMBER;		-- position dans la table VALEURS de IG_NO_PHASE
+    prevIGID	NUMBER;
+    classId	NUMBER;		-- 40 ou 41
+       
+BEGIN
+
+    prevTypeID :=0;
+    prevIGID   :=0;
+
+    IF ( IGId>0 ) THEN
+
+	classId	:= 40;
+
+    	delete PRERAPPORT
+		where CLASS_ID = 40 and BDD_ID = IGId;
+	
+	OrdreSql := 'select b.site_nom, b.SITE_CODE, b.site_id, b.typsite_id,
+		a.site_nom, a.SITE_CODE
+  		from site a, site b, prog, typsite d, prog_site
+		where b.site_id = ' || IGId || 
+		'and   PROG_SITEBOUND = b.site_id 
+		and   prog_site.prog_id = prog.prog_id
+		and   prog_site.site_id = a.site_id 
+		and   d.typsite_id = a.typsite_id 
+		and   d.typsite_nom like ''TYPE PS%'' 
+		order by a.SITE_CODE';
+    ELSE
+
+	classId	:= 41;
+	DBMS_OUTPUT.PUT_LINE('41');
+
+	delete PRERAPPORT
+		where CLASS_ID = 41;
+	
+	OrdreSql := 'select b.site_nom, b.SITE_CODE, b.site_id, b.typsite_id, 
+		a.site_nom, a.SITE_CODE
+ 		from site a, site b, prog, prog_site, typsite c, typsite d
+		where c.typsite_nom like ''TYPE IG%'' 
+		and b.typsite_id = c.typsite_id
+ 		and PROG_SITEBOUND = b.site_id
+		and prog_site.prog_id = prog.prog_id
+		and prog_site.site_id = a.site_id 
+		and d.typsite_id=a.typsite_id 
+		and d.typsite_nom like ''TYPE PS%''
+		order by b.site_nom, a.SITE_CODE';
+
+    END IF;
+
+
+    CDynId := dbms_sql.open_cursor;
+    dbms_sql.parse (CDynId, OrdreSql, dbms_sql.native);
+    dbms_sql.define_column (CDynId, 1, IGNom, 40);
+    dbms_sql.define_column (CDynId, 2, IGCode, 40);
+    dbms_sql.define_column (CDynId, 3, siteId);
+    dbms_sql.define_column (CDynId, 4, TypeId);
+    dbms_sql.define_column (CDynId, 5, PSNom, 40);
+    dbms_sql.define_column (CDynId, 6, PSCode, 40);
+    RetCDyn := dbms_sql.execute(CDynId);
+   
+	--DBMS_OUTPUT.PUT_LINE('RetCDyn = ' || RetCDyn);
+
+    while (dbms_sql.fetch_rows (CDynId) > 0) LOOP
+	    dbms_sql.column_value (CDynId, 1, IGNom);
+    	dbms_sql.column_value (CDynId, 2, IGCode);
+    	dbms_sql.column_value (CDynId, 3, siteId);
+    	dbms_sql.column_value (CDynId, 4, TypeId);
+    	dbms_sql.column_value (CDynId, 5, PSNom);
+    	dbms_sql.column_value (CDynId, 6, PSCode);
+
+	--DBMS_OUTPUT.PUT_LINE('IGNom=' || IGNom || ' IGCode=' || IGCode ||' siteId=' || siteId ||
+	--		     ' TypeId=' || TypeId || ' PSNom=' || PSNom || ' PSCode=' || PSCode );
+
+	if ( prevTypeID <>TypeId ) THEN
+	    select POSITION_VALEURS into  posVal from saisie, typsite 
+		where typsite.typsite_id = TypeId
+     		and saisie.FICHE_ID = typsite.FICHE_ID
+ 		and saisie.SAISIE_NOM = 'IG_NO_PHASE';
+
+		--DBMS_OUTPUT.PUT_LINE('posVal ='|| posVal);
+
+	     prevTypeID := TypeId;
+	END IF;
+	
+	if ( prevIGID <> siteId ) THEN
+	   OrdreSqlPhase := 'select VAL_USER' || posVal ||' from valeurs where site_id='|| siteId ;
+	   CDynIdPhase := dbms_sql.open_cursor;
+	   dbms_sql.parse (CDynIdPhase, OrdreSqlPhase, dbms_sql.native);
+	   dbms_sql.define_column (CDynIdPhase, 1, Phase, 256);
+	   RetCDyn:=dbms_sql.EXECUTE_AND_FETCH(CDynIdPhase);
+	   dbms_sql.column_value (CDynIdPhase, 1, Phase);
+
+	   dbms_sql.close_cursor (CDynIdPhase);
+
+	   --DBMS_OUTPUT.PUT_LINE('RetCDynPhase = ' || RetCDyn ||' Phase ='|| Phase);
+
+	   prevIGID := siteId;
+	END IF;
+
+	insert into PRERAPPORT (PRERAPPORT_ID, CLASS_ID, BDD_ID, CH01, CH02, CH03, CH04, CH05)
+	    values (SEQ_PRERAPPORT.NEXTVAL, classId, siteId, IGNom, IGCode,Phase,PSNom, PSCode);
+
+    end LOOP;--tous les IG et PS
+
+    dbms_sql.close_cursor (CDynId);
+
+    return 1;
+
+EXCEPTION
+    when OTHERS then
+	dbms_output.put_line ('Erreur détectée');
+	return 0;
+
+END 	RapportListeIGPS;
+/

@@ -1,0 +1,31 @@
+﻿20000;Configuration de carte géographique @1
+20001;Points
+
+20008;Marque un point sur la carte
+20009;Latitude
+20010;Longitude
+20011;Supprime les points marqués
+20012;Se produit lorsque l'utilisateur clique sur la carte
+20013;Element @1
+20014;Dessine une ligne sur la carte
+20015;Latitude 1
+20016;Longitude 1
+20017;Latitude 2
+20018;Longitude 2
+20019;Couleur de la ligne
+20020;Supprime les lignes de la carte
+20021;Texte du point
+20022;Recalcule les points à partir de la configuration des calques
+20023;Route depuis requête
+20024;Impossible de trouver les colonnes @1 et @2 dans la source
+20025;Lignes
+20026;Carte GPS @1
+20027;Ligne GPS @1
+20028;Point GPS @1
+20029;Type de segment GPS @1
+20030;Ajoute une carte statique à la vue
+20031;Enleve une carte statique de la vue
+20032;Ajuste le zoom et le centrage à partir du contenu de la carte
+20033;Carte à ajouter
+20034;Carte à supprimer
+20035;Type de point GPS @1

@@ -1,0 +1,5 @@
+50000;Variable SNMP non trouvée en bdd
+50001;Variable SNMP non renseignée
+50002;Index de variable snmp non renseigné
+50003;Vous devez renseigner le nom du module MIB avant d'effectuer un Get snmp
+50004;Précisez le(s) variable(s) snmp avant d'effectuer un get

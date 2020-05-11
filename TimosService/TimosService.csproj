@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3BACD82E-DE79-4212-8889-24980F310C1B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TimosService</RootNamespace>
+    <AssemblyName>TimosService</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CLicenceLogicielPrtct, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\CLicenceLogicielPrtct.dll</HintPath>
+    </Reference>
+    <Reference Include="CryptageDll, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\CryptageDll.dll</HintPath>
+    </Reference>
+    <Reference Include="data.hotel.client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\data.hotel.client.dll</HintPath>
+    </Reference>
+    <Reference Include="data.hotel.easyquery">
+      <HintPath>..\dep\data.hotel.easyquery.dll</HintPath>
+    </Reference>
+    <Reference Include="data.hotel.server">
+      <HintPath>..\dep\data.hotel.server.dll</HintPath>
+    </Reference>
+    <Reference Include="Lys.Licence, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\Lys.Licence.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=1.0.2877.24488, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=1.0.2877.24489, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=1.0.2877.28119, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic.loader, Version=1.0.2877.28442, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.loader.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.serveur, Version=1.0.2877.24566, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents, Version=1.0.2877.28121, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.documents.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents.serveur, Version=1.0.2877.28443, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.documents.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=1.0.2877.24488, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=1.0.2877.24489, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=1.0.2877.24489, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.server, Version=1.0.2877.24562, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.server.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process, Version=1.0.2877.28121, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.process.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tiag.interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\tiag.interface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CTimosServeurInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TimosService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TimosService.designer.cs">
+      <DependentUpon>TimosService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\futurocom.sig.server\futurocom.sig.server.csproj">
+      <Project>{BB9A84CE-7222-413E-AD12-7ACADA5B234E}</Project>
+      <Name>futurocom.sig.server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\futurocom.sig\futurocom.sig.csproj">
+      <Project>{B80DAAA9-FC7E-4F41-A1DC-A147ACACE69B}</Project>
+      <Name>futurocom.sig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\timos.client\timos.client.csproj">
+      <Project>{2F14D268-9349-4A75-95D0-3D989859837D}</Project>
+      <Name>timos.client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\timos.data.serveur\timos.data.serveur.csproj">
+      <Project>{C72166F3-84D8-48BF-814A-4E0CF6574E34}</Project>
+      <Name>timos.data.serveur</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\timos.data\timos.data.csproj">
+      <Project>{52C5C360-E09E-4AAC-8B90-3AD4A906D20F}</Project>
+      <Name>timos.data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\timos.serveur\timos.serveur.csproj">
+      <Project>{8D66D30F-88DA-441A-ADC4-4E3483AB07D5}</Project>
+      <Name>timos.serveur</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CTimosServeurInstaller.resx">
+      <DependentUpon>CTimosServeurInstaller.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimosService.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TimosService.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

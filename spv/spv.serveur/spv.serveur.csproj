@@ -1,0 +1,224 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ACF8C2A9-3CD0-441D-8EB5-C094E5C64093}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>spv.serveur</RootNamespace>
+    <AssemblyName>plgspv.serveur</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="sc2i.common, Version=1.0.3314.21827, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=1.0.3317.32555, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=1.0.3317.32559, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic.loader, Version=1.0.3317.32563, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.dynamic.loader.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.serveur, Version=1.0.3317.32562, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents, Version=1.0.3317.32566, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.documents.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents.serveur, Version=1.0.3317.32572, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.documents.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=1.0.3317.32548, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=1.0.3317.32554, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=1.0.3317.32554, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.server, Version=1.0.3317.32557, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.multitiers.server.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="timos.client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TimosDataServeur\bin\Debug\timos.client.dll</HintPath>
+    </Reference>
+    <Reference Include="timos.data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TimosDataServeur\bin\Debug\timos.data.dll</HintPath>
+    </Reference>
+    <Reference Include="timos.data.serveur, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\TimosDataServeur\bin\Debug\timos.data.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="timos.serveur, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\timos.serveur\bin\Debug\timos.serveur.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CEvenementAlarmMonitor.cs" />
+    <Compile Include="CMiseAJourStructureBase.cs" />
+    <Compile Include="CDemasquageAlarmes.cs" />
+    <Compile Include="CSpvServeur.cs" />
+    <Compile Include="CSpvServeurRegistre.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptsSQLVersion2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScriptsSQLVersion2.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptsSQLVersion3.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScriptsSQLVersion3.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\spv.data.serveur\spv.data.serveur.csproj">
+      <Project>{04ED90C0-1EEE-470A-B9FE-AA0AA95F76FB}</Project>
+      <Name>spv.data.serveur</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\spv.data\spv.data.csproj">
+      <Project>{B5E49F80-B60C-4767-B30D-EB79D196143D}</Project>
+      <Name>spv.data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="plgspv.serveur.fr" />
+    <None Include="Resources\SQLVersion2\AlarmNature.sql" />
+    <None Include="Resources\SQLVersion2\correl_alrm.sql" />
+    <None Include="Resources\SQLVersion2\co_date.sql" />
+    <None Include="Resources\SQLVersion2\ExtractValeurSeuil.sql" />
+    <None Include="Resources\SQLVersion2\GetClasseObjetEnDefaut.sql" />
+    <None Include="Resources\SQLVersion2\GetFormatDateString.sql" />
+    <None Include="Resources\SQLVersion2\GetNomObjetEnDefaut.sql" />
+    <None Include="Resources\SQLVersion2\GetSiteNom.sql" />
+    <None Include="Resources\SQLVersion2\InitialisationTableAlarme.sql" />
+    <None Include="Resources\SQLVersion2\InitialisationTableAlarmeCorrelation.sql" />
+    <None Include="Resources\SQLVersion2\InitialiseAccesAccescRep.sql" />
+    <None Include="Resources\SQLVersion2\Maj2OperEquip.sql" />
+    <None Include="Resources\SQLVersion2\MajOperEquip.sql" />
+    <None Include="Resources\SQLVersion2\MajOperLiai.sql" />
+    <None Include="Resources\SQLVersion2\MajOperSite.sql" />
+    <None Include="Resources\SQLVersion2\MajTableAlarm3.sql" />
+    <None Include="Resources\SQLVersion2\MajTableAlarmeFromAlarmFin.sql" />
+    <None Include="Resources\SQLVersion2\maj_oper.sql" />
+    <None Include="Resources\SQLVersion2\mess_alrm.sql" />
+    <None Include="Resources\SQLVersion2\PostAlrm.sql" />
+    <None Include="Resources\SQLVersion2\ReparationAccesAccesc2.sql" />
+    <None Include="Resources\SQLVersion2\SetAlarm.sql" />
+    <None Include="Resources\SQLVersion2\Start_Alrm.sql" />
+    <None Include="Resources\SQLVersion2\tdb_finalarm.sql" />
+    <None Include="Resources\SQLVersion2\tib_acces_accesc.sql" />
+    <None Include="Resources\SQLVersion2\tib_alarm.sql" />
+    <None Include="Resources\SQLVersion2\tiu_alarmdata.sql" />
+    <None Include="Resources\SQLVersion2\tub_acces_accesc2.sql" />
+    <None Include="Resources\SQLVersion3\alarme_geree_corps.sql" />
+    <None Include="Resources\SQLVersion3\alarme_geree_decl.sql" />
+    <None Include="Resources\SQLVersion3\equipement_corps.sql" />
+    <None Include="Resources\SQLVersion3\equipement_decl.sql" />
+    <None Include="Resources\SQLVersion3\Liaison_decl.sql" />
+    <None Include="Resources\SQLVersion3\Diagramme_corps.sql" />
+    <None Include="Resources\SQLVersion3\Diagramme_decl.sql" />
+    <None Include="Resources\SQLVersion3\parametre_decl.sql" />
+    <None Include="Resources\SQLVersion3\parametre_corps.sql" />
+    <None Include="Resources\SQLVersion3\spv_mess_corps.sql" />
+    <None Include="Resources\SQLVersion3\spv_mess_decl.sql" />
+    <None Include="Resources\SQLVersion3\spv_types_decl.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ScriptsSQLVersion2.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScriptsSQLVersion2.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptsSQLVersion3.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScriptsSQLVersion3.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQLVersion3\InitNetworkDiagMasque.sql" />
+    <None Include="Resources\SQLVersion3\Liaison_corps.sql" />
+    <None Include="Resources\SQLVersion3\lien_acces_alarme_corps.sql" />
+    <None Include="Resources\SQLVersion3\lien_acces_alarme_decl.sql" />
+    <Content Include="Resources\SQLVersion3\message_erreur_fr.txt" />
+    <Content Include="Resources\SQLVersion3\message_erreur_gb.txt" />
+    <None Include="Resources\SQLVersion3\MajDiagFromProg.sql" />
+    <None Include="Resources\SQLVersion3\MajTableAlarm3.sql" />
+    <None Include="Resources\SQLVersion3\pack_alarme_corps.sql" />
+    <None Include="Resources\SQLVersion3\pack_alarme_decl.sql" />
+    <None Include="Resources\SQLVersion3\pack_site_corps.sql" />
+    <None Include="Resources\SQLVersion3\pack_site_decl.sql" />
+    <None Include="Resources\SQLVersion3\PurgeAlarmes.sql" />
+    <None Include="Resources\SQLVersion3\tdb_alarm.sql" />
+    <None Include="Resources\SQLVersion3\tdb_finalarm.sql" />
+    <None Include="Resources\SQLVersion3\tib2_alarm.sql" />
+    <None Include="Resources\SQLVersion3\tib_alarm.sql" />
+    <None Include="Resources\SQLVersion3\tib_network_graph.sql" />
+    <None Include="Resources\SQLVersion3\tib_ntwdiag_rep.sql" />
+    <None Include="Resources\SQLVersion3\tiu_alarmdata.sql" />
+    <None Include="Resources\SQLVersion3\ti_network_graph.sql" />
+    <None Include="Resources\SQLVersion3\tub_acces_accesc2.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)..\timosDataServeur\bin\Debug
+Copy $(TargetPath) $(SolutionDir)..\timosDataServeur\bin\Release
+Copy $(TargetPath) $(SolutionDir)..\timosservice\bin\Release</PostBuildEvent>
+  </PropertyGroup>
+</Project>

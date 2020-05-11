@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D40EACEE-48DA-4559-86D2-63BC6F89E821}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>futurocom.snmp</RootNamespace>
+    <AssemblyName>futurocom.snmp</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="data.hotel.client">
+      <HintPath>..\dep\data.hotel.client.dll</HintPath>
+    </Reference>
+    <Reference Include="futurocom.easyquery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\futurocom.easyquery.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=2.0.0.1, Culture=neutral, PublicKeyToken=6ab76d8179563588, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="alarme\CAgentFinderFromKey.cs" />
+    <Compile Include="CSnmpTrap.cs" />
+    <Compile Include="easyquery\CInterrogateurSnmpSimplePourFiller.cs" />
+    <Compile Include="expression\C2iExpressionToSnmp.cs" />
+    <Compile Include="HotelPolling\CSnmpHotelPolledData.cs" />
+    <Compile Include="HotelPolling\CSnmpHotelPollingSetup.cs" />
+    <Compile Include="mediation\CConfigurationServiceMediation.cs" />
+    <Compile Include="entitesnmp\CAgentSnmpPourSupervision.cs" />
+    <Compile Include="entitesnmp\CEntiteSnmpPourSupervision.cs" />
+    <Compile Include="entitesnmp\CListeEntitesAgentSnmp.cs" />
+    <Compile Include="entitesnmp\CDefinitionProprieteDynamiqueListeEntitesSnmp.cs" />
+    <Compile Include="entitesnmp\CTypeAgentPourSupervision.cs" />
+    <Compile Include="alarme\CCreateurAlarmes.cs" />
+    <Compile Include="alarme\CDefinitionProprieteDynamiqueInterrogateurSnmp.cs" />
+    <Compile Include="alarme\CDefinitionProprieteDynamiqueTrapField.cs" />
+    <Compile Include="alarme\CDefinitionProprieteDynamiqueAgentSnmp.cs" />
+    <Compile Include="alarme\CDefinitionProprieteDynamiqueTrapFieldSupplementaire.cs" />
+    <Compile Include="alarme\CTrapFieldSupplementaire.cs" />
+    <Compile Include="alarme\CTrapField.cs" />
+    <Compile Include="alarme\CTrapFieldValueAvecIndex.cs" />
+    <Compile Include="alarme\CTrapFieldValueBrute.cs" />
+    <Compile Include="alarme\CTrapHandler.cs" />
+    <Compile Include="alarme\CTrapInstance.cs" />
+    <Compile Include="ByteTool.cs" />
+    <Compile Include="ISnmpData\Counter32.cs" />
+    <Compile Include="ISnmpData\Counter64.cs" />
+    <Compile Include="CSnmpConnexion.cs" />
+    <Compile Include="CSnmpIcons.cs" />
+    <Compile Include="ISnmpData\DataFactory.cs" />
+    <Compile Include="DefinitionType.cs" />
+    <Compile Include="easyquery\CColumnDefinitionSNMP.cs" />
+    <Compile Include="easyquery\CTableDefinitionSnmpOfScalar.cs" />
+    <Compile Include="easyquery\CSnmpConnexionForEasyQuery.cs" />
+    <Compile Include="easyquery\CTableDefinitionSNMP.cs" />
+    <Compile Include="easyquery\CTableDefinitionStructureSNMP.cs" />
+    <Compile Include="easyquery\CValeurExtendedProprieteFolderSnmpScalar.cs" />
+    <Compile Include="entitesnmp\CChampEntiteSnmpStandard.cs" />
+    <Compile Include="entitesnmp\CChampEntiteFromQuery.cs" />
+    <Compile Include="entitesnmp\CDefinitionProprieteDynamiqueChampEntiteSnmp.cs" />
+    <Compile Include="entitesnmp\CTypeEntiteSnmpPourSupervision.cs" />
+    <Compile Include="entitesnmp\IChampEntiteSNMP.cs" />
+    <Compile Include="expression\C2iExpressionSNMPAgent.cs" />
+    <Compile Include="dynamic\CDefinitionProprieteDynamicSnmpCell.cs" />
+    <Compile Include="dynamic\CDefinitionProprieteDynamiqueSnmpColumn.cs" />
+    <Compile Include="dynamic\CDefinitionProprieteDynamiqueSNMPVariable.cs" />
+    <Compile Include="dynamic\CDefinitionProprieteDynamiqueSnmpTable.cs" />
+    <Compile Include="dynamic\CDynamicSnmpRow.cs" />
+    <Compile Include="dynamic\CDynamicSnmpRowDef.cs" />
+    <Compile Include="dynamic\CDynamicSnmpTable.cs" />
+    <Compile Include="dynamic\CDynamicSnmpTableDef.cs" />
+    <Compile Include="dynamic\CInterrogateurSnmp.cs" />
+    <Compile Include="dynamic\CDefinitionProprieteDynamiqueSnmpRow.cs" />
+    <Compile Include="ISnmpData\EndOfMibView.cs" />
+    <Compile Include="ErrorCode.cs" />
+    <Compile Include="expression\CFormulesSnmp.cs" />
+    <Compile Include="ISnmpData\Gauge32.cs" />
+    <Compile Include="GenericCode.cs" />
+    <Compile Include="ISnmpData\GetBulkRequestPdu.cs" />
+    <Compile Include="ISnmpData\GetNextRequestPdu.cs" />
+    <Compile Include="ISnmpData\GetRequestPdu.cs" />
+    <Compile Include="Header.cs" />
+    <Compile Include="IConstruct.cs" />
+    <Compile Include="IDefinition.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IModule.cs" />
+    <Compile Include="ISnmpData\InformRequestPdu.cs" />
+    <Compile Include="ISnmpData\Integer32.cs" />
+    <Compile Include="IObjectRegistry.cs" />
+    <Compile Include="IObjectTree.cs" />
+    <Compile Include="ISnmpData\IP.cs" />
+    <Compile Include="ISegment.cs" />
+    <Compile Include="ISnmpConnexion.cs" />
+    <Compile Include="ISnmpData\ISnmpData.cs" />
+    <Compile Include="ISnmpData\ISnmpPdu.cs" />
+    <Compile Include="ITypeAssignment.cs" />
+    <Compile Include="Levels.cs" />
+    <Compile Include="MalformedPdu.cs" />
+    <Compile Include="mediation\CDonneesSynchronisationMediation.cs" />
+    <Compile Include="mediation\CProxyServiceMediation.cs" />
+    <Compile Include="mediation\CServiceMediation.cs" />
+    <Compile Include="mediation\IDonneeSynchronisationMediation.cs" />
+    <Compile Include="mediation\IServiceMediation.cs" />
+    <Compile Include="Messaging\AgentFoundEventArgs.cs" />
+    <Compile Include="Messaging\Discoverer.cs" />
+    <Compile Include="Messaging\Discovery.cs" />
+    <Compile Include="Messaging\EndPointExtension.cs" />
+    <Compile Include="Messaging\ErrorException.cs" />
+    <Compile Include="Messaging\ExceptionRaisedEventArgs.cs" />
+    <Compile Include="Messaging\GetBulkRequestMessage.cs" />
+    <Compile Include="Messaging\GetNextRequestMessage.cs" />
+    <Compile Include="Messaging\GetRequestMessage.cs" />
+    <Compile Include="Messaging\IListenerBinding.cs" />
+    <Compile Include="Messaging\InformRequestMessage.cs" />
+    <Compile Include="Messaging\ISnmpMessage.cs" />
+    <Compile Include="Messaging\Listener.cs" />
+    <Compile Include="Messaging\ListenerBinding.cs" />
+    <Compile Include="Messaging\MalformedMessage.cs" />
+    <Compile Include="Messaging\Manager.cs" />
+    <Compile Include="Messaging\MessageFactory.cs" />
+    <Compile Include="Messaging\MessageFactoryException.cs" />
+    <Compile Include="Messaging\MessageParams.cs" />
+    <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
+    <Compile Include="Messaging\Messenger.cs" />
+    <Compile Include="Messaging\NumberGenerator.cs" />
+    <Compile Include="Messaging\PortInUseException.cs" />
+    <Compile Include="Messaging\ReportMessage.cs" />
+    <Compile Include="Messaging\ResponseMessage.cs" />
+    <Compile Include="Messaging\SetRequestMessage.cs" />
+    <Compile Include="Messaging\SnmpMessageExtension.cs" />
+    <Compile Include="Messaging\TimeoutException.cs" />
+    <Compile Include="Messaging\TrapV1Message.cs" />
+    <Compile Include="Messaging\TrapV2Message.cs" />
+    <Compile Include="Messaging\WalkMode.cs" />
+    <Compile Include="Mib\AbstractTypeAssignment.cs" />
+    <Compile Include="Mib\AgentCapabilities.cs" />
+    <Compile Include="Mib\Assembler.cs" />
+    <Compile Include="Mib\BitsType.cs" />
+    <Compile Include="Mib\Choice.cs" />
+    <Compile Include="Mib\Counter64Type.cs" />
+    <Compile Include="Mib\CParserHeaderExtension.cs" />
+    <Compile Include="Mib\DefaultObjectRegistry.cs" />
+    <Compile Include="Mib\Definition.cs" />
+    <Compile Include="Mib\DisplayHint.cs" />
+    <Compile Include="Mib\Exports.cs" />
+    <Compile Include="Mib\Extensions.cs" />
+    <Compile Include="Mib\Imports.cs" />
+    <Compile Include="Mib\ImportsFrom.cs" />
+    <Compile Include="Mib\IntegerType.cs" />
+    <Compile Include="Mib\IpAddressType.cs" />
+    <Compile Include="Mib\Lexer.cs" />
+    <Compile Include="Mib\Macro.cs" />
+    <Compile Include="Mib\MaxAccess.cs" />
+    <Compile Include="Mib\MibDocument.cs" />
+    <Compile Include="Mib\MibException.cs" />
+    <Compile Include="Mib\MibModule.cs" />
+    <Compile Include="Mib\ModuleCompliance.cs" />
+    <Compile Include="Mib\ModuleIdentity.cs" />
+    <Compile Include="Mib\ModuleLoader.cs" />
+    <Compile Include="Mib\NotificationGroup.cs" />
+    <Compile Include="Mib\NotificationType.cs" />
+    <Compile Include="Mib\ObjectGroup.cs" />
+    <Compile Include="Mib\ObjectIdentifierType.cs" />
+    <Compile Include="Mib\ObjectIdentity.cs" />
+    <Compile Include="Mib\ObjectRegistryBase.cs" />
+    <Compile Include="Mib\ObjectTree.cs" />
+    <Compile Include="Mib\ObjectType.cs" />
+    <Compile Include="Mib\OctetStringType.cs" />
+    <Compile Include="Mib\OidValueAssignment.cs" />
+    <Compile Include="Mib\Parser.cs" />
+    <Compile Include="Mib\PartialMibModuleTree.cs" />
+    <Compile Include="Mib\ReloadableObjectRegistry.cs" />
+    <Compile Include="Mib\Sequence.cs" />
+    <Compile Include="Mib\SimpleObjectRegistry.cs" />
+    <Compile Include="Mib\Status.cs" />
+    <Compile Include="Mib\Symbol.cs" />
+    <Compile Include="Mib\TextualConvention.cs" />
+    <Compile Include="Mib\TrapType.cs" />
+    <Compile Include="Mib\TypeAssignment.cs" />
+    <Compile Include="Mib\UnsignedType.cs" />
+    <Compile Include="Mib\ValueRange.cs" />
+    <Compile Include="ISnmpData\NoSuchInstance.cs" />
+    <Compile Include="ISnmpData\NoSuchObject.cs" />
+    <Compile Include="ISnmpData\Null.cs" />
+    <Compile Include="ISnmpData\ObjectIdentifier.cs" />
+    <Compile Include="ObjectIdentifierConverter.cs" />
+    <Compile Include="Objects\SysContact.cs" />
+    <Compile Include="Objects\SysDescr.cs" />
+    <Compile Include="Objects\SysLocation.cs" />
+    <Compile Include="Objects\SysName.cs" />
+    <Compile Include="Objects\SysObjectId.cs" />
+    <Compile Include="Objects\SysORDescr.cs" />
+    <Compile Include="Objects\SysORID.cs" />
+    <Compile Include="Objects\SysORIndex.cs" />
+    <Compile Include="Objects\SysORLastChange.cs" />
+    <Compile Include="Objects\SysORTable.cs" />
+    <Compile Include="Objects\SysORUpTime.cs" />
+    <Compile Include="Objects\SysServices.cs" />
+    <Compile Include="Objects\SysUpTime.cs" />
+    <Compile Include="ISnmpData\OctetString.cs" />
+    <Compile Include="ISnmpData\Opaque.cs" />
+    <Compile Include="OperationException.cs" />
+    <Compile Include="Pipeline\AccessFailureException.cs" />
+    <Compile Include="Pipeline\ComposedMembershipProvider.cs" />
+    <Compile Include="Pipeline\EngineGroup.cs" />
+    <Compile Include="Pipeline\GetBulkMessageHandler.cs" />
+    <Compile Include="Pipeline\GetMessageHandler.cs" />
+    <Compile Include="Pipeline\GetNextMessageHandler.cs" />
+    <Compile Include="Pipeline\GetNextV1MessageHandler.cs" />
+    <Compile Include="Pipeline\GetV1MessageHandler.cs" />
+    <Compile Include="Pipeline\HandlerMapping.cs" />
+    <Compile Include="Pipeline\ILogger.cs" />
+    <Compile Include="Pipeline\IMembershipProvider.cs" />
+    <Compile Include="Pipeline\IMessageHandler.cs" />
+    <Compile Include="Pipeline\InformRequestMessageHandler.cs" />
+    <Compile Include="Pipeline\InformRequestMessageReceivedEventArgs.cs" />
+    <Compile Include="Pipeline\ISnmpContext.cs" />
+    <Compile Include="Pipeline\ISnmpObject.cs" />
+    <Compile Include="Pipeline\MessageHandlerFactory.cs" />
+    <Compile Include="Pipeline\NormalSnmpContext.cs" />
+    <Compile Include="Pipeline\NullMessageHandler.cs" />
+    <Compile Include="Pipeline\ObjectStore.cs" />
+    <Compile Include="Pipeline\ScalarObject.cs" />
+    <Compile Include="Pipeline\SecureSnmpContext.cs" />
+    <Compile Include="Pipeline\SetMessageHandler.cs" />
+    <Compile Include="Pipeline\SetV1MessageHandler.cs" />
+    <Compile Include="Pipeline\SnmpApplication.cs" />
+    <Compile Include="Pipeline\SnmpApplicationFactory.cs" />
+    <Compile Include="Pipeline\SnmpContext.cs" />
+    <Compile Include="Pipeline\SnmpContextFactory.cs" />
+    <Compile Include="Pipeline\SnmpEngine.cs" />
+    <Compile Include="Pipeline\SnmpObject.cs" />
+    <Compile Include="Pipeline\TableObject.cs" />
+    <Compile Include="Pipeline\TrapV1MessageHandler.cs" />
+    <Compile Include="Pipeline\TrapV1MessageReceivedEventArgs.cs" />
+    <Compile Include="Pipeline\TrapV2MessageHandler.cs" />
+    <Compile Include="Pipeline\TrapV2MessageReceivedEventArgs.cs" />
+    <Compile Include="Pipeline\Version1MembershipProvider.cs" />
+    <Compile Include="Pipeline\Version2MembershipProvider.cs" />
+    <Compile Include="Pipeline\Version3MembershipProvider.cs" />
+    <Compile Include="polling\CDefinitionProprieteDynamiqueOID.cs" />
+    <Compile Include="polling\CLockerPollingList.cs" />
+    <Compile Include="polling\CParametreFillChampDonneeCumulee.cs" />
+    <Compile Include="polling\CPollingList.cs" />
+    <Compile Include="polling\CSnmpPollingService.cs" />
+    <Compile Include="polling\CSnmpPollingSetup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\CPlageIP.cs" />
+    <Compile Include="Proxy\CSnmpProxyConfiguration.cs">
+    </Compile>
+    <Compile Include="Proxy\CSnmpProxy.cs" />
+    <Compile Include="Proxy\IFournisseurDeConfigurationProxy.cs" />
+    <Compile Include="ReportPdu.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ISnmpData\ResponsePdu.cs" />
+    <Compile Include="Scope.cs" />
+    <Compile Include="SearchResult.cs" />
+    <Compile Include="SecurityParameters.cs" />
+    <Compile Include="Security\AuthenticationProviderExtension.cs" />
+    <Compile Include="Security\DecryptionException.cs" />
+    <Compile Include="Security\DefaultAuthenticationProvider.cs" />
+    <Compile Include="Security\DefaultPrivacyProvider.cs" />
+    <Compile Include="Security\DESPrivacyProvider.cs" />
+    <Compile Include="Security\IAuthenticationProvider.cs" />
+    <Compile Include="Security\IPrivacyProvider.cs" />
+    <Compile Include="Security\MD5AuthenticationProvider.cs" />
+    <Compile Include="Security\PrivacyProviderExtension.cs" />
+    <Compile Include="Security\SaltGenerator.cs" />
+    <Compile Include="Security\SHA1AuthenticationProvider.cs" />
+    <Compile Include="Security\User.cs" />
+    <Compile Include="Security\UserRegistry.cs" />
+    <Compile Include="ISnmpData\Sequence.cs" />
+    <Compile Include="ISnmpData\SetRequestPdu.cs" />
+    <Compile Include="SnmpDataExtension.cs" />
+    <Compile Include="SnmpException.cs" />
+    <Compile Include="ISnmpData\SnmpType.cs" />
+    <Compile Include="StreamExtension.cs" />
+    <Compile Include="ISnmpData\TimeTicks.cs" />
+    <Compile Include="ISnmpData\TrapV1Pdu.cs" />
+    <Compile Include="ISnmpData\TrapV2Pdu.cs" />
+    <Compile Include="Variable.cs" />
+    <Compile Include="VersionCode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gendarme.ignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="license.txt" />
+    <None Include="Microsoft.VersionNumber.targets">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Column16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\number16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock_unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\table-select-row.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\table16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="alarme\snmp.alarme.cd" />
+    <None Include="dynamic\Snmp et query.cd" />
+    <None Include="futurocom.snmp.fr" />
+    <None Include="Resources\snmpv2-conf.module" />
+    <None Include="Resources\snmpv2-mib.module" />
+    <None Include="Resources\snmpv2-smi.module" />
+    <None Include="Resources\snmpv2-tc.module" />
+    <None Include="Resources\snmpv2-tm.module" />
+    <None Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="grammaire_snmp.txt" />
+    <None Include="Resources\Warning1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\futurocom.supervision\futurocom.supervision.csproj">
+      <Project>{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}</Project>
+      <Name>futurocom.supervision</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

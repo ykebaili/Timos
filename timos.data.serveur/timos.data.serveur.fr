@@ -1,0 +1,455 @@
+100;Impossible d'affecter deux types d'entité au même parent
+101;L'entité organisationnelle doit être associée à un type
+102;Le type de l'entité n'est pas cohérent avec son entité parente
+103;L'inclusion de profil doit correspondre à un profil ou une inclusion
+104;L'inclusion de profil doit correspondre à un profil fils
+105;Le profil utilisateur doit être lié à une entité organisationnelle
+106;Le Type de Site ne peut être vide
+107;Le Type de Site n'est pas valide
+108;Le libellé du Site ne peut être vide
+109;Le type d'équipement ne peut être nul
+110;Le fournisseur ne peut être nul
+111;Le libellé du Stock ne peut être vide
+112;Une autre stock avec le même libellé existe déjà
+113;Le Type de Stock ne doit pas être null
+114;Le libellé du type de stock ne doit pas être vide
+115;Une autre Type de Stock avec ce libellé existe déjà
+116;Le Type de Stock ne peut être vide
+117;Le Site du stock doit être indiqué
+118;Le libellé du Statut d'Equipement ne peut être vide
+119;Le code du Statut d'Equipement ne peut être vide
+120;Un statut d'équipement avec le même libellé existe déjà
+121;Un statut d'équipement avec le même code existe déjà
+122;L'Equipement déplacé ne doit pas être vide
+123;Le déplacement doit correspondre à un emplacement initial
+124;Le Type d'Equipement doit être associé à une Famille
+125;Le Statut de l'Equipement doit être renseigné
+126;Le libellé doit être renseigné
+127;Ce type de Ressource ne correspond pas au type de Contrainte
+128;Le Type de Contrainte ne peut être modifié car il y a des Ressources associées
+129;Le Type de Ressource doit être défini
+130;L'Emplacement de la Ressource doit être défini
+131;Le type Remplaçable doit être défini
+132;Le type Remplaçant doit être défini
+133;Cette relation existe déjà dans la liste des relations
+134;Une relation cyclique de acteur a été detectée
+135;La Ressource déplacée doit être définie
+136;Sequence invalide pour cause de redondance
+137;Sélectionnez un emplacement initial pour cet équipement
+138;Le libellé du Type d'Intervention ne peut pas être vide
+139;Le type de tâche @1 existe déjà
+140;Le lien doit avoir une tâche 1
+141;Le lien doit avoir une tâche 2
+142;La sous tâche doit être liée à une tâche principale
+143;La sous tâche doit être liée à un type de tâche
+144;Un autre Type d'Intervention avec le code @1 existe déjà
+145;Un autre Type d'intervention avec le mnémomnique @1 existe déjà
+146;Le libellé du type d'opération ne peut pas être vide
+147;Le type d'opération @1 existe déjà
+148;Un autre type d'opération avec le code @1 existe déjà
+149;Un autre type d'opération avec le mémomnique @1 existe déjà
+150;Le type d'opération ne doit pas être nul
+151;Le type d'intervention ne doit pas être nul
+152;Le type d'opération ne doit pas être nul
+153;Le libellé du profil ne doit pas être vide
+154;Le profil @1 existe déjà
+155;Le profil d'intervenant de la relation ne doit pas être null
+156;Le groupe de acteur ne doit pas être null
+157;Cette Contrainte doit avoir au moins un Attribut de son Type
+158;Cette Contrainte doit avoir au plus un Attribut de son Type
+159;La Ressource ne peut être déplacée sans sa Ressource parente
+160;Une tâche de regroupement ne peut pas définir de profil d'intervenant
+161;Une tâche de regroupement ne peut pas définir de contraintes
+162;Une tâche de regroupement ne peut pas définir d'opérations
+163;Attention : Aucun intervenant défini pour ce type de tâche
+164;La durée d'une tranche horaire ne peut être égale à 0
+165;Il y a un recouvrement entre deux plages horaires
+166;Le type de tâche @1 n'existe pas
+167;@1 @2 n'existe pas
+168;Le lien au profil @1 n'existe pas
+169;L'Horaire journalier par défaut doit être renseigné
+170;L'equipement ne peut avoir de coordonnee car il n'est pas défini dans un systeme de coordonnee
+171;L'equipement ne peut avoir de coordonnee car son occupation est nulle ou définie à 0
+172;L'unité spécifiée par l'équipement ne correspond pas à l'unité de la coordonnée
+173;L'unite '@1' existe déjà
+174;Le libellé de l'unité ne peut être vide
+175;L'abreviation de l'unité ne peut être vide
+176;L'abreviation '@1' existe déjà
+177;Le libellé du Système de coordonnées ne peut être vide
+178;Le Système de coordonnées '@1' existe déjà
+179;Le systeme de coordonnee est utilisé : il ne peut être modifié
+180;Le format de numérotation @1 se trouve à la position @2 au lieu de la position @3
+181;Le libellé ne peut pas être vide
+182;'@1' existe déjà
+183;Le niveau @1 est utilisé : il ne peut être modifié
+184;Le parametrage du système de coordonnées doit être lié à un type d'objet
+185;La table de l'objet lié au parametrage n'existe pas. veuillez contacter Futurocom
+186;La table de l'objet n'implemente pas d'interface lui permettant de recevoir un systeme de coordonnee. veuillez contacter Futurocom
+187;Des objets utilisent ce système de coordonées : il ne paut pas être modifié
+188;Le libellé du parametrage niveau ne peut être vide
+189;Le parametrage '@1' existe déjà
+190;Des objets utilisent déjà ce parametrage de système de coordonnées: impossible d'effectuer l'opération
+191;La première reference @1 et la taille @2 permettent d'aller jusqu'à @3, or, le format de numérotation @4 est limité à la reference @5
+192;Le libellé du format de numérotation ne peut être vide
+193;Le format de numérotation '@1' existe déjà
+194;Le format de numérotation est utilisé par un ou plusieurs systeme de coordonnée : il ne peut être modifié
+195;La séquence doit contenir au moins deux caractères
+196;Le Constructeur doit être défini
+197;L'Id de Contrainte @1 n'existe pas
+198;Le Libellé de l'Origine Ticket ne peut être vide
+199;L'Unité est nécessaire
+200;Le profil de ressources doit être défini
+201;Impossible d'éditer ce système de coordonnées, car il est utilisé
+202;Le Libellé de l'Urgence Ticket ne peut être vide
+203;Le contact @1 se trouve à la position @2 au lieu de la position @3
+204;Le Profil du Contact @1 est en double
+205;Le Stock ne doit pas être nul
+206;Le libellé du Contrat ne peut être vide
+207;Le Contrat doit être lié à un Client
+208;La date de début de la Fraction d'Intervention doit être renseignée
+209;Le responsable de préplanification doit être défini
+210;Le responsable de planification doit être renseigné
+211;L'utilisateur @1 ne peut pas être planificateur
+212;L'utilisateur @1 ne peut pas être pré-planificateur
+213;L'inclusion de profil doit être associée à un profil
+214;Le libellé du profil ne doit pas être vide
+215;Référence cyclique de profils : Impossible de valider le profil
+216;La condition d'application doit retourner un booléen
+217;La condition d'intégration doit retourner un booléen
+218;Impossible de tester les EOS sur les éléments de type @1
+219;La formule d'élément à EO source doit retourner un élément à EO
+220;Les éléments @1 ne sont pas liés à des EOS, impossible d'utiliser les EOS sur ces éléments
+221;Profil incorrect : Acteur/Site attendu
+222;Profil de ressource par défaut incompatible
+223;Profil de planificateur par défaut incompatible
+224;Profil de préplanificateur par défaut incompatible
+225;Le Libellé de la Cause de Gel doit être renseignée
+226;Le Libellé de l'Etat de Cloture doit être renseigné
+227;L'historique nécessite un ticket
+228;L'historique nécessite un Acteur Responsable
+229;Le ticket esclave @1 est déjà défini comme maitre de ce ticket
+230;Le ticket maitre @1 est déjà défini come esclave de ce ticket
+231;Le Ticket doit être affecté à un Responsable
+232;Le Client doit être renseigné
+233;Le Contrat doit être renseigné
+234;Le Type de Ticket doit être renseigné
+235;Le Ticket doit avoir au moins une phase de résolution
+236;Le Libellé du Type de Phase doit être renseigné
+237;Le Type d'Elements sur le profil du Responsable n'est pas un 'Type de Phase'
+238;Le Type source sur le profil du Responsable n'est pas un 'Utilisateur'
+239;Le type de Contrainte '@1' existe déjà
+240;Le caractère de séparation '@1' est interdit
+241;Le format de numéroation ne peut pas être modifié car il est utilisé
+242;@1 ne possède pas la propriété @2
+243;La propriété @1 du type @2 ne possède pas 'RelationFilleAttribute'
+244;Impossible de modifier le système de coordonnées, car il est utilisé (L'administrateur peut faire cette modification)
+245;Le Constructeur doit correspondre à un acteur 
+246;Le Fournisseur doit correspondre à un acteur
+247;Le libellé de la famille doit être renseigné
+248;Erreur dans la hiérarchie de famille, la famille est sa propre mère
+249;Le type parent doit être défini
+250;Le type fils doit être défini
+251;Le type incluant doit être défini
+252;Le type inclu doit être défini
+253;L'équipement remplacé doit être renseigné
+254;L'emplacement de l'équipement doit être renseigné
+255;Le libellé du type d'équipement ne peut être vide
+256;Un type d'équipement avec ce libellé existe déjà
+257;Héritage cyclique (fils) @1
+258;Héritage cyclique (parent) @1
+259;Le type du site contenant ne peut être vide
+260;Le type du site contenu ne peut être vide
+261;Le label du projet ne peut être vide
+262;Le nom de l'acteur ne peut être vide
+263;Le profil ne peut être null
+264;Le profil doit retourner des acteurs
+265;Les Elements Source du Profil doivent être des Intervventions
+266;Les Elements Source du Profil doivent être des Phase de Ticket
+267;Le Type d'objet lié au Profil doit être défini
+268;La Civilité '@1' existe déjà
+269;Le libellé de la civilité ne peut être vide
+270;Le Client doit correspondre à un acteur 
+271;Envoi de message instantanés
+272;Autorise l'utilisateur à envoyer des messages instantanés
+273;Le nom du Groupe d'Acteurs ne peut être vide
+274;Un Groupe d'Acteurs ayant ce nom existe déjà
+275;Un autre Groupe d'Acteur est déjà associé à ce groupe AD
+276;Hiérarchie de groupe incorrect
+277;Le groupe contenant doit être défini
+278;Le groupe contenu doit être défini
+279;La relation doit concerner deux groupe de acteurs
+280;Le libellé du flag ne doit pas être vide
+281;Un flag existe déjà avec cette valeur
+282;La valeur du flag doit être comprise entre 1 et 31
+283;Impossible de supprimer la restriction reservée au PDA
+284;L'utilisateur doit correspondre à un acteur
+285;L'utilisateur '@1' n'existe pas
+286;Indiquez un mot de passe
+287;Ce login est déjà utilisé
+288;Le libellé du type d'entité organisationnelle ne peut être vide
+289;Le Type d'entité organisationelle '@1' existe déjà
+290;Le Type d'entité organisationelle '@1' a déjà un élément racine
+291;Le libellé du groupe ne doit pas être vide
+292;Un autre groupe possédant le même libellé existe déjà
+293;Le profil ne doit pas être null
+294;Le groupe de restriction ne doit pas être null
+295;Le libellé du profil ne peut être vide
+296;Le profil '@1' existe déjà
+297;Erreur dans les données de l'entrée d'agenda
+298;Le type d'Entité Organisationnelle ne doit pas être nul
+299;Le formulaire ne doit pas être nul
+300;Le lien à l'utilisateur/profil ne doit pas être nul
+301;Le Profil d'Entité Organisationnelle ne doit pas être nul
+302;L'utilisateur ne doit pas être nul
+303;Le profil ne doit pas être nul
+304;Le Type d'entité organisationelle '@1' existe déjà
+305;Le libellé du type d'entité organisationnelle ne peut être vide
+306;Le libellé du Dossier ne doit pas être vide
+307;Le Type de Dossier ne doit pas être nul
+308;L'élement lié au dossier n'est pas du type attendu (@1)
+309;Erreur dans les données du Dossier
+310;Erreur dans les données de l'entrée d'Agenda
+311;Le libellé de l'entrée d'Agenda ne doit pas être vide
+312;Dates ou heures incohérentes
+313;L'élément associé @1 doit être défini
+314;Gestion automatique des états d'agenda
+315;Erreur gestion auto état echéances : Impossible d'ouvrir une session
+316;Erreur gestion auto état echéances : Erreur lors de la sauvegarde
+317;Le libellé de la Grille ne peut être vide
+318;Une autre Grille possède le même libellé
+319;Une autre Grille possède le même code
+320;Le libellé du Menu personnalisé ne doit pas être vide
+321;Le libellé du Modèle de Texte ne doit pas être vide
+322;Un autre modèle possède le même libellé
+323;L'élément lié au post-it est incorrect
+324;Erreur dans les données de la relation à l'élément
+325;Le libellé du lien ne doit pas être vide
+326;Le libellé '@1' existe déjà
+327;Le libellé ne doit pas être vide
+328;Le rôle '@1' existe déjà
+329;Le code du rôle doit être renseigné
+330;Indiquez le libellé de la Tâche Planifiée
+331;Gestionnaire de tâches planifiées démarré
+332;Recherche des tâches planifiées
+333;Erreur ouverture de session pour tâches planifiées
+334;Execution tâches planifiées
+335;Erreur d'ouverture session de travail tâches planifiées
+336;Erreur tâche planifiée @1
+337;Erreur dans les Tâches planifiées : @1
+338;La Tâche planifiée '@1' n'existe pas
+339;Démarrage de la tâche planifiée @1
+340;Action @1
+341;Action @1
+342;Données cumulées @1
+343;Fin tâche planifiée @1, @2 erreur(s)
+344;Le libellé du type de dossier ne doit pas être vide
+345;Un autre type de dossier possède déjà ce libellé
+346;Erreur dans les données du type de dossier
+347;Le libellé du type d'entrée d'Agenda ne doit pas être vide
+348;Erreur dans les données du Type d'entrée Agenda
+349;Un autre type d'entrée de Agenda possède déjà ce libellé
+350;Le libellé du Type d'occupation ne peut être vide
+351;Le Libellé de la lliste d'Opérations ne peut être vide
+352;La Liste d'Opérations ne peut être nulle
+353;Le Libellé du Type de Contrat ne peut être vide
+354;Ce Libellé de Type de Contrat existe déjà
+355;Le Contrat doit avoir un Type de contrat
+356;Le Profil de Sites du Contrat doit avoir un élément source de type contrat
+357;Le Profil de Sites du Contrat doit avoir des éléments cible de type Site
+358;Il y a @1 site(s) de la liste d'opérations '@2' qui ne sont pas inclus dans la liste des sites du Contrat
+359;La relation doit avoir un Contrat
+360;La relation doit avoir une liste d'Opération
+361;Le Type d'Equipement lié doit être renseigné
+362;L'Equipement lié doit être renseigné
+363;Il y a deux Operations '@1' sur l'équipement '@2'
+364;Position @1 de la colonne '@2' hors limite
+365;Aucune colonne n'est définie à la postion @1
+366;Erreur changement de colonnes : La table @1 utilise ce type
+367;Erreur : Position @1 en double
+368;Le libellé du Type de Site ne peut être vide
+369;Le Type de site doit avoir au moins une relation avec un type contenant (Peut être inclus)
+370;Le Site '@1' existe déjà
+371;Le Code site '@1' existe déjà
+372;Des sites utilisent déjà le type d'entite organisationnelle '@1' pour définir leurs coordonnées : vous ne pouvez pas le modifier
+373;Le libellé de la table parametrable ne peut être vide
+374;La table parametrable '@1' existe déjà
+375;Le libellé du type de table parametrable ne peut être vide
+376;Le type de table parametrable '@1' existe déjà
+377;Le type de donnée de la colonne doit être renseigné
+378;La position de la colonne est incorrecte
+379;Le type de table parametrable ne peut être vide
+380;Le site ne peut être vide
+381;La table Parametrable ne peut être vide
+382;L'equipement ne peut être vide
+383;Le Libellé de la Tranche Horaire ne peut être vide
+384;Le Type de Tableau Planning doit être renseigné
+385;Le projet doit avoir un Type de Projet
+386;Les dates du projet ne peuvent être égales
+387;La Date de Début Planifiée du projet ne peut être supérieure à la Date de Fin Planifiée
+388;L'intervention doit être associée à un site
+389;L'heure de début ne peut pas être négative
+390;L'heure ne peut pas etre supperieur à 23
+391;Les minutes ne peuvent être supperieures à 59
+392;La table parametrable @1 doit avoir un type de table paramétrable
+393;La table parametrable @1 ne peut être attachée à la fois à un Site (@2) et un Equipement (@3)
+394;Le type de table parametrable '@1' de la table parametrable '@2' n'autorise pas la relation avec l'élément '@3'
+395;Le nom de colonne @1 est utilisé plusieurs fois
+396;La colonne @1 fait partie de la clé primaire mais sa position dans la clé est @2 au lieu de @3
+397;Projet nécessaire
+398;Element A nécessaire
+399;Element B nécessaire
+400;Attache élément A nécessaire
+401;Attache élément B nécessaire
+402;Relation entre un Element de projet et l'anomalie du projet @1
+403;La relation d'anomalie doit concerner un element de projet
+404;La relation d'anomalie doit concerner une anomalie
+405;La relation d'anomalie ne doit concerner qu'un seul objet d'un projet
+406;Ticket assigné à : 
+407;Cloture technique enregistrée au @1
+408;La date de début ne peut pas être plus récente que la date de fin
+409;Le type d'Audit doit avoir un libellé
+410;La version d'origine de l'audit ne peut pas être nulle
+411;La version cible de l'audit ne peut pas être nulle
+412;L'audit doit avoir été fait pour être enregistré
+413;L'Audit doit avoir un Type d'Audit
+414;L'Audit doit avoir un libellé
+415;La version source ne peut pas être identique à la version cible
+416;La date de fin doit être supérieure à la date de début de Fraction
+417;Le type de Phase ne peut être nul
+448;Le Type de Projet doit avoir un libellé
+
+10000;L'equipement @1 ne peut contenir cet equipement car son type ne fait pas parti des types incluants possibles
+10001;Le Résumé d'Activité d'Acteur pour : @1, du @2 ne peut être modifié (Lecture seule)
+10002;La Date de Début Réelle du projet ne peut être supérieure à la Date de Fin Réelle
+10003;Le libellé du Type de Contrainte ne peut être vide
+10004;Le libellé du Type de Ressource ne peut être vide
+10005;La Ressource déplacée ne peut être nulle
+10006;Le Type d'Intervention @1 existe déjà
+10007;Le libellé de l'Entité Organisationnelle ne peut être vide
+10008;L'Entité Organisationnelle @1 existe déjà
+10009;Une Exception sur le Type d'EO @1 doit être liée à un Type d'Element
+10010;L'Exception doit être liée à un Type d'Entité Organisationnelle
+10011;@1 ne peut pas être affecté à l'Entité Organisationnelle @2. Il existe une Exception sur ce Type
+10012;Vous n'avez pas le Droit Système de Gestion des Utilisteurs de l'Application
+10013;Rédaction de l'Aide en ligne
+10014;Autorise l'Utilisateur à rédiger et enrichir l'aide en ligne de l'Apllication
+10015;Gestion des Modules de Paramétrage
+10016;Permet à l'Utilisateur d'accéder à la fenêtre de gestion des Modules de Paramétrage
+10017;Gestion des Utilisateurs de l'Application
+10018;Donne le droit à l'Utilisateur de gérer tous les Utilisateurs de l'Application
+10019;Vous n'avez pas le droit d'affecter ce Droit Système : @1
+10020;Le libellé du Proxy ne peut être vide
+10021;L'Adresse IP du Proxy doit être définie
+10022;Le Port IP est invalide
+10023;Le Libellé de la Sévérité d'Alarme en peut pas être vide
+10024;Le Libellé du Paramétrage d'afichage de liste d'Alarmes ne peut être vide
+10025;La Catégorie de Masquage ne peut être nulle
+10030;Le Libellé du Type de Consommable ne peut être vide
+10031;Le Fournisseur du Conditionnement ne peut être nul
+10032;Le Type de Consommable lié au Conditionnement ne peut être nul
+10033;La Réference du Conditionnement ne peut être vide
+10034;La Réference du Lot ne peut être vide
+10035;Le Type de Consommable doit avoir une Famille
+
+20000;Session inconnue @1
+20001;Le libellé de la famille doit être indiqué
+20002;Le type d'équipement ne doit pas être vide
+20003;L'équipement logique doit être affectée à un Site
+20004;L'équipement logique @1 ne peut pas contenir cet equipement logique car son type ne le permet pas
+20005;L'équipement @1 ne peut pas être sur un site différent du site de l'équipement @2
+20006;Le libellé du type d'équipement logique ne doit pas être vide
+20007;Ce libellé de type d'équipement logique existe déjà
+20008;Le type d'équipement logique doit être affecté à une famille
+20009;Le libellé de l'extremité de lien doit être renseignée
+20010;Aucun type
+20011;L'équipement contenant n'est pas au même endroit que l'équipement contenu
+20012;La vue physique doit être associée à un élément
+20013;Le libellé du composant physique ne doit pas être vide
+20014;Un autre composant @1 existe déjà
+20042;Le Lien @1 est supporté par le Lien @2, et le Lien @2 est supporté par le Lien @1
+20139;L'option 'Saisir une date de fin' nécessite l'option 'Saisir dete de début' et 'Saisir durée'
+20140;Vous ne pouvez pas affecter un Profil de Licence supérieur à votre Profil : @1
+20141;Le projet @1 ne respecte pas les contraintes de hiérarchie des types de projet
+20142;Le projet @1 doit posséder un projet parent
+20143;Le libellé du module mib doit être renseigné
+20144;Le module mib @1 existe déjà
+20145;Le Libellé du type d'agent ne doit pas être vide
+20146;Un type d'agent du même nom existe déjà (@1)
+20147;Pas de type d'agent spécifié
+20148;Pas de module mib spécifié
+20149;Le libellé de l'équipement de médiation ne doit pas être vide
+20150;Un autre équipement de médiation avec le même libellé existe déja (@1)
+20151;Le libellé du type d'alarme ne doit pas être vide
+20152;Le libellé du type d'entité SNMP ne doit pas être vide
+20153;Impossible d'allouer un agent de synchronisation de type @1
+20154;Gestion d'alarmes
+20155;Erreur lors de l'ouverture de la session de gestion des alarmes
+20156;Erreur lors de la gestion des alarmes @1
+20157;Erreur de la mise à jour de l'agent @1
+20158;Service SMS démarré
+20159;Service SMS
+20160;Erreur à l'ouverture de la session du service SMS
+20161;Envoi de SMS
+20162;Erreur à l'ouverture de la session d'envoi de SMS
+20163;Erreur lors de l'envoi de SMS @1
+20164;Le libellé du type de commande ne doit pas être vide
+20165;La ligne de commande doit être associée à une commande
+20166;La ligne de commande doit être associée à un type d'équipement ou de consommable
+20167;La commande doit être associée à un type de commande.
+20168;La ligne de livraison doit être associée à une livraison
+20169;La ligne de livraison doit être associée à un équipement
+20170;Le libellé du type de livraison ne doit pas être vide
+20171;La valorisation doit se rapporter à une type d'équipement ou de consommable
+20172;La valorisation doit se rapporter à un lot de valorisation
+20173;Le lien entre la livraison et le lot de valorisation doit se rapporter à une livraison
+20174;Le lien entre la livraison et le lot de valorisation doit se rapporter à un lot de valorisation
+20175;Le libellé de la séquence ne doit pas être vide
+20176;La séquence @1 existe déjà
+20177;Sélectionnez un format de numérotation
+20178;Gestion des sessions
+20179;Autorise l'utilisateur à gérer les sessions client
+20180;Le Libellé du métaprojet ne doit pas être vide
+20181;L'association à un méta projet doit être liée à un projet
+20182;L'association à un méta projet doit être liée à un meta projet
+20183;Le libellé du type de méta-projet ne doit pas être vide
+20184;Gestion des workflows
+20185;Autorise l'utilisateur à agir sur le déroulement des workflows
+20186;Le libellé du besoin ne doit pas être vide
+20187;Le libellé de la quantité ne doit pas être vide
+20188;Le besoin doit appartenir à une spécification de besoin
+20189;Le libellé de la phase de spécifications ne doit pas être vide
+20190;Impossible d'avoir plusieurs valorisations pour le type d'équipement @1 dans le lot @2
+20191;Impossible d'avoir plusieurs valorisations pour le type de consommable @2 dans le lot @2
+20192;Le nom du champ de polling SNMP ne doit pas être vide
+20193;Le champ de polling @1 existe déjà
+
+30000;L'emplacement de l'équipement '@1' ne peut être différent de l'emplacement de l'équipement contenant '@2'
+30001;"Plusieurs entitées organisationnelles peuvent affecter la coordonnée de ce site : veuillez désigner celle par défaut
+30002;Le libellé du port ne peut pas être vide
+30003;Le libellé du type de lien réseau ne peut pas être vide
+30004;Le libellé du lien de réseau ne peut pas être vide
+30005;Le type pouvant être supporté doit être défini
+30006;Le type pouvant supporter ce type doit être défini
+30007;Le lien supportant doit être défini
+30008;Le lien supporté doit être défini
+30009;Impossible d'ajouter le lien : le lien supporté @1 est supporté par le lien supportant @2
+30010;Le type du lien supportant n'est pas parmi les types possibles
+30011;Le type du lien supporté n'est pas parmi les types possibles
+30012;Une relation de support entre les deux liens existe déjà
+30013;Un lien ne peut à la fois supporter et être supporté par le même lien
+30014;Le complément 1 du lien n'appartient pas aux compléments possibles de l'élément 1
+30015;Le complément 2 du lien n'appartient pas aux compléments possibles de l'élément 2
+30016;Le type de l'élément 1 est incorrect
+30017;Le type de l'élément 2 est incorrect
+30018;Le libellé du schéma réseau ne peut pas être vide
+30019;Le libellé du type de schéma réseau ne peut pas être vide
+30020;L'élément 1 du lien ne peut pas être nul
+30021;L'élémént 2 du lien ne peut pas être nul
+30022;L'élément 1 du lien ne peut être changé car le lien est associé à un chemin
+30023;L'élément 2 du lien ne peut être changé car le lien est associé à un chemin
+30024;Dépendance cyclique entre liens supportants et supportés
+30025;Un lien de type @1 ne peut pas être supporté par un lien de type @2
+30026;Le libellé du modèle ne peut pas être vide
+
+
+50000;Le libellé du type de port ne doit pas être vide

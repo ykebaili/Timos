@@ -1,0 +1,14 @@
+﻿BESOIN :
+Le cout d'un besoin s'impute sur ses relations aux satisfaits s'il y en a ou sur son besoin parent ou sur sa phase
+
+PROJET :
+Le cout du projet s'impute sur ses relations aux satisfaits s'il y en a, sinon, sur le projet parent
+
+PHASE :
+Le cout de la phase s'impute sur ses relations aux satisfaits ou sur le projet de la phase s'il existe
+
+INTERVENTION : c'est plus complexe
+je ne sais pas comment faire
+
+OPERATION :
+le cout de l'opération s'impute sur ses relations aux satisfaits ou sur l'opération parente ou sur l'intervention

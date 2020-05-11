@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TestServicWebWSDL.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TestServicWebWSDL_WebReference_request_serv_change" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://VMSWSMDEV02.orascomtunisie.com:13081/SM/7/ws</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

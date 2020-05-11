@@ -1,0 +1,120 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8C863E0-6CF1-41C6-8C72-736A46A067D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MiseAJourBaseTibcoAlgerie</RootNamespace>
+    <AssemblyName>MiseAJourBaseTibcoAlgerie</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="sc2i.common, Version=1.0.3431.29539, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=1.0.3341.21403, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=1.0.3342.29632, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic.loader, Version=1.0.3342.29639, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.loader.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.serveur, Version=1.0.3341.21413, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents, Version=1.0.3342.29642, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.documents.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents.serveur, Version=1.0.3342.29644, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.documents.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.drawing, Version=1.0.3341.21396, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=1.0.3342.29629, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=1.0.3342.29631, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=1.0.3341.21396, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.server, Version=1.0.3341.21411, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.server.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process, Version=1.0.3342.29641, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.process.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process.serveur, Version=1.0.3342.29645, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.process.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tiag.interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\tiag.interface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CActionMiseAJourBaseTibcoAlgerie.cs" />
+    <Compile Include="CActionSuppressionDesInterventionsSansDeplacement.cs" />
+    <Compile Include="CActionRequalificationTickets.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\timos.data\timos.data.csproj">
+      <Project>{52C5C360-E09E-4AAC-8B90-3AD4A906D20F}</Project>
+      <Name>timos.data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

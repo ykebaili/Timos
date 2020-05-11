@@ -1,0 +1,279 @@
+1;Liste des sites SPV
+2;Type Accès alarme
+3;Libellé
+4;Type accès
+5;Connecteur
+6;Nb connexions
+7;Nature connexions
+8;Id trap SNMP
+9;Supervision
+10;Domaine IP
+11;Communauté SNMP
+12;Médiation
+13;(ex. public)
+14;(ex. 193.7.49.[1-10]), etc...
+15;Principale (sysDescr)
+16;Secondaire (OID)
+17;Secondaire (Nom)
+18;Secondaire (Valeur)
+19;Identification SNMP
+20;MIB Automatique
+21;Commutateur
+22;Non
+23;2->1
+24;n->1
+25;OID
+26;A surveiller
+27;Adresse IP
+28;Index SNMP
+29;Référence SNMP du type d'équipement
+30;Communauté SNMP
+31;Equipement de médiation
+32;A redécouvrir périodiquement
+100;Accès alarme
+101;Câblage accès alarme boucle
+102;Capteur d'alarmes
+103;Accès de capteur
+104;Gravité
+105;Temporisation
+106;Masque
+107;Brigadier
+108;Administrateur
+109;Son
+110;Acquittement
+111;Surveiller
+112;Afficher
+113;A acquitter
+114;MIB auto.
+115;Activée
+116;A surveiller
+117;Alarme locale
+118;A afficher
+119;Nlle alarme
+120;Type d'événement
+121;Durée de confirmation
+122;Protocole
+123;Gravité
+124;Niveau bas
+125;Niveau haut
+126;Alarme fréqente Nb.
+127;pour
+128;sec.
+129;Type
+130;Sonnerie
+131;Action corrective
+132;Commentaire
+133;Seuil
+134;Nom
+135;Cause(s) d'alarme
+136;Sélection choisie
+137;OID
+
+10000;Nom du service
+10001;Menu Supervision
+10002;Liste Types accès alarmes
+10003;Liste Paramètres système
+10004;Liste Modules MIB
+10005;Liste Familles modules MIB
+10006;Liste consultation alarmes en cours
+10007;Liste causes alarme
+10008;Liste Acces / Accesc
+10009;Type Acces Alarme
+10010;Param système
+10011;Objet MIB
+10012;Module MIB
+10013;Email
+10014;Cause alarme
+10015;Couleur alarme
+10016;Alarmes gérées
+10017;Voir le détail de l'élément
+10018;Actions
+10019;Toujours visible
+10020;Causes d'alarme
+
+20000;Formule de filtre
+20001;Délai masquage
+20002;Module mib
+20003;Superviser les liens de ce type
+20004;Superviser comme service
+20005;Client
+20006;OID
+20007;Index
+20008;SNMP
+20009;Select OID
+20010;OK
+20011;Annuler
+20012;Erreur dans la formule d'index SNMP
+20013;Interrogation uniquement
+20014;Supervision
+20015;Afficher la fenêtre de supervsion
+20016;Quiter la vue de supervision ?
+20017;Voir le diagramme
+20018;Propriétés
+20019;Alarmes
+20020;Fonction non disponible dans ce contexte
+20021;Nouvellement découvert
+20021;Détail de l'alarme
+20022;Transfert des équipements découverts
+20023;Tous les équipements découverts seront transferés dans la famille sélectionnée
+20024;Afficher l'historique des évenements
+
+30000;Alarme Gérée
+30001;Trap générique
+30002;Trap spécifique
+30003;N° IANA
+30004;(vide)
+30005;Propriétés
+30006;Nom du site
+30007;Element géré
+30008;Modules MIB
+30009;Prestations
+30010;Nom du paramètre
+30011;Valeur
+30012;Service SPV
+30013;Consultation d'alarme en cours @1
+
+50000;Sous familles SNMP
+50001;Alarmes
+50002;Nom de la table
+50003;OID du nom de l'élément (*)
+50004;OID de la signature du type
+50005;Autre OID
+50006;(*) Le 3ème champ doit être rempli si les 2 premiers sont vides
+50007;Tables SNMP
+50008;Table SNMP
+50009;Mibs
+50010;Accès
+50011;Accès transmission
+50012;Libellé accès
+50013;Libellé accès câblé
+50014;Type accès
+50015;Souhaitez-vous propager les valeurs aux équipements du type ?
+50016;Types et modèles
+50017;MIBS
+50018;Numéro de version
+50019;Nom SNMP du module
+50020;Date du module
+50021;Version SMI
+50022;Date de la dernière compilation correcte
+50023;Fichier MIB
+50024;Parcourir
+50025;Général
+50026;Variables
+50027;Tables
+50028;Traps
+50029;Eléments
+50030;Visible au niveau des équipements
+50031;Nom SNMP
+50032;Numéro d'entreprise
+50033;Type SNMP
+50034;Numéro de trap (si trap)
+50035;Défini dans le fichier ligne
+50036;Unités
+50037;Contraintes
+50038;Droits d'accès
+50039;Valeur par défaut
+50040;Etat
+50041;Index (si table)
+50042;Colonnes ajoutées
+50043;Informations
+50044;Informations liées
+50045;Informations d'affichage
+50046;Variables scalaires
+50047;Nom de la variable
+50048;Date de compilation
+50049;Description
+50050;Codes
+50051;Code
+50052;Compiler
+50053;Sélectionnez un module MIB avant de compiler
+50054;Précisez le nom de fichier avant de compiler
+50055;Chemin à l'introduction du fichier dans la GED
+50056;Copie
+50057;Fichier copié en : @1
+50058;Compilation réussie
+50059;Familles filles
+50060;Nom de la famille
+50061;Famille de Mibs
+50062;Familles de Mibs
+50063;Famille
+50064;Recherche fichier son
+50065;Fichier sonnerie alarme
+50066;Operator masking
+50067;Administrator masking
+50068;Déclencher alarme
+
+60000;Masquage brigadier
+60001;Masquage administrateur
+60002;Début masquage
+60003;Fin masquage
+60004;JJ/MM/AAAA hh:mm:ss
+60006;Prestations concernés
+60007;Consultation alarmes en cours
+60008;Consultations alarmes en cours
+60009;Choix des données
+60010;Sonnerie
+60011;Critères complexes
+60012;Critères simples
+60013;Consultation
+60014;Alarmes en cours
+60015;Alarmes retombées
+60016;Alarmes masquées Administrateur
+60017;Alarmes masquées Opérateur
+60018;Alarmes fréquentes en cours
+60019;Données à afficher
+60020;Données possibles
+60021;Données chosies
+60022;Durée
+60023;Date de fin
+60024;Nom d'alarme
+60025;Type d'événement
+60026;Gravité
+60027;Seuil éventuel
+60028;Nom
+60029;Valeur
+60030;Détails
+60031;Evénement
+60032;Début
+60033;Fin
+60034;Durée
+60035;Acquitter
+60036;Retomber
+60037;Démasquer
+60038;Masquer
+60039;Elémént géré en défaut
+60040;Type
+60041;Câblage alarme
+60042;Sont concernes
+60043;Prestations
+60044;Clients
+60045;Sites
+60046;Alarme
+60047;Alarmes masquées à la creation
+60048;Site
+60049;Type d’élément
+60050;Position
+60051;Masquage
+60052;Annuler
+60053;La date de debut de masquage est supérieure à la date de fin
+60054;Date de masquage n'est pas valide
+60055;Date
+60056;Couleur des alarmes
+60057;Couleur
+60058;Paramètres
+60059;Pas d'alarme
+60060;Mailing liste
+60061;Activer
+60062;Aucune consultation selectionée
+60063;Période d'alarme fréquent doit être superior à 1
+60064;La date de debut de masquage n'est pas valide
+60065;La date de fin de masquage n'est pas valide
+60066;Données SNMP
+60067;Adresse IP d'equipement est inconnue
+60068;Communauté SNMP d'equipement est inconnue
+60069;Variables SNMP
+60070;Table(s) SNMP
+60071;Variables d'une table SNMP
+60072;Variables
+60073;Aucune table selectionée
+60074;Pas trouvé

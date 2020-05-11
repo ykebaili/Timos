@@ -1,0 +1,9 @@
+Pour récuperer le profil d'une session cliente :
+CUserProfilPrtct profil = session.GetPropriete(CUserProfilPrtct.c_nomIdentification);
+
+Pour récuperer les modules d'une session client :
+CConfigModulesTimos modules = sessionClient.GetPropriete(CConfigModulesTimos.c_nomIdentification);
+
+Sur le serveur CTimosServeur possède une Propriété ModulesApp qui retourne un CConfigModule contenant
+les modules app de la licence du serveur
+				

@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{38DE5923-5F1F-4FC3-BEE1-63A8A7A442AB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>futurocom.win32.sig</RootNamespace>
+    <AssemblyName>futurocom.win32.sig</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="futurocom.easyquery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\futurocom.easyquery.dll</HintPath>
+    </Reference>
+    <Reference Include="futurocom.win32.easyquery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\futurocom.win32.easyquery.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\GMap.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsForms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\GMap.NET.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="MagicLibrary, Version=1.7.4.0, Culture=neutral, PublicKeyToken=3a6eb82f876a49bc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\MagicLibrary.DLL</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=2.0.0.1, Culture=neutral, PublicKeyToken=6ab76d8179563588, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire.win32.editor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.formulaire.win32.editor.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.win32.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.win32.data.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.data.dynamic, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.win32.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>S:\sc2idlls\AllDlls\bin\Debug\sc2i.win32.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.87.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cartography\CControleEditeGPSCarte.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cartography\CControleEditeGPSCarte.Designer.cs">
+      <DependentUpon>CControleEditeGPSCarte.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cartography\CControleEditeGpsLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cartography\CControleEditeGpsLine.Designer.cs">
+      <DependentUpon>CControleEditeGpsLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cartography\CControleEditeGpsSegment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cartography\CControleEditeGpsSegment.Designer.cs">
+      <DependentUpon>CControleEditeGpsSegment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cartography\CControleEditeGpsPoint.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cartography\CControleEditeGpsPoint.Designer.cs">
+      <DependentUpon>CControleEditeGpsPoint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cartography\IEditeurItemCarte.cs" />
+    <Compile Include="ConfigMapView\CAllocateurInterfaceMapItemGenerator.cs" />
+    <Compile Include="ConfigMapView\CControleEditeMapDatabaseGenerator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapDatabaseGenerator.Designer.cs">
+      <DependentUpon>CControleEditeMapDatabaseGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapLineDessin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapLineDessin.Designer.cs">
+      <DependentUpon>CControleEditeMapLineDessin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapItemDessin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapItemDessin.Designer.cs">
+      <DependentUpon>CControleEditeMapItemDessin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapLineGenerator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapLineGenerator.Designer.cs">
+      <DependentUpon>CControleEditeMapLineGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapPointGenerator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapPointGenerator.Designer.cs">
+      <DependentUpon>CControleEditeMapPointGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapRouteFromQuery.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapRouteFromQuery.Designer.cs">
+      <DependentUpon>CControleEditeMapRouteFromQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapsLinesDessins.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapsLinesDessins.Designer.cs">
+      <DependentUpon>CControleEditeMapsLinesDessins.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapsItemsDessins.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CControleEditeMapsItemsDessins.Designer.cs">
+      <DependentUpon>CControleEditeMapsItemsDessins.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CFormEditConfigWndMapView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CFormEditConfigWndMapView.Designer.cs">
+      <DependentUpon>CFormEditConfigWndMapView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigMapView\CRuntimeConfigMapView.cs" />
+    <Compile Include="ConfigMapView\CWndFor2iMapView.cs" />
+    <Compile Include="ConfigMapView\CWndSigMapView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigMapView\CWndSigMapView.Designer.cs">
+      <DependentUpon>CWndSigMapView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\futurocom.sig\futurocom.sig.csproj">
+      <Project>{B80DAAA9-FC7E-4F41-A1DC-A147ACACE69B}</Project>
+      <Name>futurocom.sig</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="cartography\CControleEditeGPSCarte.resx">
+      <DependentUpon>CControleEditeGPSCarte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cartography\CControleEditeGpsLine.resx">
+      <DependentUpon>CControleEditeGpsLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cartography\CControleEditeGpsSegment.resx">
+      <DependentUpon>CControleEditeGpsSegment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cartography\CControleEditeGpsPoint.resx">
+      <DependentUpon>CControleEditeGpsPoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapDatabaseGenerator.resx">
+      <DependentUpon>CControleEditeMapDatabaseGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapLineDessin.resx">
+      <DependentUpon>CControleEditeMapLineDessin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapItemDessin.resx">
+      <DependentUpon>CControleEditeMapItemDessin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapLineGenerator.resx">
+      <DependentUpon>CControleEditeMapLineGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapPointGenerator.resx">
+      <DependentUpon>CControleEditeMapPointGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapRouteFromQuery.resx">
+      <DependentUpon>CControleEditeMapRouteFromQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapsLinesDessins.resx">
+      <DependentUpon>CControleEditeMapsLinesDessins.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CControleEditeMapsItemsDessins.resx">
+      <DependentUpon>CControleEditeMapsItemsDessins.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CFormEditConfigWndMapView.resx">
+      <DependentUpon>CFormEditConfigWndMapView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigMapView\CWndSigMapView.resx">
+      <DependentUpon>CWndSigMapView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="futurocom.win32.sig.mes" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pushpin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MapSetup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\valide.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconeCartex16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconePointx16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconSegment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconLine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AddGPSPoint.cur" />
+    <None Include="Resources\AppareilPhoto.png" />
+    <None Include="Resources\PointToMoveOnMap.png" />
+    <None Include="Resources\PointToMoveOnMap1.png" />
+    <None Include="Resources\CursorAddGPSLine.ico" />
+    <None Include="Resources\CursorAddLine.ico" />
+    <None Include="Resources\CursorAddGPSPoint.ico" />
+    <None Include="Resources\icon_souris.png" />
+    <None Include="Resources\IconeAddPointx16.png" />
+    <None Include="Resources\IconAddLine.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

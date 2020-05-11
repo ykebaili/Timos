@@ -1,0 +1,59 @@
+﻿1;Ok
+2;Annuler
+
+20000;Préparation d'une base de travail
+20001;Impossible d'ouvrir la session distante
+20002;Votre sélection
+20003;Importer les données
+20004;Vous devez sélectionner les sites à importer
+20005;Timos inventaire
+20006;Préparer les données
+20007;Impossible de lire les données
+20008;Erreur lors du transfert de données
+20009;Connexion à Timos
+20010;Récupération de la liste des sites
+20011;Import du contenu de @1 site(s)
+20012;Chargement des données
+20013;m
+20014;s
+20015;Mise à jour des informations de configuration
+20016;Import détails du site @1
+20017;Détail du site
+20018;Sites fils
+20019;Equipements
+20020;Site survey
+20021;Démarrer l'inventaire
+20022;Présent
+20023;Absent
+20024;Editer un équipement
+20025;Numéro de série
+20026;Site
+20027;Type d'équipement
+20028;Coordonnée
+20029;Equipement parent
+20030;Sélectionnez un type d'équipement
+20031;Coord.
+20032;Num. série
+20033;Type
+20034;Commentaire
+20035;Numéro de série multiple
+20036;Sauvegarder les modifications ?
+20037;Transmettre @1 relevé(s)
+20038;Envoi du relevé @1
+20039;Supprimer @1 relevé(s)
+20040;Réinitialiser l'inventaire
+20041;Démarré le @1
+20042;Cette action va réinitialiser l'inventaire. Etes vous sûr ?
+20043;Certains relevés n'ont pas pu être transmis. Si le problème persiste, contactez l'administrateur.
+20044;Préparer les données
+20045;Sites disponibles
+20046;Mode déconnecté
+20047;Mode connecté
+20048;Dernières données : @1
+20049;Il y a des relevés non envoyés à Timos sur votre ordinateur. Il est recommandé de transmettre ces relevés à Timos avant de récupérer des sites. Continuer malgré tout ?
+20050;Inventaires à envoyer
+20051;Paramétrage de l'application
+20052;URL du service Timos
+20053;Impossible de se connecter à l'URL spécifiée. Modifier le paramétrage malgré tout ? (@1)
+20054;Test de l'URL
+20055;Champs personnalisés de relevé

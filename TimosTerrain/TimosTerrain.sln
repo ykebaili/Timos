@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimosInventory.data", "TimosInventory.data\TimosInventory.data.csproj", "{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimosInventory", "TimosInventory\TimosInventory.csproj", "{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimosInventoryLauncher", "TimosInventoryLauncher\TimosInventoryLauncher.csproj", "{70F11770-3731-4385-8E66-06DB51AC30A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		debug avec documentation|Any CPU = debug avec documentation|Any CPU
+		debug avec documentation|x86 = debug avec documentation|x86
+		debug PDA DATA|Any CPU = debug PDA DATA|Any CPU
+		debug PDA DATA|x86 = debug PDA DATA|x86
+		debug structure pda|Any CPU = debug structure pda|Any CPU
+		debug structure pda|x86 = debug structure pda|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug avec documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug avec documentation|Any CPU.Build.0 = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug avec documentation|x86.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug PDA DATA|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug PDA DATA|Any CPU.Build.0 = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug PDA DATA|x86.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug structure pda|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug structure pda|Any CPU.Build.0 = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.debug structure pda|x86.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}.Release|x86.ActiveCfg = Release|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug avec documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug avec documentation|Any CPU.Build.0 = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug avec documentation|x86.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug PDA DATA|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug PDA DATA|Any CPU.Build.0 = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug PDA DATA|x86.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug structure pda|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug structure pda|Any CPU.Build.0 = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.debug structure pda|x86.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}.Release|x86.ActiveCfg = Release|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug avec documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug avec documentation|Any CPU.Build.0 = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug avec documentation|x86.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug PDA DATA|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug PDA DATA|Any CPU.Build.0 = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug PDA DATA|x86.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug structure pda|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug structure pda|Any CPU.Build.0 = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.debug structure pda|x86.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70F11770-3731-4385-8E66-06DB51AC30A7}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

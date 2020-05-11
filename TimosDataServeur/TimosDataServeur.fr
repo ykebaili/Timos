@@ -1,0 +1,26 @@
+10;Ok
+11;Annuler
+
+30000;Imprimer
+30001;Sauvegarder
+30002;Envoyer par mail
+30003;Fermer
+30004;Base de données
+30005;Utilisateur
+30006;Mot de passe
+30007;Sélection de la base de données
+30008;Le type de connection n'a pu être déterminée : la référence registre est manquante"
+30009;Demarrer (3s..)
+30010;Demarrer (@1s..)
+30011;Initialisation de la connection avec la base de donnée Oracle : Veuillez patienter...
+30012;Initialisation de la connection avec la base de donnée SQL Serveur : Veuillez patienter...
+30013;Impossible d'initialiser le serveur : type de connection non identifiée 
+30014;Initialisation de la base de donnée TIMOS
+30015;Erreur lors de l'initialisation
+30016;Initialisation du serveur
+30017;Forcer la mise à jour
+30018;Démarrer le Serveur TIMOS
+30019;Copier la base
+30020;Afficher le Log
+30021;[ TIMOS SERVEUR EN SERVICE ]
+

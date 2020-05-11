@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="spv.win32.CExtenderFormEquipmentBoucles" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormEquipmentBoucles.cs</FileName>
+      <HashCode>ACAAACAAACCAAAAAAASAAAACAAIBAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtenderFormEquipmentPorts" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormEquipmentPorts.cs</FileName>
+      <HashCode>ACAAACAAACCAAAAAAASAAAACAAIBAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtendeurFormSchemaReseau" Collapsed="true">
+    <Position X="8.25" Y="1.5" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormSchemaReseau.cs</FileName>
+      <HashCode>ACAAACAAACAAABAAAACCCAQDAAEAAAIAAYAACIAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtenderFormSitePrestation" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormSitePrestation.cs</FileName>
+      <HashCode>ACAAAAAAACAAAAAAAACCAAACgBACAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtendeurFormTypeLienReseau" Collapsed="true">
+    <Position X="12.75" Y="1.5" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormTypeLienReseau.cs</FileName>
+      <HashCode>ACAAACAgACAAAAABAACAAAQCAAAAAAAAAAAAAABAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtenderFormTypeq" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormTypeq.cs</FileName>
+      <HashCode>ACQAyCBGQiAyEAAAAACAigUiDAAEEAAAAACADQChAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtenderFormTypeqAlarms" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormTypeqAlarms.cs</FileName>
+      <HashCode>ACAAACAAACAQAAAAAAGAAAACAAAAAAAAAACAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtenderFormTypeqMIB" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormTypeqMIB.cs</FileName>
+      <HashCode>AAAAACAAACAQAAAAAACAAAACAAAAAAAAEACAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtenderFormTypeqSnmpTables" Collapsed="true">
+    <Position X="19.75" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormTypeqSnmpTables.cs</FileName>
+      <HashCode>ACAAACAAACAQAAAAAACAAAACAAAAAACAAACAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtendeurFormTypeSchemaReseau" Collapsed="true">
+    <Position X="14.5" Y="1.5" Width="2.75" />
+    <TypeIdentifier>
+      <FileName>CExtenderFormTypeSchemaReseau.cs</FileName>
+      <HashCode>ACAAACAQACAAgAAAAACAAAQCAAAAAAAAAAAAAABAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtendeurFormEquipement" Collapsed="true">
+    <Position X="5.5" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CExtendeurFormEquipement.cs</FileName>
+      <HashCode>ACAAACCAQLBAAQAAAASAAAACAIAACAAAAQAMAAAAAMA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CExtendeurFormSite" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CExtendeurFormSite.cs</FileName>
+      <HashCode>ACgIACAAACAAABAAEIGIAAACgBAAACACAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CFormConsultationAlarmeGeree" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="1.5" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>CFormConsultationAlarmeGeree.cs</FileName>
+      <HashCode>/3AAICRJACABEBAACACQAAAGAAQEBAgAASgGAAAABDg=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormConsultationAlarmEvent" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.75" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CFormConsultationAlarmEvent.cs</FileName>
+      <HashCode>8zhgICAAACQBQBABHACAABgaQBRgCAAAgSAGACxAEIA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionAccesAlarmeEquipement" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="2.5" Width="2.75" />
+    <TypeIdentifier>
+      <FileName>CFormEditionAccesAlarmeEquipement.cs</FileName>
+      <HashCode>/0AAIAQgEyAAFBC0AAmYEASCgAAGAEAAAiRAAQQCADA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionAlarmeCouleur" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CFormEditionAlarmeCouleur.cs</FileName>
+      <HashCode>AAAQIAAAACAAABAAAACAAAACgACAAAgAAAAAAAAIAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionCablageAccesAlarmeBoucle" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="2.5" Width="3" />
+    <TypeIdentifier>
+      <FileName>CFormEditionCablageAccesAlarmeBoucle.cs</FileName>
+      <HashCode>9wAAIAQgECAAEBC0QAGYEACCgAEUAkAAAiUAAQQAACA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionCauseAlarme" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormEditionCauseAlarme.cs</FileName>
+      <HashCode>AAAgIAAAACAAABAAAACIAAACgAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionConsultationAlarmesEnCours" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="2.5" Width="3" />
+    <TypeIdentifier>
+      <FileName>CFormEditionConsultationAlarmesEnCours.cs</FileName>
+      <HashCode>EAAgIAAAACEAABAAgACAIASKggAAACAAAKAAAASAAgA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionEmail" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormEditionEmail.cs</FileName>
+      <HashCode>AAAAIAIAACAAABAAAACAAAAChAAAAAAAAAAAEAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionFamilleModulesMib" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.75" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>CFormEditionFamilleModulesMib.cs</FileName>
+      <HashCode>AAAgIAAAASAAAHAgAACAAAKCgAAACAAIAACAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionModuleMib" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormEditionModuleMib.cs</FileName>
+      <HashCode>BFAWKAIAACIAEBBCICCBBQaig4BgAGAAICIQAAQAhAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionObjetMib" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>CFormEditionObjetMib.cs</FileName>
+      <HashCode>/0IEIAAIACAAABAAgACjCgIugAAAAEAJIAGAAVAACDA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionParamSysteme" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CFormEditionParamSysteme.cs</FileName>
+      <HashCode>AEAAIAIAACEAABQAAACAAAACgAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionTableSnmp" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormEditionTableSnmp.cs</FileName>
+      <HashCode>AAQAYAAAQCAAAABAAAiAABADhAAACAAAIMAEAAAAAAI=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionTypeAccesAlarme" Collapsed="true">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CFormEditionTypeAccesAlarme.cs</FileName>
+      <HashCode>/0AgIDRJAyABFBCCCAiQAASmgEAkBAgAAChAAQICRDA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="spv.win32.CFormEditionTypeAccesAlarmeBoucle" Collapsed="true">
+    <Position X="2.75" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <FileName>CFormEditionTypeAccesAlarmeBoucle.cs</FileName>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CFormEditSpvProg" Collapsed="true">
+    <Position X="15" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CFormEditSpvProg.cs</FileName>
+      <HashCode>gAAAIAAAACAAABAACACAAAACgAAACAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CFormEditSpvSite" Collapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CFormEditSpvSite.cs</FileName>
+      <HashCode>AAgAIAAAACAAABAACACAAAACgAAACAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CFormListeAcces_Accesc" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.75" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormListeAcces_Accesc.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeAcces_AccescMasqueAdmin" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <FileName>CFormListeAcces_AccescMasqueAdmin.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAASEAAAAAAAAAACAAAAgAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeAcces_AccescMasqueBri" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="4.5" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>CFormListeAcces_AccescMasqueBri.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAASEAAAAAAAAAACAAAAgAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeAlarmColor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>CFormListeAlarmColor.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAASEAAAAAAAAAACAAAAgAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeAlarmeEnCours" Collapsed="true">
+    <Position X="12.75" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormListeAlarmeEnCours.cs</FileName>
+      <HashCode>IECgAIKQaGIAABAACJOEAAAiASEQQEIMAWA5JgiEREA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CFormListeAlarms" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CFormListeAlarms.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAASEAAAAAAAAAACAAAAgAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeCauseAlarme" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormListeCauseAlarme.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeConsultationAlarmesEnCours" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.75" Y="4.75" Width="3" />
+    <TypeIdentifier>
+      <FileName>CFormListeConsultationAlarmesEnCours.cs</FileName>
+      <HashCode>AAAAAAAAAiAAAAAABACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeFamillesModulesMib" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CFormListeFamillesModulesMib.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeModulesMib" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>CFormListeModulesMib.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeParamSysteme" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormListeParamSysteme.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeSpvSites" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>CFormListeSpvSite.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormListeTypesAccesAlarmes" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CFormListeTypeAccesAlarmes.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACEAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CFormMenuOrganisation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>CFormMenuSPV.cs</FileName>
+      <HashCode>ArAAAAEIACCAARMQAQSBAQBCEAQkAAADoAIEGChACAQ=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="spv.win32.CListeViewOptimiseeParLigne" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CListeViewOptimiseeParLigne.cs</FileName>
+      <HashCode>AAQAAAAAAAAAAAAAAABAEJQCBAIAAAAAgAASAABAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CListViewAlarmes" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>CListViewAlarmes.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAACAABACAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CSonneurDeSonnerieAlarme" Collapsed="true">
+    <Position X="19.75" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CSonneurDeSonnerieAlarme.cs</FileName>
+      <HashCode>AAAAAAAAAAAIAAAAAAEAACggAAAEAAAkAAAAAAAAAAI=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.CSpvWin32Registre" Collapsed="true">
+    <Position X="5.5" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>CSpvWin32Registre.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAEAAAAAAAAIAAAAAAIAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="spv.win32.Properties.Resources" Collapsed="true">
+    <Position X="7.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAEBEAAAAQAACAAAAAAABAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Delegate Name="spv.win32.GetDonneesLigneEventHandler" Collapsed="true">
+    <Position X="6" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>CListeViewOptimiseeParLigne.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Delegate>
+</ClassDiagram>

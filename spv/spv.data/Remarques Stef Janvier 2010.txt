@@ -1,0 +1,5 @@
+﻿-Dans CspvSiteServeur, traitement avant sauvegarde, création du site_rep. Le site_rep ne doit
+être créé que s'il n'existe pas déjà (correction faite, mais n'y en a-t-il pas d'autres ?)
+
+-La table Site_rep contient des éléments qui n'existent pas dans, j'ai donc enlevé la contrainte,
+mais il faudrait la remettre

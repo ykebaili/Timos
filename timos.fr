@@ -1,0 +1,7 @@
+[sc2i.common]
+0;Voici le premier message
+1;Voici le deuxième message
+
+[timos]
+0;Le bouton 1
+1;The dialog box

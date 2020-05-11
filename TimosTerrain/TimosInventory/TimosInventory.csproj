@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DEEFE2E7-CDB0-488E-9D9C-F347D8C28EE4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TimosInventory</RootNamespace>
+    <AssemblyName>TimosInventory</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="sc2i.common, Version=2.0.0.1, Culture=neutral, PublicKeyToken=6ab76d8179563588, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CFormCreerEquipement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormCreerEquipement.Designer.cs">
+      <DependentUpon>CFormCreerEquipement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormSetup.Designer.cs">
+      <DependentUpon>CFormSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormViewData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormViewData.Designer.cs">
+      <DependentUpon>CFormViewData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControleInventaire\CControleTypeEquipement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControleInventaire\CControleTypeEquipement.Designer.cs">
+      <DependentUpon>CControleTypeEquipement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControleInventaire\CControlPresence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControleInventaire\CControlPresence.Designer.cs">
+      <DependentUpon>CControlPresence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormDetailSite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormDetailSite.Designer.cs">
+      <DependentUpon>CFormDetailSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormMain.Designer.cs">
+      <DependentUpon>CFormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormPreparerBaseTravail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormPreparerBaseTravail.Designer.cs">
+      <DependentUpon>CFormPreparerBaseTravail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormReleveSite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormReleveSite.Designer.cs">
+      <DependentUpon>CFormReleveSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormWaiting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormWaiting.Designer.cs">
+      <DependentUpon>CFormWaiting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CListViewTablette.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControleInventaire\CControleListePourInventaire.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControleInventaire\CControlePourInventaire.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControleInventaire\CControlePourInventaire.Designer.cs">
+      <DependentUpon>CControlePourInventaire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControleInventaire\CItemInventaire.cs" />
+    <Compile Include="CTimosInventoryDb.cs" />
+    <Compile Include="CTimosInventoryRegistre.cs" />
+    <Compile Include="CTxtSaisieCoordonnee.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomField\CControleChampTexte.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomField\CControleForCustomFieldReleve.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomField\CControleForCustomFieldReleve.Designer.cs">
+      <DependentUpon>CControleForCustomFieldReleve.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomField\IControlChampCustom.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CFormCreerEquipement.resx">
+      <DependentUpon>CFormCreerEquipement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormSetup.resx">
+      <DependentUpon>CFormSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormViewData.resx">
+      <DependentUpon>CFormViewData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControleInventaire\CControleTypeEquipement.resx">
+      <DependentUpon>CControleTypeEquipement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControleInventaire\CControlPresence.resx">
+      <DependentUpon>CControlPresence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormDetailSite.resx">
+      <DependentUpon>CFormDetailSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormMain.resx">
+      <DependentUpon>CFormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormPreparerBaseTravail.resx">
+      <DependentUpon>CFormPreparerBaseTravail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormReleveSite.resx">
+      <DependentUpon>CFormReleveSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormWaiting.resx">
+      <DependentUpon>CFormWaiting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CListViewTablette.resx">
+      <DependentUpon>CListViewTablette.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControleInventaire\CControleListePourInventaire.resx">
+      <DependentUpon>CControleListePourInventaire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControleInventaire\CControlePourInventaire.resx">
+      <DependentUpon>CControlePourInventaire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CTxtSaisieCoordonnee.resx">
+      <DependentUpon>CTxtSaisieCoordonnee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomField\CControleChampTexte.resx">
+      <DependentUpon>CControleChampTexte.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomField\CControleForCustomFieldReleve.resx">
+      <DependentUpon>CControleForCustomFieldReleve.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Web References\InventoryService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TimosInventory.data\TimosInventory.data.csproj">
+      <Project>{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}</Project>
+      <Name>TimosInventory.data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost:1111/TimosWeb/InventoryService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\InventoryService\</RelPath>
+      <UpdateFromURL>http://localhost:1111/TimosWeb/InventoryService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>TimosInventory_InventoryService_InventoryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="TimosInventory.fr" />
+    <None Include="Web References\InventoryService\InventoryService.disco" />
+    <None Include="Web References\InventoryService\InventoryService.wsdl" />
+    <None Include="Web References\InventoryService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MiniSpinner.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bigspinner.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading_spinner.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\moins_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1361898700_bullet_toggle_plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1361898749_bullet_toggle_minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1364325415_checkbox_no.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1364325407_checkbox_yes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1364325707_advancedsettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lock.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1364501755_locked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LockEnCoin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Quitter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icone quitter 32.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

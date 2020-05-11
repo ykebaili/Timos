@@ -1,0 +1,4 @@
+﻿1;Mode opérationnel schéma: cas non encore implanté
+2;Type de noeud de graphe inconnu dans le calcul de l''état opérationnel d''un parent
+3;Code de type d''objet inconnu
+4;Nature d''élément non prévue dans le graphe

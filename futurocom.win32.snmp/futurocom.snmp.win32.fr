@@ -1,0 +1,151 @@
+1;&Ok
+2;&Annuler
+
+20000;Nom
+20001;OID
+20002;Module
+20003;Description
+20004;Accès
+20005;Non accessible
+20006;Accessible pour notification
+20007;Lecture seule
+20008;Lecture / Ecriture
+20009;Lecteur / Création
+20010;Syntaxe
+20011;Unités
+20012;Valeur déf.
+20013;Référence
+20014;Détail
+20015;Indexs
+20016;Augment.
+20017;Objects
+20018;Nom
+20019;Type
+20020;Filter
+20021;Recursive
+20022;Lister les éléments
+20023;Liste
+20024;Cocher celui-ci uniquement
+20025;Cocher tout sauf celui-ci
+20026;Cocher tout
+20027;Décocher tout
+20028;Table
+20029;Nom
+20030;Type
+20031;Paramètres de connexion
+20032;IP de l'agent SNMP
+20033;Port
+20034;Version
+20035;Timeout
+20036;ms
+20037;Adresse IP invalide
+20038;Port invalide
+20039;Version invalide
+20040;Valeur de timeout invalide
+20041;Aucune valeur
+20042;Valeur
+20043;Index
+20044;Voir la table
+20045;Mib
+20046;Evenements de trap
+20047;Nom de l'évenement
+20048;Entreprise
+20049;Specific
+20050;Créer un évenement
+20051;Libellé
+20052;Description
+20053;Condition de déclenchement
+20054;Entreprise
+20055;Code Generique
+20056;Communauté
+20057;Trap spécifique
+20058;Condition
+20059;Tous
+20060;Champs
+20061;Création d'alarme
+20062;OID
+20063;Nom
+20064;Champ de trap
+20065;Indiquez un nom de champ
+20066;Evenement de trap
+20067;Type d'alarme
+20068;Requêtes	
+20069;Libellé de la requête
+20070;Création d'alarme
+20071;Condition de création
+20072;Champs de trap
+20073;Champs supplémentaires
+20074;Prétraitement du trap
+20075;Libellé du créateur
+20076;Code
+20077;Libellé
+20078;Champs
+20079;Formulaire
+20080;Nom de champ
+20081;Remplir depuis une requête
+20082;Type d'entite
+20083;Types d'entités
+20084;Formule par défaut d'index SNMP
+20085;Champ snmp
+20086;Champ standard
+20087;Type de donnée
+20088;Description
+20089;Formule d'index
+20090;Laisser vide pour utiliser l'index par défaut
+20091;Conversion depuis SNMP
+20092;Conversion vers SNMP
+20093;Indiquez un nom de champ
+20094;Le format de l'OID est incorrect. (Utilisez .x.y.z)
+20095;Ip de l'agent
+20096;Mode de gestion
+20097;Formule de libellé
+20098;Editer la requete source
+20099;Requête source
+20100;Accès
+20101;Lecture seule
+20102;Lecture/écriture
+20103;Type d'entité associé
+20104;Lecture optimisée
+20105;Communauté
+20106;Traps V1
+20107;Trap
+20108;Envoi de trap
+20109;Destinataire du trap
+20110;Détail du trap
+20111;Ip expéditeur
+20112;Entreprise
+20113;Code generic
+20114;Code spécifique
+20115;Version de trap
+20116;Communauté
+20117;Variables de trap
+20118;Envoyer un trap
+20119;Type
+20112;IP Destinataire
+20113;Port destinataire
+20114;Valeur de @1 invalide
+20115;Code générique invalide
+20116;Version invalide
+20117;Valeur "Entreprise" invalide
+20118;Code spécifique invalide
+20119;IP destinataire invalide
+20120;Port destinataire invalide
+20121;Trap envoyé
+20122;Copier la formule dans le presse papier
+20123;La formule de création du trap a été copiée dans le presse papier
+20124;Dupliquer
+20125;Libellé
+20126;Type de donnée
+20127;Indiquez un libellé pour ce paramétrage de polling
+20128;Sélectionnez un type de donnée
+20129;Paramétrage de polling
+20130;Fréquence
+20131;Identification d'agent
+20132;Mettre à jour automatiquement l'ip sur les services de médiation
+20133;Mettre à jour automatiquement l'ip dans la base de données TIMOS
+20134;IP Hotel
+20135;Port Hotel
+20136;Table
+20137;Champ
+20138;Id Entité
+20139;Formule polling

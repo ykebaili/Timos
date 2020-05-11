@@ -1,0 +1,66 @@
+1;Type Contrat Standard
+2;Pas de licence pour l'utilisateur
+3;Le nom d'utilisateur ou le mot de passe sont invalides
+4;Erreur lors de l'authentification
+5;Le nom d'utilisateur Windows n'est pas autorisé
+6;Le nom d'utilisateur n'est pas valide
+7;Type d'Intervention Standard
+8;Element Standard
+9;Impossible de créer @1 élements. Votre licence vous autorise à créer @2 élements.
+10;Erreur lors de la récupération de la licence : le serveur est null
+11;Erreur lors de la récupération de la licence : le fichier de licence est introuvable
+12;Impossible de charger la licence : l'authentification de l'utilisateur à échouée
+13;Erreur lors de la récupération de la licence : la session utilisateur n'a pas pu être identifiée
+14;Erreur : il n'y a aucun profil utilisateur dans la licence
+15;Il n'y a plus de profil disponible sur le serveur
+16;La session principale n'existe pas
+17;Erreur lors de l'accès à la session principale
+18;Inconnu
+
+10000;Profil de secour > Mettez à jour votre licence !
+10001;Lecture Licence...
+
+20000;Erreur de licence, aucune licence trouvée
+20001;Erreur de licence, support amovible retiré (@1)
+20002;Erreur de licence, licence expirée
+20003;Erreur de licence, installation incorrecte
+20004;Vous allez bientôt atteindre la limite du nombre d'éléments '@1'. Il reste @2%
+20005;La licence de Timos n'est pas compatible avec cette version. Le contrat de maintenance est expiré
+20006;Licence gratuite
+20007;Compagnie non enregistrée
+20008;Administrateur de l'application
+20009;Administrateur
+20010;Utilisateur standard
+20011;Utilisateur
+
+
+
+30000;Erreur lors de l'envoi du mail
+30001;Attente dispo openSession
+30002;Début ouverture de session
+30003;Fin d'ouverture de session
+30004;Erreur type authentification
+30006;Initialisation du Serveur
+30007;Lecture du fichier timos.mes...
+30008;Configuration du Remoting...
+30009;Ouverture de la session...
+30010;Erreur lors de l'ouverture de la session
+30011;Connexion à la base de données...
+30012;Ajout des references de DLL...
+30013;Test de connexion...
+30014;Connexion non disponible (@1)
+30015;La connection avec la base n'a pas pu être établie. Vérifiez la chaine de connection et que la base est bien démarrée
+30016;Initialisation du serveur de documents GED...
+30017;Verification des noms des Tables...
+30018;Le nom de la table '@1' doit être en majuscules
+30019;Le nom du champ '@1' de la table '@2' doit être en majuscules
+30020;Vérification du nom des tables 
+30021;Mise à jour de la structure de la base...
+30022;Initialisation finale
+30023;Impossible de mettre à jour SC2I_SYNC_LOG
+30024;Impossible de mettre à jour la table '@1' car le champ ajouté '@2' est obligatoire et un élément standard '@3' ne peut pas être créé
+30025;Erreur dans la mise à jour de @1
+30026;Utilisateur Temporaire
+30027;Impossible d'identifier le support
+30028;Support amovible invalide
+30029;Erreur identification support amovible

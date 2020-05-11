@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "futurocom.snmp", "futurocom.snmp.csproj", "{D40EACEE-48DA-4559-86D2-63BC6F89E821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSnmp", "..\TestSnmp\TestSnmp.csproj", "{8E886C93-D261-4F69-8915-72236110067E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "futurocom.win32.snmp", "..\futurocom.win32.snmp\futurocom.win32.snmp.csproj", "{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "futurocom.supervision", "..\futurocom.supervision\futurocom.supervision.csproj", "{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		debug avec documentation|Any CPU = debug avec documentation|Any CPU
+		debug avec documentation|x86 = debug avec documentation|x86
+		debug PDA DATA|Any CPU = debug PDA DATA|Any CPU
+		debug PDA DATA|x86 = debug PDA DATA|x86
+		debug structure pda|Any CPU = debug structure pda|Any CPU
+		debug structure pda|x86 = debug structure pda|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug avec documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug avec documentation|Any CPU.Build.0 = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug avec documentation|x86.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug PDA DATA|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug PDA DATA|Any CPU.Build.0 = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug PDA DATA|x86.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug structure pda|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug structure pda|Any CPU.Build.0 = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.debug structure pda|x86.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40EACEE-48DA-4559-86D2-63BC6F89E821}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug avec documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug avec documentation|Any CPU.Build.0 = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug avec documentation|x86.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug PDA DATA|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug PDA DATA|Any CPU.Build.0 = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug PDA DATA|x86.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug structure pda|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug structure pda|Any CPU.Build.0 = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.debug structure pda|x86.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E886C93-D261-4F69-8915-72236110067E}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug avec documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug avec documentation|Any CPU.Build.0 = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug avec documentation|x86.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug PDA DATA|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug PDA DATA|Any CPU.Build.0 = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug PDA DATA|x86.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug structure pda|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug structure pda|Any CPU.Build.0 = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.debug structure pda|x86.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B4E7AE6-D6AF-432B-B698-09CC9A819C5E}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug avec documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug avec documentation|Any CPU.Build.0 = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug avec documentation|x86.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug PDA DATA|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug PDA DATA|Any CPU.Build.0 = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug PDA DATA|x86.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug structure pda|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug structure pda|Any CPU.Build.0 = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.debug structure pda|x86.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

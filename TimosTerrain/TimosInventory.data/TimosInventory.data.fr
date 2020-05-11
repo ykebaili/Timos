@@ -1,0 +1,3 @@
+﻿20000;Le site @1
+20001;L'équipement @1 @2 (@3)
+20002;La valeur @1 ne fait pas partie des valeurs possibles

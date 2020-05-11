@@ -1,0 +1,59 @@
+
+1;Un type d'accès alarme doit être lié à un type d'équipement
+2;Le type d'accès alarme doit être défini
+3;Le type d'accès alarme doit être nommé
+4;Champs obligatoires : commentaire ou baie ou référence ou adresse IP
+
+20000;Le module mib @1 n'existe pas
+20001;Le module mib @1 doit être associé à un fichier de MIB
+20002;Impossible d'interpreter la chaine de connexion
+20003;Echec lors de la compilation du module de mib @1
+20004;Propriétés invalides pour le lien supervisé @1
+20005;Impossible d'annuler la supervision du lien @1
+20006;Erreur lors de l'application des données de supervision
+20007;Le site @1 n'est pas supervisable
+20008;Erreur lors de la tentative de supervision du lien @1
+20009;Transfert eqpts découverts
+20010;Transfert des équipements découverts
+20011;Le nom du schéma réseau doit être renseigné
+
+50000;Saisir au moins un OID
+50001;Type d'accès est non modifiable
+50002;Quand la case <MIB automatique> du seuil est cochée, associer les MIBs correspondantes au type d'équipement
+50003;Quand la case <MIB automatique> du seuil est cochée, renseigner le nom du seuil
+50004;Variable du seuil non trouvée dans les MIBs associées au type d'équipement
+50005;<Nom secondaire> non trouvé (identification SNMP) dans les MIBs associées au type d'équipement
+50006;Quand la case <MIB automatique> est cochée (Identification SNMP), renseigner <Nom secondaire>
+50007;Quand la case <MIB automatique> est cochée (Identification SNMP), associer les MIBs correspondantes au type d'équipement
+50008;Le nom de la famille doit être spécifié
+50009;Erreur dans la hiérarchie des familles, une famille ne peut pas être son propre parent
+50010;Une famille doit être unique dans sa branche"
+50011;Date incorrecte ou vide
+50012;Format de MessAlrm non conforme
+50013;Alarme gérée système 1 non trouvée
+50014;L'index SNMP doit être renseigné lorsque le type d'équipement est @1
+50015;L'index SNMP doit être compris entre @1 et @2 lorsque le type d'équipement est @3
+50016;Le nom d'un équipepment de médiation doit être de la forme 'nom_machine/nom_service'
+50017;Le site FUTUROCOM ne peut pas être effacé
+50018;Le type d'équipement EQUIP MEDIATION est un type système; il ne peut être effacé
+50019;Le Client Système ne peut être effacé
+50020;Ce paramètre ne peut être effacé car il est exploité dans ACCES
+50021;Un message pour EmessEM ne peut pas être vide
+50022;Pour un accès de type trap, renseigner les numéros IANA, trap générique et trap spécifique
+50023;Le numéro de trap générique doit être compris entre 0 et 6
+50024;Pour un trap générique, le n° de trap spécifique doit être à 0
+50025;Pour un trap générique, le n° IANA doit être à zéro
+
+60000;non trouvé dans la MIB
+60001;N°Accès carte ne peut être vide
+60002;Gravité ne peut être vide
+60003;Accès alarme ne peut être vide
+60004;La date de debut de masquage administrateur est supérieure à la date de fin
+60005;La date de debut de masquage brigadier est supérieure à la date de fin
+60006;Le nom du site ne peut être vide
+60006;Le nom de la consultation ne peut être vide
+60007;La consultation '@1' existe déjà
+60008;Seulement des accès de type @1 sont permis pour cet objet
+60009;Le nom du client ne peut être vide
+60010;Selectioner les datas à afficher
+

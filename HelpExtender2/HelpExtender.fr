@@ -1,0 +1,61 @@
+10;Ok
+11;Cancel
+
+30000;Désignation
+30001;Type de la liaison
+30002;Titre
+30003;Nom
+30004;L'aide apparaitra sous forme de tooltip
+30005;Taille du popup
+30006;Aide
+30007;Code HTML
+30008;Voir aussi
+30009;Fichiers associés
+30010;Ajouter
+30011;Supprimer
+30012;Type
+30013;Extension
+30014;Masqué
+30015;Fonction non disponible
+30015;Erreur de l'ajout d'image
+30016;Etes vous sur de vouloir supprimer cette documentation ?
+30017;Fichier
+30018;Nouveau
+30019;Document individuel
+30020;Ouvrir...
+30021;Enregistrer
+30022;Close
+30023;Options
+30024;Langue
+30025;Styles
+30026;Propriétés des liens
+30027;Texte du lien
+30028;Lien vers
+30029;Sélectionner une page de liens
+30030;Entrer un texte de lien
+30031;Nom prédéfini
+30032;Nom personnalisé
+30033;Entrez le nom du lien...
+30034;Vous devez avoir un nom pour visualiser le lien
+30035;Désignation
+30036;Nom du menu
+30037;Description
+30038;Document lié
+30039;Nouvelle rubrique
+30040;Supprimer la rubrique
+30041;Voir aussi...
+30042;Architecture des documents...
+30043;Titre du document
+30044;Document existant
+30045;Sensible aux majuscules
+30046;Critère du test
+30047;Nom court
+30048;Mode de sélection
+30049:Type de la liaison
+30050;Sélectionnez un controle
+30051;Cette aide n'a jamais été crée : elle ne peut être selectionnée
+30052;Choix du document par navigation dans le menu...
+30053;Choix parmi les documents liés aux controles de la fenêtre active...
+30054;Choix parmi les documents indépendants...
+30055;Choix parmi les documents existants...
+30056;Erreur de copie du fichier

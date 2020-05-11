@@ -1,0 +1,502 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{16FEF3BA-6D90-48BF-919A-8847256AED68}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HelpExtender</RootNamespace>
+    <AssemblyName>HelpExtender</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\.NET Win HTML Editor Control\winHTMLEditorControl\Core Control DLL\Microsoft.mshtml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="sc2i.common, Version=1.0.3110.26132, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.common, Version=1.0.3110.26135, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.win32.common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="winHTMLEditorControl, Version=3.1.0.9, Culture=neutral, PublicKeyToken=8cd2bb127043f8aa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\winHTMLEditorControl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\Editeurs\CFormEditStyles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CFormEditStyles.Designer.cs">
+      <DependentUpon>CFormEditStyles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CScreenCopieur.cs" />
+    <Compile Include="Forms\Viewer\CtrlHelpViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Viewer\CtrlHelpViewer.Designer.cs">
+      <DependentUpon>CtrlHelpViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\Contextuel\Html\CWebViewerPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editeurs\Contextuel\Html\CWebViewerPopup.Designer.cs">
+      <DependentUpon>CWebViewerPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CCtrlEditHelp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CCtrlEditHelp.Designer.cs">
+      <DependentUpon>CCtrlEditHelp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\Contextuel\Html\WebViewerEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\CCtrlSelectLiaison.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\CCtrlSelectLiaison.Designer.cs">
+      <DependentUpon>CCtrlSelectLiaison.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu\CCtrlVoirAussi.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu\CCtrlVoirAussi.Designer.cs">
+      <DependentUpon>CCtrlVoirAussi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CFormNomLien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CFormNomLien.Designer.cs">
+      <DependentUpon>CFormNomLien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu\CCtrlEditHelpsLies.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu\CCtrlEditHelpsLies.Designer.cs">
+      <DependentUpon>CCtrlEditHelpsLies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu\CCtrlEditMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu\CCtrlEditMenu.Designer.cs">
+      <DependentUpon>CCtrlEditMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu\CMenuItem.cs" />
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectHelpControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectHelpControl.Designer.cs">
+      <DependentUpon>CCtrlSelectHelpControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectHelpLibre.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectHelpLibre.Designer.cs">
+      <DependentUpon>CCtrlSelectHelpLibre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectHelpType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectHelpType.Designer.cs">
+      <DependentUpon>CCtrlSelectHelpType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectTousAvecTitre.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlSelectTousAvecTitre.Designer.cs">
+      <DependentUpon>CCtrlSelectTousAvecTitre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlTypeSelection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\Liste\CCtrlTypeSelection.Designer.cs">
+      <DependentUpon>CCtrlTypeSelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Viewer\CFormAide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Viewer\CFormAide.Designer.cs">
+      <DependentUpon>CFormAide.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CFormEditHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CFormEditHelp.Designer.cs">
+      <DependentUpon>CFormEditHelp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CFormEditLink.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editeurs\CFormEditLink.Designer.cs">
+      <DependentUpon>CFormEditLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu\CFormMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu\CFormMenu.Designer.cs">
+      <DependentUpon>CFormMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Selection\CFormSelectControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\CFormSelectControl.Designer.cs">
+      <DependentUpon>CFormSelectControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Selection\CFormSelectHelpPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Selection\CFormSelectHelpPage.Designer.cs">
+      <DependentUpon>CFormSelectHelpPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Help\CHelpData.cs">
+    </Compile>
+    <Compile Include="Help\CHelpExtender.cs">
+    </Compile>
+    <Compile Include="Help\ELangueAide.cs" />
+    <Compile Include="Help\ETypeLiaisonAide.cs" />
+    <Compile Include="Help\EVisualisationAide.cs" />
+    <Compile Include="Indexation\CIndexAide.cs" />
+    <Compile Include="Indexation\CIndexationAide.cs" />
+    <Compile Include="Source\CRessourceFichier.cs" />
+    <Compile Include="Forms\Editeurs\Contextuel\RichText\CRichTextViewerPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editeurs\Contextuel\RichText\CRichTextViewerPopup.designer.cs">
+      <DependentUpon>CRichTextViewerPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\CSourceAideFichier.cs" />
+    <Compile Include="Forms\FrmPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPrompt.Designer.cs">
+      <DependentUpon>FrmPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Indexation\CListeIndex.cs" />
+    <Compile Include="Source\ISourceAide.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editeurs\Contextuel\RichText\RichTextBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\Editeurs\CFormEditStyles.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormEditStyles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Viewer\CtrlHelpViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CtrlHelpViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editeurs\Contextuel\Html\WebViewerEx.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>WebViewerEx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editeurs\CCtrlEditHelp.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlEditHelp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\CCtrlSelectLiaison.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlSelectLiaison.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu\CCtrlVoirAussi.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlVoirAussi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editeurs\CFormNomLien.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormNomLien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu\CCtrlEditHelpsLies.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlEditHelpsLies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu\CCtrlEditMenu.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlEditMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\CFormSelectHelpPage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormSelectHelpPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\Liste\CCtrlSelectHelpControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlSelectHelpControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\Liste\CCtrlSelectHelpLibre.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlSelectHelpLibre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\Liste\CCtrlSelectHelpType.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlSelectHelpType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\Liste\CCtrlSelectTousAvecTitre.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlSelectTousAvecTitre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\Liste\CCtrlTypeSelection.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCtrlTypeSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Viewer\CFormAide.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormAide.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editeurs\CFormEditHelp.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormEditHelp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editeurs\CFormEditLink.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormEditLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu\CFormMenu.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Selection\CFormSelectControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormSelectControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPrompt.resx">
+      <DependentUpon>FrmPrompt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignTableCellFullJust.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignTableCellMiddleCenterHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignTableCellMiddleLeftJust.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignTableCellMiddleRightHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\anchor.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\anchor1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackColor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\boldhs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cleanup.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\code.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color_font.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CopyHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cut.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CutHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditInformation.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hr.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IndentHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertPictureHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItalicHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LineColorHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\link.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\List_BulletsHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\List_NumberedHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OutdentHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PasteHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\strikethrough.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sub.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sup.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SymbolHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\underline.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\underline_fr.gif" />
+    <None Include="HelpExtender.fr" />
+    <None Include="Resources\unlink.gif" />
+    <None Include="Resources\undo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

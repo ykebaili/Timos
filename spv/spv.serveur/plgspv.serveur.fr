@@ -1,0 +1,4 @@
+50000;Echec du démasquage automatique des alarmes
+50001;Echec du démasquage automatique des alarmes fille
+50002;Erreur dans le décodage du message MESSALRM (@1)
+60000;Alarme

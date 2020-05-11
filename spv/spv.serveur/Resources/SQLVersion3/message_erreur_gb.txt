@@ -1,0 +1,4 @@
+﻿1;Network operationnal mode: case not yet established
+2;unknown network graph node type in computing operationnal state of parent
+3;Unknown object type code
+4;Unknown type element in network graph

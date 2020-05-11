@@ -1,0 +1,937 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{52C5C360-E09E-4AAC-8B90-3AD4A906D20F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>timos.data</RootNamespace>
+    <AssemblyName>timos.data</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <DocumentationFile>bin\Debug\timos.data.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug avec doc|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug avec doc\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;doc</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>bin\Debug avec doc\timos.data.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug avec doc|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug avec doc\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;doc</DefineConstants>
+    <DocumentationFile>bin\Debug avec doc\timos.data.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=11.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=11.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="data.hotel.client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\data.hotel.client.dll</HintPath>
+    </Reference>
+    <Reference Include="futurocom.easyquery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\futurocom.easyquery.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lys.Application.Timos.Smt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\Lys.Application.Timos.Smt.dll</HintPath>
+    </Reference>
+    <Reference Include="Lys.Licence, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\Lys.Licence.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=1.0.2749.24110, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=1.0.2749.24417, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.doccode, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.doccode.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents, Version=1.0.2749.24544, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.documents.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process, Version=1.0.2749.24543, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.process.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tiag.interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\tiag.interface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="acteurs\CDonneeNotificationMessageInstantane.cs" />
+    <Compile Include="acteurs\ITypeElementAContacts.cs" />
+    <Compile Include="Aspectize\CUtilTimosWebApp.cs" />
+    <Compile Include="Aspectize\ITimosServiceForAspectize.cs" />
+    <Compile Include="C2iWndComposants\C2iWndChampSnmp.cs" />
+    <Compile Include="C2iWndComposants\C2iWndContacts.cs" />
+    <Compile Include="C2iWndComposants\C2iWndSaisieOperations.cs" />
+    <Compile Include="C2iWndComposants\C2iWndSaisieGels.cs" />
+    <Compile Include="C2iWndComposants\C2iWndConsultationHierarchique.cs" />
+    <Compile Include="C2iWndComposants\C2iWndAffecteIntervenants.cs" />
+    <Compile Include="C2iWndComposants\C2iWndSchemaReseau.cs" />
+    <Compile Include="C2iWndComposants\C2iWndSaisieDesActivitesActeur.cs" />
+    <Compile Include="C2iWndComposants\C2iWndSaisieOperationsPrevisionnelles.cs" />
+    <Compile Include="CAuthentificationSessionServiceClient.cs" />
+    <Compile Include="commandes\CLotValorisation.cs" />
+    <Compile Include="commandes\CLigneCommande.cs" />
+    <Compile Include="commandes\CCommande.cs" />
+    <Compile Include="commandes\CLivraisonEquipement.cs" />
+    <Compile Include="commandes\CLigneLivraisonEquipement.cs" />
+    <Compile Include="commandes\CLivraisonLotValorisation.cs" />
+    <Compile Include="commandes\CValorisationElement.cs" />
+    <Compile Include="commandes\CRelationLivraisonEquipement_ChampCustom.cs" />
+    <Compile Include="commandes\CRelationTypeLivraisonEquipement_ChampCustom.cs" />
+    <Compile Include="commandes\CRelationTypeLivraisonEquipement_Formulaire.cs" />
+    <Compile Include="commandes\CTypeLivraisonEquipement.cs" />
+    <Compile Include="commandes\CRelationCommande_ChampCustom.cs" />
+    <Compile Include="commandes\CRelationTypeCommande_ChampCustom.cs" />
+    <Compile Include="commandes\CRelationTypeCommande_Formulaire.cs" />
+    <Compile Include="commandes\CTypeCommande.cs" />
+    <Compile Include="composantphysique\3D\C2i3DEn2D.cs" />
+    <Compile Include="composantphysique\3D\C2iComposant3D.cs" />
+    <Compile Include="composantphysique\3D\C2iComposant3DConteneurAutoFill.cs" />
+    <Compile Include="composantphysique\3D\C2iComposant3DConteneurDock.cs" />
+    <Compile Include="composantphysique\3D\C2iComposant3DConteneurGradue.cs" />
+    <Compile Include="composantphysique\3D\C2iComposant3DCube.cs" />
+    <Compile Include="composantphysique\3D\C3DPoint.cs" />
+    <Compile Include="composantphysique\3D\C3DSize.cs" />
+    <Compile Include="composantphysique\3D\CanBeDynamicAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="composantphysique\3D\E3DAlignement.cs" />
+    <Compile Include="composantphysique\3D\IComposantPourObjetACoordonnées.cs" />
+    <Compile Include="composantphysique\CComposantPhysiqueInDb.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="composantphysique\3D\CDockStyle.cs" />
+    <Compile Include="composantphysique\3D\CEmplacementDansParent.cs" />
+    <Compile Include="composantphysique\3D\CGraduateCoordinate.cs" />
+    <Compile Include="composantphysique\3D\CPositionneurDansParentAutoFill.cs" />
+    <Compile Include="composantphysique\3D\CTransformation3D.cs" />
+    <Compile Include="composantphysique\3D\IConteneurGradue.cs" />
+    <Compile Include="composantphysique\primitives\C3DPrimitiveCube.cs" />
+    <Compile Include="composantphysique\primitives\C3DPrimitiveLigne.cs" />
+    <Compile Include="composantphysique\primitives\C3DPrimitiveQuad.cs" />
+    <Compile Include="composantphysique\primitives\I3DPrimitive.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_ChampCustomValeur.cs" />
+    <Compile Include="contraintes\CRelationTypeRessource_ChampCustomValeur.cs" />
+    <Compile Include="coordonnees\COptionCoordonnéeGlobale.cs" />
+    <Compile Include="custom\CActionMenuItem.cs" />
+    <Compile Include="custom\CActionMenuItemListeDynamique.cs" />
+    <Compile Include="custom\CLabelMenuItem.cs" />
+    <Compile Include="custom\CSeparateurMenuItem.cs" />
+    <Compile Include="custom\IActionMenuItem.cs" />
+    <Compile Include="equipement\consommables\CConditionnementConsommable.cs" />
+    <Compile Include="equipement\consommables\CLotConsommable.cs" />
+    <Compile Include="equipement\consommables\CRelationLotConsommable_ChampCustom.cs" />
+    <Compile Include="equipement\consommables\CRelationTypeConsommable_ChampCustomValeur.cs" />
+    <Compile Include="equipement\consommables\CRelationTypeConsommable_ChampCustom.cs" />
+    <Compile Include="equipement\consommables\CRelationTypeConsommable_Formulaire.cs" />
+    <Compile Include="equipement\consommables\CTypeConsommable.cs" />
+    <Compile Include="equipement\CDefinisseurChampsFamilleEquipement.cs" />
+    <Compile Include="equipement\CRelationTypeStock_ChampCustomValeur.cs" />
+    <Compile Include="equipement\CTypePort.cs" />
+    <Compile Include="expression\C2iExpressionKmToShowToMapZoom.cs" />
+    <Compile Include="expression\C2iExpressionGPSDist.cs" />
+    <Compile Include="expression\C2iExpressionSynchroMediation.cs" />
+    <Compile Include="expression\CMethodeSupplementaireReplaceEOs.cs" />
+    <Compile Include="interventions\CRelationTypeIntervention_ChampCustomValeur.cs" />
+    <Compile Include="NoMacroAttribute.cs" />
+    <Compile Include="process\CActionEnvoyerSms.cs" />
+    <Compile Include="process\CActionCreerSqueletteProjet.cs" />
+    <Compile Include="process\CActionNettoyageRelationTypeId.cs" />
+    <Compile Include="process\CActionImportFromTableRow.cs" />
+    <Compile Include="process\workflow\CBlocWorkflowProjet.cs" />
+    <Compile Include="process\workflow\CGestionnaireProjetsDeWorkflow.cs" />
+    <Compile Include="process\workflow\CMethodeWorkflowGetActiveProject.cs" />
+    <Compile Include="process\workflow\CMethodeEtapeWorkflowGetAssignedMembers.cs" />
+    <Compile Include="process\workflow\CMethodeEtapeWorkflowGetAssignedMembersGroups.cs" />
+    <Compile Include="process\workflow\CMethodeEtapeWorkflowGetAssignedUsersProfiles.cs" />
+    <Compile Include="process\workflow\CProprieteAjouteeEtape_ProjetAssocie.cs" />
+    <Compile Include="process\workflow\CProprieteAjouteeSurGelEtapeWorkflow.cs" />
+    <Compile Include="projet\besoin\CValeursImputées.cs" />
+    <Compile Include="projet\besoin\CRelationBesoinQuantite_Element.cs" />
+    <Compile Include="projet\besoin\CRelationBesoin_Satisfaction.cs" />
+    <Compile Include="projet\besoin\CUtilElementACout.cs" />
+    <Compile Include="projet\besoin\CUtilSatisfaction.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinParent.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinPourcentage.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinQuantiteCU.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinTypeEquipement.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinTypeConsommable.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinTemps.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinTypeOperation.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CDonneeBesoinProjet.cs" />
+    <Compile Include="projet\besoin\donneebesoin\CTypeDonneeBesoin.cs" />
+    <Compile Include="projet\besoin\donneebesoin\IDonneeBesoin.cs" />
+    <Compile Include="projet\besoin\CBesoin.cs" />
+    <Compile Include="projet\besoin\CBesoinDependance.cs" />
+    <Compile Include="projet\besoin\CBesoinQuantite.cs" />
+    <Compile Include="projet\besoin\CPhaseSpecifications.cs" />
+    <Compile Include="projet\besoin\IElementACout.cs" />
+    <Compile Include="projet\besoin\IResumeurDeCouts.cs" />
+    <Compile Include="projet\besoin\ISatisfactionBesoin.cs" />
+    <Compile Include="projet\CMetaProjet.cs" />
+    <Compile Include="projet\CModeCalculDatesProjet.cs" />
+    <Compile Include="projet\COptionLienProjetEtape.cs" />
+    <Compile Include="projet\CRelationTypeProjet_SousTypeProjet.cs" />
+    <Compile Include="projet\CProjet_sousType.cs" />
+    <Compile Include="projet\CRelationMetaProjet_ChampCustom.cs" />
+    <Compile Include="projet\CRelationTypeMetaProjet_ChampCustom.cs" />
+    <Compile Include="projet\CRelationTypeMetaProjet_Formulaire.cs" />
+    <Compile Include="projet\COptionTypeProjetVersion.cs" />
+    <Compile Include="projet\CRelationMetaProjet_Projet.cs" />
+    <Compile Include="projet\CTypeMetaProjet.cs" />
+    <Compile Include="projet\gantt\CElementDeGanttMetaProjet.cs" />
+    <Compile Include="projet\gantt\CElementDeGanttMulti.cs" />
+    <Compile Include="projet\gantt\IElementAUniteGanttParDefaut.cs" />
+    <Compile Include="projet\gantt\IPositionneurGantt.cs" />
+    <Compile Include="securite\CDroitEditionType.cs" />
+    <Compile Include="securite\CParametreDroitEditionType.cs" />
+    <Compile Include="securite\CRelationElement_RestrictionSpecifique_Application.cs" />
+    <Compile Include="securite\CRelationElement_RestrictionSpecifique.cs" />
+    <Compile Include="securite\CUtilElementADroitsSpecifiques.cs" />
+    <Compile Include="sites\CRelationTypeSite_ChampCustomValeur.cs" />
+    <Compile Include="sites\releve\actions\CActionCreerEquipement.cs" />
+    <Compile Include="sites\releve\actions\CActionDeplacerEquipement.cs" />
+    <Compile Include="sites\releve\actions\CActionDeplacerOuCreer.cs" />
+    <Compile Include="sites\releve\actions\CActionModifierEquipement.cs" />
+    <Compile Include="sites\releve\actions\CActionNeRienFaire.cs" />
+    <Compile Include="sites\releve\actions\CActionSiAbsent.cs" />
+    <Compile Include="sites\releve\actions\CActionSiChangementSerial.cs" />
+    <Compile Include="sites\releve\actions\CActionSiEquipementLiePlusSursite.cs" />
+    <Compile Include="sites\releve\actions\CActionSiPresent.cs" />
+    <Compile Include="sites\releve\actions\CActionSiPresentEtLieAEquipement.cs" />
+    <Compile Include="sites\releve\actions\CActionTestMajEquipement.cs" />
+    <Compile Include="sites\releve\actions\CActionTraiterEquipementLiePresent.cs" />
+    <Compile Include="sites\releve\actions\CActionTraitementReleveEquipement.cs" />
+    <Compile Include="sites\releve\actions\CActionDoubleAction.cs" />
+    <Compile Include="sites\releve\actions\CActionSiPresenceNulle.cs" />
+    <Compile Include="sites\releve\CDefinisseurChampsCustomReleveEquipement.cs" />
+    <Compile Include="sites\releve\CEmplacementEquipementsTrouves.cs" />
+    <Compile Include="sites\releve\CEtatValidationReleveEquipement.cs" />
+    <Compile Include="sites\releve\CEtatExecutionReleve.cs" />
+    <Compile Include="sites\releve\CRelationReleveEquipement_ChampCustom.cs" />
+    <Compile Include="sites\releve\CReleveEquipement.cs" />
+    <Compile Include="sites\releve\CReleveSite.cs" />
+    <Compile Include="sites\releve\CTraitementReleveEquipement.cs" />
+    <Compile Include="snmp\CCoupleEntiteSnmp_Champ.cs" />
+    <Compile Include="snmp\IElementADonneePourMediationSNMP.cs" />
+    <Compile Include="snmp\ISynchroMediation.cs" />
+    <Compile Include="process\CActionImprimerModeleTexte.cs" />
+    <Compile Include="projet\Contraintes\CContrainteDeProjet.cs" />
+    <Compile Include="projet\Contraintes\CContrainteDeProjetInduite.cs" />
+    <Compile Include="projet\Contraintes\IContrainteDeProjet.cs" />
+    <Compile Include="projet\CRelationTypeProjet_TypeProjet.cs" />
+    <Compile Include="projet\CRelationTypeProjet_ChampCustomValeur.cs" />
+    <Compile Include="projet\gantt\CParametreTriGantt.cs" />
+    <Compile Include="projet\gantt\EModeContrainteDeGantt.cs" />
+    <Compile Include="projet\gantt\IContrainteDeGantt.cs" />
+    <Compile Include="coordonnees\CNiveauCoordonnee.cs" />
+    <Compile Include="projet\gantt\CBaseGantt.cs" />
+    <Compile Include="projet\gantt\CElementDeGantt.cs" />
+    <Compile Include="projet\gantt\CElementDeGanttGroupe.cs" />
+    <Compile Include="projet\gantt\CElementDeGanttProjet.cs" />
+    <Compile Include="projet\gantt\CIconeGantt.cs" />
+    <Compile Include="projet\EModeDeplacementProjet.cs" />
+    <Compile Include="projet\gantt\icones\CParametreIconeGanttAuto.cs" />
+    <Compile Include="projet\gantt\IElementDeGantt.cs" />
+    <Compile Include="projet\gantt\CParametrageDessinGantt.cs" />
+    <Compile Include="projet\gantt\CParametreDessinLigneGantt.cs" />
+    <Compile Include="projet\gantt\CParametreNiveauArbreGanttGroupe.cs" />
+    <Compile Include="projet\gantt\CParametreNiveauArbreGantt.cs" />
+    <Compile Include="projet\gantt\CParametresAffichageGantt.cs" />
+    <Compile Include="projet\gantt\IBaseGantt.cs" />
+    <Compile Include="projet\gantt\icones\CParametreIconeGanttTermine.cs" />
+    <Compile Include="projet\gantt\icones\CParametreIconeGanttCustom.cs" />
+    <Compile Include="projet\gantt\icones\CParametreIconeGanttRetard.cs" />
+    <Compile Include="projet\gantt\icones\CParametreIconeGanttWarning.cs" />
+    <Compile Include="projet\gantt\icones\IParametreIconeGantt.cs" />
+    <Compile Include="reseau\arbre_operationnel\CArbreOperationnel.cs" />
+    <Compile Include="reseau\arbre_operationnel\CElementDeArbreOperationnelEntite.cs" />
+    <Compile Include="reseau\arbre_operationnel\CElementDeArbreOperationnelOperateur.cs" />
+    <Compile Include="reseau\arbre_operationnel\CElementDeArbreOperationnel.cs" />
+    <Compile Include="reseau\arbre_operationnel\CElementDeArbreOperationnelSousSchema.cs" />
+    <Compile Include="reseau\arbre_operationnel\CElementDeArbreOperationnelTrue.cs" />
+    <Compile Include="reseau\CModeleEtiquetteSchema.cs" />
+    <Compile Include="reseau\CModeOperationnelSchema.cs" />
+    <Compile Include="reseau\CExtremiteLienReseau.cs" />
+    <Compile Include="reseau\CParametreVueSchemaDynamique.cs" />
+    <Compile Include="reseau\CRelationSchemaReseau_ChampCustom.cs" />
+    <Compile Include="equipement\CDefinisseurChampsTypeEquipement.cs" />
+    <Compile Include="equipement\CEquipementLogique.cs" />
+    <Compile Include="equipement\CPort.cs" />
+    <Compile Include="equipement\CRelationEquipementLogique_ChampCustom.cs" />
+    <Compile Include="interventions\IElementAOperationsRealisees.cs" />
+    <Compile Include="coordonnees\CUtilObjetACoordonnees.cs" />
+    <Compile Include="CDocLabels.cs" />
+    <Compile Include="equipement\CRelationStock_ChampCustomValeur.cs" />
+    <Compile Include="equipement\CRelationTypeStock_ChampCustom.cs" />
+    <Compile Include="equipement\CRelationTypeStock_Formulaire.cs" />
+    <Compile Include="expression\C2iExpressionCodesParents.cs" />
+    <Compile Include="expression\C2iExpressionGetValeurGrille.cs" />
+    <Compile Include="interventions\CIntervention_MethodePourCVersion.cs" />
+    <Compile Include="interventions\CListeOperations.cs" />
+    <Compile Include="interventions\CIntervention_ListeOperations.cs" />
+    <Compile Include="interventions\CContrat_ListeOperations.cs" />
+    <Compile Include="interventions\CContratListeOp_Site.cs" />
+    <Compile Include="interventions\CActiviteActeurResume.cs" />
+    <Compile Include="interventions\CRelationActiviteActeurResume_ChampCustomValeur.cs" />
+    <Compile Include="interventions\preventives\CEchelleTemps.cs" />
+    <Compile Include="interventions\IElementAOperationPrevisionnelle.cs" />
+    <Compile Include="interventions\CRecurenceListeOperations.cs" />
+    <Compile Include="interventions\CRelationContrat_ChampCustom.cs" />
+    <Compile Include="interventions\CContrat_Site.cs" />
+    <Compile Include="interventions\CTypeContrat.cs" />
+    <Compile Include="interventions\CParametreRemplissageActiviteParIntervention.cs" />
+    <Compile Include="interventions\CWndLienTypeIntervention_SousIntervention.cs" />
+    <Compile Include="interventions\CWndTypeIntervention.cs" />
+    <Compile Include="interventions\CWndTypeIntervention_SousIntervention.cs" />
+    <Compile Include="interventions\IProfilElement.cs" />
+    <Compile Include="interventions\preventives\CDessinEditeurPreventive.cs" />
+    <Compile Include="interventions\preventives\CDecoupage.cs" />
+    <Compile Include="interventions\preventives\CDessinTrancheSite.cs" />
+    <Compile Include="interventions\preventives\CDessinSite.cs" />
+    <Compile Include="interventions\preventives\CDessinListeOperations.cs" />
+    <Compile Include="interventions\preventives\CDessinTranche.cs" />
+    <Compile Include="interventions\preventives\CDessinAngle.cs" />
+    <Compile Include="interventions\preventives\CInterventionPourEditeurPreventive.cs" />
+    <Compile Include="interventions\preventives\EFormatDate.cs" />
+    <Compile Include="interventions\preventives\ECoteRectangle.cs" />
+    <Compile Include="interventions\preventives\IElementADessiner.cs" />
+    <Compile Include="interventions\preventives\IElementADecoupage.cs" />
+    <Compile Include="interventions\preventives\CTranche.cs" />
+    <Compile Include="process\CActionAppliquerEosPlanifiees.cs" />
+    <Compile Include="process\CActionGenererEtat.cs" />
+    <Compile Include="process\CActionImporterTable.cs" />
+    <Compile Include="projet\anomalies\ETypeAnomalieProjet.cs" />
+    <Compile Include="projet\CLienDeProjet.cs" />
+    <Compile Include="projet\anomalies\CAnomalieProjet.cs" />
+    <Compile Include="projet\EEtatPlanification.cs" />
+    <Compile Include="projet\ETypeElementDeProjet.cs" />
+    <Compile Include="projet\CRelationProjet_ChampCustom.cs" />
+    <Compile Include="projet\CRelationTypeProjet_Formulaire.cs" />
+    <Compile Include="projet\CRelationTypeProjet_ChampCustom.cs" />
+    <Compile Include="projet\ETypeLienDeProjet.cs" />
+    <Compile Include="projet\IElementDeProjet.cs" />
+    <Compile Include="projet\CTypeProjet.cs" />
+    <Compile Include="reseau\CElementDeSchemaReseau.cs" />
+    <Compile Include="reseau\CCheminLienReseau.cs" />
+    <Compile Include="reseau\CRelationTypeSchemaReseau_ChampCustom.cs" />
+    <Compile Include="reseau\CRelationTypeSchemaReseau_Formulaire.cs" />
+    <Compile Include="reseau\CSchemaReseau.cs" />
+    <Compile Include="reseau\CLienReseau.cs" />
+    <Compile Include="reseau\CRelationLienReseau_ChampCustom.cs" />
+    <Compile Include="reseau\CRelationTypeLienReseau_ChampCustom.cs" />
+    <Compile Include="reseau\CRelationTypeLienReseau_Formulaire.cs" />
+    <Compile Include="reseau\CDirectionLien.cs" />
+    <Compile Include="reseau\CTypeLienReseau.cs" />
+    <Compile Include="reseau\CTypeLienReseauSupport.cs" />
+    <Compile Include="reseau\CTypeSchemaReseau.cs" />
+    <Compile Include="reseau\dessin\C2iEtiquetteSchema.cs" />
+    <Compile Include="reseau\dessin\C2iLienDeSchemaReseau.cs" />
+    <Compile Include="reseau\dessin\C2iLienDeSchemaReseauNoDelete.cs" />
+    <Compile Include="reseau\dessin\C2iObjetDeSchema.cs" />
+    <Compile Include="reseau\dessin\C2iObjetDeSchemaTemporairePourDragDropSansElementDeSchema.cs" />
+    <Compile Include="reseau\dessin\C2iSchemaReseauDansSchemaReseau.cs" />
+    <Compile Include="reseau\dessin\C2iSchemaReseau.cs" />
+    <Compile Include="reseau\dessin\C2iEllipseDeSchema.cs" />
+    <Compile Include="reseau\dessin\C2iImageDeSchema.cs" />
+    <Compile Include="reseau\dessin\C2iLabelDeSchema.cs" />
+    <Compile Include="reseau\dessin\C2iRectangleDeSchema.cs" />
+    <Compile Include="reseau\dessin\C2iFormeDeSchema.cs" />
+    <Compile Include="reseau\dessin\C2iTriangleDeSchema.cs" />
+    <Compile Include="reseau\dessin\CDonneeDessinElementDeSchemaReseau.cs" />
+    <Compile Include="reseau\dessin\CDonneeDessinEtiquetteSchema.cs" />
+    <Compile Include="reseau\dessin\CDonneeDessinLienDeSchemaReseau.cs" />
+    <Compile Include="reseau\dessin\C2iElementDeSchemaStatique.cs" />
+    <Compile Include="reseau\dessin\CDonneeDessinSchemaDansSchema.cs" />
+    <Compile Include="reseau\graphe\CBaseElementsDeGraphe.cs" />
+    <Compile Include="reseau\graphe\CBaseGraphesReseau.cs" />
+    <Compile Include="reseau\graphe\CCheminDeGrapheReseau.cs" />
+    <Compile Include="reseau\graphe\CComposantDeGrapheReseau.cs" />
+    <Compile Include="reseau\graphe\CEtapesExtremiteLienDeGraphe.cs" />
+    <Compile Include="reseau\graphe\CGrapheReseau.cs" />
+    <Compile Include="reseau\graphe\CLienDeGrapheReseau.cs" />
+    <Compile Include="reseau\graphe\CNoeudDeGrapheReseau.cs" />
+    <Compile Include="reseau\IElementALien.cs" />
+    <Compile Include="reseau\IElementDeSchemaReseau.cs" />
+    <Compile Include="reseau\IEtapeLienReseau.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="securite\CExceptionTypePourTypeEO.cs" />
+    <Compile Include="securite\CRelationTypeEO_FormulaireParType.cs" />
+    <Compile Include="securite\CRelationElementAEO_ChampCustom.cs" />
+    <Compile Include="securite\CModeApplicationSousProfil.cs" />
+    <Compile Include="securite\tiag\CTiagActeurEO.cs" />
+    <Compile Include="securite\tiag\CTiagSiteEO.cs" />
+    <Compile Include="projet\CProjet.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_Stock.cs" />
+    <Compile Include="interventions\CActiviteActeur.cs" />
+    <Compile Include="interventions\CIntervention_ActiviteActeur.cs" />
+    <Compile Include="acteurs\IElementAContacts.cs" />
+    <Compile Include="interventions\CProfilElement_ProfilInclu.cs" />
+    <Compile Include="interventions\CRelationActiviteActeur_ChampCustomValeur.cs" />
+    <Compile Include="interventions\CRelationTypeActiviteActeur_ChampCustom.cs" />
+    <Compile Include="interventions\CRelationTypeActiviteActeur_Formulaire.cs" />
+    <Compile Include="interventions\CTypeActiviteActeur.cs" />
+    <Compile Include="equipement\CRelationEquipement_TableParametrable.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypeTableParametrable.cs" />
+    <Compile Include="sites\CExtremiteLienSurSite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sites\CRelationSite_TableParametrable.cs" />
+    <Compile Include="sites\CRelationTypeSite_TypeTableParametrable.cs" />
+    <Compile Include="snmp\CChampEntiteFromQueryToChampCustom.cs" />
+    <Compile Include="snmp\CEntiteSnmp.cs" />
+    <Compile Include="snmp\CAgentSnmp.cs" />
+    <Compile Include="snmp\CModeFormulairePourTypeEntite.cs" />
+    <Compile Include="snmp\CRelationEntiteSnmp_ChampCustom.cs" />
+    <Compile Include="snmp\CRelationTypeAgentSnmp_MibModule.cs" />
+    <Compile Include="snmp\CRelationTypeEntiteSnmp_Formulaire.cs" />
+    <Compile Include="snmp\CRelationTypeEntiteSnmp_ChampCustom.cs" />
+    <Compile Include="snmp\CTypeAgentSnmp.cs" />
+    <Compile Include="snmp\CSnmpMibModule.cs" />
+    <Compile Include="snmp\CTypeEntiteSnmp.cs" />
+    <Compile Include="snmp\IConteneurEntitesSnmp.cs" />
+    <Compile Include="snmp\polling\CFournisseurProprietesDynamiquesForPolling.cs" />
+    <Compile Include="snmp\polling\CListeSnmpPollingFields.cs" />
+    <Compile Include="snmp\polling\CSnmpPollingField.cs" />
+    <Compile Include="snmp\polling\CSnmpPollingFieldSetup.cs" />
+    <Compile Include="snmp\polling\CSnmpPollingHotelClient.cs" />
+    <Compile Include="snmp\Proxy\CLienDeProxy.cs" />
+    <Compile Include="snmp\Proxy\CSnmpProxyInDb.cs" />
+    <Compile Include="supervision\CBaseTypeAlarmeFromBDD.cs" />
+    <Compile Include="supervision\CFournisseurAlarmesPourAffichage.cs" />
+    <Compile Include="supervision\CFournisseurProprietesAlarmeLocale.cs" />
+    <Compile Include="supervision\CMemoryDbPourSupervision.cs" />
+    <Compile Include="supervision\CNotificationModificationsAlarme.cs" />
+    <Compile Include="supervision\CCategorieMasquageAlarme.cs" />
+    <Compile Include="supervision\CRelationTypeAlarme_ChampCustomValeur.cs" />
+    <Compile Include="supervision\CParametrageFiltrageAlarmes.cs" />
+    <Compile Include="supervision\CTraiteurRetombeeManuelleAlarme.cs" />
+    <Compile Include="supervision\CParametrageAffichageListeAlarmes.cs" />
+    <Compile Include="supervision\CRelationAlarm_ChampCustom.cs" />
+    <Compile Include="supervision\CRelationTypeAlarme_ChampCustom.cs" />
+    <Compile Include="supervision\CRelationTypeAlarme_Formulaire.cs" />
+    <Compile Include="supervision\CAlarme.cs" />
+    <Compile Include="supervision\CSeveriteAlarme.cs" />
+    <Compile Include="supervision\CTraiteurAcquittementAlarme.cs" />
+    <Compile Include="supervision\CTypeAlarme.cs" />
+    <Compile Include="supervision\IElementSupervise.cs" />
+    <Compile Include="supervision\vueanimee\CBasePourVueAnimee.cs" />
+    <Compile Include="supervision\vueanimee\CDictionnaireConcerne.cs" />
+    <Compile Include="supervision\vueanimee\CInfoElementDeSchemaSupervise.cs" />
+    <Compile Include="supervision\vueanimee\CInfoEquipementDeSchemaSupervise.cs" />
+    <Compile Include="supervision\vueanimee\CInfoLienDeSchemaSupervise.cs" />
+    <Compile Include="supervision\vueanimee\CInfoSchemaDeSchemaSupervise.cs" />
+    <Compile Include="supervision\vueanimee\CInfoSiteDeSchemaSupervise.cs" />
+    <Compile Include="supervision\vueanimee\CInfoEntiteSnmpDeSchemaSupervise.cs" />
+    <Compile Include="supervision\vueanimee\CPointAPointDeGraphe.cs" />
+    <Compile Include="symbole\C2iSymbole.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleEllipse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleForme.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleFormule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleImage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleLabel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleLigne.cs" />
+    <Compile Include="symbole\C2iSymboleRectangle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleSelectionMultiple.cs" />
+    <Compile Include="symbole\C2iSymboleTriangle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="symbole\C2iSymboleVerrouille.cs" />
+    <Compile Include="symbole\CFamilleSymbole.cs" />
+    <Compile Include="symbole\C2iSymboleEMF.cs" />
+    <Compile Include="symbole\CSymbole.cs" />
+    <Compile Include="symbole\CSymboleDeBibliotheque.cs" />
+    <Compile Include="symbole\dynamique\CParametreRepresentationElementDeSymbole.cs" />
+    <Compile Include="symbole\dynamique\CParametreRepresentationSchema.cs" />
+    <Compile Include="symbole\dynamique\CParametreRepresentationSymbole.cs" />
+    <Compile Include="tables\CColonneTableParametrable.cs" />
+    <Compile Include="tables\CColonneTableParametrable_ProrityComparer.cs" />
+    <Compile Include="tables\CDifferencesTables.cs" />
+    <Compile Include="tables\CLigneTableParametrable.cs" />
+    <Compile Include="tables\CColonneTableParametrable_PositionComparer.cs" />
+    <Compile Include="tables\CMappageColonneTableParametrableColonneTableParametrable.cs" />
+    <Compile Include="tables\CMappeurTypeTableParametrableTypeTableParametrable.cs" />
+    <Compile Include="tables\CRelationTypeTableParametrable_ChampCustomValeur.cs" />
+    <Compile Include="tables\CUtilADataTable.cs" />
+    <Compile Include="tables\CRelationTableParametrable_ChampCustom.cs" />
+    <Compile Include="tables\CRelationTypeTableParametrable_ChampCustom.cs" />
+    <Compile Include="tables\CRelationTypeTableParametrable_Formulaire.cs" />
+    <Compile Include="tables\EImportTableParametrableMode.cs" />
+    <Compile Include="tables\IElementATableParametrable.cs" />
+    <Compile Include="tables\CTypeTableParametrable.cs" />
+    <Compile Include="tables\CTableParametrable.cs" />
+    <Compile Include="tiag\CAssociationTiagForCustom.cs" />
+    <Compile Include="tiag\CCaracteristiqueEntitePourTiag.cs" />
+    <Compile Include="tiag\CChampTiagForCustom.cs" />
+    <Compile Include="tiag\CModificateurElementsTiag.cs" />
+    <Compile Include="commandes\common\CSerieDeCouleurs.cs" />
+    <Compile Include="coordonnees\CFormatNumerotation.cs" />
+    <Compile Include="coordonnees\COccupationCoordonnees.cs" />
+    <Compile Include="coordonnees\COccupationCoordonneesOld.cs" />
+    <Compile Include="coordonnees\IObjetACoordonnees.cs" />
+    <Compile Include="coordonnees\IObjetAFilsACoordonnees.cs" />
+    <Compile Include="coordonnees\IObjetAOccupation.cs" />
+    <Compile Include="coordonnees\IObjetAOptionsDeControleDeCoordonnees.cs" />
+    <Compile Include="coordonnees\IObjetASystemeDeCoordonnee.cs" />
+    <Compile Include="coordonnees\SObjetAvecFilsAvecCoordonnees.cs" />
+    <Compile Include="coordonnees\COccupationCoordonneesMode.cs" />
+    <Compile Include="coordonnees\CUniteCoordonnee.cs" />
+    <Compile Include="coordonnees\CParametrageNiveau.cs" />
+    <Compile Include="coordonnees\CParametrageSystemeCoordonnees.cs" />
+    <Compile Include="coordonnees\CRelationSystemeCoordonnees_FormatNumerotation.cs" />
+    <Compile Include="coordonnees\CSystemeCoordonnees.cs" />
+    <Compile Include="contraintes\CAttributRessource.cs" />
+    <Compile Include="contraintes\CContrainte.cs" />
+    <Compile Include="contraintes\CAttributContrainte.cs" />
+    <Compile Include="contraintes\CAttributTypeContrainte.cs" />
+    <Compile Include="contraintes\CMouvementRessource.cs" />
+    <Compile Include="equipement\CDonneesPartenaireConstructeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_Constructeur.cs" />
+    <Compile Include="equipement\CRemplacementEquipement.cs" />
+    <Compile Include="interventions\CEtatIntervention.cs" />
+    <Compile Include="interventions\CFournisseurEntreesPlanning.cs" />
+    <Compile Include="interventions\COperation.cs" />
+    <Compile Include="interventions\CFractionIntervention.cs" />
+    <Compile Include="interventions\CEtatFractionIntervention.cs" />
+    <Compile Include="interventions\CProfilElement.cs" />
+    <Compile Include="interventions\CProfilElement_TypeEO.cs" />
+    <Compile Include="interventions\CContrat.cs" />
+    <Compile Include="tiag\CChampTiagForCustomEntite.cs" />
+    <Compile Include="tiag\CUtilTimosTiag.cs" />
+    <Compile Include="tiag\TiagFakeFieldAttribute.cs" />
+    <Compile Include="Tickets\CDependanceTicket.cs" />
+    <Compile Include="Tickets\CEtatCloture.cs" />
+    <Compile Include="Tickets\CEtatClotureDeBase.cs" />
+    <Compile Include="Tickets\CCauseGel.cs" />
+    <Compile Include="Tickets\CGel.cs" />
+    <Compile Include="Tickets\CLienTypePhase.cs" />
+    <Compile Include="Tickets\CHistoriqueTicket.cs" />
+    <Compile Include="acteurs\CActeursSelonProfil.cs" />
+    <Compile Include="Tickets\CNotePhase.cs" />
+    <Compile Include="Tickets\CTypeTicketContrat_Site_Periode.cs" />
+    <Compile Include="Tickets\CTypeTicketContrat_Site.cs" />
+    <Compile Include="Tickets\CRelationTypeTicket_ChampCustomValeur.cs" />
+    <Compile Include="Tickets\CRelationTicket_EOconcernees.cs" />
+    <Compile Include="Tickets\CRelationPhase_ChampCustomValeur.cs" />
+    <Compile Include="Tickets\CTypePhase_TypeOperation.cs" />
+    <Compile Include="Tickets\CTypeTicket_TypePhase.cs" />
+    <Compile Include="Tickets\CRelationTypePhaseTicket_TypeIntervention.cs" />
+    <Compile Include="Tickets\CTypePhase.cs" />
+    <Compile Include="Tickets\CTypeTicketContrat.cs" />
+    <Compile Include="Tickets\COrigineTicket.cs" />
+    <Compile Include="Tickets\CRelationTicket_ChampCustomValeur.cs" />
+    <Compile Include="Tickets\CRelationTypeTicket_ChampCustom.cs" />
+    <Compile Include="Tickets\CRelationTypeTicket_Formulaire.cs" />
+    <Compile Include="Tickets\CUrgenceTicket.cs" />
+    <Compile Include="Tickets\CRelationTicket_Site.cs" />
+    <Compile Include="Tickets\CPhaseTicket.cs" />
+    <Compile Include="Tickets\CTicket.cs" />
+    <Compile Include="Tickets\CTypeTicket.cs" />
+    <Compile Include="Tickets\CQualificationTicket.cs" />
+    <Compile Include="interventions\CIntervention_Ressource.cs" />
+    <Compile Include="interventions\CIntervention_Intervenant.cs" />
+    <Compile Include="interventions\CRelationOperation_ChampCustom.cs" />
+    <Compile Include="interventions\CRelationIntervention_ChampCustom.cs" />
+    <Compile Include="contraintes\CRessourceMaterielle.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_ChampCustom.cs" />
+    <Compile Include="contraintes\CRelationContrainte_Ressource.cs" />
+    <Compile Include="contraintes\CRelationRessource_ChampCustom.cs" />
+    <Compile Include="contraintes\CRelationTypeRessource_Formulaire.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_TypeRessource.cs" />
+    <Compile Include="contraintes\CRelationTypeRessource_ChampCustom.cs" />
+    <Compile Include="contraintes\CEtatRessource.cs" />
+    <Compile Include="interventions\CIntervention.cs" />
+    <Compile Include="contraintes\CTypeRessource.cs" />
+    <Compile Include="contraintes\CRelationContrainte_ChampCustom.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_Formulaire.cs" />
+    <Compile Include="contraintes\CTypeContrainte.cs" />
+    <Compile Include="contraintes\IPossesseurRessource.cs" />
+    <Compile Include="contraintes\IPossesseurContrainte.cs" />
+    <Compile Include="custom\CActionSur2iLink.cs" />
+    <Compile Include="custom\CMenuCustom.cs" />
+    <Compile Include="custom\CRoleFormulaireSurImpressionWin32.cs" />
+    <Compile Include="equipement\CMouvementEquipement.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypeRemplacement.cs" />
+    <Compile Include="equipement\CStatutBaseEquipement.cs" />
+    <Compile Include="equipement\CStatutEquipement.cs" />
+    <Compile Include="equipement\CTypeStock.cs" />
+    <Compile Include="equipement\CStock.cs" />
+    <Compile Include="equipement\CDonneesPartenaireFournisseur.cs" />
+    <Compile Include="equipement\CEquipement.cs" />
+    <Compile Include="equipement\CFamilleEquipement.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypeStock.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_Fournisseur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypesIncluables.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_ChampCustomValeur.cs" />
+    <Compile Include="equipement\CRelationFamilleEquipement_ChampCustom.cs" />
+    <Compile Include="equipement\CRelationFamilleEquipement_Formulaire.cs" />
+    <Compile Include="equipement\CRelationEquipement_ChampCustom.cs" />
+    <Compile Include="equipement\CTypeEquipement.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_ChampCustom.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_Formulaire.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_Heritage.cs" />
+    <Compile Include="equipement\IEmplacementEquipement.cs" />
+    <Compile Include="expression\C2iExpressionGetIdActeurUtilisateur.cs" />
+    <Compile Include="expression\C2iExpressionGetIdUtilisateur.cs" />
+    <Compile Include="interventions\CTypeIntervention_ProfilIntervenant.cs" />
+    <Compile Include="interventions\CTypeIntervention_TypeOperation.cs" />
+    <Compile Include="interventions\CTypeOperation.cs" />
+    <Compile Include="interventions\CRelationTypeIntervention_ChampCustom.cs" />
+    <Compile Include="interventions\CRelationTypeIntervention_Formulaire.cs" />
+    <Compile Include="interventions\CTypeIntervention.cs" />
+    <Compile Include="interventions\IElementAIntervention.cs" />
+    <Compile Include="acteurs\CCivilite.cs" />
+    <Compile Include="acteurs\CDonneesActeur.cs" />
+    <Compile Include="acteurs\CDonneesActeurClient.cs" />
+    <Compile Include="securite\CRelationUtilisateur_Profil_EO.cs" />
+    <Compile Include="securite\CDonneesActeurUtilisateur.cs" />
+    <Compile Include="acteurs\CGroupeActeur.cs" />
+    <Compile Include="acteurs\CActeur.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeurNecessite.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeur_ChampCustom.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeur_Formulaire.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeur_GroupeActeur.cs" />
+    <Compile Include="acteurs\CRelationActeurUtilisateur_Droit.cs" />
+    <Compile Include="acteurs\CRelationActeur_ChampCustom.cs" />
+    <Compile Include="acteurs\CRelationActeur_GroupeActeur.cs" />
+    <Compile Include="acteurs\CRelationRoleActeur_GroupeActeur.cs" />
+    <Compile Include="acteurs\CRestrictionChampCustom.cs" />
+    <Compile Include="process\CRolePartenaire.cs" />
+    <Compile Include="process\CActionCopieDocumentGed.cs" />
+    <Compile Include="process\CActionCreerEntreeAgenda.cs" />
+    <Compile Include="process\CActionDefinirUtilisateur.cs" />
+    <Compile Include="process\CActionEditerElement.cs" />
+    <Compile Include="process\CActionEnvoyerMail.cs" />
+    <Compile Include="process\CActionExporterDonnees.cs" />
+    <Compile Include="process\CActionFormulaire.cs" />
+    <Compile Include="process\CActionVisualiserListeObjetsDonnee.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="securite\CGenerateurFiltreAffichage.cs" />
+    <Compile Include="securite\CProfilUtilisateur_inclusion.cs" />
+    <Compile Include="securite\CRelationElement_EO.cs" />
+    <Compile Include="securite\CRelationUtilisateur_Profil.cs" />
+    <Compile Include="securite\CProfilUtilisateur_Restrictions.cs" />
+    <Compile Include="securite\CProfilUtilisateur.cs" />
+    <Compile Include="securite\CEntiteOrganisationnelle.cs" />
+    <Compile Include="securite\CRelationEO_ChampCustom.cs" />
+    <Compile Include="securite\CRelationTypeEO_ChampCustom.cs" />
+    <Compile Include="securite\CRelationTypeEO_Formulaire.cs" />
+    <Compile Include="securite\CTypeEntiteOrganisationnelle.cs" />
+    <Compile Include="securite\CUtilElementAEO.cs" />
+    <Compile Include="sites\CRelationSite_ChampCustom.cs" />
+    <Compile Include="sites\CRelationTypeSite_ChampCustom.cs" />
+    <Compile Include="sites\CRelationTypeSite_Formulaire.cs" />
+    <Compile Include="sites\CRelationTypeSite_TypeSite.cs" />
+    <Compile Include="sites\CSite.cs" />
+    <Compile Include="sites\CTypeSite.cs" />
+    <Compile Include="Tickets\CWndLienTypePhase_TypePhase.cs" />
+    <Compile Include="Tickets\CWndTypeTicket.cs" />
+    <Compile Include="Tickets\CWndTypeTypeTicket_TypePhase.cs" />
+    <Compile Include="version\CAuditVersionCleParticuliere.cs" />
+    <Compile Include="version\CAuditVersionParametrage.cs" />
+    <Compile Include="version\CAuditVersionParametrageTypeEntite.cs" />
+    <Compile Include="version\CAuditVersion.cs" />
+    <Compile Include="version\CAuditVersionObjet.cs" />
+    <Compile Include="version\CAuditVersionObjetOperation.cs" />
+    <Compile Include="version\EOrigineVersion.cs" />
+    <Compile Include="version\CTypeAuditVersion.cs" />
+    <Compile Include="version\IElementATypeStructurant.cs" />
+    <Compile Include="vuephysique\C2iElementDeVuePhysique.cs" />
+    <Compile Include="vuephysique\C2iElementDeVuePhysiqueDessinBase.cs" />
+    <Compile Include="vuephysique\C2iElementDeVuePhysiqueElementAVue.cs" />
+    <Compile Include="vuephysique\C2iElementDeVuePhysiqueRectangle.cs" />
+    <Compile Include="vuephysique\CVuePhysique.cs" />
+    <Compile Include="vuephysique\CFaceVueDynamique.cs" />
+    <Compile Include="vuephysique\IElementAVuePhysique.cs" />
+    <Compile Include="workflow\Calendrier\CCalendrier.cs" />
+    <Compile Include="workflow\CValeurSequenceNumerotation.cs" />
+    <Compile Include="workflow\CSequenceNumerotation.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CConsultationHierarchique.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CDefinitionProprieteDynamiqueFolderParent.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CFolderConsultationFolder.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CFolderConsultationFromFiltre.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CFolderConsultationHierarchique.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CNodeConsultationHierarchique.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CFolderConsultationFromFormula.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CFolderConsultationRacineFromElement.cs" />
+    <Compile Include="projet\gantt\CParametrageGantt.cs" />
+    <Compile Include="projet\gantt\IParametreElementGantt.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CFolderConsultationCablage.cs" />
+    <Compile Include="workflow\sms\CMessageSMS.cs" />
+    <Compile Include="workflow\sms\CMessageSMSPourEnvoi.cs" />
+    <Compile Include="workflow\sms\ISMSSender.cs" />
+    <Compile Include="workflow\Tableau Planning\CInstanceTableauPlanning.cs" />
+    <Compile Include="workflow\CModeleTexte.cs" />
+    <Compile Include="securite\CEOplanifiee_Acteur.cs" />
+    <Compile Include="workflow\Tableau Planning\CTypeTableauPlanning.cs" />
+    <Compile Include="workflow\Tableau Planning\CTypeTableauPlanning_TrancheHoraire.cs" />
+    <Compile Include="workflow\Agenda\CSorterTranchesPlanning.cs" />
+    <Compile Include="interventions\CUtilEntreePlanning.cs" />
+    <Compile Include="interventions\IBasePlanning.cs" />
+    <Compile Include="workflow\Calendrier\IElementATrancheHoraire.cs" />
+    <Compile Include="workflow\Calendrier\CTypeOccupationHoraire.cs" />
+    <Compile Include="workflow\Calendrier\CHoraireJournalier_Tranche.cs" />
+    <Compile Include="workflow\Calendrier\CHoraireJournalier.cs" />
+    <Compile Include="workflow\Agenda\CCouleursForEntreeAgenda.cs" />
+    <Compile Include="workflow\Agenda\CDefinitionProprieteDynamiqueElementTypeEntreeAgenda.cs" />
+    <Compile Include="workflow\Agenda\CDesctivationEntreeAgendaCyclique.cs" />
+    <Compile Include="workflow\Dossier Suivi\CDossierSuivi.cs" />
+    <Compile Include="workflow\CDroitDeBase.cs" />
+    <Compile Include="workflow\Agenda\CEntreeAgenda.cs" />
+    <Compile Include="workflow\Agenda\CEntreeAgenda_SynchroExt.cs" />
+    <Compile Include="workflow\Agenda\CEtatEntreeAgenda.cs" />
+    <Compile Include="workflow\CGrilleGenerique.cs" />
+    <Compile Include="securite\CGroupeRestrictionsSurTypes.cs" />
+    <Compile Include="commandes\common\CGroupeStructurant.cs" />
+    <Compile Include="workflow\Agenda\CListeRelationsEntreeAgenda.cs" />
+    <Compile Include="commandes\common\CObjetDeGroupe.cs" />
+    <Compile Include="workflow\Agenda\CParametreEntreeAgenda.cs" />
+    <Compile Include="workflow\CPostIt.cs" />
+    <Compile Include="workflow\Calendrier\CCalendrier_JourParticulier.cs" />
+    <Compile Include="workflow\Dossier Suivi\CRelationDossierSuivi_ChampCustom.cs" />
+    <Compile Include="workflow\Dossier Suivi\CRelationDossierSuivi_Element.cs" />
+    <Compile Include="workflow\Agenda\CRelationEntreeAgenda_ChampCustom.cs" />
+    <Compile Include="workflow\Agenda\CRelationEntreeAgenda_ElementAAgenda.cs" />
+    <Compile Include="workflow\Tache Planifiee\CRelationTachePlanifieeProcess.cs" />
+    <Compile Include="workflow\Tache Planifiee\CRelationTachePlanifieeTypeDonneeCumulee.cs" />
+    <Compile Include="workflow\Dossier Suivi\CRelationTypeDossierSuivi_ChampCustom.cs" />
+    <Compile Include="workflow\Dossier Suivi\CRelationTypeDossierSuivi_Formulaire.cs" />
+    <Compile Include="workflow\Dossier Suivi\CRelationTypeDossierSuivi_TypeElement.cs" />
+    <Compile Include="workflow\Agenda\CRelationTypeEntreeAgenda_ChampCustom.cs" />
+    <Compile Include="workflow\Agenda\CRelationTypeEntreeAgenda_Formulaire.cs" />
+    <Compile Include="workflow\Agenda\CRelationTypeEntreeAgenda_TypeElementAAgenda.cs" />
+    <Compile Include="workflow\Agenda\CRoleSurEntreeAgenda.cs" />
+    <Compile Include="workflow\Tache Planifiee\CTachePlanifiee.cs" />
+    <Compile Include="workflow\Dossier Suivi\CTypeDossierSuivi.cs" />
+    <Compile Include="workflow\Agenda\CTypeEntreeAgenda.cs" />
+    <Compile Include="workflow\CUtilSession.cs" />
+    <Compile Include="workflow\Agenda\CVisuEntreeAgenda.cs" />
+    <Compile Include="workflow\Agenda\IElementAAgenda.cs" />
+    <Compile Include="workflow\Agenda\IElementAIdentificationCourteAgenda.cs" />
+    <Compile Include="interventions\IEntreePlanning.cs" />
+    <Compile Include="interventions\IEntreeAgenda.cs" />
+    <Compile Include="commandes\common\IRelationGroupe.cs" />
+    <Compile Include="workflow\Agenda\IRoleSurEntreeAgenda.cs" />
+    <Compile Include="workflow\ITypeElementALien.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="equipement\DEquipement.cd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="timos.data.fr" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ressourcematerielle.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="equipement\CEquipement.png" />
+    <EmbeddedResource Include="acteurs\CActeur.png" />
+    <EmbeddedResource Include="equipement\consommables\CLotConsommable.png" />
+    <EmbeddedResource Include="projet\CProjet.png" />
+    <EmbeddedResource Include="projet\besoin\CBesoin.png" />
+    <EmbeddedResource Include="interventions\CIntervention.png" />
+    <EmbeddedResource Include="projet\besoin\CPhaseSpecifications.png" />
+    <EmbeddedResource Include="interventions\COperation.png" />
+    <Content Include="projet\besoin\Règles de calcul de cout et d%27imputation.txt" />
+    <Content Include="reseau\arbre_operationnel\règles pour la constitution des arbres opérationnels.txt" />
+    <None Include="coordonnees\Coordonnées.cd" />
+    <None Include="Resources\donneeBesoinParent.png" />
+    <None Include="Resources\donneeBesoinQuantite.png" />
+    <None Include="Resources\donneeBesoinPourcentage.png" />
+    <None Include="Resources\donneeBesoinTemps.png" />
+    <EmbeddedResource Include="sites\CSite.png" />
+    <None Include="projet\besoin\BesoinsEtSatisfactions.cd" />
+    <None Include="Resources\Equipement carte.png" />
+    <None Include="Resources\project-open.png" />
+    <None Include="Resources\Connection_degrade.png" />
+    <None Include="Resources\Connection Disabled.png" />
+    <None Include="Resources\Connection Check.png" />
+    <None Include="Resources\Connection_warning.png" />
+    <None Include="Resources\Mask_adm.png" />
+    <None Include="Resources\mask_bri.png" />
+    <None Include="Resources\alerte.png" />
+    <None Include="Resources\Icone_retard.png" />
+    <None Include="Resources\Icone_Warning.gif" />
+    <None Include="Resources\Icone_Automatic.png" />
+    <None Include="Resources\interrogation.png" />
+    <None Include="Resources\Projet_terminé_01.gif" />
+    <None Include="reseau\schema reseau.cd" />
+    <None Include="Resources\Fond_saisie_des_activites_acteur_v1.bmp" />
+    <None Include="Resources\Fond_saisie_des_activites_acteur_v2.bmp" />
+    <None Include="Resources\wiring.png" />
+    <None Include="Resources\WAN diagram web 2.jpg" />
+    <None Include="Resources\WAN diagram web.jpg" />
+    <None Include="Resources\map monde 3.JPG" />
+    <None Include="Resources\exclamation rect.png" />
+    <None Include="projet\Projet.cd" />
+    <None Include="Resources\Connection.ico" />
+    <None Include="Resources\Connection.png" />
+    <None Include="Resources\printer.png" />
+    <None Include="Resources\Printer.bmp" />
+    <EmbeddedResource Include="Resources\C2iSymboleTriangle.bmp" />
+    <EmbeddedResource Include="Resources\C2iSymboleRectangle.bmp" />
+    <EmbeddedResource Include="Resources\C2iSymboleLigne.bmp" />
+    <EmbeddedResource Include="Resources\C2iSymboleLabel.bmp" />
+    <EmbeddedResource Include="Resources\C2iSymboleImage.bmp" />
+    <EmbeddedResource Include="Resources\C2iSymboleFormule.bmp" />
+    <EmbeddedResource Include="Resources\C2iSymboleEllipse.bmp" />
+    <None Include="reseau\Liaisons.cd" />
+    <None Include="Resources\image fond conrol saisie opérations v2 sans en tete.bmp" />
+    <None Include="Resources\image fond conrol saisie opérations v1.bmp" />
+    <None Include="securite\Diagramme profils.cd" />
+    <None Include="securite\Profils.cd" />
+    <None Include="workflow\Calendrier\Calendrier.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\futurocom.snmp\futurocom.snmp.csproj">
+      <Project>{D40EACEE-48DA-4559-86D2-63BC6F89E821}</Project>
+      <Name>futurocom.snmp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\futurocom.supervision\futurocom.supervision.csproj">
+      <Project>{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}</Project>
+      <Name>futurocom.supervision</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="projet\planification\" />
+    <Folder Include="projet\wnds\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call C:\Sources\bat\CopyDLLTimosData.bat</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

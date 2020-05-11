@@ -1,0 +1,617 @@
+
+
+
+create or replace
+FUNCTION AccesGetFather
+(
+ lModelSiteId	ACCES.MODELSITE_ID%TYPE,
+ lSiteId	ACCES.SITE_ID%TYPE,
+ lTypeqId	ACCES.TYPEQ_ID%TYPE,
+ lModelEquipId	ACCES.MODELEQUIP_ID%TYPE,
+ lEquipId	ACCES.EQUIP_ID%TYPE,
+ lModelLiaiId	ACCES.MODELLIAI_ID%TYPE,
+ lLiaiId	ACCES.LIAI_ID%TYPE,
+ lId	OUT	NUMBER
+)
+RETURN VARCHAR2 IS
+	nb_rel		NUMBER;
+	Father		VARCHAR2(30);
+BEGIN
+	nb_rel := 0;
+	if (lModelSiteId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'MODELSITE';
+		lId := lModelSiteId;
+	end if;
+
+	if (lSiteId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'SITE';
+		lId := lSiteId;
+	end if;
+
+	if (lTypeqId	is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'TYPEQ';
+		lId := lTypeqId;
+	end if;
+
+	if (lModelEquipId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'MODELEQUIP';
+		lId := lModelEquipId;
+	end if;
+
+	if (lEquipId	is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'EQUIP';
+		lId := lEquipId;
+	end if;
+
+	if (lModelLiaiId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'MODELLIAI';
+		lId := lModelLiaiId;
+	end if;
+
+	if (lLiaiId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'LIAI';
+		lId := lLiaiId;
+	end if;
+
+	if (nb_rel != 1) then
+	    RAISE_APPLICATION_ERROR (-20000,
+              'An access row should have one and only one relation with an other table');
+	    -- Ne pas mettre la ligne ci-dessus sur 2 lignes, sinon on ne pourra pas l'extraire.
+	end if;
+
+	RETURN Father;
+END;
+/
+
+create or replace
+FUNCTION AlarmGereeGetFather
+(
+ lAccesId	ACCES.ACCES_ID%TYPE,
+ lObjetId       OUT NUMBER
+)
+RETURN VARCHAR2 IS
+	lModelSiteId	ACCES.MODELSITE_ID%TYPE;
+	lSiteId		ACCES.SITE_ID%TYPE;
+	lTypeqId	ACCES.TYPEQ_ID%TYPE;
+	lModelEquipId	ACCES.MODELEQUIP_ID%TYPE;
+	lEquipId	ACCES.EQUIP_ID%TYPE;
+	lModelLiaiId	ACCES.MODELLIAI_ID%TYPE;
+	lLiaiId		ACCES.LIAI_ID%TYPE;
+	lId		NUMBER;
+
+BEGIN
+SetTrace ('AccesId ' || lAccesId);
+	SELECT modelsite_id, site_id, typeq_id, modelequip_id, equip_id, modelliai_id, liai_id
+	INTO lModelSiteId, lSiteId, lTypeqId, lModelEquipId, lEquipId, lModelLiaiId, lLiaiId
+	FROM acces
+	WHERE acces_id = lAccesId;
+
+	IF lSiteId IS NULL AND lTypeqId IS NULL AND lLiaiId IS NULL THEN
+		RAISE_APPLICATION_ERROR (-20000, 'ALARMGEREE should concern a site or a link or an equipement type');
+	END IF;
+
+	RETURN AccesGetFather (lModelSiteId, lSiteId, lTypeqId, lModelEquipId, lEquipId, lModelLiaiId, lLiaiId, lObjetId);
+END AlarmGereeGetFather;
+/
+
+
+
+create or replace
+FUNCTION AccesCalculUnicite 
+(
+ IdObjet	NUMBER,
+ TableObjet	VARCHAR2,
+ NomAcces	ACCES.ACCES_NOM%TYPE
+)
+RETURN VARCHAR2 IS
+BEGIN
+	IF IdObjet IS NULL OR TableObjet IS NULL THEN
+		RAISE_APPLICATION_ERROR (-20000, 'AccesCalculeUnicite() : ID or Father table not filled');
+	END IF;
+	RETURN TableObjet || '/' || to_char (IdObjet) || '/' || NomAcces;
+END;
+/
+
+create or replace
+PROCEDURE DelScript
+(
+ lObjId NUMBER		-- Id du script
+)
+IS
+	lScript	VARCHAR2 (40);
+
+BEGIN
+	-- Réservation du script avant effacement.
+
+	SELECT script_nom INTO lScript
+	FROM   script WHERE script_id = lObjId FOR UPDATE OF script_nom;
+
+	
+	-- Modification des flags du script lui-même.
+	-- Il sera réellement effacé par l'Equipement de Médiation, après
+	-- qu'il ait arrêté les procédures activées par le script.
+	UPDATE script
+	SET script_start = 0, script_stop = 1, script_kill = 1
+	WHERE script_id = lObjId;
+
+END;
+/
+
+create or replace
+PROCEDURE CreLiaiLiaic
+(
+	lBddId		NUMBER,		-- Id de la liaison
+	lSuppId		NUMBER		-- Id du support
+)
+IS
+
+	integrity_error	EXCEPTION;
+	errno		INTEGER;
+	errmsg		CHAR (200);
+	lTypeSupte	NUMBER;		-- Type de la liaison supportée
+	lTypeSupp	NUMBER;		-- Type de la liaison support
+	lNbMaxSupte	NUMBER;		-- Nombre de supportés max. possibles du type
+	lNbSupte	NUMBER;		-- Nombre de supportés effectifs du type
+
+	/*CURSOR CurNbSupte IS
+		SELECT typliai_typliai_nb FROM typliai_typliai
+		WHERE  typliai_id = lTypeSupte AND typliai_bindingid = lTypeSupp;*/
+
+    	cursor CProg is
+		select PROG_ID from PROG_LIAITEMPU
+	    	where LIAI_ID = lBddId;
+
+ 	cursor CTop is
+		select Top_ID from Top_LIAITEMPU
+	    	where LIAI_ID = lBddId;
+
+BEGIN
+
+	-- S'il n'y a pas de support, on se contente de mettre à jour PROG_LIAITEP et TEMPU
+	-- (grâce à SupportLiai) et ProgTProg
+
+	IF lSuppId = 0 THEN
+    	FOR vProg in CProg LOOP
+	    	SupportLiaiTempu (vProg.PROG_ID, 'PROG', lBddId, true); -- Recherche toutes les liaisons / supports du prog.
+	  --  	ProgTProg (vProg.PROG_ID);
+     	END LOOP;
+
+     	FOR vTop in CTop LOOP
+	    	SupportLiaiTempu (vTop.Top_ID, 'TOP', lBddId, true); -- Recherche toutes les liaisons / supports de la topologie.
+	  --  	TOPTTOP (vTop.Top_ID);
+     	END LOOP;
+
+	    RETURN;
+	END IF;
+
+	-- Insertion de l'enregistrement liai_liaic
+
+	INSERT INTO liai_liaic (liai_id, liai_bindingid) VALUES (lBddId, lSuppId);
+
+	-- Recherche du type de la liaison supportée
+
+	SELECT typliai_id INTO lTypeSupte FROM liai WHERE liai_id = lBddId;
+
+	-- Recherche du type de la liaison support
+
+	SELECT typliai_id INTO lTypeSupp FROM liai WHERE liai_id = lSuppId;
+
+	-- Recherche du nombre de supportés possibles du type lTypeSupte pour le support
+
+/*	lNbMaxSupte := 0;
+	FOR rcCur IN CurNbSupte LOOP
+		lNbMaxSupte := rcCur.typliai_typliai_nb;
+		EXIT;
+	END LOOP;
+
+	-- Recherche du nombre de supportés réels de ce type pour le support
+
+	SELECT	count (*) INTO lNbSupte FROM liai_liaic, liai
+	WHERE	liai_bindingid = lSuppId
+	AND	liai.liai_id = liai_liaic.liai_id
+	AND	typliai_id = lTypeSupte;
+
+	IF lNbSupte > lNbMaxSupte THEN
+      errno  := -20002;
+	    errmsg := 'Nombre maximum de supportés autorisé de ce type, dépassé pour le support';
+	    RAISE integrity_error;
+	END IF;*/
+
+	FOR vProg in CProg LOOP
+     SupportLiaiTempu (vProg.PROG_ID, 'PROG', lBddId, true); -- Recherche toutes les liaisons / supports du prog.
+  --   ProgTProg (vProg.PROG_ID);
+ 	END LOOP;
+
+ 	FOR vTop in CTop LOOP
+	  SupportLiaiTempu (vTop.Top_ID, 'TOP', lBddId, true); -- Recherche toutes les liaisons / supports de la topologie.
+--	  TOPTTOP (vTop.Top_ID);
+  END LOOP;
+
+--  gestion des erreurs
+EXCEPTION
+    WHEN integrity_error THEN
+       raise_application_error (errno, errmsg);
+END	CreLiaiLiaiC;
+/
+
+create or replace
+PROCEDURE DelLiaiLiaic
+(
+	lBddId		NUMBER	-- Id de la liaison
+)
+IS
+    cursor CProg is
+	select PROG_ID from PROG_LIAITEMPU
+	    where LIAI_ID = lBddId;
+
+	  cursor CTop is
+	select TOP_ID from TOP_LIAITEMPU
+	    where LIAI_ID = lBddId;
+
+BEGIN
+    FOR vProg in CProg LOOP
+	   DelSupportLiaiTempu (vProg.PROG_ID, 'PROG', lBddId, false);
+	--   ProgTProg (vProg.PROG_ID);
+    END LOOP;
+
+    FOR vTop in CTop LOOP
+	   DelSupportLiaiTempu (vTop.TOP_ID, 'TOP', lBddId, false);
+	--   TopTTop (vTop.TOP_ID);
+    END LOOP;
+
+    delete LIAI_LIAIC
+	where LIAI_ID = lBddId;
+END	DelLiaiLiaiC;
+/
+
+create or replace
+FUNCTION AccesGetFather
+(
+ lModelSiteId	number,
+ lSiteId	ACCES.SITE_ID%TYPE,
+ lTypeqId	ACCES.TYPEQ_ID%TYPE,
+ lModelEquipId	number,
+ lEquipId	ACCES.EQUIP_ID%TYPE,
+ lModelLiaiId	number,
+ lLiaiId	ACCES.LIAI_ID%TYPE,
+ lId	OUT	NUMBER
+)
+RETURN VARCHAR2 IS
+	nb_rel		NUMBER;
+	Father		VARCHAR2(30);
+BEGIN
+	nb_rel := 0;
+	if (lModelSiteId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'MODELSITE';
+		lId := lModelSiteId;
+	end if;
+
+	if (lSiteId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'SITE';
+		lId := lSiteId;
+	end if;
+
+	if (lTypeqId	is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'TYPEQ';
+		lId := lTypeqId;
+	end if;
+
+	if (lModelEquipId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'MODELEQUIP';
+		lId := lModelEquipId;
+	end if;
+
+	if (lEquipId	is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'EQUIP';
+		lId := lEquipId;
+	end if;
+
+	if (lModelLiaiId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'MODELLIAI';
+		lId := lModelLiaiId;
+	end if;
+
+	if (lLiaiId is not null) then
+		nb_rel := nb_rel + 1;
+		Father := 'LIAI';
+		lId := lLiaiId;
+	end if;
+
+	if (nb_rel != 1) then
+	    RAISE_APPLICATION_ERROR (-20000,
+              'An access row should have one and only one relation with an other table');
+	    -- Ne pas mettre la ligne ci-dessus sur 2 lignes, sinon on ne pourra pas l'extraire.
+	end if;
+
+	RETURN Father;
+END;
+/
+
+create or replace
+FUNCTION AlarmGereeGetFather
+(
+ lAccesId	ACCES.ACCES_ID%TYPE,
+ lObjetId       OUT NUMBER
+)
+RETURN VARCHAR2 IS
+	lModelSiteId	number;
+	lSiteId		ACCES.SITE_ID%TYPE;
+	lTypeqId	ACCES.TYPEQ_ID%TYPE;
+	lModelEquipId	number;
+	lEquipId	ACCES.EQUIP_ID%TYPE;
+	lModelLiaiId	number;
+	lLiaiId		ACCES.LIAI_ID%TYPE;
+	lId		NUMBER;
+
+BEGIN
+SetTrace ('AccesId ' || lAccesId);
+	SELECT site_id, typeq_id, equip_id, liai_id
+	INTO lSiteId, lTypeqId, lEquipId, lLiaiId
+	FROM acces
+	WHERE acces_id = lAccesId;
+
+	IF lSiteId IS NULL AND lTypeqId IS NULL AND lLiaiId IS NULL THEN
+		RAISE_APPLICATION_ERROR (-20000, 'ALARMGEREE should concern a site or a link or an equipement type');
+	END IF;
+
+	RETURN AccesGetFather (lModelSiteId, lSiteId, lTypeqId, lModelEquipId, lEquipId, lModelLiaiId, lLiaiId, lObjetId);
+END AlarmGereeGetFather;
+/
+
+create or replace
+PROCEDURE SetMaskAdmEquip
+(
+	lEquipId IN NUMBER,		-- ID de l'équipement
+	nMask	 IN NUMBER		-- Masquage si 1 ou 2, démasquage si 0
+)
+IS
+	Hdeb	acces_accesc2.mskadm_min%TYPE;
+	Hfin	acces_accesc2.mskadm_max%TYPE;
+BEGIN
+	Hdeb := 0;
+	HFin := 0;
+
+	IF nMask > 0 THEN
+		SELECT CO_SEC1998 (to_char (sysdate, 'YYYY MM DD HH24:MI:SS')) INTO Hdeb FROM dual;
+		SELECT CO_SEC1998 ('2020 02 29 00:00:00') INTO Hfin FROM dual;
+	END IF;
+
+	-- Masquage des alarmes Trap ou GSITE
+	UPDATE acces_accesc2
+	SET mskadm_min = Hdeb,
+	    mskadm_max = Hfin,
+	    mskadm_how = nMask
+	WHERE acces_accesc2_id IN (
+		SELECT acces_accesc_id
+		FROM acces_accesc
+		WHERE acces_bindingid = lEquipId
+		AND acces_bindingclassid = 8);		-- 8 = connexion à un EDC
+
+	-- Masquage des alarmes boucle
+	UPDATE acces_accesc2
+	SET mskadm_min = Hdeb,
+	    mskadm_max = Hfin,
+	    mskadm_how = nMask
+	WHERE acces_accesc2_id IN (
+		SELECT acces_accesc_id
+		FROM acces_accesc, acces
+		WHERE acces2_id is not null and acces2_id != 0
+		AND acces_id = acces1_id
+		AND acces_bindingclassid = 8
+		AND acces_accesc.mess_id is null
+		AND acces.equip_id = lEquipId);
+
+	-- Masquage des alarmes série
+	/*UPDATE bitmess2
+	SET mskadm_min = Hdeb,
+	    mskadm_max = Hfin,
+	    mskadm_how = nMask
+	WHERE bitmess2_id in (
+		SELECT bitmess_id
+		FROM bitmess, acces
+		WHERE acces.equip_id = lEquipId
+		AND acces.acces_id  = bitmess.acces1_id);*/
+END SetMaskAdmEquip;
+/
+
+create or replace
+PROCEDURE VerifAlarmEnCours (ProgId NUMBER)
+IS
+
+  -- Curseur pour récupérer les alarmes en cours.
+  CURSOR curGetAlarmEnCours IS
+    SELECT b.alarm_id
+      FROM acces_accesc a, acces_accesc_rep b, acces_accesc2
+      WHERE b.alarm_id IS NOT NULL
+      AND a.commut = 0
+      AND a.acces_accesc_id = b.acces_accesc_id
+      AND a.acces_accesc_id = acces_accesc2_id;
+   /* UNION
+    SELECT c.alarm_id
+      FROM bitmess_rep c, bitmess2
+      WHERE c.alarm_id IS NOT NULL
+      AND c.bitmess_id = bitmess2_id;*/
+
+  -- Curseur pour récupérer le nom des programmes concernés par l'alarme en cours.
+ /* CURSOR curGetProgsNoms (AlarmId NUMBER) IS
+    SELECT alarm3_prconc
+      FROM alarm3
+      WHERE alarm3_id = AlarmId;*/
+
+  -- Curseur pour récupérer les informations d'une alarme.
+  CURSOR curGetAlarm (AlarmId NUMBER)IS
+    SELECT alarm_cl, alarm_numobj, alarm_grave, alarm_numal, alarm_info, equip_id
+      FROM alarm
+      WHERE alarm_id = AlarmId;
+
+  -- Curseur pour récupérer les programmes concernés par une alarm à partir d'un équipement.
+/*  CURSOR curGetProgConc (EquipId NUMBER) IS
+    SELECT prog_id
+      FROM cablequ_equip, prog_cablequ
+      WHERE equip_id = EquipId
+      AND cablequ_equip.cablequ_id = prog_cablequ.cablequ_id;*/
+
+  ProgActif         NUMBER(1);
+  ProgNom           VARCHAR2(60);
+  ReturnInsert      NUMBER;           -- Retour de la fonction InsertAlarm.
+  cnt               NUMBER;
+
+BEGIN
+
+--   SELECT prog_actif into ProgActif FROM prog where prog_id = ProgId;
+
+  -- Vérification des alarmes en cours.
+  FOR valGetAlarmEnCours IN curGetAlarmEnCours LOOP
+
+--    IF (ProgActif = 1) THEN
+      -- Si le programme est actif.
+      FOR valGetAlarm IN curGetAlarm (valGetAlarmEnCours.alarm_id) LOOP
+        -- On recherche si l'alarme en cours peut concerné le programme.
+        --FOR valGetProgConc IN curGetProgConc (valGetAlarm.equip_id) LOOP
+          select count(*) into cnt from alarm_prog where
+          alarm_id= valGetAlarmEnCours.alarm_id and prog_id=ProgId;
+         -- IF (valGetProgConc.prog_id = ProgId) THEN
+--    insert into TEST values (SEQ_TEST.NEXTVAL,'VerifAlarmEnCours alarm_id'|| valGetAlarmEnCours.alarm_id
+-- || 'prog_id '||ProgId  || ' cnt= '||cnt);
+          IF (cnt>0) THEN
+            -- On tombe l'alarme et on la remonte afin que le programme ne soit pas concerné.
+            ReturnInsert := InsertAlarm (valGetAlarm.alarm_cl, valGetAlarm.alarm_numobj, to_char(sysdate, 'YYYY MM DD HH24:MI:SS'), 0,
+                                          valGetAlarm.alarm_numal, valGetAlarm.alarm_info, valGetAlarm.equip_id);
+
+            IF (ReturnInsert = 1) THEN
+              ReturnInsert := InsertAlarm (valGetAlarm.alarm_cl, valGetAlarm.alarm_numobj, to_char(sysdate, 'YYYY MM DD HH24:MI:SS'),
+                                            valGetAlarm.alarm_grave, valGetAlarm.alarm_numal, valGetAlarm.alarm_info, valGetAlarm.equip_id);
+            END IF;
+          END IF;
+      --END LOOP;
+      END LOOP;
+ /*   ELSE
+      -- Si le programme est inactif.
+      -- Vérification si le programme est concerné par une ou plusieurs alarmes en cours.
+      FOR valGetProgsNoms IN curGetProgsNoms (valGetAlarmEnCours.alarm_id) LOOP
+        SELECT prog_nom into ProgNom FROM prog WHERE prog_id=ProgId;
+
+        IF (INSTR(valGetProgsNoms.alarm3_prconc, ProgNom, 1)<>0) THEN
+          -- On tombe l'alarme et on la remonte afin que le programme ne soit pas concerné.
+          FOR valGetAlarm IN curGetAlarm (valGetAlarmEnCours.alarm_id) LOOP
+            ReturnInsert := InsertAlarm (valGetAlarm.alarm_cl, valGetAlarm.alarm_numobj, to_char(sysdate, 'YYYY MM DD HH24:MI:SS'), 0,
+                                          valGetAlarm.alarm_numal, valGetAlarm.alarm_info, valGetAlarm.equip_id);
+
+            IF (ReturnInsert = 1) THEN
+              ReturnInsert := InsertAlarm (valGetAlarm.alarm_cl, valGetAlarm.alarm_numobj, to_char(sysdate, 'YYYY MM DD HH24:MI:SS'),
+                                            valGetAlarm.alarm_grave, valGetAlarm.alarm_numal, valGetAlarm.alarm_info, valGetAlarm.equip_id);
+            END IF;
+          END LOOP;
+        END IF;
+      END LOOP;
+    END IF;*/
+
+  END LOOP;
+END;
+/
+
+create or replace
+FUNCTION GetEltNom
+(
+ TableNom	VARCHAR2,		-- Nom de la table où est enregistré l'élément
+ EltNom		VARCHAR2,		-- Nom de l'élément recherché dans la table
+ EltId OUT	NUMBER			-- ID de l'élément à renseigner
+)
+RETURN BOOLEAN IS
+
+    bRet BOOLEAN;			-- Valeur de retour
+BEGIN
+
+    bRet := TRUE;
+    if (TableNom = 'TYPSITE') then
+	select TYPSITE_ID into EltId from TYPSITE
+	    where TYPSITE_NOM = EltNom;
+
+    elsif (TableNom = 'SITE') then
+	select SITE_ID into EltId from SITE
+	    where SITE_NOM = EltNom;
+
+    elsif (TableNom = 'TYPEQ') then
+	select TYPEQ_ID into EltId from TYPEQ
+	    where TYPEQ_NOM = EltNom;
+
+    elsif (TableNom = 'EQUIP') then
+	select EQUIP_ID into EltId from EQUIP
+	    where EQUIP_REF = EltNom and
+		EQUIP_ETIQ_VUE = 0
+	union
+	select EQUIP_ID from EQUIP, BAIE, SITE, SALLE
+	    where
+SITE_NOM ||' '|| SALLE_NOM || ' T: ' || SALLE_BAIE_TRAV ||' C: ' || SALLE_BAIE_CADRE ||' N: '||
+BAIE_EQUIP_NICHE || ' E: ' || BAIE_EQUIP_EMPL || ' C: '||BAIE_EQUIP_CARTE = EltNom and
+		EQUIP.BAIE_ID = BAIE.BAIE_ID and
+		EQUIP.SITE_ID = SITE.SITE_ID and
+		BAIE.SALLE_ID = SALLE.SALLE_ID and
+		EQUIP_ETIQ_VUE = 1
+	union
+	select EQUIP_ID from EQUIP
+	    where SITE_EQUIP_COMMENT = EltNom and
+		EQUIP_ETIQ_VUE = 2
+	union
+	select EQUIP_ID from EQUIP
+	    where EQUIP_ADDRIP || ' ' || EQUIP_INDEXSNMP = EltNom and
+		EQUIP_ETIQ_VUE = 3;
+    elsif (TableNom = 'TYPLIAI') then
+	select TYPLIAI_ID into EltId from TYPLIAI
+	    where TYPLIAI_NOM = EltNom;
+
+    elsif (TableNom = 'LIAI') then
+	select LIAI_ID into EltId from LIAI, EXT A, EXT B
+	    where A.EXT_ID = LIAI_EXTAID and
+		  B.EXT_ID = LIAI_EXTBID and
+		  A.EXT_VILLE||'.'||A.EXT_POINT||decode (LIAI_DIR, 0, ' -> ', 1, ' <- ',
+		  ' <-> ')||B.EXT_VILLE||'.'||B.EXT_POINT||' '||LIAI_NUM = EltNom;
+
+    elsif (TableNom = 'TYPPROG') then
+	select TYPPROG_ID into EltId from TYPPROG
+	    where TYPPROG_NOM = EltNom;
+
+    elsif (TableNom = 'PROG') then
+	select PROG_ID into EltId from PROG
+	    where PROG_NOM = EltNom;
+
+    elsif (TableNom = 'CLIENT') then
+	select CLIENT_ID into EltId from CLIENT
+	    where CLIENT_NOM = EltNom;
+
+   /* elsif (TableNom = 'PERIF') then
+	select PERIF_ID into EltId from PERIF
+	    where PERIF_NOM = EltNom;*/
+
+    elsif (TableNom = 'ALARMGEREE') then
+	select ALARMGEREE_ID into EltId from ALARMGEREE
+	    where ALARMGEREE_NOM = EltNom;
+
+    elsif (TableNom = 'SCRIPT') then
+	select SCRIPT_ID into EltId from SCRIPT
+	    where SCRIPT_NOM = EltNom;
+
+    elsif (TableNom = 'ACCES') then
+	select ACCES_ID into EltId from ACCES
+	    where ACCES_NOM = EltNom and TYPEQ_ID is not null;
+
+    else
+	bRet := FALSE;
+    end if;
+
+    return bRet;
+END	GetEltNom;
+/

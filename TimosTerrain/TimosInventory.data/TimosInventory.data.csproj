@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{17E1324A-0AD9-4C77-9B43-CB8AC8018CAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TimosInventory.data</RootNamespace>
+    <AssemblyName>TimosInventory.data</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="sc2i.common, Version=2.0.0.1, Culture=neutral, PublicKeyToken=6ab76d8179563588, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CChampCustom.cs" />
+    <Compile Include="CEntiteLieeATimos.cs" />
+    <Compile Include="CFormatNumerotation.cs" />
+    <Compile Include="CImporteurDataTimos.cs" />
+    <Compile Include="CNiveauCoordonnee.cs" />
+    <Compile Include="CObjetForTestValeurChampCustom.cs" />
+    <Compile Include="COccupationCoordonnees.cs" />
+    <Compile Include="COccupationCoordonneesMode.cs" />
+    <Compile Include="CEquipement.cs" />
+    <Compile Include="CConstructeur.cs" />
+    <Compile Include="CRelationElementAChamp_ChampCustom.cs" />
+    <Compile Include="CRelationEquipementChampCustom.cs" />
+    <Compile Include="CRelationTypeEquipement_Heritage.cs" />
+    <Compile Include="CTimosInventoryDb.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CTypeEquipementConstructeur.cs" />
+    <Compile Include="CTypeEquipement.cs" />
+    <Compile Include="CStock.cs" />
+    <Compile Include="CParametrageNiveau.cs" />
+    <Compile Include="CParametrageSystemeCoordonnees.cs" />
+    <Compile Include="CRelationSystemeCoordonnees_FormatNumerotation.cs" />
+    <Compile Include="CSite.cs" />
+    <Compile Include="CSystemeCoordonnees.cs" />
+    <Compile Include="CTypeSite.cs" />
+    <Compile Include="CUniteCoordonnee.cs" />
+    <Compile Include="CIndexIdTimos.cs" />
+    <Compile Include="CUtilObjetACoordonnees.cs" />
+    <Compile Include="CValeurChampCustom.cs" />
+    <Compile Include="IElementAChamps.cs" />
+    <Compile Include="IObjetACoordonnees.cs" />
+    <Compile Include="IObjetAFilsACoordonnees.cs" />
+    <Compile Include="IObjetAOccupation.cs" />
+    <Compile Include="IObjetAOptionsDeControleDeCoordonnees.cs" />
+    <Compile Include="IObjetASystemeDeCoordonnee.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="releve\CEntiteReleve.cs" />
+    <Compile Include="releve\CRelationReleveEquipementChampCustom.cs" />
+    <Compile Include="releve\CReleveEquipement.cs" />
+    <Compile Include="releve\CReleveDb.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="releve\CReleveSite.cs" />
+    <Compile Include="SObjetAvecFilsAvecCoordonnees.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TimosInventory.data.fr" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

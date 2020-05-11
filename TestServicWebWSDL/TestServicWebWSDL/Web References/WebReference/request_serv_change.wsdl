@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns="http://schemas.hp.com/SM/7" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:cmn="http://schemas.hp.com/SM/7/Common" xsi:schemaLocation="http://schemas.xmlsoap.org/wsdl/  http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://schemas.hp.com/SM/7" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema xmlns="http://schemas.hp.com/SM/7" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://schemas.hp.com/SM/7" version="2013-06-06 Rev 3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import schemaLocation="http://www.w3.org/2005/05/xmlmime" namespace="http://www.w3.org/2005/05/xmlmime" />
+      <xs:import schemaLocation="file://c:/Partage/Clients/Tunisiana/SM9/Common.xsd" namespace="http://schemas.hp.com/SM/7/Common" />
+      <xs:complexType name="request_changeKeysType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ChangeNumber" nillable="true" type="cmn:StringType" />
+        </xs:sequence>
+        <xs:attribute name="query" type="xs:string" use="optional" />
+        <xs:attribute name="updatecounter" type="xs:long" use="optional" />
+      </xs:complexType>
+      <xs:complexType name="request_changeInstanceType">
+        <xs:sequence>
+          <xs:element name="header">
+            <xs:complexType>
+              <xs:complexContent mixed="false">
+                <xs:extension base="cmn:StructureType">
+                  <xs:sequence>
+                    <xs:element minOccurs="0" name="ChangeNumber" nillable="true" type="cmn:StringType" />
+                    <xs:element minOccurs="0" name="RequestedDate" nillable="true" type="cmn:DateTimeType" />
+                    <xs:element minOccurs="0" name="PlannedStart" nillable="true" type="cmn:DateTimeType" />
+                    <xs:element minOccurs="0" name="PlannedEnd" nillable="true" type="cmn:DateTimeType" />
+                    <xs:element minOccurs="0" name="Phase" nillable="true" type="cmn:StringType" />
+                    <xs:element minOccurs="0" name="UpdateTime" nillable="true" type="cmn:DateTimeType" />
+                    <xs:element minOccurs="0" name="OpenTime" nillable="true" type="cmn:DateTimeType" />
+                    <xs:element minOccurs="0" name="Title" nillable="true" type="cmn:StringType" />
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="description.structure">
+            <xs:complexType>
+              <xs:complexContent mixed="false">
+                <xs:extension base="cmn:StructureType">
+                  <xs:sequence>
+                    <xs:element minOccurs="0" name="Description">
+                      <xs:complexType>
+                        <xs:complexContent mixed="false">
+                          <xs:extension base="cmn:ArrayType">
+                            <xs:sequence>
+                              <xs:element minOccurs="0" maxOccurs="unbounded" name="Description" type="cmn:StringType" />
+                            </xs:sequence>
+                          </xs:extension>
+                        </xs:complexContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="middle">
+            <xs:complexType>
+              <xs:complexContent mixed="false">
+                <xs:extension base="cmn:StructureType">
+                  <xs:sequence />
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="close">
+            <xs:complexType>
+              <xs:complexContent mixed="false">
+                <xs:extension base="cmn:StructureType">
+                  <xs:sequence>
+                    <xs:element minOccurs="0" name="ClosureCode" nillable="true" type="cmn:DecimalType" />
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" name="ClosureComment">
+            <xs:complexType>
+              <xs:complexContent mixed="false">
+                <xs:extension base="cmn:ArrayType">
+                  <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="ClosureComment" type="cmn:StringType" />
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" name="attachments" nillable="true" type="cmn:AttachmentsType" />
+        </xs:sequence>
+        <xs:attribute name="query" type="xs:string" use="optional" />
+        <xs:attribute name="uniquequery" type="xs:string" use="optional" />
+        <xs:attribute name="recordid" type="xs:string" use="optional" />
+        <xs:attribute name="updatecounter" type="xs:long" use="optional" />
+      </xs:complexType>
+      <xs:complexType name="request_changeModelType">
+        <xs:sequence>
+          <xs:element name="keys" type="ns:request_changeKeysType" />
+          <xs:element name="instance" type="ns:request_changeInstanceType" />
+          <xs:element minOccurs="0" name="messages" type="cmn:MessagesType" />
+        </xs:sequence>
+        <xs:attribute name="query" type="xs:string" use="optional" />
+      </xs:complexType>
+      <xs:element name="Retrieverequest_changeRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="model" type="ns:request_changeModelType" />
+          </xs:sequence>
+          <xs:attribute name="attachmentInfo" type="xs:boolean" use="optional" />
+          <xs:attribute name="attachmentData" type="xs:boolean" use="optional" />
+          <xs:attribute default="true" name="ignoreEmptyElements" type="xs:boolean" use="optional" />
+          <xs:attribute name="updatecounter" type="xs:boolean" use="optional" />
+          <xs:attribute name="handle" type="xs:string" use="optional" />
+          <xs:attribute name="count" type="xs:long" use="optional" />
+          <xs:attribute name="start" type="xs:long" use="optional" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Retrieverequest_changeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="model" type="ns:request_changeModelType" />
+            <xs:element minOccurs="0" name="messages" type="cmn:MessagesType" />
+          </xs:sequence>
+          <xs:attribute name="status" type="cmn:StatusType" use="required" />
+          <xs:attribute name="message" type="xs:string" use="required" />
+          <xs:attribute name="schemaRevisionDate" type="xs:date" use="required" />
+          <xs:attribute name="schemaRevisionLevel" type="xs:int" use="required" />
+          <xs:attribute name="returnCode" type="xs:decimal" use="optional" />
+          <xs:attribute name="query" type="xs:string" use="optional" />
+          <xs:attribute name="handle" type="xs:string" use="optional" />
+          <xs:attribute name="count" type="xs:long" use="optional" />
+          <xs:attribute name="more" type="xs:boolean" use="optional" />
+          <xs:attribute name="start" type="xs:long" use="optional" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Retrieverequest_changeKeysListRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="model" type="ns:request_changeModelType" />
+          </xs:sequence>
+          <xs:attribute name="attachmentInfo" type="xs:boolean" use="optional" />
+          <xs:attribute name="attachmentData" type="xs:boolean" use="optional" />
+          <xs:attribute default="true" name="ignoreEmptyElements" type="xs:boolean" use="optional" />
+          <xs:attribute name="updatecounter" type="xs:boolean" use="optional" />
+          <xs:attribute name="handle" type="xs:string" use="optional" />
+          <xs:attribute name="count" type="xs:long" use="optional" />
+          <xs:attribute name="start" type="xs:long" use="optional" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Retrieverequest_changeKeysListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="keys" type="ns:request_changeKeysType" />
+            <xs:element minOccurs="0" name="messages" type="cmn:MessagesType" />
+          </xs:sequence>
+          <xs:attribute name="status" type="cmn:StatusType" use="required" />
+          <xs:attribute name="message" type="xs:string" use="required" />
+          <xs:attribute name="schemaRevisionDate" type="xs:date" use="required" />
+          <xs:attribute name="schemaRevisionLevel" type="xs:int" use="required" />
+          <xs:attribute name="returnCode" type="xs:decimal" use="optional" />
+          <xs:attribute name="query" type="xs:string" use="optional" />
+          <xs:attribute name="handle" type="xs:string" use="optional" />
+          <xs:attribute name="count" type="xs:long" use="optional" />
+          <xs:attribute name="more" type="xs:boolean" use="optional" />
+          <xs:attribute name="start" type="xs:long" use="optional" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Retrieverequest_changeListRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="keys" type="ns:request_changeKeysType" />
+          </xs:sequence>
+          <xs:attribute name="attachmentInfo" type="xs:boolean" use="optional" />
+          <xs:attribute name="attachmentData" type="xs:boolean" use="optional" />
+          <xs:attribute default="true" name="ignoreEmptyElements" type="xs:boolean" use="optional" />
+          <xs:attribute name="updatecounter" type="xs:boolean" use="optional" />
+          <xs:attribute name="handle" type="xs:string" use="optional" />
+          <xs:attribute name="count" type="xs:long" use="optional" />
+          <xs:attribute name="start" type="xs:long" use="optional" />
+          <xs:attribute name="attachmentType" type="xs:long" use="optional" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Retrieverequest_changeListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="instance" type="ns:request_changeInstanceType" />
+            <xs:element minOccurs="0" name="messages" type="cmn:MessagesType" />
+          </xs:sequence>
+          <xs:attribute name="status" type="cmn:StatusType" use="required" />
+          <xs:attribute name="message" type="xs:string" use="required" />
+          <xs:attribute name="schemaRevisionDate" type="xs:date" use="required" />
+          <xs:attribute name="schemaRevisionLevel" type="xs:int" use="required" />
+          <xs:attribute name="returnCode" type="xs:decimal" use="optional" />
+          <xs:attribute name="query" type="xs:string" use="optional" />
+          <xs:attribute name="handle" type="xs:string" use="optional" />
+          <xs:attribute name="count" type="xs:long" use="optional" />
+          <xs:attribute name="more" type="xs:boolean" use="optional" />
+          <xs:attribute name="start" type="xs:long" use="optional" />
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </types>
+  <message name="Retrieverequest_changeRequest">
+    <part name="Retrieverequest_changeRequest" element="ns:Retrieverequest_changeRequest" />
+  </message>
+  <message name="Retrieverequest_changeResponse">
+    <part name="Retrieverequest_changeResponse" element="ns:Retrieverequest_changeResponse" />
+  </message>
+  <message name="Retrieverequest_changeKeysListRequest">
+    <part name="Retrieverequest_changeKeysListRequest" element="ns:Retrieverequest_changeKeysListRequest" />
+  </message>
+  <message name="Retrieverequest_changeKeysListResponse">
+    <part name="Retrieverequest_changeKeysListResponse" element="ns:Retrieverequest_changeKeysListResponse" />
+  </message>
+  <message name="Retrieverequest_changeListRequest">
+    <part name="Retrieverequest_changeListRequest" element="ns:Retrieverequest_changeListRequest" />
+  </message>
+  <message name="Retrieverequest_changeListResponse">
+    <part name="Retrieverequest_changeListResponse" element="ns:Retrieverequest_changeListResponse" />
+  </message>
+  <portType name="request_serv_change">
+    <operation name="Retrieverequest_change">
+      <documentation />
+      <input message="ns:Retrieverequest_changeRequest" />
+      <output message="ns:Retrieverequest_changeResponse" />
+    </operation>
+    <operation name="Retrieverequest_changeKeysList">
+      <documentation />
+      <input message="ns:Retrieverequest_changeKeysListRequest" />
+      <output message="ns:Retrieverequest_changeKeysListResponse" />
+    </operation>
+    <operation name="Retrieverequest_changeList">
+      <documentation />
+      <input message="ns:Retrieverequest_changeListRequest" />
+      <output message="ns:Retrieverequest_changeListResponse" />
+    </operation>
+  </portType>
+  <binding name="request_serv_change" type="ns:request_serv_change">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="Retrieverequest_change">
+      <soap:operation soapAction="Retrieve" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Retrieverequest_changeKeysList">
+      <soap:operation soapAction="RetrieveKeysList" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Retrieverequest_changeList">
+      <soap:operation soapAction="RetrieveList" style="document" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="request_serv_change">
+    <port name="request_serv_change" binding="ns:request_serv_change">
+      <soap:address location="http://VMSWSMDEV02.orascomtunisie.com:13081/SM/7/ws" />
+    </port>
+  </service>
+</definitions>

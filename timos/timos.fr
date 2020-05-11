@@ -1,0 +1,3082 @@
+1;Patrimoine
+2;Du
+3;Au
+4;Organisation
+5;dd/MM/yyyy
+6;Ingénierie
+7;Configuration
+8;Maintenance
+9;
+10;Ok
+11;Annuler
+12;Fermer
+13;Go
+14;Filtrer
+15;Executer
+16;Validation
+17;Restriction
+18;Supprimer
+19;Trier
+20;Confirmation
+21;Plus d'Infos >>
+22;Ajouter
+23;Valider
+24;Couper
+25;Copier
+26;Coller
+27;Evaluer
+28;Effacer
+29;Avertissement
+30;Erreur
+31;Ignorer
+32;Suivant
+33;Precedent
+34;
+35;Données
+36;Tous
+37;
+38;Actualiser
+39;
+40;Code
+41;Description
+42;Rôle
+43;Clé
+44;Types
+45;Clés
+46;Liaisons
+47;Filtre
+48;Valeur
+49;Propriétés
+50;Libellé
+51;Commentaire
+52;Informations
+53;Entités Organisationnelles
+54;Type
+55;Divers
+56;Options
+57;Etat
+58;Information
+59;Ordonner
+60;Fiche
+61;En cours
+62;au
+63;ou
+64;et
+65;à
+66;par
+67;
+68;
+69;
+70;Aide
+71;Rechercher
+72;Commence par
+73;Ne Commence pas par
+74;Contient
+75;Ne Contient pas
+76;Termine par
+77;Ne Termine pas par
+78;Date de début
+79;Date de fin
+80;Agenda
+81;Initiales
+82;Nom
+83;Lien
+84;Liens
+85;Champ
+86;Champs
+87;
+88;
+89;Auteur
+90;Egal
+91;Plus petit
+92;Plus grand
+93;Plus petit ou Egal
+94;Plus grand ou Egal
+95;Différent
+96;Est Nul
+97;Est Non Nul
+98;Valeur
+99;Fiches personnalisés
+100;Structure de données
+101;Champs personnalisés
+102;Champs calculés
+103;Variables
+104;Structures d'export
+105;Interface
+106;Formulaires
+107;Filtres personnalisés
+108;Listes prédefinies
+109;Supprimer l'élément sélectionné et ses fils ?
+110;Liste des types d'entités organisationnelles
+111;Entité fille
+112;Aucun (cliquez pour créer)
+113;Nouveau type d'entité organisationnelle
+114;Type d'entité organisationnelle @1
+115;Liste des entités organisationnelles
+116;Nouvelle entité organisationnelle
+117;Entité organisationnelle @1
+118;Type d'entité
+119;Informations
+120;Familles filles
+121;Code système
+122;Affectation des entités organisationnelles
+123;Element
+124;Cet élément est lié aux entités organisationnelles suivantes
+125;Stocker le résultat dans
+126;Supprimer le lien à l'élément sélectionné ?
+127;Nouvelle variable
+128;Cet objet est déjà lié à cette entité.
+129;Déplacement d'un élément
+130;Sécurité
+131;Type d'entité organisationnelle
+132;Entités organisationnelles
+133;Restrictions
+134;Liste des profils utilisateurs
+135;Restrictions sur entités
+136;Profils inclus
+137;Restrictions
+138;Profils utilisateurs
+139;Entité organisationnelle
+140;Utilisez le clic droit pour éditer les profils inclus
+141;Profil
+142;Supprimer ce profil ?"
+143;L'utilisateur peut sélectionner un fils de l'entité.
+144;Libellé utilisateur
+145;Ajouter un profil enfant
+146;Supprimer ce profil
+147;Ajouter un profil
+148;Aucune
+149;Cause de Gel
+150;Impossible d'ajouter cette entité car une entité parente est déjà associée.
+151;Erreur d'execution
+152;(Erreur)
+153;Action à executer
+154;Execution d'une action
+155;Affichage d'une liste d'entités
+156;Affichage d'une entité
+157;Formulaire standard
+158;Formulaire personnalisé
+159;Entité
+160;Option de la page
+161;Entité à éditer
+162;Action
+163;Position
+164;Nom
+165;Groupe
+166;Il y a deux boutons cachés au dessus de ça pour les raccourcis d'import et d'export de données
+167;Traitement en cours
+168;Liste
+169;Actions
+170;Libellé du type de site
+173;Liste de sites
+174;Libellé du site
+175;Site
+176;Catégorie GED
+177;Catégories de documents GED
+178;Grilles
+179;Grille
+180;Sites fils
+181;Données précalculées
+182;Actions
+183;Evenements
+184;Comportements
+185;Tâches planifiées
+186;Groupes des paramétrage
+187;Calendrier
+188;Calendriers
+189;Impossible d'ajouter un site fils à ce type de site
+190;Familles d'équipement
+191;Types d'équipement
+192;Equipements
+193;Famille d'équipement
+194;Type d'équipement
+195;Equipement
+196;Familles filles
+197;Famille
+198;Champs Personnalisés
+199;Fournisseurs
+200;Paramétrage des équipements
+201;Fournisseur
+202;Référence
+203;Sélectionnez le fournisseur à ajouter
+204;Impossible d'ajouter ce fournisseur
+205;Stocks
+206;Stock
+207;Type de Stock
+208;Types de Stock
+209;Comportement en stock
+210;Seuil d'alerte
+211;Seuil critique
+212;Seuil optimal
+213;Alertes
+214;Comportement par défaut
+215;Sélectionnez le type de stock à ajouter
+216;Impossible d'ajouter ce type de stock
+217;Peut inclure
+218;Cet équipement peut inclure
+219;Sélectionner le type d'équipement à inclure
+220;Impossible d'ajouter ce type d'équipement
+221;Code interne
+222;Mnémonique
+223;Numéro de série
+224;Equipements inclus
+225;Sites
+226;Types de sites
+227;Site
+228;Emplacement
+229;Statuts d'équipement
+230;Statut d'équipement
+231;Code
+232;Statut de base
+233;Un Site
+234;Un stock
+235;Equipment
+236;Dépendances
+237;Peut inclure
+238;Peut être inclus
+239;Code du site
+240;Déplacer cet équipement
+241;Déplacer une Ressource
+242;Déplacer vers
+243;Ajouter site existant
+244;Informations
+245;Utilisateur
+246;Date
+247;Equipements
+248;Ce type est abstrait (pas d'équipement)
+249;Hérite de
+250;Cet équipement peut être inclu dans
+251;Types de Ressources
+252;Type de Ressource
+253;Ressource
+254;Ressources
+255;Contraintes
+256;Contrainte
+257;Contraintes filles
+258;Type de Contrainte
+259;Types de Contraintes
+260;Libellé de la contrainte
+261;Attribut 
+262;Zone protégée
+263;Gestion des Ressources
+264;Plus d'informations emplacement
+265;Acteur
+266;La Ressource est localisée dans:
+267;Choix de l'emplacement
+268;Liste des Ressources
+269;Types de contraintes associèes
+270;Choix des Types de contraintes associèes
+271;Types de Ressources associèes
+272;Choix des Types de Ressources
+273;Sélectionner une Ressource à ajouter
+274;Chiosir une Ressource à ajouter dans la liste
+275;Cette Ressource est déjà dans la liste
+276;Sélectionner la Ressource à supprimer dans la liste
+277;Créer une nouvelle Ressource
+278;Définition des champs personnalisés
+279;Types fils
+280;Gestion des Attributs
+281;Attributs 
+282;Saisir un Attribut libre (chaîne de caractères)
+283;Veuillez saisir une chaîne à ajouter
+284;Cet Attribut existe déjà
+285;Veuillez selectionner un Type de Ressource à ajouter
+286;Cette relation éxiste déjà
+287;Sélectionner le Type de Ressource à supprimer dans la liste
+288;Veuillez selectionner un Type de Contrainte à ajouter
+289;Description de la Contrainte
+290;Le Type de Contrainte doit être renseigné
+291;La Contrainte doit être associée à un Site ou un Equipement
+292;Contrainte relative à:
+293;Liste des Contraintes
+294;Equivalences
+295;Sélectionner le Type d'Equipement à ajouter
+296;Sélectionner un type d'Equipement à ajouter dans la liste
+297;Ce Type d'Equipement est déjà dans la liste
+298;A peut être remplacé par B
+299;A et B sont interchangeables
+300;A peut remplacer B
+301;Type A:
+302;Type B:
+303;Sélectionner un élément à supprimer dans la liste
+304;peut être remplacé par
+305;est interchangeables avec
+306;peut remplacer
+307;Catégories de rapports
+308;Contacts
+309;Nom
+310;Prénom
+311;Acteur principal
+312;Libellé pour parent
+313;Contraintes et Ressources
+314;Longueur de numerotation
+315;Sequence
+316;Liste des formats de numérotation
+317;Un Acteur
+318;Définir l'emplacement initial
+319;Déplacer cette Ressource
+320;Options générales
+321;Les Ressources de ce Type devront posséder:
+322;Types d'opérations
+323;Type d'opération
+324;Gestion des Contraintes
+325;Selection d'une Contrainte
+326;Selectionner une Contrainte à ajouter
+327;Selectionner une Contrainte à supprimer
+328;Cette Contrainte est déjà dans la liste
+329;Détail
+330;Définition des Attributs
+331;Format de numérotation
+332;Types d'Interventions
+333;Type d'Intervention
+334;Index invalide ou trop grand
+335;Code
+336;Mémomnique
+337;Détails
+338;Intervention élémentaire
+339;Intervention complexe
+340;Durée habituelle
+341;Temps de travail
+342;Durée fixe
+343;Heure(s)
+344;Interventions
+345;Definition
+346;Liste des Attributs des Types de Contraintes
+347;Saisir le Libelle de l'Attribut du Type de Contrainte à ajouter
+348;Sasir un Libelle pour ajouter un Attribut
+349;Cet Attribut est déjà dans la liste
+350;Emplacements possibles
+351;Trouver la Référence
+352;Trouver l'Index
+353;Index Max
+354;Référence Max
+355;Attribut utilisateur (saisie libre)
+356;Attribut du Type de Contrainte
+357;Sélectionner les Attributs dans la liste
+358;Systèmes de coordonnées
+359;Sélectionner un Attribut à ajouter
+360;Tous les Attributs de la Contrainte
+361;Au moins un Attribut de la Contrainte
+362;Emplacement libre
+363;Définit si les Ressources de ce Type sont déplaçables
+364;Déplacable si la case est cochée
+365;Cette opération nécéssite le remplacement d'un équipement
+366;Les Contraintes de ce Type peuvent avoir:
+367;Attributs pris dans la liste
+368;Attributs libres
+369;Code
+370;Optionnel
+371;Sélectionnez le type d'opération à ajouter
+372;Impossible d'ajouter le type d'opération
+373;Liste des Contraintes levées par cette Ressource
+374;Liste des Attributs
+375;Edition du Libelle de l'Attribut
+376;Ressources détenues
+377;Une Ressource
+378;Au moins un Attribut du Type
+379;Au plus un Attribut du Type
+380;Une Intervention
+381;Profils d'intervenant
+382;Profil d'intervenant
+383;Les intervenants de ce profil ont les ressources nécéssaires pour lever les contraintes suivantes
+384;Les intervenants de ce profil appartiennent aux groupes de acteurs suivant
+385;Groupes d'Acteurs
+386;Sous-profils
+387;Intervenants
+388;Intervenant
+389;Nombre d'intervenants
+390;Sélectionnez le profil d'intervenant à ajouter
+391;Impossible d'ajouter ce profil d'intervenatn
+392;Autres options
+393;Afficher l'Agenda sur les ressources de ce Type
+394;Etat de la Ressource
+395;Pour appartenir à ce profil, les éléments doivent avoir les EOs suivantes en commun avec la source, ou un élément de la source
+396;Horaire Journalier
+397;Liste des Horaires Journaliers
+398;Définition des tranches horaires
+399;Horaires journaliers
+400;Horaire journalier
+401;Heure de début
+402;Heure de fin
+403;Gestion des Tranches Horaires journalières
+404;Horaire Journalier par défaut
+405;Le Jour du Calendrier
+406;Jour de semaine
+407;Vue Calendrier
+408;Toutes les Exceptions
+409;Type d'Occupation
+410;Chiffres romains
+411;Type d'Occupation par défaut
+412;Tous les
+413;Le
+414;du mois
+415;Définition des Exceptions
+416;Profil
+417;Les sous-interventions seront planifiées
+418;Voulez vous enregistrer les modifications?
+419;est en cours d'édition
+420;L'Exception
+421;Enregistrer les modifications
+422;Editer le jour particulier
+423;Modifier les tranches horaires de l'Horaire Jounalier associé
+424;Il existe différentes exceptions définies sur les jours sélectionnés
+425;Voulez vous continuer?
+426;Horaire par défaut
+427;Jour particulier
+428;Sélections multiples
+429;Unités
+430;Systeme de Coordonnées
+431;Occupation Hérité
+432;Occupation Définie
+433;Unité d'occupation :
+434;Place occupée :
+435;L'occupation ne peut pas être héritée car il n'y a aucun parent ou plus d'un parent
+436;Herite de : 
+437;Systeme de Coordonnées défini
+438;Systeme de Coordonnées hérité
+439;Systeme de Coordonnées utilisé
+440;Niveaux
+441;Premier Indice
+442;Taille
+443;Ref Max
+444;Unité
+445;Aucun ou trop de parent défini pour le moment
+446;Coordonnée
+447;Unité
+448;Defaut
+449;Impossible car la taille ne peut dépasser @1
+450;La plage dépasse les limites du format de numérotation
+451;Sequence non définie
+452;Sequence trop courte
+453;Numerotation
+454;Prefixe
+455;Position
+456;Abréviation
+457;Couleur
+458;Constructeur
+459;Constructeurs
+460;Parametrage Système Coordonnées
+461;Occupation
+462;Modèle de rapport
+463;L'unité n'est pas déterminée
+464;Qualification
+465;Référence Constructeur
+466;L'unité n'existe pas dans le systeme de coordonnée
+467;Profils de ressource
+468;Profil de ressource
+469;Etat Crystal
+470;Modèles de texte
+471;Modèle de texte
+472;Type des éléments
+473;Sélectionnez un type d'éléments pour ce modèle	
+474;Modèles de texte
+475;Taille par défaut
+476;Qualifications Filles
+477;Libellé Qualification
+478;Hérite de:
+479;Liste des Qualifications de Ticket
+480;Qualifications de tickets
+481;Type de ticket
+482;Liste des types de ticket
+483;Types de Tickets
+484;Libelle du Type de Ticket
+485;Délégations Possibles
+486;Acteur obligatoire
+487;Libre mais nécessaire
+488;Libre
+489;Ce Type de Ticket peut être délégué au groupe d'Acteurs:
+491;Sélectionner un groupe d'Acteurs
+492;Ce groupe ne peut être ajouté
+493;Le conteneur nécessite une occupation pour l'équipement cependant vous n'avez pas encore défini le type de votre équipement
+494;Vous avez défini une occupation avant d'avoir sélectionné un type d'équipement
+495;Votre type d'équipement @1 ne défini pas de coordonnée, or il vous faut en définir une pour votre conteneur @2
+496;Le conteneur nécessite une occupation pour l'équipement cependant vous n'avez pas encore défini le type de votre équipement
+497;Vous avez défini une occupation avant d'avoir sélectionné un type d'équipement
+498;Votre type d'équipement @1 ne défini pas d'unité, or il vous faut en définir une pour votre conteneur @2
+499;Liste des Origines Ticket
+500;Origines Ticket
+501;Libellé de l'Origine
+502;Origine de Ticket
+503;Liste des Urgences Ticket
+504;Urgences Ticket
+505;Urgence Ticket
+506;Libellé de l'Urgence
+507;Niveau de Priorité
+508;Ordonner les Niveaux d'Urgence
+509;Sélectionnez un système de coordonnées
+510;Accepter les fils sans coordonnées
+511;Ne pas vérifier les unités
+512;Ne pas prendre en compte l'occupation (utiliser 1)
+513;Plusieurs fils peuvent occuper la même coordonnée
+514;Options de controle des coordonnées
+515;Hérite les options de contrôle
+516;Définit les options de contrôle
+517;Définit l'occupation
+518;Occupe
+519;L'occupation doit être indiquée
+520;Occupation
+521;Pas de système de coordonnées
+522;Pas d'occupation
+523;Pas d'option de contrôle
+524;Systèmes de Coordonnées
+525;Formats de Numérotation
+526;Liste des entités organisationnelles
+527;Hérite l'occupation
+528;Ressources contenues
+529;Hérite le système de coordonnées
+530;Définit un système de coordonnées
+531;Système de coordonnées
+532;Vous n'avez pas les droits pour éditer cette phase
+533;Il n'y a pas de Site lié au Ticket en cours
+534;Il n'y a pas de Type d'Intervention possible sur ce Type de Phase
+535;Voulez-vous supprimer définitivement '@1' ?
+536;Qui appeler?
+537;Echange de matériel
+538;Informations de remplacement
+539;Equipement remplacé
+540;Remplacé par
+541;Annuler et supprimer le remplacement
+542;Remplacement d'équipement
+543;Début de l'intervention
+544;Fin de l'intervention
+545;Appliquer les dates
+546;SITE
+547;Type activité
+548;Durée
+549;Paramètres de l'activité
+550;Identité du Collaborateur
+551;Saisie des heures d'activité
+552;Saisir la durée
+553;Saisie d'un Site obligatoire dans le suivi d'activité
+554;Les Activités de ce type ne peuvent être créées que par le biais des interventions
+555;Formulaire
+556;Libelle profil
+557;Durée retenue
+558;Client :
+559;Type de tickets associés
+560;Libellé du contrat :
+561;Intervention
+562;Check-Liste
+563;Planification
+564;Intervention sur
+565;Réalisation
+566;Pré-planification
+567;Gerée par
+568;Cette intervention sera planifiée entre le
+569;et le
+570;Durée prévue
+571;Début
+572;Fin planifiée
+573;Ticket
+574;Fin
+575;Début planifié
+576;Profils standard
+577;Elements filtrés
+578;Source
+579;Ajouter à ce profil les éléments des profils suivants (utilisez le clic droit pour modifier)
+580;Inclusion
+581;Filtre
+582;Formule
+583;Tester
+584;Pour appartenir à ce profil, les éléments doivent vérifier le filtre suivant :
+585;Seuls les éléments pour lesquels la formule suivante retourne 'vrai' seront integrés dans le profil
+586;Ce profil ne sera applique que si la source vérifie la formule suivante :
+587;Element à comparer
+588;Source à comparer
+589;(vide pour comparer l'élément directement)
+590;(vide pour comparer la source directement)
+591;Sélectionner une source
+592;Operation
+593;Operations
+594;Contacts possibles
+595;Planification/Suivi
+596;Profil préplanifieur
+597;Profil planifieur
+598;Activité
+599;Type d'activité associé
+600;Parametrer
+601;L'utilisateur doit saisir une durée pour ce type d'opération
+602;Geler l'intervention
+603;Début du gel
+604;Cause du gel
+605;Information sur le gel
+606;Gel
+607;Dégeler cette intervention
+608;Geler cette intervention
+609;Mode intervenants
+610;Date Début
+611;Ajouter un site
+612;Ajouter un intervenant
+613;Mode ressources
+614;Intervention à planifier
+615;Maitres
+616;Esclaves
+617;Cloture Automatique
+618;Numero Ticket
+619;Libelle du Site
+620;Libelle de l'Entité Organisationnelle
+621;Voir...
+622;Date de clôture Technique :
+623;Responsable clôture :
+624;Etat de clôture du Ticket :
+625;Infos de clôture du Ticket :
+626;Code de la Cause de Gel
+627;Libellé de la Cause de Gel
+628;Libellé de l'Etat de Cloture
+629;Code de l'Etat de Cloture
+630;Etat de Base lié
+631;Libellé de l'origine de Ticket
+632;Sélectionnez le Formulaire personnalisé qui s'affichera sur les formulaires d'édition des Ticket ayant cette Origine
+633;Libellé du Type de Phase
+634;Tous types d'Intervention
+635;Types d'intervention associées
+636;Sélectionnez le formulaire qui s'affichera lors de l'édition des Phases de ce Type
+637;Formule de Condition de sortie de Phase
+638;Séléction du profil des Utilisateurs autorisés à gérer les Phases de ce Type
+639;Phases
+640;Contrats
+641;Sélectionner les contrats associés au Type de Ticket
+642;Phase
+643;Note de synthèse :
+644;Gels
+645;Synthèse
+646;Utilisateur
+647;Date création Phase :
+648;Date début de Phase :
+649;Date fin de Phase :
+650;Client
+651;Contrat
+652;Type de Ticket
+653;Urgence
+654;Origine
+655;Description
+656;Détail
+657;Objets liés
+658;Résolution
+659;Tickets Liés
+660;Historique
+661;Infos générales
+662;Ouvert le
+663;Ouvert par
+664;Phase en cours
+665;Assigné à
+666;Le Ticket N°
+667;Liste des Phases de résolution
+668;Dégeler le Ticket
+669;Geler le ticket
+670;Clos le
+671;Etat de clôture
+672;Etape suivante >>
+673;Passer à la phase suivante...
+674;Clore le ticket
+675;Ouverture du Ticket
+676;Démarrer le processus de résolution...
+677;Erreur de saisie
+678;Impossible de terminer la phase en cours
+679;Pas de phase suivante possible
+680;Fin de la Phase:
+681;Création de la Phase:
+682;Le champ Client doit être renseigné
+683;Le champ Contrat doit être renseigné
+684;Le champ Type de Ticket doit être renseigné
+685;Erreur de saisie du Ticket
+686;Cette action va clore définitivement le Ticket en cours. Toute modification sera impossible.
+687;Confirmez vous la clôture?
+688;Confirmation
+689;Fin de la Phase:
+690;Cloture du Ticket
+691;Erreur de Saisie des Infos de Cloture
+692;La date de cloture technique doit être renseignée
+693;La date de cloture technique ne peut être supérieur à la date en cours
+694;L'Etat de cloture doit être renseigné
+695;La phase en cours est gelée, dégeler la phase avant de clôre le Ticket
+696;Impossible de clore le Ticket, voir détails...	
+697;Début de la phase:
+698;Les intervenants doivent lever les contraintes suivantes
+699;Check liste
+700;Début
+701;Fin
+702;Durée
+703;Contrainte
+704;Chercher
+705;Diviser la tâche
+706;Fin de la première partie :
+707;Intervenants
+708;Ressources matérielles
+709;Ajouter un compte rendu
+710;Page d'accueil
+711;Utilisateur
+712;Mot de passe
+713;Titre
+714;Accueil
+715;Administration
+716;Menu principal
+717;Conversation
+718;Tapez votre message ici
+719;Envoyer
+720;Civilités
+721;Process
+722;Fonctions de Planification
+723;Types d'entrées d'agenda
+724;Roles sur entrées d'agenda
+725;Types d'Occupation
+726;Types de Dossiers
+727;Liste des dossiers
+728;Interventions et opérations
+729;Profils
+730;Liste des Tickets
+731;Liste des Interventions
+732;Types de Phases
+733;Causes de Gel
+734;Etats de clôture des Tickets
+735;Gestion des Acteurs
+736;Acteurs
+737;Groupes d'Acteurs
+738;Type d'Activité Acteurs
+739;Suivis d'Activité Acteurs
+740;Contrats Clients
+741;Projets
+742;Définir la coordonnée suivant
+743;Ce site appartient au projet
+744;Grille de planification
+745;Libellé du Projet
+746;Les sites de ce Type doivent obligatoirement avoir un Parent
+747;Type EO Procurant une coordonnee :
+748;Liste des Projets
+749;Projet
+750;Héritage
+751;Comportements par Type d'Equipement
+752;Liste des actions en attente
+753;Supprimer l'Action ?
+754;Civilité
+755;Adresse
+756;Code postal
+757;Ville
+758;Acteur désactivé
+759;Groupes et Rôles
+760;Equipements détenus
+761;Cet Acteur appartient aux Groupes suivants
+762;Gestion des Groupes d'Acteurs
+763;Cet Acteur possède les Rôles suivants
+764;Rôle
+765;Liste des Acteurs
+766;Liste des Civilités
+767;Société
+768;Connexion
+769;Droits
+770;Profils
+771;Agendas gérés
+772;Utilisateur Windows Active Directory associé
+773;Sécurité intégrée
+774;Login
+775;Mot de passe
+776;Confirmation
+777;Agenda personnel
+778;Etes-vous certain de vouloir quitter ?
+779;Message de confirmation
+780;Representation des contacts
+781;Profils des contacts
+782;Ordre
+783;Liste des Contacts
+784;Profil Contact
+785;Afficher les Contacts indisponibles
+786;Tel
+787;Nom du profil
+788;Groupe masqué
+789;Appartenance Groupe
+790;Rôles associés
+791;Champs personnalisés
+792;Membre de :
+793;Groupes nécessaires :
+794;Membres :
+795;(Hérite des Groupes suivants)
+796;(Parents dans la hiérarchie visuelle)
+797;(Groupes héritant des propriétés de ce groupe)
+798;Hiérarchie des groupes
+799;Liste des Groups d'Acteurs
+800;Expediteur de colis
+801;Gère les agendas de
+802;Nom de l'Acteur
+803;Contrainte relative à:
+804;Apparait sur check list d'Intervention
+805;Chercher une ressource
+806;Cette Ressource peut-elle lever la Contrainte ?
+807;Si la contrainte n'a pas d'attributs, toutes les ressources du bon type lèvent la contrainte
+808;Les Acteurs doivent lever cette contrainte pour intervenir (qualifications par exemple)
+809;Image
+810;Couleur de fond de l'image
+811;Les Contraintes de ce Type apparaissent sur une check list
+812;Contexte du formulaire
+813;Evenement manuel
+814;Traitement en cours...
+815;Utilisateurs connectés
+816;Numéroter à partir de
+817;Par pas de
+818;Résultat de la requête
+819;Comportements induits
+820;Cible
+821;Comportement
+822;Type d'élément
+823;Affiche jusqu'au niveau
+824;Titre
+825;Saisir ici le texte de la Note
+826;Expire
+827;Supprimer cette note ?
+828;Suppression
+829;Note publique
+830;Naviguer automatiquement pour 1 résultat
+831;Rechercher dans
+832;Type du Resultat
+833;Description
+834;Hérite du système de coordonnées
+835;Définit le système de coordonnées
+836;Niveau
+837;Débute à
+838;Taille
+839;Finie à
+840;Unité
+841;Liste des Unités d'Occupation
+842;TITRE
+843;Sélectionner un Acteur
+844;Document source à copier (utiliser ftp:// pour FTP)
+845;Modification
+846;Version
+847;Mot clé
+848;Catégories de GED
+849;Visualiser
+850;Editer
+851;Attacher un fichier
+852;Catégorie
+853;Fermer ce Dossier
+854;Ce Dossier est clos
+855;Dossier
+856;Cette entrée ne peut pas être éditée
+857;Sans horaire
+858;Rappel
+859;Gestion automatique de l'état
+860;Entrée privée
+861;Elements liés
+862;GED
+863;Tous documents
+864;Associer un document récent
+865;Liste des documents
+866;Le document
+867;n'existe plus
+868;Uniquement les dossiers principaux
+869;Liste des dossiers
+870;entrée cyclique
+871;A partir du
+872;Jusqu'au
+873;Fin/Durée
+874;Jours
+875;Heures
+876;Minutes
+877;Exclusions
+878;Catégorie de document
+879;Dernière modification entre le
+880;Créé entre le
+881;Code Op.
+882;Type op.
+883;Liste des Suivis d'Activités
+884;Liste des Types d'activité Acteur
+885;Liste des Contrats
+886;Liste des interventions
+887;Liste des Profils Elements
+888;est en cours d'édition
+889;Voulez-vous enregistrer les modifications?
+890;Basé sur
+891;Libellé de la catégorie
+892;Descriptif
+893;Application
+894;Selectionner un élément pour le test
+895;Tester
+896;Libellé long
+897;Libellé court
+898;Utilisation
+899;Précision
+900;Valeur par défaut
+901;Formule de validation
+902;Message d'erreur
+903;Lecture seule pour
+904;Masquer pour
+905;Appartenant à
+906;Type cible
+907;Tableau
+908;(Spécifique)
+909;Evenement
+910;Un seul déclenchement par cible
+911;Groupe de paramétrage
+912;Execution asynchrone
+913;Tous
+914;Sélectionnez un type d'élement
+915;Aucun
+916;Classe
+917;Non disponible
+918;Erreur dans les données du filtre
+919;Pour tous les éléments
+920;Liste de
+921;Liste statique
+922;Liste dynamique
+923;Elements
+924;Chercher à partir de
+925;Visualiser le Rapport
+926;Libellé du rapport
+927;Modèle Structure
+928;Editer le Rapport
+929;Bloquer cette Tâche
+930;Tâches
+931;Prochaine execution
+932;Replanifier
+933;Executer maintenant
+934;Actions à déclencher
+935;Données à calculer
+936;Val 1
+937;Clé 1
+938;Cette donnée se recalcule lors des tâches planifiées suivantes
+939;Tâche
+940;Recalculer maintenant
+941;Requête
+942;Filtrer la table principale
+943;Structure
+944;Clés
+945;Ne pas supprimer les données stockées absentes du nouveau résultat
+946;Tout supprimer avant chaque calcul
+947;Valeurs
+948;Voir le résultat
+949;Sélectionnez un type source
+950;Erreur lors du calcul des données cumulées
+951;Recalcul
+952;Dossier principal
+953;Elements suivis
+954;Elements liés
+955;Champs et formulaires
+956;Sous Dossiers
+957;Ajouter type d'élément
+958;Libellé du lien
+959;Code lien
+960;Suppression automatique
+961;Lien multiple
+962;Masquer entête
+963;Masquer agenda
+964;Gestion automatique de l'état
+965;Limiter les droits
+966;Lien obligatoire
+967;Masquer
+968;Lien maitre
+969;Droit modification
+970;Suppression auto.
+971;Multiple
+972;Filtrage des éléments
+973;L'Acteur est disponible sur ce type d'occupation
+974;S'utilise sur les calendriers
+975;S'utilise sur les opérations
+976;Temps de travail
+977;Donne la priorité de ce type d'occupation (plus le chiffre est élevé plus la priorité est importante)
+978;Variable
+979;Nom de la variable
+980;Liste des catégories de rapport
+981;Liste des champs calculés
+982;Liste des champs personnalisés
+983;Liste des comportements
+984;Liste des Evenements
+985;Liste des Filtres Dynamiques
+986;Liste des formulaires
+987;Liste des groupes de paramétrage
+988;Les Listes d'Entitiés
+989;Liste des Actions
+990;Exécuter l'Action '@1' ?
+991;Exeéution terminée
+992;Liste des Actions en cours d'éxecution
+993;Liste des rapports
+994;Liste des Restrictions sur champs custom
+995;Liste des Rôle d'agenda
+996;Liste des Structures de Données
+997;Liste des Tâches planifiées
+998;Liste des Types d'Occupations Horaire
+999;Liste des types de données cumulées
+1000;Liste des type de dossier de suivi
+1001;Liste des types d'entrée de Agenda
+1002;Liste des Variables
+1003;Liste des Rapports Crystal
+1004;Filtrer par catégorie
+1005;Rapport
+1006;Rapports
+1007;Visualiser / Filtrer
+1008;Le modèle de l'état n'est pas défini
+1009;Etat
+1010;Etats
+1011;Aucun élément coché pour execution
+1012;Aucune action ne peut être déclenchée sur tous les éléments cochés
+1013;Planification d'Interventions pour
+1014;Mode d'affectation
+1015;Copie d'un document de GED
+1016;Document source à copier
+1017;Nom du fichier
+1018;Nom sous lequel renommer le fichier existant s'il existe (sauf client ou FTP)
+1019;La formule de nom de fichier est incorrecte
+1020;La formule de renommage est incorrecte
+1021;La formule de document est incorrecte
+1022;Créer entrée d'agenda
+1023;Stocker le résultat dans
+1024;Changer d'utilisateur
+1025;Sélectionner un utilisateur
+1026;Editer un élément
+1027;Element à éditer
+1028;Envoi d'un mail
+1029;Message
+1030;Destinataire
+1031;Pièces jointes
+1032;Expéditeur
+1033;Sujet
+1034;Message
+1035;Ajouter un destinataire
+1036;Ajouter un document
+1037;Exporter données
+1038;Options d'export
+1039;Propriétés du document
+1040;Le document sera associé aux catégories suivantes
+1041;Libellé du document
+1042;Descriptif du document
+1043;Clé (ID unique)
+1044;Erreur dans la formule de clé
+1045;Erreur dans la formule de libellé
+1046;Erreur dans la formule de descriptif
+1047;La formule d'expediteur est incorrecte
+1048;La formule du Sujet est incorrecte
+1049;La formule de message est incorrecte
+1050;La formule de destinataire est incorrecte
+1051;La formule de piece jointe est incorrecte
+1052;Création d'un formulaire
+1053;L'utilisateur peut annuler le formulaire
+1054;Visualisation d'une liste d'objets
+1055;Titre de la fenêtre
+1056;Contexte d'utilisation
+1057;Fermer maintenant
+1058;Pour des raisons de maintenance, l'application va être fermée automatiquement. Les données non sauvegardées vont être perdues. Vous avez 1 minute pour sauvegarder le travail en cours.
+1059;[Lien]
+1060;Type d'entrée
+1061;Libellé et commentaires
+1062;Dates et heures
+1063;Elements liés
+1064;Champs
+1065;Date/heure début
+1066;Date/heure fin
+1067;Etat initial
+1068;Sélectionnez le type d'entrée à créer
+1069;Erreur dans la formule de commentaires
+1070;Erreur dans la formule de clé
+1071;Erreur dans la formule de date/heure de début
+1072;Erreur dans la formule de date/heure de fin
+1073;Erreur dans la formule de libellé
+1074;Erreur dans la formule @1
+1075;Erreur dans la formule du champ @1
+1076;Le système ne sait pas editer les éléments du type: @1
+1077;Type de paramètre incompatible avec le 'service éditer element'
+1078;L'objet à éditer n'existe pas
+1079;Type de paramètre incompatible avec le service MessageBox
+1080;Type de paramètre incompatible avec le service Ouvrir fichier
+1081;Erreur lors de l'ouverture du fichier
+1082;Le système ne sait pas lister les éléments du type: '@1'
+1083;Type de paramètre incompatible sur service 'visualiser une liste'
+1084;Annuler les restrictions inférieures à 
+1085;Type d'objet
+1086;Cette restriction annule les retrictions de priorité inférieure
+1087;Niveau de priorité
+1088;Lect./Ecr.
+1089;Lect.
+1090;Masqué
+1091;Paramétrage
+1092;Indiquez ici les formulaires qui devront apparaitre lorsqu'une entité organisationnelle de ce type sera affecté à des éléments
+1093;Liste des groupes de Restrictions
+1094;Le Site '@1' fait déjà parti de ce projet
+1095;Le Site '@1' fait parti du projet '@2' : Etes vous sur de vouloir l'en retirer ?
+1096;Veuillez selectionner un site valide
+1097;L'Equipement '@1' fait déjà parti de ce projet
+1098;L'Equipement '@1' fait parti du projet '@2' : Etes vous sur de vouloir l'en retirer ?
+1099;Veuillez selectionner un equipement valide
+1100;Etes vous sur de vouloir retirer le site '@1' de ce projet ?
+1101;Veuillez selectionner un site
+1102;Etes vous sur de vouloir retirer l'equipement '@1' de ce projet ?
+1103;Veuillez selectionner un equipement
+1104;Cloturera automatiquement ce ticket lorsque le ticket maitre selectionné sera cloturé
+1105;Cloturera automatiquement le ticket esclave selectionné lorsque ce ticket sera cloturé
+1106;Un ticket ne peut être maître de lui même
+1107;Ce ticket ne peut pas être maitre car il est déjà esclave du ticket en cours (directement ou indirectement)
+1108;Ce ticket ne peut pas être esclave car il est déjà maitre de ce ticket (directement ou indirectement)
+1109;Un ticket ne peut être esclave de lui même
+1110;Ce site est déjà dans la liste
+1111;Cette Entité Organisationnelle est déjà dans la liste
+1112;Type de Phase
+1113;Liste des causes de Gel
+1114;Liste des Etats de Cloture
+1115;Liste des Phases de Ticket
+1116;Types d'Opération filles
+1117;L'Utilisateur doit saisir une durée pour ces Operations
+1118;L'Utilisateur ne doit pas saisir de durée pour ces Opérations
+1119;Cette option est définie par le Type d'Opération parente
+1120;Formulaire pour saisie du compte rendu d'operation
+1121;Formulaire pour les Opérations planifiées dans une intervention
+1122;Type d'Equipement pour le Type d'Opération
+1123;Liste des listes d'Opérations
+1124;Liste d'Opérations
+1125;Libellé de la liste
+1126;Les Opérations associées
+1127;Listes d'Opérations
+1128;Type de Contrat
+1129;Types de Contrats
+1130;Liste des Types de Contrats
+1131;Sélectionner le Formulaire à afficher sur le Contrat
+1132;Plan de prévention
+1133;Gestion des Tickets
+1134;Gestion des Sites
+1135;Selectionner le Profil de Sites à appliquer. Les Sites inclus dans ce Profil seront liés au Contrat
+1136;Sélectionner manuellement les Sites à associer à ce Contrat
+1137;Sélectionner le Site à ajouter
+1138;Impossible d'Ajouter ce Site
+1139;Profil de Sites
+1140;Quotidien
+1141;Hebdomadaire
+1142;Bimensuel
+1143;Mensuel
+1144;Bimestriel
+1145;Trimestriel
+1146;Semestriel
+1147;Annuel
+1148;Récurrence
+1149;Date limite
+1150;Selectionner les Listes d'opérations associées au Contrat
+1151;Impossible d'ajouter cette Liste d'Opérations
+1152;Selectionner un Site
+1153;Ajouter des Opérations prévisionnelles
+1154;Sites trouvés dans le Profil
+1155;Impossible d'effectuer un remplacment d'équipement en dehors d'une Operation
+1156;Informations complémentaires
+1157;Planifier les Opérations à partir de cette liste
+1158;Ajouter des listes d'Opérations à prévoir
+1159;Impossible d'ajouter cette liste d'Opérations
+1160;Liée à un Equipement
+1161;Créer automatiquement un Opération par Equipement du Type spécifié (dans une Liste d'Opérations)
+1162;Recherche par coordonnée
+1163;Pré-filtrer avec le Profil
+1164;Selectionner un Format de Numérotaion à ajouter
+1165;Colonnes
+1166;Afficher les résultats
+1167;Il n'y a pas de Site associé à cette Intervention
+1168;Entités filles
+1169;Tableaux de Planning
+1170;Tableau de Planning
+1171;Tableau
+1172;Paramétrage
+1173;Type des élements en entrée des lignes de tableau
+1174;Type de données des cellules du tableau
+1175;Tranches Horaires
+1176;Formule conditionnelle
+1177;Erreur durant l'ouverture de l'éditeur de cellule
+1178;Supprimer ces lignes ?
+1179;Impossible d'identifier le composant du filtre
+1180;Etes vous sur de vouloir supprimer cet élément ?
+1181;Erreur pendant la suppression de l'élément
+1182;Erreur générale pendant la suppression
+1183;Editer le filtre...
+1184;Filtrer...
+1185;Supprimer le filtre
+1186;Attention vous allez perdre toutes les données de la table en cour si vous changez son type!
+1187;Changement Type
+1188;Situations
+1189;Conditions
+1190;Situation
+1191;Edition d'un filtre...
+1192;Liste des Tables parametrables
+1193;Liste des Type de Tables parametrables
+1194;Types des Tables Parametrable
+1195;Tables Parametrables
+1196;Type Table Parametrable
+1197;Le nom de la table parametrable ne peut être vide
+1198;Ne pas autoriser NULL
+1199;Type de Tableau
+1200;Type de Tableau Planning
+1201;Types de Tableaux Planning
+1202;La colonne '@1' doit être renseignée
+1203;Une des colonnes n'autorise pas la valeur NULL
+1204;Table Parametrable @1
+1205;Associé à l'élément :
+1206;Associé au Type d'élément :
+1207;La table est actuellement liée au Site @1 : êtes vous sur de vouloir changer de type de liaison ?
+1208;Changement type liaison...
+1209;La table est actuellement liée à l'Equipement @1 : êtes vous sur de vouloir changer de type de liaison ?
+1210;Nom de la première colonne
+1211;Rédacteur de l'aide en ligne
+1212;Permet à l'utilisateur de modifier l'aide en ligne de Timos
+1213;Type de Table Parametrable @1
+1214;Libellé Type de Projet
+1215;Type du Projet
+1216;Projet @1
+1217;Sélectionner les types d'interventions possibles sur ce Type de Phase
+1218;Libellé du groupe
+1219;Erreur lors du démarrage de l'application
+1220;Choisir le Type de Table compatible avec l'élément...
+1221;Le nouveau type de relation est incompatible avec l'élément lié @1 : confirmer le changement ?
+1222;Changement du type de relation...
+1223;Le nouveau type de relation est incompatible avec le type de table @1 : le type de table, la table et l'élément lié vont être réinitialisé (perte des données de la table) : confirmer le changement ?
+1224;Le type de table parametrable @1 ne permet pas de concerver la relation avec l'élément @2. Confirmer le changement ?
+1225;Cette ressource lève-t-elle la contrainte ?
+1226;Mouvements
+1227;Date du mouvement
+1228;Emplacement d'origine
+1229;Equipement contenant d'origine
+1230;Date début planifiée
+1231;Date fin planifiée
+1232;Structure du projet
+1233;Description du projet
+1234;Propriétés
+1235;Supprimer définitivement
+1236;Détacher du projet
+1237;Suppression de @1...
+1238;Créer de nouveaux éléments
+1239;Selectionner parmi des éléments déjà existants
+1240;Inconnu
+1241;Liste des types de projets
+1242;Nouvelle colonne
+1243;Types Equipements Associés
+1244;Types Sites Associés
+1245;Anomalies :
+1246;Element A
+1247;Element B
+1248;Type relation
+1249;Tolérance
+1250;Condition de démarrage
+1251;Les equipements de ce Type sont gérés en mode Dotation par défaut
+1252;Cet Equipement est géré en mode "Dotation"
+1253;Cette action va provoquer la sauvegarde de vos données. Continuer ?
+1254;Editer dans la fenêtre principale
+1255;Description du Ticket
+1256;Le type de table n'est pas associable à un equipement
+1257;L'equipement ne peut pas être associé à une table
+1258;Le type de table n'est pas associable à un site
+1259;Le site ne peut pas être associé à une table
+1260;Type relation inconnue
+1261;Aucun contact n'existe
+1262;Valeurs possibles
+1263;Attache A
+1264;Attache B
+1265;Afficher les erreurs ignorées
+1266;Ne pas ignorer
+1267;Ignorer les anomalies de...
+1268;Pre Planification Incomplete
+1269;Planification Incomplete
+1270;Non respect contraintes de date
+1271;Boucles
+1272;Inclure les projets fils
+1273;Outils
+1274;Afficher miniatures des projets
+1275;Afficher les icones des Anomalies
+1276;Afficher les icones des Etats
+1277;Audit
+1278;Etat du Projet
+1279;Importer
+1280;Fichier Excel|*.xls|Fichier CSV|*.csv|Fichier texte|*.txt|Tous fichiers|*.*
+1281;Sélectionner un type de table
+1282;Type Opération @1
+1283;H.Début
+1284;L'utilisateur doit saisir une date/heure de début d'opération
+1285;L'utilisateur ne doit pas saisir de date/heure de début d'opération
+1286;L'option est définie par le type parent
+1287;Cle Primaire
+1288;Mode d'importation
+1289;Mise à jour ou création
+1290;Remise à Zero et Importation
+1291;Groupe d'acteurs @1
+1292;Type Projet @1
+1293;<Cliquez pour sélectionner>
+1294;Le fichier semble être déjà ouvert. Si vous continuez, les modifications faites lors de la précédente ouverture seront peut être perdues. Voulez vous ouvrir ce fichier malgré tout ?
+1295;Rien à visualiser
+1296;Erreur lors du lancement du viewer
+1297;Types de Projet
+1298;Erreurs Dates
+1299;Liste d'opération de travail
+1300;Objectifs :
+1301;Liste des sites à afficher...
+1302;Listes d'opérations à afficher...
+1303;Afficher seulement les sites concernés
+1304;Découper tout les
+1305;Inactif
+1306;Renseignement Indisponible
+1307;Aucune liste d'opération n'est disponible pour ce contrat
+1308;Aucune site n'est disponible pour ce contrat
+1309;Veuillez saisir un contrat...
+1310;Objectif de @1 fois tout les @2 @3
+1311;Une erreur est survenue lors de l'affichage des prévisions
+1312;Vous devez saisir au moins 1 élément
+1313;Filtre temporaire
+1314;Voir le contrat...
+1315;Jour / Mois / Annee
+1316;Jour / Mois
+1317;Mois
+1318;Jour
+1319;Annee
+1320;Mois / Annee
+1321;fois tout les
+1322;Planifier...
+1323;Format Dates...
+1324;entre le @1 et le @2
+1325;à partir du @1
+1326;Versions prévisionnelles
+1327;Liste des versions
+1328;Versions
+1329;Version prévisionnelle
+1330;Elements modifiés
+1331;Versions dépendantes
+1332;Basée sur
+1333;Element
+1334;type d'opération
+1335;Travailler avec cette version
+1336;Impossible de changer de version. Toutes les fenêtres doivent être closes
+1337;Vers @1
+1338;Revenir à la version de données "Référentiel" ?
+1339;Ajouter les interventions
+1340;Supprimer les interventions correspondant à la tranche
+1341;Supprimer toutes les interventions
+1342;Afficher seulement la liste d'opération concernée
+1343;Contrat @1
+1344;Compter
+1345;@1 Sites trouvés
+1346;Editeur des préventives
+1347;Semaine
+1348;Clé primaire (ne peut être null)
+1349;@1 elements modifiés
+1350;Editer les modifications prévisionnelles
+1351;Modifications prévisionnelles
+1352;Toutes les modifications associées à cette intervention vont être associées à une nouvelle version de données. Vous devez indiquer ici si ces modifications sont dépendantes d'une autre version.
+1353;Libellé de version
+1354;Dépend de
+1355;Cette intervention est déjà liée à une version
+1356;Vous devez valider votre intervention avant de l'associer à des modifications prévisionnelles. Sauvegarder maintenant ?
+1357;Erreur lors de la création de la version
+1358;Erreur lors de l'affectation de la version à l'intervention
+1359;Aucune modification planifiée par cette intervention
+1360;Version pour @1
+1361;Version liée
+1362;Lier à une version existante
+1363;Lier à une nouvelle version
+1364;Saisissez un libellé pour cette version
+1365;Sélectionnez une version
+1366;Version associée
+1367;@1 et @2 commencent en même temps
+1368;@1 et @2 finissent en même temps
+1369;@1 commence quand @2 termine
+1370;@1 et @2 commencent et finissent en même temps
+1371;Annuler la modification sélectionnée
+1372;Etes vous sûr de vouloir annuler les modifications
+1373;Sélectionner une Cause de Gel
+1374;Gel impossible
+1375;Geler
+1376;Vrai
+1377;Faux
+1378;La date de début de gel ne peut pas être après la date de fin de gel
+1379;Modifications Impossibles
+1380;Information sur le Dégel
+1381;Impossible car le gel suivant commence avant la date de fin indiquée
+1382;Impossible car le gel précédant fini après la date de début indiquée
+1383;Interventions
+1384;Appliquer les modifications de cette version
+1385;Appliquer les modifications ?
+1386;Dégeler
+1387;Date de dégel
+1388;Degel Impossible
+1389;Liste des Types d'Audit pour Version
+1390;Type d'Audit @1 pour version
+1391;Erreur durant le chargement
+1392;Nom clé
+1393;Types concernés...
+1394;Clés selon type
+1395;Types d'Audit
+1396;Préventives
+1397;Le mode Dotation dépend du Type d'Equipement
+1398;Héritage
+1399;Max.
+1400;Audit de version @1
+1401;Audit effectué le @1
+1402;Audit à effectuer
+1403;Tout annuler
+1404;Annuler toutes les modifications de cette version ?
+1405;Réordonner
+1406;Reférentiel
+1407;Version Cible
+1408;Version Source
+1409;Type Audit
+1410;Audit détaillé
+1411;Auditer
+1412;Type élément
+1413;Valeur Source
+1414;Valeur Cible
+1415;Mappage par formule
+1416;Types Selectionnés
+1417;Types avec Structurant
+1418;Liste Types
+1419;Liste Clés selon Type
+1420;Type de Version
+1421;Evaluation d'une formule instantanée
+1422;Erreur dans la formule
+1423;Tickets et Phases
+1424;Documents GED
+1425;Le nombre de périodes doit être plus grand que 0
+1426;Formules
+1427;Resultat de l'audit
+1428;Parcourir...
+1429;Le changement de Type va provoquer l'effacement de toutes les valeurs associées à ce champ. Continuer ?
+1430;Paramètres d'import CSV
+1431;Séparateur
+1432;Tabulation
+1433;Point-virgule
+1434;Virgule
+1435;Espace
+1436;Autre
+1437;La première ligne contient les noms des champs
+1438;Identificateur de texte
+1439;Sélectionner un fichier exemple...
+1440;Indiquer un séparateur de champs
+1441;Sélectionner un identificateur de texte
+1442;Garder le découpage
+1443;Afficher les opérations ajout à null
+1444;Afficher la période
+1445;Afficher la période suivante
+1446;Afficher la période précédente
+1447;Afficher le jour précédent
+1448;Afficher le jour suivant
+1449;Autre...
+
+10000;Formulaire @1
+10001;Aperçu avant impression...
+10002;Imprimer...
+10003;Sélection non valide
+10004;Impossible de coller les informations car la zone de collage n'est pas valide
+10005;Impossible de coller les informations car la zone copiée dépasse en taille la zone de collage
+10006;Il n'exist pas de Modèle de Rapport Crystal ayant l'ID: @1
+10007;Le paramètre "ID" du Modèle de Rapport doit être un entier
+10008;Paramètres du Formulaire
+10009;Valeur du paramètre
+10010;Sélectionnez un Formulaire
+10011;Afficher seulement les gels de la phase en cours
+10012;Afficher seulement les interventions de la phase en cours
+10013;Afficher seulement les notes de la phase en cours
+10014;Lier l'opération à la Phase de Ticket lorqu'elle est saisie sur une Intervention
+10015;Informations générales
+10016;Ajouter un Suivi...
+10017;Page précédente
+10018;Page suivante
+10019;Actualiser la page en cours
+10020;Quitter Timos
+10021;Page d'accueil
+10022;A propos de Timos
+10023;Type associé
+10024;Formulaires préférés
+10025;Formulaire complet
+10026;Formulaire incorporé
+10027;Code du formulaire (laisser vide pour le Formulaire système par défaut)
+10028;Nouveau ticket
+10029;Enregistrer sous...
+10030;Rien à enregistrer
+10031;Erreur d'enregistrement du fichier
+10032;Date de création
+10033;Editer dans un nouvel onglet
+10034;Référence Fournisseur
+10035;L'operation ne peut pas être supprimée après création
+10036;Filre intervenants par défaut
+10037;L'Auteur ne peut pas être modifié par l'utilisateur
+10038;Emplacement destination
+10039;Modules de Paramétrage
+10040;Enregistrer les modifications
+10041;Personnalisation de l'interface
+10042;Permet à l'utilisateur de modifier les menus et ajouter des contrôles aux formulaires standard
+10043;Gestion des Modules de paramétrage
+10044;Permet à l'utilisateur d'acceder à la fenêtre de gestion des modules de paramétrage
+10045;Paramètre incompatible avec le Service Client 'Exporter Données'
+10046;Export de données
+10047;Erreur ou annulation du formulaire
+10048;Calcul en cours
+10049;Sélectionner un modèle de Structure par formule
+10050;Créer une nouvelle Structure d'export
+10051;Erreur dans la formule de sélection de Structure d'export
+10052;La formule de selection de structure ne retourne pas un objet de type 'Structure d'Export'
+10053;Destinataires CC
+10054;Destinataires BCC
+10055;Cablage
+10056;Paramétrages de dessin Gantt
+10057;Paramétrage de dessin Gantt @1
+10058;Paramétrage général des barres
+10059;Paramétrage des zones latérales
+10060;Formule du texte
+10061;Couleur du texte
+10062;Hauteur des lignes
+10063;Les paramètres suivants seront appliqués à toutes les lignes du Gantt
+10064;Paramétrage des Icônes
+10065;Couleur de fond 1
+10066;Couleur de fond 2
+10067;Couleur de progression
+10068;Visibilité
+10069;Info bulle
+10070;Zone gauche
+10071;Zone droite
+10072;Affichage
+10074;(Aucune)
+10075;Date début réelle
+10076;Date fin réelle
+10077;Projets fils
+10078;Date début planifiée
+10079;Date fin planifiée
+10080;Dates automatiques
+10081;Type
+10082;Date
+10083;Clé
+10084;Commentaire
+10085;Contraintes du Projet
+10086;Liste des Contraintes. Cliquez sur Ajouter pour céer une nouvelle contrainte
+10087;Durée en heures par défaut
+10088;Entités Organisationnelles
+10089;Conversion
+10090;Index
+10091;Référence
+10092;Erreur de l'Identifiant ou du Mot de Passe
+10093;Equipement physique
+10094;Nom du Type d'Entité
+10095;Sélectionnez les Types d'Entités sur lesquelles les Entités Organisationnelles de ce Type ne seront pas visible dans l'interface utilisateur de sélection d'EO
+10096;Entités Organisationnelles Héritées
+10097;Entités Organisationnelles Propres
+10098;Catégories Filles
+10099;Document
+10100;l'Element pour Formulaire de Navigation GED n'a pas été trouvé
+10101;Navigation GED
+10102;Afficher toutes les Catégories
+10103;Vous ne pouvez pas affecter un Profil de Licence supérieur à votre Profil : @1
+10104;Options des Sites
+10105;Configuration de la maintenance Corrective
+10106;Configuration de la maintenance Préventive
+10107;Cas d'utilisation
+10108;Gestion Electronique de Documents
+10109;Schémas Reseau
+10110;Liste de Nommages d'Entité
+10111;Nommages d'Entité
+10112;Nom Fort
+10113;Entité Nommée
+10114;Proxy SNMP
+10115;Liste Proxy SNMP
+10116;Configuration des Proxy
+10117;Proxy SNMP @1
+10118;Liens de Proxy
+10119;Configuration IP
+10200;Adresse IP
+10201;Port
+10202;Configuration Réseau
+10203;Priorité
+10204;Format d'Adresse IP non valide: @1
+10205;Configuration Trap SNMP
+10206;Ce Proxy a le rôle d'Agent de Médiation SNMP
+10207;Proxy distant
+10208;Modèle IP
+10209;Indique comment ce Proxy peut être atteint sur le Réseau
+10210;Le Proxy remonte directement les Traps SNMP vers l'emplacement réseau suivant
+10211;L'Agent de médiation converti les Traps SNMP en Alarmes, et les remonte vers l'emplacement réseau suivant
+10212;Pour créer un lien, ajouter un Proxy distant, puis configurer les pages d'adresse IP gérées par ce Proxy distant
+10213;Gestion des Plages d'adresse IP. Cliquer sur le bouton "Ajouter" pour créer une nouvelle plage IP gérée par le Proxy distant
+10214;Liste Sévérité Alarme
+10215;Sévérité d'Alarme @1
+10216;Indiquez la priorité de la Sévérité
+10217;Sévérité
+10218;Replier tous les fils
+10219;Dérouler tous les fils
+10220;Timso - Tableau des Alarmes
+10221;Alarmes en Cours
+10222;Alarmes Retombées
+10223;Liste des Paramétrages d'Affichage d'Alarmes
+10224;Paramétrage Affichage d'Alarmes @1
+10225;Paramètres d'Affichage d'Alarmes
+10226;Paramétrage Général
+10227;Paramétrage des Colonnes
+10228;Hauteur ligne
+10229;Largeur entête
+10230;Configuration de Lignes
+10231;Formule de Filtre d'Affichage
+10232;Formule évenement sur arrivée d'un nouvelle Alarme
+10233;Délai de persistance des Alarmes retombées
+10234;Fichier Son
+10235;Le Type de retour de la formule doit être une valeur Booléenne
+10236;Les colonnes suivantes seront affichées sur la liste des Alarmes en cours
+10237;Titre
+10238;Contenu
+10239;Largeur
+10240;Hauteur entête
+10241;Entête de Colonne
+10242;Couleur de fond
+10243;Couleur du texte
+10244;Police du texte
+10245;Supprimer la Colonne @1 ?
+10246;Nouvelle Colonne
+10247;Afficher
+10248;Toujours visible
+10249;Icône de l'Alarme
+10250;A Acquitter
+10251;Liste des Alarmes
+10252;Alarmes Filles
+10253;Type d'Alarme
+10254;Hiérarchie de l'Alarme
+10255;Date début
+10256;Date fin
+10257;Alarme @1
+10258;Types d'Alarmes
+10259;L'Alarme @1 a déjà été acquittée
+10260;Acquitter
+10261;Retomber manuellement
+10262;Etes-vous sûr de vouloir quitter la Fenêtre de Supervision des Alarmes
+10263;Ecouter
+10264;Fichier son pour @1
+10265;Date d'Acquittement
+10266;Retomber manuellement
+10267;Acquitter
+10268;Confirmez-vous la Retombée manuelle de l'Alarme maintenant?
+10269;Masquage
+10270;Masquer l'Alarme maintenant
+10271;Action sur clic
+10272;Type des elements supervisés associés
+10273;Description de l'Alarme
+10274;Elements supervisés
+10275;Site
+10276;Equipement Logique
+10277;Lien Réseau
+10278;Voir le détail de l'Alarme
+10279;Entité SNMP
+10280;Dépendances
+10281;Attention, la MIB est incomplète, du fait de MIBS dépendantes absentes de Timos
+10282;Icône d'Alarme
+10283;(Affichée dans la fenêtre de consultation des Alarmes en cours)
+10284;MIB standard
+10285;Supervision
+10286;Voir les Alarmes masquées
+10287;Snmp et Supervision
+10288;Liste des Types d'Alarme
+10289;Type d'Alarm @1
+10290;Nom
+10291;Statut
+10292;Liste Filtrages Alarmes
+10293;Filtrage d'Alarmes @1
+10294;Activé
+10295;Configuration du Filtre
+10296;Configuration des Périodes
+10297;Selectionner et ajouter les entités liées à l'Alarme pour lesquelles le filtre sera appliqué. Le Filtre est composé des listes de chaque entité (Sites, Types d'Alarmes...) en appliquent un opérateur ET entre chaque liste.
+10298;Ignorer les Alarmes (ne pas sauver en Base)
+10299;Paramètres de Filtrage d'Alarmes
+10300;Selectionner les Sites inclus dans le Filtre
+10301;Entités SNMP
+10302;Tester le Filtre
+10303;Définir les périodes durant lesquelles le filtre sera appliqué
+10304;Catégories de Masquage
+10305;Catégorie de Masquage @1
+10306;Indiquez la priorité du Masquage
+10307;Si un Alarme est potentiellement masquée par plusieurs Filtres d'alarme, le Filtre dont la catégorie de Masquage est de plus haute priorité sera appliqué
+10308;Catégorie de Masquage
+10309;Dates de validité
+10310;du
+10311;au
+10312;Alarmes masquées
+10313;Ne pas afficher les Alarmes masquées
+10314;Affcher les Alarmes masquée dont la priorité est inférieur au niveau spécifié
+10315;Filtre rapide
+10316;Masquer l'Alarme maintenant
+10317;Cette Alarme est déjà masquée par @1. Souhaitez vous configurer un nouveau Filtre Masquant?
+10318;Configuration de Masquage manuel d'une Alarme
+10319;Options de filtrage
+10320;Masquer lorsque l'Alarme reçue réunit toutes les conditions sélectionnées
+10321;Entrez un Libellé pour ce paramétrage de Masquage
+10322;Selctionnez une Catégorie de Masquage
+10323;La Type d'Alarme est : @1
+10324;Le Site associé est : @1
+10325;L'Equipement Logique associé est : @1
+10326;Le Lien Resau associé est : @1
+10327;L'Entité SNMP associée est : @1
+10328;Cette Alarme est actuellement masquée par
+10329;Cette Alarme n'est pas actuellement masquée
+10330;Profils autorisés à utiliser ce Menu
+10331;Documents liés à aucun élément
+10332;Tous les Documents
+10333;Dissocier
+10334;Aucun document sélectionné à dissocier
+10335;Dissocier @1 Document(s) de '@2'. Souhaitez vous confirmer?
+10336;Valeurs Date
+10337;Valeurs Texte
+10338;Valeurs Décimales
+10339;Liste des Comptes Mail
+10340;Période de relevé
+10341;Paramètres du compte
+10342;Messages
+10343;Serveur POP3
+10344;Options
+10345;Serveur de mail entrant
+10346;Nom d'utilisateur
+10347;Mot de passe
+10348;Port
+10349;Utiliser une connexion SSL
+10350;Supprimer les messages du Serveur
+10351;Supprimer après
+10352;jours
+10353;Comptes Mail
+10354;Activer ce compte
+10355;Relever les messages
+10356;Sujet
+10357;Expéditeur
+10358;Destinataires
+10359;Date de réception
+10360;Taille
+10361;Pièces jointes
+10362;Sujet: @1
+10363;Message
+10364;Dernier message d'erreur
+10365;Date du dernier relevé
+10366;Dossiers de Mail
+10367;Dossier Mail
+10368;Dossiers Fils
+10369;Gestion des Evenemets
+10370;Télécharger les entêtes seulement
+10371;Récupérer le message complet
+10372;Liste de Types de Consommable
+10373;Consommables
+10374;Référence
+10375;Famille
+10376;Unité
+10377;(Aucune)
+10378;Options de gestion de Stock
+10380;Sortie définitive du Stock (non réutilisable)
+10381;Conditionnement
+10382;Lots
+10383;Référence du lot
+10384;Type de Consommable
+10385;Lot de Consommable
+10386;Liste de Lots de Consommables
+10387;Nombre initial
+10388;Nombre
+10389;Fournisseur
+10390;Supprimer le Conditionnement @1 ?
+10400;Etapes de Workflow en cours
+10401;Utiliser un Logo personnalisé
+10402;Cliquez sur l'image pour charger un nouveau Logo
+10403;Mettre à jour la configuration
+10404;Menu déroulant
+10405;Numéro d'ordre
+10406;Action
+10407;Condition
+10408;Nouvel item de menu Action
+10409;Num Ordre
+10410;Menu Item Action
+10411;Formulaire Popup
+10412;Formule élément édité
+10413;Types d'étapes
+10414;Type d'étape
+10415;Id universel
+10416;Execution Automatique
+10417;Paramètres d'initialisation
+10418;Propriétés
+10419;Recherche d'Agent
+10420;Nom du chercheur
+10421;Formule retournant la Clé d'identification spécifique de l'Agent
+10422;Supprimer la recherche d'Agent
+10423;Terminé mais date inconnue
+10424;Démarré mais date inconnue
+
+20000;Activités d'acteurs (resumé)
+20001;Activité d'acteur (resumé)
+20002;Acteur
+20003;Date
+20004;Durée
+20005;Heures
+20006;Activités
+20007;Activité
+20008;Editer le détail
+20009;Importer une table
+20010;Fichier à importer (vu du serveur)
+20011;Table à remplir
+20012;Prévisionnelles
+20013;Etiquettes
+20014;Archives
+20015;Créer une version prévisionnelle
+20016;Créer un prévisionnelle à partir de cet archive ?
+20017;Sélection d'un élément
+20018;Nouvelle variable
+20019;Optimiser l'exécution
+20020;Version Client: @1
+20021;Version Serveur: @1
+20022;Filtrer les interventions du projet
+20023;Vous êtes connecté en tant que: @1
+20024;Nom du produit: @1
+20025;Aucune information de profil de licence
+20026;Id de l'acteur pour lequel éditer l'activité
+20027;L'acteur @1 n'existe pas
+20028;Valeur de paramètre incorrecte pour @1
+20029;Voir les valeurs supprimées
+20030;Mode d'application
+20031;Ne pas filtrer en fonction de l'entité organisationnelle
+20032;Ce profil est utilisé par des utilisateurs (@1). Si vous continuez les paramètres de profil de ces utilisateurs seront modifiés.
+20033;Attention
+20034;Masquer la barre de progression
+20035;Catégorie de version
+20036;Liste des audits
+20037;Catégories de version
+20038;Catégories de version
+20039;Catégorie
+20040;Types de caractéristiques
+20041;Type de caractéristique @1
+20042;Formulaire
+20043;Catégorie
+20044;Liste des familles d'équipement logique
+20045;Famille d'équipement logique @1
+20046;Symboles
+20047;Familles d'équipements logiques
+20048;Types d'équipements logiques
+20049;Equipements logiques
+20050;Cet equipement logique peut inclure
+20051;Cet equipement logique peut être inclus dans
+20052;Type de d'équipement logique @1
+20053;Sélectionnez le type de d'équipement logique à ajouter
+20054;Impossible d'ajouter ce type d'équipement logique
+20055;Types d'équipements logiques
+20056;Famille
+20057;Type d'équipement
+20058;Equipement parent
+20059;Equipement logique @1
+20060;Liste des equipements logiques
+20061;Contient
+20062;Equipements Logiques
+20063;Options
+20064;Association d'équipements logiques
+20065;Type d'équipement associé
+20066;Création automatique de l'équipement logique
+20067;Equipement logique
+20068;Equipement logique de l'équipement
+20069;Libellé de l'équipement logique
+20070;Lier à un équipement logique existant
+20071;Créer un équipement logique
+20072;Détails de l'Equipement Logique
+20073;Association d'Equipement
+20074;Lier à un équipement existant
+20075;Créer un équipement
+20076;N° de série
+20077;Type d'équipement
+20078;Détail de l'équipement
+20079;Délier l'équipement logique
+20080;Sélectionner un site avec de lier l'équipement
+20081;L'équipement doit être dans un site
+20082;Délier l'équipement
+20083;Coordonnées
+20084;Champs personnalisés (logique)
+20085;Ajouter
+20086;Répertoire
+20087;Filtre
+20088;Formule
+20089;Supprimer
+20090;Consultations hierarchiques
+20091;Consultation hiérarchique @1
+20092;Texte des éléments
+20093;Filtre
+20094;Test de la consultation hiérarchique
+20095;Teste
+20096;Couleur
+20097;Image
+20098;Formule éléments
+20099;Utiliser comme symbole par défaut
+20100;Schémas de réseau
+20101;Schémas de réseau
+20102;Utiliser ce filtre pour les recherches rapides
+20103;Sens
+20104;Extremités de liens
+20105;Element racine
+20107;Impossible de supprimer cet élément
+20108;Filtres rapides
+20109;Configuration des filtres rapides
+20110;Parametres
+20111;Vérouiller le type après création
+20112;Stockage
+20113;Le paramètre est incompatible avec le service 'Imprimer un modèle de texte'
+20114;Le modèle de texte @1 n'existe pas
+20115;Paramètre d'impression non valide (@1)
+20116;La valeur @1 est incorrecte pour le paramètre @2
+20117;Paramètres d'impression
+20118;Element à imprimer
+20119;Modèle de texte
+20120;Impression de texte
+20121;Mauvais paramètre pour le service TransfererFichierLocal
+20122;Le fichier @1 n'existe pas
+20123;Mauvais paramètre pour le service SelectionDeFichierLocal
+20124;Copier sur le poste client
+20125;Mauvais paramètre pour le service SauvegardeEnLocal
+20126;Le document @1 n'existe pas
+20127;Paramètres de l'action
+20128;Erreur durant l'évaluation du paramètre @1
+20129;La variable de process @1 n'existe pas
+20130;Réseau
+20131;Autres
+20132;Editer cablage
+20133;Cablage de @1 dans @2
+20134;Schéma parent : @1
+20135;Dans le site : @1
+20136;Supprimer le cablage avant de supprimer cet élément
+20137;Créer les opérations à partir du prévisionnel ?
+20138;L'utilisateur doit entrer une date de fin
+20139;L'option "Saisie de date de fin" nécéssite l'option "Saisie de durée" et "Saisie de date de début";
+20140;La date de fin est inférieure à la date de début
+20141;Exceptions
+20142;Recherche du champ @1
+20143;Impossible d'afficher cet élément
+20144;La version client (@1) et la version serveur (@2) ne correspondent pas. Merci de mettre à jour votre poste client.
+20145;Un seul dossier par parent
+20146;Formulaire résumé
+20147;Détail
+20148;Méthode non trouvée
+20149;Erreur appel asynchrone @1
+20150;Mode operationnel
+20151;Tâche
+20152;Paramètres de vue de schéma dynamique
+20153;Paramètres
+20154;Représentation des sites
+20155;Représentation des équipements
+20156;Représentation des liens
+20157;Propriété
+20158;Paramètre de vue de schéma dynamique @1
+20159;Paramétrages de vues Gantt
+20160;Paramétrage Gantt @1
+20161;Arbre Gantt
+20162;Filtre projets
+20163;Formules de regroupement
+20164;Formule de regroupement
+20165;Ajouter un niveau
+20166;Formule de groupe incorrecte
+20167;Créer le niveau racine
+20168;Gantt
+20169;Mode affichage
+20170;Paramétrage des projets
+20171;Détail des projets à l'heure
+20172;Formule d'avancement
+20173;Formule de poids
+20174;Icone de projet
+20175;Filtre
+20176;Application des modifications
+20177;Filtre : date début
+20178;Filtre : date fin
+20179;Liste des composants physiques
+20180;Composant physique @1
+20181;Formulaire à utiliser
+20182;Composant
+20183;Composants physiques
+20184;Propriétés
+20185;V. dynamiques
+20186;Vue physique
+20187;Composant physique
+20188;Mise à jour
+20189;Ajouter
+20190;Toujours présent
+20191;Formulaire pour toute la page
+20192;Formulaire pour la page @1
+20193;Outils
+20194;Importer des données
+20195;Information licence
+20196;Numéro de licence
+20197;Date d'installation
+20198;Affecté à
+20199;Date d'expiration
+20200;Modules
+20201;Limitations
+20202;Product informations
+20203;Elements
+20204;Licence
+20205;Utilisés
+20206;Renouvellement
+20207;Jour
+20208;Mois
+20209;An
+20210;Users
+20211;Date d'expiration
+20212;In use
+20213;Type
+20214;Complète
+20215;Lecture seule
+20216;Impossible d'ajouter ce type de ticket
+20217;Profil d'intervenant pour les interventions
+20218;Profil de ressource pour les interventions
+20219;Contacts pour les interventions
+20220;Contacts pour les phases de ticket
+20221;Responsable de phase de ticket
+20222;Responsable planification et pré-planification d'intervention
+20223;Profil de Sites liés à un Contrat CLient
+20224;Profil de Sites liés à un Contrat et une liste d'Opérations
+20225;Profil de sites liés à un Contrat et un type de ticket
+20226;Profil d'Equipements de remplacement pour une Operation
+20227;Laissez la liste suivante vide pour que tous les sites du contrats soient affectés à ce type de ticket
+20228;Laissez la liste suivante vide pour que tous les sites du contrats soient affectés à la liste d'opérations
+20229;Utiliser un profil pour gérer les sites
+20230;Gestion manuelle des sites
+20231;Editer les périodes de maintenance
+20232;Historique des périodes
+20233;Site
+20234;Type de ticket
+20235;Période incomplète
+20236;Invalid period
+20237;La période doit contenir le @1
+20238;Erreur dans les périodes de sites par type de ticket
+20239;Début
+20240;Fin
+20241;Appliquer
+20242;La période est en conflit avec une autre période
+20243;Laisser la liste vide pour qu'il n'y ait pas de restriction
+20244;Hiérarchie
+20245;Les projets de ce type nécéssitent un projet parent
+20246;Toutes catégories
+20247;Aucune
+20248;Aucun
+20249;Les documents seront associés à l'élément '@1', dans la catégorie '@2'
+20250;Liste des mibs
+20251;Mib @1
+20252;SNMP
+20253;Mibs
+20254;Importer un fichier MIB
+20255;Fichiers mib (*.mib)|*.mib|Tous fichiers (*.*)|*.*
+20256;Id du module
+20257;Description
+20258;Charger un fichier MIB
+20259;Le module '@1' n'a pas été trouvé dans le fichier @2
+20260;Le module actuel va être remplacé par celui du fichier @1. Confirmez-vous cette opération ?
+20261;Détail de la MIB
+20262;Hiérarchie
+20263;Sous types
+20264;Etat à partir des fils
+20265;Paramétrage des alarmes
+20266;Actions sur alarme parente
+20267;Libellé d'alarme
+20268;Etat initial
+20269;Types d'agents SNMP
+20270;Type d'agent SNMP @
+20271;Module mibs gerés
+20272;Requêtes
+20273;Gestionnaires de traps
+20274;Entités gerées
+20275;Gestion des champs
+20276;Ordre
+20277;Requête
+20278;Types d'agent 
+20279;Libellé
+20280;Entreprise
+20281;Specific
+20282;Depuis Mib
+20283;Créer un gestionnaire
+20284;Type d'entité SNMP @1
+20285;Sub types
+20286;Paramétrage des entités
+20287;Champs sur équipement de médiation
+20288;Libellé des entités
+20289;Formule d'index par défaut
+20290;Source de données
+20291;Nom du champ
+20292;Type
+20293;Accès
+20294;Description
+20295;Formule d'index
+20296;Lecture seule
+20297;Lecture/ecriture
+20298;Propriétés du champ
+20299;Associé à 
+20300;Editer la requête
+20301;Type d'agent
+20302;Liste des agents SNMP
+20303;Agent SNMP @1
+20304;Paramètres SNMP
+20305;Adresse IP
+20306;Communauté
+20307;Port (161)
+20308;Version
+20309;Impossible de trouver le type d'entite @1
+20310;Agents 
+20311;Type d'agent
+20312;Erreur sur l'entité @1
+20313;Création rapide
+20314;Mode formulaire
+20315;Formulaire
+20316;Lire la valeur SNMP
+20317;Dernière mise à jour : @1 @2
+20318;Lire tout l'élément depuis SNMP
+20319;Lire tout l'agent depuis SNMP
+20320;Geré par
+20321;Contrôle du service de médiation
+20322;Nom du proxy
+20323;Etat du service
+20324;Cherche...
+20325;Erreur lors de la recherche du service\n@1
+20326;Erreur
+20327;Démarré
+20328;Arrêté
+20329;Piloter l'agent de médiation
+20330;Voir les données de médiation
+20331;Erreur lors de la lecture de la configuration
+20332;Démarrer
+20333;Arrêter
+20334;Champs clé
+20335;Grouper sur la clé
+20336;Autres informations disponibles sur l'équipement de médiation
+20337;Agent SNMP
+20338;Dernière mise à jour depuis l'agent physique
+20339;Dernière mise à jour de l'agent physique
+20340;Mettre à jour maintenant
+20341;Mise à jour automatique
+20342;Attention, cette opération va mettre à jour toutes les informations de l'agent depuis les informations de l'agent physique. Etes-vous sûr ?"
+20343;Champ associé
+20344;Données du service
+20345;Debug
+20346;Commencer le débogguage
+20347;Heure
+20348;Message
+20349;Interrompre le débogguage
+20350;Timeout
+20351;ms
+20352;Ecrire la valeur vers l'agent SNMP
+20353;Envoyer un SMS
+20354;Liste des SMS
+20355;Destinataires
+20356;Message
+20357;Expediteur
+20358;Date de création
+20359;Date d'émission
+20360;Prochaine tentative
+20361;Nombre d'échecs
+20362;Dernière erreur
+20363;Message SMS
+20364;Superviser
+20365;Si le niveau est supérieur à 49, les liens et equipements seront considérés comme hors service
+20366;Element supervisé
+20367;Voir le schéma
+20368;Propriétés
+20369;Alarmes
+20370;Toujours visible
+20371;Supervision
+20372;Quitter la vue de supervision ?
+20373;Icone d'alarme
+20374;Options de versions
+20375;Lien référentiel
+20376;Options
+20377;Progression
+20378;Element principal associé
+20379;Modifications associées
+20380;Aucune version de données associée. Créer une nouvelle version ?
+20381;Souhaitez vous associer les modifications au projet @1 ou à ce projet ?
+20382;Vous ne pouvez pas associer de modifications directement à ce projet
+20382;Vous ne pouvez associer des modifications qu'au projet @1
+20383;Vous ne pouvez pas éditer de modifications car aucun élément principal n'est lié au projet (voir la configuration du type de projet)
+20384;Timos ne peux pas éditer de modification sur les éléments @1
+20385;Basée sur la version du projet parent
+20386;Version indépendante
+20387;Liste des commandes
+20388;Date de commande
+20389;Fournisseur
+20390;Commande
+20391;Liste des types de commandes
+20392;Type de commande @1
+20393;N° commande
+20394;Date de commande
+20395;Fournisseur
+20396;Type d'équipement
+20397;Référence
+20398;Quantité
+20399;Pas d'élément associé
+20400;Libre
+20401;Type d'équipement ou de consommable invalide en ligne @1
+20402;Quantité invalide en ligne @2
+20403;Détail
+20404;Stocks
+20405;Types de commandes
+20406;Commandes
+20407;Livraisons
+20408;Type commande
+20409;Présenter uniquement les équipements du fournisseur
+20410;Liste des types de livraison
+20411;Type de livraison @1
+20412;Reference constructeur
+20413;Vous devez sélectionner un stock de destination pour cette livraison
+20414;Liste des livraisons
+20415;Livraison
+20416;Vous ne pouvez pas changer la commande associée car des lignes de livraison existent
+20417;N° livraison
+20418;Date de livraison
+20419;Type de livraison
+20420;Commande
+20421;Types de livraison
+20422;Destination
+20423;Status equipement par défaut
+20424;Type d'emplacement
+20425;Emplacement
+20426;Equipement contenant/Coordonnée
+20427;Liste des lots de valorisation
+20428;Valorisations
+20429;Date
+20450;Lots de valorisation
+20451;Valeur
+20452;Lot de valorisation
+20453;Associer à un lot de valorisation
+20454;Créer un nouveau lot de valorisation
+20455;Autre lot
+20456;Valorisation livraison @1 du @2
+20457;Valorisation associées
+20458;Ajouter les équipements de la livraison
+20459;Ajouter les équipements de la commande
+20460;Valorisation de la livraison
+20461;Ignorer les équipements
+20462;Ignorer les stocks
+20463;Ignorer les sites
+20464;Options générales de coordonnées
+20465;Site
+20466;Equipement logique
+20467;Lien réseau
+20468;Options site
+20469;Options stock
+20470;Options équipement
+20471;Options générales
+20472;Display an entity in Timos main window
+20473;Avec mode édition
+20474;Lecture seule
+20475;Cette opération va supprimer les relations à \r\n @1et ajouter une association à @2. Continuer ?
+20476;Ne jamais mettre à jour depuis SNMP
+20477;Mise à jour SNMP
+20478;Dernière lecture SNMP : @1
+20479;IP ou clés complémentaires (sep ,)
+20480;Délai rafraichissement SNMP
+20481;Adresse IP incorrecte : @1
+20482;Superviser
+20483;Liste des séquences de numérotation
+20484;Séquence de numérotation @1
+20485;Paramètres
+20486;Type source
+20487;Formule de clé
+20488;Numéro de départ
+20489;Type de numérotation
+20490;Séquences
+20491;Index
+20492;Valeur stockée
+20493;Valeur affichée
+20494;Formules de paramétrage
+20495;Détail
+20496;Gestion des unités
+20497;Gestionnaire de sessions
+20498;Id
+20499;Nom
+20500;Connecté depuis
+20501;Temps de connexion
+20502;Inactif depuis
+20503;Session courante
+20504;Session invalide
+20505;Rafraichir
+20506;Erreur d'accès
+20507;j
+20508;h
+20509;m
+20510;Masquer les sessions système
+20511;Serveur
+20512;Copier la liste
+20513;Inactivité longue
+20514;Fermer les sessions sélectionnées
+20515;Vous allez envoyer un message d'arrêt à @1 session. Confirmez vous cette action
+20516;Confirmation
+20517;Les sessions @1 sont des sessions sytème et ne seront pas fermées
+20518;La session @1 est une session système et ne sera pas fermée
+20519;Cochez les sessions à fermer pour commencer.
+20520;Vous n'êtes pas autorisé à gérer les sessions.
+20521;Liste des méta projets
+20522;Meta projet @1
+20523;Date début
+20524;Date fin
+20525;Meta projets
+20526;Mettre à jour
+20527;Supprimer
+20558;Supprimer @1 projets de ce méta projet ?
+20529;Liste des types de meta-projet
+20530;Type de méta-projet @1
+20531;Type méta-projet
+20532;Types de méta projet
+20533;Groupe de restrictions
+20534;Appliquer à tout le monde
+20535;Appliquer à la sélection
+20536;Acteurs
+20537;Groupes d'acteurs
+20538;Profils utilisateur
+20539;Nom
+20540;Restrictions spécifiques
+20541;Droits
+20542;Prénom
+20543;Gestion des droits
+20544;Supprimer la restriction @1 ?
+20545;Tout effacer
+20546;Supprimer toutes les restrictions ?
+20547;Appliquer un filtre sur
+20548;Masquer les éléments qui ne sont pas dans la branche
+20549;Ne jamais écrire la valeur SNMP
+20550;Types de workflows
+20551;Type de Workflow @1
+20552;Workflow
+20553;Description
+20554;Champs
+20555;Workflows
+20556;Erreur d'initialisation
+20557;Erreur lors de l'initialisation de l'étape de workflow.
+20558;L'étape @1 ne définit pas l'élément à éditer
+20559;L'élément à éditer pour l'étape @1 n'est pas valide
+20560;Le système ne peut pas éditer un élément @1
+20561;Le formulaire de l'étape @1 est invalide
+20562;Workflow projet
+20563;Workflow
+20564;Détail projet
+20565;Type de projet
+20566;Champ projet
+20567;Sélectionnez ici le champ de workflow qui stockera le projet associé dans le workflow
+20568;Initialisation du projet (Création & démarrage)
+20569;Clé projet
+20570;Le workflow a démarré
+20571;Démarrer le workflow @1 ?
+20572;Validez vos modifications avant de continuer.
+20573;Tous les prérequis pour terminer l'étape @1 sont remplis. Voulez vous terminer cette étape ?
+20574;Créer un squelette de projet
+20575;Workflow à utiliser
+20576;Projet parent
+20577;Détail de l'étape
+20578;Détail du workflow
+20579;Démarrer/Redémarrer
+20580;Editer les affectations
+20581;Notifier
+20582;Affectations de l'étape
+20583;Sous types
+20584;Les projets de ce type peuvent avoir les sous types suivants
+20585;Sous types
+20586;Autres utilisations
+20587;Type d'unité
+20588;Format unité
+20589;Paramètre incompatible avec le service "Afficher une étape"
+20590;Type de l'étape de démarrage (null pour défaut)
+20591;Liste des spécifications de besoins
+20592;Besoins
+20593;Needs specifications
+20594;Specification de besoins @1
+20595;Détails
+20596;Supprimer la quantité '@1' ?
+20597;Type d'équipement
+20598;Etape de workflow @1
+20599;Détails
+20600;Date début
+20601;Date fin
+20602;Démarré par
+20603;Terminé par
+20604;Etat
+20605;Code Retour
+20606;Workflow
+20607;Affectations
+20608;Paramètre de notifications
+20609;Durée d'affichage
+20610;secondes
+20611;Notification sonore
+20612;Fichier son
+20613;Vide pour son par défaut
+20614;Fichier son (wav)|*.wav|Tous fichiers|*.*";
+20615;Etapes de workflow
+20616;Affecté à
+20617;Etat
+20618;Type workflow
+20619;Libellé
+20620;Vous n'êtes pas autorisé à afficher cette étape
+20621;Workflows
+20622;Workflow @1
+20623;Etapes
+20624;Date de début
+20625;Date de fin
+20626;Manager
+20627;Sélectionnez un manager pour ce projet
+20628;Type de workflow
+20629;Le type de workflow doit être défini avant de commencer
+20630;Besoins du projet
+20631;@1 sera consideré comme solution de @2. Continuer ?
+20632;Afficher la Spécification
+20633;Centrer sur cet élément
+20634;Editer
+20635;Afficher la carte
+20636;Satisfactions
+20637;Retirer @1 de la liste des satisfactions ?
+20638;Configurer
+20639;Ajouter @1 à la selection ?
+20640;@1 éléments
+20641;Retirer @1 de la sélection ?
+20642;Utiliser comme modèle
+20643;Macros
+20644;Types d'équipements
+20645;Types de consommables
+20646;Paramétrage des lots
+20647;Visualisation de rapport
+20648;Type de consommable
+20649;Autoriser multiple
+20650;Afficher dans la fenêtre de planning si non affecté 
+20651;Date fin
+20652;De @1 à @2
+20653;Id d'un acteur à afficher
+20654;Id d'un site à afficher
+20655;Id d'une intervention à afficher
+20656;Id d'une ressource à afficher
+20657;Site
+20658;Filtre sur @1
+20659;Liste 
+20660;Non planifiées
+20661;Autre filtre
+20662;Non affectées
+20663;Id d'une liste d'entités contenant la liste des acteurs à afficher
+20664;Id d'un liste d'entités utilisée pour filtrer les interventions
+20665;N'afficher que les interventions non planifiées
+20666;N'afficher que les intervention non affectées
+20667;Ouvrir
+20668;&Enregistrer
+20669;Enregistrer &sous
+20670;Configuration de planning|*.futPln|Tous fichiers|*.*
+20671;Afficher le détail
+20672;Type de besoin
+20673;Impossible de démarrer cette action
+20674;Utilisez la touche <entrée> pour appliquer le modèle
+20675;Impossible de réaliser l'opération demandée. @1 est une solution à @2
+20676;Taux
+20677;Ne pas utiliser cette famille pour des équipements
+20678;Ne pas utiliser cette famille pour des consommables
+20679;Supprimer l'opération @1
+20680;Annuler
+20681;Etape appelante
+20682;Dernière erreur
+20683;Historique
+20684;Actions
+20685;Type d'opération
+20686;Editer
+20687;Modifier la répartition pour que '@1' consomme '@2'% du coût de '@3' ?
+20688;Commentaires sur @1
+20689;Affectations sur les nouveaux éléments
+20690;Utiliser un formulaire spécifique (id de formulaire)
+20691;Le formulaire @1 n'est pas conçu pour éditer un élément de type @2.
+20692;Le formulaire @1 a besoin d'un élément à éditer
+20693;Impossible d'éditer les modifications sur @1
+20694;Saisie sans coûts
+20695;Saisir les coûts
+20696;Suivi des coûts
+20697;Calculer les coûts
+20698;Extraire la liste
+20699;Afficher la carte
+20700;Ajouter un besoin
+20701;Cout réel
+20702;Cout prévisionnel
+20703;Cout saisi
+20704;Utiliser le cout saisi en tant que coût réel
+20705;Utiliser le cout saisi en tant que coût prévisionnel
+20706;Calcul des coûts
+20707;Calcul des coûts prévisionnels
+20708;Calcul des coûts réels
+20709;Opérateurs prévus
+20710;Taux horaire
+20711;Voulez vous dévérouiller le coût prévisionnel ?
+20712;Voulez vous vérouiller le coût prévisionnel ? (il ne sera plus calculé automatiquement)
+20713;Type de projet
+20714;Prédécesseurs
+20715;Durée
+20716;Taux
+20717;Afficher le projet
+20718;Masquer le projet
+20719;Appliquer un modèle
+20730;Appliquer le modèle '@1' à '@2'
+20731;Détail rapide
+20732;Sélectionnez une intervention
+20733;Sélectionnez l'équipement logique à lier
+20734;Sélectionnez un profil d'utilisateur
+20735;Sélectionnez un élément de test
+20736;Sélectionnez un type de dossier
+20737;Sélectionnez un type de projet (pour les besoins qui n'ont pas de type de projet)
+20738;Sélectionnez un opérateur
+20739;Sélectionnez un utilisateur
+20740;Sélectionnez l'équipement à lier
+20741;Timos a détecté une incohérence de contexte de donnée, vous risquez de perdre le travail qui pourra être fait suite à ce message. Nous vous recommandons de fermer Timos et de le ré-ouvir. Merci de transmettre cette information à Futurocom et d'indiquer le circonstance qui vous ont amené à ce message.
+20742;Timos a détecté une incohérence dans le gestionnaire de transactions, vous risquez de perdre le travail qui pourra être fait suite à ce message. Nous vous recommandons de fermer Timos et de le ré-ouvir. Merci de transmettre cette information à Futurocom et d'indiquer le circonstance qui vous ont amené à ce message.
+20743;Inclure ou exclure les coûts des besoins fils
+20744;Groupe de restrictions
+20745;Formule (vrai pour activation)
+20746;Droits d'édition spécifiques
+20747;Les droits suivants sont appliqués pour toutes les formules retourne 'vrai'. Ces droit sont des droits d'interface uniquement, ils ne sont pas appliqués sur la base de données
+20748;Droits d'édition
+20749;Date de début de la grille
+20750;Date de fin de la grille
+20751;Ajouter depuis le prévisionnel
+20752;Couleur terminé
+20753;Hiérarchie projet
+20754;Autorisé depuis web
+20755;Requêtes stockées
+20756;Requête stockée @1
+20757;Requêtes stockées
+20758;Aucun document
+20759;@1 document(s)
+20760;Tous fichiers|*.*
+20761;Supprimer le document @1 ?
+20762;Ne rien faire
+20763;Annuler l'execution
+20764;Terminer l'execution
+20765;Terminer avec erreur
+20766;Impossible de terminer l'étape
+20767;Gérer les itérations
+20768;Workflow
+20769;Sélectionnez les éléments à nettoyer
+20770;Relevé de site @1 du @2
+20771;Site
+20772;Date
+20773;Liste des relevés de site
+20774;Date de relevé
+20775;Relevés
+20776;Equipements
+20777;Presence
+20778;Numéro série
+20779;Type
+20780;Coord.
+20781;Commentaires
+20782;Réinitialiser le choix
+20783;L'équipement est sur @1
+20784;Coordonnée
+20785;Numéro de série
+20786;Type, P/N
+20787;Commentaires
+20788;Action
+20789;Relevé du site @1. Date : @2
+20790;Vos choix ont été sauvegardés
+20791;Action de relevé
+20792;Masquer les éléments validés
+20793;Tout valider
+20794;Filtrer
+20795;Appliquer ce relevé
+20796;Relevé du site @1 (@2)
+20797;Statut des équipements créés
+20798;Les modifications ont été appliquées
+20799;m.a.j. async.
+20800;Clé modèle
+20801;Type bes. def.
+20802;Detail action
+20803;Editer l'élément
+20804;Spécifique
+20805;Boutons
+20806;Ajouter
+20807;Supprimer
+20808;Détail
+20809;Importer depuis un tableur
+20810;Copier des données depuis votre tableau, puis cliquez sur le bouton 'Coller' sur la gauche. Convertissez les colonnes en utilisant le click droit sur les entêtes de colonnes et cliquez sur le bouton 'convertir' sur la droite
+20811;Import tableur
+20812;Sélectionnez un type de table
+20813;Importer une ligne de table
+20814;Ligne à importer
+20815;Cible
+20816;Mappages de colonnes
+20817;Ignorer les valeurs vides
+20818;Type de table source
+20819;Sélectionnez un élément cible
+20820;Colonne
+20821;Importer dans
+20822;Condition
+20823;Sélectionnez un type de table
+20824;Masquer les projets fils
+20825;Fichier de mappage de copie|*.2iPasteMap
+20826;Filtre spécifique
+20827;Pas de filtre spécifique
+20828;Options de filtre
+20829;Tableau
+20830;Vous devez valider ou annuler vos modifications avec de quitter cette fenêtre
+20831;Terminer
+20832;Action
+20833;Créer l'étape (sans démarrage)
+20834;Appliquer formule
+20835;Values
+20836;Clé
+20837;Dernière val.
+20838;ATTENTION : modifier manuellement les valeurs d'une séquence peut causer des problèmes dans l'identification de certains éléments. N'utilisez cette fonction que si vous maitrisez parfaitement les conséquence de cette action.
+20839;Dévérouiller la modification
+20840;Configurations de cartes
+20841;Fonction dynamique @1
+20842;Fonctions dynamiques
+20843;Nom
+20844;Fonctions spécifiques
+20845;Nom
+20846;Supprimer le handler @1 ?
+20847;Supprimer la requête @1 ?
+20848;Supprimer la fonction @1 ?
+20849;Index d'affichage
+20850;Index de M.A.J
+20851;Configuration polling
+20852;Nouveau polling
+20853;Modifier
+20854;Supprimer
+20855;Supprimer le polling '@1' ?
+20856;Ajouter aux données pollées
+20857;OID @1 (Cliquer pour copier)
+20858;Aucune
+20859;Sélectionnez l'action à éxecuter
+20860;Erreur dans la formule de contexte
+20861;Erreur dans la formule de titre
+20862;Liste de @1
+20863;La formule d'entité doit retourner ... un entite :-)
+20864;Paramètres d'action
+20865;Type d'action
+20863;Liste source
+20864;Libellé menu
+20865;Menu liste d'actions
+20866;L'action va être remplacée. Continuer ?
+20867;Action (*.2iAction)|*.2iAction|Tous fichiers (*.*)|*.*
+20868;Sauvegarde réussie
+20869;Génération
+20870;Clic droit pour affecter à  @1
+20871;Separateur
+20872;Libellé
+20873;Erreur dans le formule de code formulaire
+20874;Contrat de maintenance
+20875;Compteur d'éléments
+20876;Item
+20877;Actifs
+20878;Supprimés
+20879;Prévisionnels
+20880;Les données ont été copiées dans le presse papier
+20881;Bascule plein écran
+20882;L'objet édité dans le formulaire popup n'est pas valide.
+20883;Créer une recherche
+20884;Utilisateur (FTP)
+20885;Mot de passe(FTP)
+20886;Configuration polling BigData
+20887;Champs de polling SNMP
+20888;Nom
+20889;Champ de polling SNMP @1
+20890;Description
+20891;Champs de polling
+20892;Supprimer le paramétrage du champ @1 ?
+20893;Le champ de polling n'a pas été sélectionné en ligne @1
+20894;La formule pour le champ de polling @1 n'est pas correcte
+20895;Paramètres de polling
+20896;Table de polling
+20897;Champ de polling
+20898;Formule polling
+20899;Id Entité
+20900;Version gratuite
+20901;Texte du menu
+20902;Listes des cartes GPS
+20903;Cartes GPS
+20904;Carte GPS @1
+20905;Carte
+20906;Type de ligne @1
+20907;Couleur de ligne
+20908;Epaisseur de ligne
+20910;Types de lignes GPS
+20911;Type de points GPS
+20912;Type de point @1
+20913;Icone
+20914;Image
+20915;Ouvrir automatiquement dans le gantt
+20916;Easy query
+20917;Editer l'easy query
+
+30000;Type selectionné : @1
+30001;Aucun type selectionné
+30008;Voulez vous exporter les données vers le nouveau type ?
+30013;Colonnes Source
+30014;Colonnes Cible
+30015;Définir le mot de passe...
+30016;Ancien Password
+30017;Le mot de passe ne correspond pas au mot de passe confirmé !
+30018;Erreur : aucun profil utilisateur chargé!
+30019;Aucun support amovible reconnu
+30020;Utilisateur AD incorrecte
+30021;Famille de symbole
+30022;Liste des familles de symboles
+30023;Libellé de la famille
+30024;Famille fille
+30025;Symbole de bibliothèque
+30026;Liste des symboles de bibliotheque
+30027;Familles de symboles
+30028;Symboles de bibilothèque
+30029;Symbole
+30030;Type cible
+30031;Impossible de grouper des objets qui n'ont pas le même parent
+30032;Voulez-vous insérer un point sur la ligne
+30033;Impossible de supprimer le point
+30034;Symbole propre
+30035;Editer
+30036;Options
+30037;Symbole du type
+30038;Web
+30039;Mail
+30040;Ports
+30041;Impossible de supprimer le rôle
+30042;Cette entrée ne peut pas être éditée ici
+30043;Profil licence
+30044;Spécifier un profil
+30045;Nécessite un mot de passe pour la sécurité intégrée
+30046;Sur check list : dépend du type de contrainte
+30047;Sur check list
+30048;Mouvements
+30049;Format incorrect
+30050;Une image de taille maxi 16x16 est conseillée
+30051;Erreur de lecture du fichier
+30052;La cellule de la colonne : 
+30053; ligne :
+30054;n'a pas de type paramétré
+30055;Le type :
+30056; de la cellule de la colonne
+30057; n'est pas supporté
+30058;Le contrôle d'affichage n'a pas été initialisé pour la cellule de la colonne "
+30059;Type de donnée inconnue 
+30060;Impossible de construire le contrôle d'édition de la cellule : colonne
+30061;Atteindre la fiche de l'élement sélectionné
+30062;Atteindre la fiche de l'élément parent
+30063;Réaffecter
+30064;Sélectionnez un utilisateur 
+30065; n'est plus connecté
+30066;Erreur lors de l'envoi
+30067;Personnaliser le formulaire
+30068;Formulaire pour toute la page
+30069;Formulaire pour la page
+30070;Formulaire en surimpression
+30071;Formulaire en haut
+30072;Formulaire en bas
+30073;Formulaire à gauche
+30074;Formulaire à droite
+30075;Impossible de trouver la page @1
+30076;Action non prise en charge
+30077;Erreur de paramètrage du lien : le filtre est nul
+30078;Le type attendu dans le filtre ne correspond pas au type de l'objet
+30079;Erreur dans le filtre
+30080;Erreur lors de l'évaluation du contexte de formulaire
+30081;Erreur lors de l'évaluation du titre du formulaire
+30082;Non disponible
+30083;Erreur de paramètrage du lien : la formule d'entité est nulle
+30084;Erreur lors de l'évaluation de l'élément
+30085;Aucun élément coché pour l'action demandée
+30086;Impossible d'executer l'evenement demandé
+30087;L'action demandée ne peut pas s'executer sur au moins un des éléments demandés
+30088;Aucun élément coché pour l'execution
+30089;Impossible de déclencher l'évenement demandé sur cet objet
+30090;l'action demandée n'existe pas (ou plus)
+30091;L'objet ne correspond pas au type attendu par le formulaire
+30092;Le formulaire : 
+30093;n'existe pas
+30094;Une erreur sans informations supplémentaires est survenue
+30095;Déjà présent
+30096;Vous ne pouvez pas supprimer ce menu
+30097;Voulez vous supprimer le menu @1 et tous ses sous-menus ?
+30098;<<Nouvelle note>>
+30099;&Import de l'objet
+30100;&Export de l'objet
+30101;Documents GED
+30102;Impression
+30103;Dossiers
+30104;Impression écran
+30105;Etat
+30106;Nouvelle note
+30107;Export de l'objet
+30108;Importer un objet ?
+30109;Validez ou annulez les modifications avant d'imprimer
+30110;Erreur lors de l'impression
+30111;Annulation en cours
+30112;Personnaliser le formulaire
+30113;Test
+30114;Ordonner les entités
+30115;Le système ne peut pas faire cette réaffectation
+30116;Impossible d'atteindre l'agenda
+30117;Nom d'utilisateur
+30118;La coordonnée ne peut commencer par un séparateur
+30119;La coordonnée semble être incomplete car elle se termine par un séparateur
+30120;La coordonnée ne peut contenir des niveaux vides
+30121;Vous devez selectionner au moins un domaine de recherche
+30122;Vous devez indiquer une coordonnée
+30123;Aucun élément ne correspond à cette coordonnée
+30124;Aucun système de coordonnée défini
+30125; éléments
+30126;Agenda acteur
+30127;CE DOCUMENT SEMBLE AVOIR ETE MODIFIE PAR AILLEURS, L'APPLICATION DES MODIFICATIONS RISQUE DE FAIRE PERDRE DES INFORMATIONS.\r\n
+30128;Le document
+30129; a été modifié.\r\n
+30130;Voulez vous appliquer et stocker les modifications dans la GED ?
+30131;Date d'ouverture
+30132;Element suivi
+30133;Fermer ce dossier
+30134;Entrée agenda
+30135;Heure invalide
+30136;Type de dossier
+30137;Par
+30138;Après
+30139;Avant
+30140;Plus gros que
+30141;Moins gos que
+30142;Ayant une extension
+30143;Vous ne pouvez pas commencer par un séparateur ';'
+30144;Erreur de séparateur ';' (redondance)
+30145;Caractere '@1' impossible pour une extention de fichier
+30146;Entrez les extensions possibles en les séparant par des ';'
+30147;Experssion régulière
+30148;Navigation automatique pour un résultat
+30149;Sensibilité Majuscule
+30150;Chaîne entière
+30151;Ignore les résultats où la chaine est imbriquée
+30152;Moteur de recherche Timos
+30153;Rechercher dans les fichiers liés (GED)
+30154;Limiter la recherche aux entités correspondant à cette coordonnée
+30155;Limiter la recherche aux entités...
+30156;Erreur identification Login ou Mot de passe
+30157;Produit
+30158;Copyright
+30159;Société
+30160;Website
+30161;Version Client
+30162;Version Serveur
+30163;Page de tests
+30164;Tests
+30165;Réceptions
+30166;Parcel receptions
+30167;Tickets
+30168;Magasins
+30169;Enseignes
+30170;Filtres
+30171;Utilisateurs
+30172;Groupes d'utilisateurs
+30173;bouton1
+30174;Suivi des dates
+30175;Divers
+30176;Effets de fondue
+30177;Veuillez patienter
+30178;Label1
+30179;Identité acteur
+30180;Supprimer la donnée ?
+30181;Operation @1 invalide
+30182;Opération @1 : problème de cohérence, recommencez la saisie
+30183;Le compte rendu n'est pas valide, corrigez les erreurs pour réaliser le remplacement
+30184;Impossible d'afficher la fenêtre de remplacement tant que l'opération n'a pas été créée
+30185;Impossible d'effectuer un remplacement sur une intervention non liée à un site
+30186;Sélectionnez un équipement ou un Type d'équipement remplacé
+30187;Pas d'historique
+30188;Reprendre les données @1 ?
+30189;Affichage limité à 31 jours
+30190;Activité @1 invalide
+30191;Saisissez un site
+30192;Erreur dans la formule de @1
+30193;Suivi d'activité de :  
+30194;Type Activité Acteur
+30195;(vide)
+30196;nb Sites
+30197;Impossible d'ajouter ce profil, dépendance cyclique
+30198;Sélectionnez un type source
+30199;[Code Systeme Complet]
+30200;Planification d'interventions
+30201;Voulez-vous sauvegarder les modifications ?
+30202;Ajouter une date
+30203;Supprimer cette planification ?
+30204;Fonction non disponible
+30205;Le Contrôle d'édition n'est pas le bon 
+30206;L'opération a échoué :
+30207;Le composant d'édition de rapports n'est pas installé
+30208;Erreur lancement de l'éditeur
+30209;Date jj/mm/aa
+30210;Tous les jj/mm
+30211;Tous les jj
+30212;Catégorie de rapport 
+30213;Sélectionnez un type d'objets destination
+30214;Sélectionnez un type d'objet
+30215;Champ personnalisé
+30216;La formule de valeur par défaut est incorrecte
+30217;La valeur par défaut est incorrecte
+30218;Erreur dans la formule de validation
+30219;Settings group
+30220;Exporter
+30221;Voulez-vous que le rapport soit centré sur la page ?
+30222;Export terminé
+30223;Liste d'entités
+30224;Sélectionnez un type d'éléments pour cette liste
+30225;Sélectonnez un type d'entité, puis son formulaire d'édition favori
+30226;Execution réussie
+30227;Process en execution 
+30228;Modèle d'Etat @1
+30229;Pas de formulaire disponible
+30230;Erreur lors de la lecture du document depuis la GED
+30231;Le modèle original n'a pas pu être relu, créer un nouveau modèle ?
+30232;Rôle d'agenda
+30233;Toutes images|*.jpg;*.bmp;*.gif;*.tif;*.ico|Bitmap|*.bmp|Jpeg|*.jpg;*.jpeg|Gif|*.gif|Tif|*.tif|Icon|*.ico|Tous fichiers|*.*
+30234;Tâche planifiée
+30235;Planifier l'execution au 
+30236;Erreur lors de l'execution de la tache planifiée
+30237;Type d'entrée d'agenda 
+30238;Type d'occupation Horaire 
+30239;Enregistrer le résultat dans
+30240;Fonction
+30241;Imprimer sur le serveur
+30242;Valeur de la variable
+30243;Stocker dans la GED
+30244;Le document sera stocké dans les catégories suivantes :
+30245;Catégorie
+30246;Format
+30247;Libellé du document
+30248;Sélectionnez un état
+30249;Erreur dans la formule de clé
+30250;Erreur dans la formule de libellé
+30251;Erreur dans la formule de descriptif
+30252;Appliquer le filtre par défaut
+30253;Erreur lors du rappatriement du formulaire
+30254;Type de paramètre incompatible
+30255;Fermeture de l'application dans @1 secondes
+30256;@1 secondes avant fermeture
+30257;Fermeture automatique de l'application
+30258;(vide)
+30259;Mappage
+30260;Ticket N° @1
+30261;Code de l'état de clôture
+30262;Parent
+30263;[Libellé]
+30264;Date de début pré-planifiée
+30265;Date de fin pré-planifiée
+30266;TITRE :
+30267;Groupe de restriction @1
+30268;Lecture seule
+30269;Lect/ecr 
+30270;Création
+30271;Suppression
+30272;Grouper
+30273;Dégrouper
+30274;Description élément
+30275;Type d'Opération
+30276;Masquer les colonnes
+30277;Afficher les colonnes
+30278;Element de type @1 indéfini
+30279;Texte
+30280;Entier
+30281;Oui/Non
+30282;Décimal
+30283;Type inconnu
+30284;Type
+30285;Afficher les Entêtes
+30286;Operation Types
+30287;Type de champ
+30288;Type de donnée
+30289;Groupes ayant accès à ce menu
+30290;[Aucun]
+30291;(aucun)
+30292;(Aucune)
+30293;Téléphone 1
+30294;Téléphone 2
+30295;Téléphone 3
+30296;Portable
+30297;Fax
+30298;Mail
+30299;Site Web
+30300;[Adresse]
+30301;[Nom]
+30302;[Code postal]
+30303;[Ville]
+30304;[Téléphone 1]
+30305;[Téléphone 2]
+30306;[Téléphone 3]
+30307;[Portable]
+30308;[Fax]
+30309;[E-Mail]
+30310;[Site Web]
+30311;[Prénom]
+30312;[Commentaires]
+30313;(Tous)
+30314;(Tous les utilisateurs)
+30315;Suivi d'activité de  @1
+30316;Spécifique
+30317;Numéro
+30318;Auteur
+30319;Client
+30320;Libellé Ticket
+30321;[Descriptif]
+30322;Aucune image
+30323;Sélectionnez une image
+30324;[Libelle]
+30325;(Hérité)
+30326;Tous les
+30327;An
+30328;Jour de semaine
+30329;(Toutes)
+30330;Défaut
+30331;Formulaire Générique
+30332;Executer l'action selectionnée
+30333;Pas de type cible
+30334;[Num Serie]
+30335;[Code]
+30336;[CodeSystemeComplet]
+30337;Port
+30338;Position X
+30339;Position Y
+30340;Ports
+30341;Editer la position des ports
+30342;Editer le symbole propre
+30343;Types de lien réseau
+30344;Lien Réseau
+30345;Editeur de ports
+30346;Type de lien réseau
+30347;Réseau
+30348;Liens réseau
+30349;Liste des liens réseau
+30350;Ajuster la taille du fond
+30351;Liens supportés
+30352;Ce type de lien peut être supporté par des liens de ce type
+30353;Ce type de lien peut supporter des liens de ce type
+30354;Sélectionnez le type de lien à ajouter 
+30355;Impossible d'ajouter ce type de lien car il est déjà dans la liste
+30356;Liens supportés
+30357;Liens supportants
+30358;Voulez-vous supprimer définitivement le lien réseau sélectionné ?
+30359;Aucun type de lien supporté possible pour un lien de ce type
+30360;Ce type de lien ne peut être supporté par aucun type de lien
+30361;Impossible d'ajouter le lien supportant car il est déjà un lien supporté par ce lien
+30362;Impossible d'ajouter le lien supporté car il est déjà un lien supportant de ce lien
+30363;Type élément 1
+30364;Type élément 2
+30365;Elements liés
+30366;Direction du lien
+30367;Elément 1
+30368;Elément 2
+30369;Lier au complément d'élément 1
+30370;Complément d'élément 1
+30371;Lier au complément d'élément 2
+30372;Complément d'élément 2
+30373;Liste des ports
+30374;Retournement horizontal
+30375;Retournement vertical
+30376;Symboles (*.2iSymbol)|*.2iSymbol|Tous fichiers (*.*)|*.*
+30377;Sauvegarde réussie
+30378;Pas de symbole à sauvegarder
+30379;Le symbole courant va être remplacé. Continuer ?
+30380;Liens
+30381;Créer un lien
+30382;Schéma de lien
+30383;Impossible de créer un lien. Il n'y a pas de types possibles pour ce lien
+30384;Visualiser le schéma du lien
+30385;Impossible d'ajouter le lien car il est déjà supporté par le lien courant
+30386;Fermer la visualistaion du schéma du lien
+30387;Type de schéma réseau @1
+30388;Types de schéma réseau
+30389;Schéma
+30390;Utiliser l'image réduite du schéma comme symbole
+30391;Impossible d'ajouter le schéma car il appartient à un autre schéma
+30392;Sélection
+30393;Zoom
+30394;Ajouter un lien
+30395;Ajouter un schéma inclus
+30396;Editer la ligne sélectionnée
+30397;Voulez-vous supprimer définitivement le lien @1 de la base de données ?
+30398;Impossible de changer l'élément 1 
+30399;Impossible de changer l'élément 2
+30400;Impossible d'ajouter le lien car son type n'est pas un type supportant possible pour ce type de lien
+30401;Ajout d'un nouveau lien
+30402;Sélectionner un lien existant
+30403;Créer un nouveau lien
+30404;Sélectionnez un lien dans la liste
+30405;Modèles d'étiquette de schéma
+30406;Ajouter une étiquette
+30407;Il n'y a pas de type d'étiquette pour ce type d'objet
+30408;Sélectionnez un modèle dans la liste
+30409;Suppression...
+30921;(aucun)
+30968;Lecture seule
+
+
+50000;Actions
+50001;Type de port @1
+50002;Liste des types de ports
+50003;Types de ports
+50004;Type de port

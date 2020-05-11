@@ -1,0 +1,10 @@
+10;Ok
+11;Cancel
+
+30000;Démarrage de l'application
+30001;Starting
+30002;Update
+30003;Erreur sur service client
+30004;Erreur port 
+30005;Erreur au lancement de l'application\r\n
+30006;Erreur lors de la mise à jour

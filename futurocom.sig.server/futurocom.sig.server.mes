@@ -1,0 +1,10 @@
+﻿20000;Le libellé de la configuration de carte ne doit pas être vide
+20001;La configuration @1 existe déjà
+20002;Le libellé de la carte ne doit pas être vide
+20003;La carte '@1' existe déjà
+20004;Le libellé de la ligne ne doit pas être vide
+20005;Le libellé du point ne doit pas être vide
+20006;Le type de ligne GPS '@1' existe déjà
+20007;Le libellé du type de ligne GPS ne doit pas être vide
+20008;Le libellé du type de point GPS ne doit pas être vide
+20009;Le type de point GPS '@1' existe déjà

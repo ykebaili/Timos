@@ -1,0 +1,15 @@
+﻿Points d'entrée et de sortie d'un schéma
+-S'il s'agit d'un schéma de lien, ce sont les extremités du schéma
+-S'il s'agit d'un schéma simple, (pas d'un schéma fils d'un schéma simple), en mode auto redondance
+	Les sites entrée sont les sites sans lien entrant
+	Les sites sortie sont les sites sans lien sortant
+	Les sites isolés (sans aucun lien) sont considerés comme entrant et sortant.
+Un point d'entrée ou de sortie d'un schéma ne peut pas être dans un sous-schéma
+Un sous schéma fils est consideré comme un schéma séparé pour l'arbre opérationnel
+
+Cablages :
+Dans l'arbre, le cablage est un sous schéma de l'entité site auquel il est lié.
+Cependant, le schéma est opérationnel si le site est opérationnel et le cablage est opérationnel.
+dans l'arbre, on retrouve donc ces deux éléments au même niveau (si besoin), et sous un ET
+
+		

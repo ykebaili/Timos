@@ -1,0 +1,15 @@
+﻿10000;Proxy @1, le numéro de Port @2 est en dehors des limites
+10001;Proxy @1, le numéro de Port Trap @2 est en dehors des limites
+
+20000;SnmpAgent()\nRetourne un Agent SNMP
+20001;Le type d'alarme créée doit être spécifié.
+20002;La formule de condition doit retourner un booléen
+20003;La formule d'action est incorrecte
+20004;Type d'alarme
+20005;Indiquez un libellé pour l'évenement d'alarme
+20006;La formule de condition est invalide (booléen attendu)
+20007;Erreur dans le créateur d'alarme @1
+20008;Impossible de supprimer un type d'agent tant que des agents de ce type existent dans la base
+20009;Impossible d'atteindre l'hôte @1
+20010;Traps V1
+20011;Les champs OID ne peuvent pas être écrits.

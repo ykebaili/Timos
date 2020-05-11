@@ -1,0 +1,3612 @@
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+--ajout le MAJ de acces_accesc.COMMUT
+create or replace trigger tu_equip after update on EQUIP for each row
+
+declare
+    integrity_error  exception;
+    errno            integer;
+    errmsg           char(200);
+
+    Mess     	  VARCHAR2 (1800);/* taille max. du message autorisé par Oracle : 1800 octets */
+    MessId	  integer;
+
+    nIndex	  NUMBER;
+    lEquipTrapNom equip.site_equip_comment%type;
+
+    cursor cAccTrap is
+	select ACCES_ACCESC_ID from ACCES_ACCESC, ACCES
+	where  ACCES.EQUIP_ID = :old.EQUIP_ID
+	and ACCES.ACCES_TYPE = 9
+	and ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID;
+
+begin
+    /* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+       on ne fait pas le traitement */
+    if dbms_reputil.from_remote=TRUE then
+		return;
+    end if;
+
+
+ if (:new.SITE_EQUIP_COMMENT is NULL and :new.BAIE_ID is NULL and :new.EQUIP_REF is NULL and :new.EQUIP_ADDRIP is null and :new.EQUIP_CLASSID = 1018) then
+	raise_application_error (-20000, 'Cet équipement n''a pas de position géographique !');
+    end if;
+
+    -- Envoi à l'équipement de médiation du paramètre alarme fréquente lorsque l'équipement
+    -- est une IS et que ce paramètre a été changé
+--    SELECT typeq_nom INTO strTypeqNom FROM typeq WHERE typeq_id = :new.typeq_id;
+
+--     IF strTypeqNom = 'SATURNE IS'
+     IF :new.TYPEQ_NOM = 'SATURNE IS'
+	AND ((:new.equip_freqe IS NOT NULL AND :old.equip_freqe IS NULL) OR
+	    (:new.equip_freqe IS NULL AND :old.equip_freqe IS NOT NULL) OR
+	    (:new.equip_freqe != :old.equip_freqe)) THEN
+
+	select SEQ_MESSALRM.NEXTVAL into MessId from dual;
+	Mess := '6#';				-- Code du message
+	Mess := CONCAT (Mess, '8#');		-- Nb. de #
+	Mess := CONCAT (Mess, '0#');		/* Alarm_Id */
+    	Mess := CONCAT (Mess, MessId);
+	Mess := CONCAT (Mess, '#'); 		/* stockage dans MESSALRM */
+    	Mess := CONCAT (Mess, '0#');		/* Alarmgeree_Id */
+    	Mess := CONCAT (Mess, '0#');		/* BindingId */
+   	Mess := CONCAT (Mess, '0#');		/* BindingTyp */
+	Mess := Mess || 'D' || LTRIM (SUBSTR (:new.site_equip_comment, 3)) || '/'
+		|| TO_CHAR (:new.equip_freqe) || '/#';
+
+--insert into test values (seq_test.nextval, 'tu_equip' || Mess);
+
+	insert into MESSALRM (MESSALRM_ID, MESSALRM_MESS, MESSALRM_SENT, MESSALRM_NATURE)
+	    values (MessId, Mess, 0, 0);
+	/*
+	dbms_alert.signal ('Mediation', 
+		'D' || :new.equip_ref || '/' || TO_CHAR (:new.equip_freqe) || '/');
+	*/
+    END IF;
+
+    -- Vérification que la baie appartient bien au site
+    VerfSiteBaieEquip (:new.baie_id, :new.site_id);
+
+    -- Vérification de la saisie des slots, dans le cas où le slot est modifié. On fait ce
+    -- test préalable afin de n'avoir pas de problème de mutating suite à une modification
+    -- sur le type d'équipement (modif. du nom du type), entraînant une mise à jour des
+    -- équipements
+    if (:new.BAIE_EQUIP_CARTE != :old.BAIE_EQUIP_CARTE) then
+	VerfSlotEquip (:new.TYPEQ_BINDINGID, :new.TYPEQ_ID, :new.BAIE_EQUIP_CARTE);
+    end if;
+
+    -- Mise à jour éventuelle de ACCES_ACCESC pour les équipements qui délivrent des alarmes
+    -- de type TRAP SNMP
+
+    if (:new.EQUIP_ADDRIP != :old.EQUIP_ADDRIP
+        or (:new.EQUIP_ADDRIP is null and :old.EQUIP_ADDRIP is not null)
+        or (:new.EQUIP_ADDRIP is not null and :old.EQUIP_ADDRIP is null)
+        or (:new.EQUIP_INDEXSNMP != :old.EQUIP_INDEXSNMP)
+        or (:new.EQUIP_INDEXSNMP is null and :old.EQUIP_INDEXSNMP is not null)
+        or (:new.EQUIP_INDEXSNMP is not null and :old.EQUIP_INDEXSNMP is null)
+        or :new.SITE_EQUIP_COMMENT != :old.SITE_EQUIP_COMMENT
+        or :new.EQUIP_REF != :old.EQUIP_REF
+        or (:new.EQUIP_COMMUT != :old.EQUIP_COMMUT)
+        or (:new.EQUIP_COMMUT is null and :old.EQUIP_COMMUT is not null)
+        or (:new.EQUIP_COMMUT is not null and :old.EQUIP_COMMUT is null)
+        ) then
+
+      	nIndex := instr (:new.SITE_EQUIP_COMMENT, ':');
+      	if (nIndex > 0) then
+      		lEquipTrapNom := rtrim (substr (:new.SITE_EQUIP_COMMENT, 1, nIndex - 1));
+      	else
+      		lEquipTrapNom := :new.SITE_EQUIP_COMMENT;
+      	end if;
+      
+      	for rCTrap in cAccTrap loop
+      	    update ACCES_ACCESC
+      		set EQUIP_ADDRIP = :new.EQUIP_ADDRIP, EQUIP_TRAPNOM = lEquipTrapNom,
+      		    EQUIP_INDEXSNMP = :new.EQUIP_INDEXSNMP, COMMUT = :new.EQUIP_COMMUT
+      		where ACCES_ACCESC_ID = rCTrap.ACCES_ACCESC_ID;
+      	end loop;
+    end if;
+
+    -- On crée le message demandant la surveillance ou la non surveillance de l'équipement
+    -- dans la table MESSEM
+    if (:old.equip_tosurv > 0 and :new.equip_tosurv = 0) or 
+       (:old.equip_tosurv > 0 and :new.equip_tosurv > 0 and (
+	(:old.equip_addrip is null and :new.equip_addrip is not null) or
+	(:old.equip_addrip is not null and :new.equip_addrip is null) or
+	(:old.equip_addrip != :new.equip_addrip) or
+	(:old.equip_emname is not null and :new.equip_emname is null) or
+	(:old.equip_emname != :new.equip_emname))) then
+
+	insert into MESSEM (MESSEM_ID, MESSEM_MESS)
+	values (SEQ_MESSEM.nextval, '#9#9#1#S#' || to_char (:new.equip_id) || '#1#' ||
+		:old.equip_addrip || '#' || :old.equip_emname || '#');
+    end if;
+
+    if (:old.equip_tosurv = 0 and :new.equip_tosurv > 0) or
+       (:old.equip_tosurv > 0 and :new.equip_tosurv > 0 and (
+	(:old.equip_addrip is null and :new.equip_addrip is not null) or
+	(:old.equip_addrip is not null and :new.equip_addrip is null) or
+	(:old.equip_addrip != :new.equip_addrip) or
+	(:old.equip_emname is null and :new.equip_emname is not null) or
+	(:old.equip_emname != :new.equip_emname))) then
+
+	insert into MESSEM (MESSEM_ID, MESSEM_MESS)
+	values (SEQ_MESSEM.nextval, '#9#6#1#C#' || to_char (:new.equip_id) || '#');
+    end if;
+
+--  gestion des erreurs
+exception
+    when integrity_error then
+       raise_application_error (errno, errmsg);
+end 	tu_equip;
+/
+
+
+
+create or replace TRIGGER tib_acces before insert on ACCES for each row
+
+declare
+    integrity_error  exception;
+    nb_rel           integer;     -- nombre de relations avec autres tables
+    ExistType	     boolean;
+
+    cursor CurPar IS
+	select PARAM_VALEUR from PARAM where PARAM_TYPE = 3 and PARAM_ID = :new.ACCES_TYPE;
+
+    strTable	VARCHAR2(30);
+    lId		NUMBER;
+
+begin
+	/* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+	   on ne fait pas le traitement */
+	if (ETAT_REPLICATION = 1) then
+		return;
+	end if;
+	if dbms_reputil.from_remote=TRUE then
+		return;
+	end if;
+
+
+	:new.ACCES_NBOCC    := 0;
+	:new.ACCES_NBMAXOCC := 0;
+	:new.ACCES_CPTDOC   := 0;
+
+	ExistType := false;
+	for rCurPar in CurPar loop
+		ExistType := true;
+	end loop;
+
+	if not ExistType then
+		raise_application_error (-20002, 'Type d''accès inexistant dans la table PARAM');
+	end if;
+
+	strTable := AccesGetFather (:new.MODELSITE_ID, :new.SITE_ID, :new.TYPEQ_ID, :new.MODELEQUIP_ID,
+				    :new.EQUIP_ID, :new.MODELLIAI_ID, :new.LIAI_ID, lId);
+
+	:new.ACCES_UNICITE := AccesCalculUnicite (lId, strTable, :new.ACCES_NOM);
+
+end tib_acces;
+/
+
+
+
+
+create or replace TRIGGER tub_acces before update on ACCES for each row
+
+declare
+    integrity_error  exception;
+    nb_rel           integer;     -- nombre de relations avec autres tables
+    nb_maxocc	     integer;	  -- nombre max. d'équipements pouvant être raccordé à l'accès
+    strTYPEQ	     TYPEQ.TYPEQ_NOM%TYPE;
+    idTYPEQ	     TYPEQ.TYPEQ_ID%TYPE;
+    ExistType	     boolean;
+    lId		     number;
+    strTable	     varchar2(30);
+
+    cursor CurPar IS
+	select PARAM_VALEUR from PARAM where PARAM_TYPE = 3 and PARAM_ID = :new.ACCES_TYPE;
+begin
+	/* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+	   on ne fait pas le traitement */
+	if (ETAT_REPLICATION = 1) then
+		return;
+	end if;
+	if dbms_reputil.from_remote=TRUE then
+		return;
+	end if;
+
+	nb_rel := 1;
+
+	if (:old.MODELSITE_ID is not null and :new.MODELSITE_ID is null) then
+		nb_rel := nb_rel - 1;
+	end if;
+	if (:old.MODELSITE_ID is null and :new.MODELSITE_ID is not null) then
+		nb_rel := nb_rel + 1;
+	end if;
+
+	if (:old.SITE_ID is not null and :new.SITE_ID is null) then
+		nb_rel := nb_rel - 1;
+	end if;
+	if (:old.SITE_ID is null and :new.SITE_ID is not null) then
+		nb_rel := nb_rel + 1;
+	end if;
+
+	if (:old.TYPEQ_ID is not null and :new.TYPEQ_ID is null) then
+		nb_rel := nb_rel - 1;
+	end if;
+	if (:old.TYPEQ_ID is null and :new.TYPEQ_ID is not null) then
+		nb_rel := nb_rel + 1;
+	end if;
+
+	if (:old.MODELEQUIP_ID is not null and :new.MODELEQUIP_ID is null) then
+		nb_rel := nb_rel - 1;
+	end if;
+	if (:old.MODELEQUIP_ID is null and :new.MODELEQUIP_ID is not null) then
+		nb_rel := nb_rel + 1;
+	end if;
+
+	if (:old.EQUIP_ID is not null and :new.EQUIP_ID is null) then
+		nb_rel := nb_rel - 1;
+	end if;
+	if (:old.EQUIP_ID is null and :new.EQUIP_ID is not null) then
+		nb_rel := nb_rel + 1;
+	end if;
+
+	if (:old.MODELLIAI_ID is not null and :new.MODELLIAI_ID is null) then
+		nb_rel := nb_rel - 1;
+	end if;
+	if (:old.MODELLIAI_ID is null and :new.MODELLIAI_ID is not null) then
+		nb_rel := nb_rel + 1;
+	end if;
+
+	if (:old.LIAI_ID is not null and :new.LIAI_ID is null) then
+		nb_rel := nb_rel - 1;
+	end if;
+	if (:old.LIAI_ID is null and :new.LIAI_ID is not null) then
+		nb_rel := nb_rel + 1;
+	end if;
+
+	if (nb_rel != 1) then
+	    raise_application_error (-20002,
+		'Un enr. dans ACCES doit avoir une et une seule relation avec une autre table');
+	end if;
+
+
+	ExistType := false;
+	for rCurPar in CurPar loop
+		ExistType := true;
+	end loop;
+
+	if not ExistType then
+		raise_application_error (-20002, 'Type d''accès inexistant dans la table PARAM');
+	end if;
+
+	if (:new.ACCES_TYPE = 7 and :new.EQUIP_ID is not null) then
+		-- c'est une entrée alarme d'équipement
+
+		if (((:new.MESS_ID != :old.MESS_ID) or
+		    (:new.MESS_ID is null and :old.MESS_ID is not null)) and
+		     :new.ACCES_NBOCC > 0) then
+			raise_application_error (-20002,
+				'Entrée alarme câblée; changement de message série associé interdit');
+		end if;
+
+		nb_maxocc := :old.ACCES_NBMAXOCC;
+		if (:new.MESS_ID is not null and
+		    ((:new.MESS_ID != :old.MESS_ID) or :old.MESS_ID is null)) then
+			-- un message est décodé par cette entrée
+			select max (MESSMESS_NEQUIP) into nb_maxocc from MESSMESS
+			where MESS_BINDINGID = :new.MESS_ID;
+		end if;
+
+		if (:new.MESS_ID is null and :old.MESS_ID is not null) then
+			nb_maxocc := 0;
+		end if;
+
+		:new.ACCES_NBMAXOCC := nb_maxocc;
+
+		if (:new.ACCES_NBOCC != :old.ACCES_NBOCC) then
+			select TYPEQ.TYPEQ_ID into idTYPEQ from TYPEQ, EQUIP
+			where EQUIP.EQUIP_ID = :new.EQUIP_ID
+			and TYPEQ.TYPEQ_ID = EQUIP.TYPEQ_ID;
+
+			if (idTYPEQ = 2 and
+			    ((:new.ACCES_NBOCC > :new.ACCES_NBMAXOCC) or
+			      :new.ACCES_NBOCC < 0)) then
+				raise_application_error (-20002,
+					'Limites de câblage sur l''entrée série dépassées');
+			end if;
+		end if;
+	end if;
+
+	strTable := AccesGetFather (:new.MODELSITE_ID, :new.SITE_ID, :new.TYPEQ_ID, :new.MODELEQUIP_ID,
+				    :new.EQUIP_ID, :new.MODELLIAI_ID, :new.LIAI_ID, lId);
+
+	:new.ACCES_UNICITE := AccesCalculUnicite (lId, strTable, :new.ACCES_NOM);
+
+end tub_acces;
+/
+
+
+
+create or replace
+TRIGGER tiub_alarmgeree before insert or update on ALARMGEREE for each row
+declare
+    integrity_error  exception;
+    nb_rel           integer;     -- nombre de relations avec autres tables
+    ExistType	     boolean;
+
+    strTable	VARCHAR2(30);
+    lObjetId	NUMBER;
+
+begin
+	strTable := AlarmgereeGetFather (:new.ACCES_ID, lObjetId);
+
+	:new.ALARMGEREE_UNICITE := AccesCalculUnicite (lObjetId, strTable, :new.ALARMGEREE_NOM);
+
+end tiub_alarmgeree;
+/
+
+
+
+create or replace TRIGGER tdb_acces_accesc BEFORE DELETE ON acces_accesc FOR EACH ROW
+
+DECLARE
+	EquipId	NUMBER;		-- Id équip. en défaut
+	LiaiId	NUMBER;		-- Id liaison en défaut
+	SiteId	NUMBER;		-- Id site en défaut
+
+	Mess VARCHAR2 (2000);	-- Message à émettre
+
+	CURSOR C1 IS
+		SELECT acces_type, typeq.typeq_nom
+		FROM acces, equip, typeq
+		WHERE acces_id = :old.acces2_id
+		AND equip.equip_id = acces.equip_id
+		AND typeq.typeq_id = equip.typeq_id;
+BEGIN
+
+	select EQUIP_ID, LIAI_ID, SITE_ID
+	    into EquipId, LiaiId, SiteId
+	    from ACCES_ACCESC_REP
+	    where ACCES_ACCESC_ID = :old.ACCES_ACCESC_ID;
+
+    	/* traitement à effectuer sur les DEUX serveurs (séparation alarme/structure) */
+    	delete ACCES_ACCESC_REP
+	    where ACCES_ACCESC_ID = :old.ACCES_ACCESC_ID;
+
+	/* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+	   on ne fait pas le traitement */
+	if (ETAT_REPLICATION = 1) then
+		return;
+	end if;
+	if dbms_reputil.from_remote=TRUE then
+		return;
+	end if;
+
+--	UPDATE alarm SET cablagep_id = NULL
+--	    WHERE cablagep_id = :old.acces_accesc_id;
+
+	IF (:old.acces1_id > 0) THEN
+	    UPDATE acces SET acces_nbocc = acces_nbocc - 1
+	    WHERE acces_id = :old.acces1_id;
+	END IF;
+
+	IF (:old.acces2_id > 0) THEN
+	    UPDATE acces SET acces_nbocc = acces_nbocc - 1
+	    WHERE acces_id = :old.acces2_id;
+	END IF;
+
+	-- Démasquage des alarmes éventuelles
+	if (:old.MSKBRI_MIN > 0) then
+	    Mask_Alrm (Mess, ' ', 0, to_char (:old.ACCES_ACCESC_ID), 0,
+		       SiteId, EquipId, LiaiId, ''); -- Démasquage BRI
+	end if;
+	if (:old.MSKADM_MIN > 0) then
+	    Mask_Alrm (Mess, ' ', 0, to_char (:old.ACCES_ACCESC_ID), 2,
+		       SiteId, EquipId, LiaiId, ''); -- Démasquage ADM
+	end if;
+
+/*	DELETE acces_accesc2
+	    WHERE acces_accesc2_id = :old.acces_accesc_id;*/
+/*
+	IF :old.alarm_id IS NOT NULL THEN
+	    raise_application_error (-20000, 'Alarme en cours; décâblage interdit');
+	END IF;
+*/
+
+	-- Génération du message à destination de EmessEm
+	CreateMessEmMessForAl (:old.acces2_id, :old.acces1_id, :old.alarmgeree_min, 0, 1, 'S',
+			    :old.acces_bindingid, 0, 0);
+
+	IF (:old.acces1_id IS NOT NULL and :old.acces2_id IS NOT NULL) THEN
+		MajEquipNbOcc (:old.acces1_id, :old.acces2_id, NULL, NULL);
+	END IF;
+
+END	TDB_ACCES_ACCESC;
+/
+
+
+
+-- ACCES_ACCESC2 géré maintenant par TIMOS
+-- L'insertion dans ACCES_ACCESC_REP n'est faite que pour un accès alarme (X.L. 16/06/09)
+create or replace TRIGGER ti_acces_accesc AFTER INSERT ON acces_accesc FOR EACH ROW
+DECLARE
+	Mess	VARCHAR2 (1800);
+	MessId  integer;
+	EquipId equip.equip_id%TYPE;
+	ToSurv  equip.equip_tosurv%TYPE;
+	CURSOR C1 IS
+		SELECT acces_nom, acces_type, site_equip_comment, typeq.typeq_nom, typeq.typeq_id
+		FROM acces, equip, typeq
+		WHERE acces_id = :new.acces2_id
+		AND equip.equip_id = acces.equip_id
+		AND typeq.typeq_id = equip.typeq_id;
+BEGIN
+    	/* traitement à effectuer sur les DEUX serveurs (séparation alarme/structure) */
+	-- ACCES_ACCESC_REP nécessaire uniquement pour les accès alarme
+	if (:new.ACCES_BINDINGCLASSID = 0 or :new.ACCES_BINDINGCLASSID = 8) then
+    		insert into ACCES_ACCESC_REP (acces_accesc_id, alarm_cl, alarm_numobj, alarm_numal,
+			alarm_id, equip_id, site_id, liai_id, alarm_sec, alarmgeree_grave)
+	    	values (:new.acces_accesc_id, null, null, null, null, null, null, null, null,
+		    	:new.alarmgeree_grave);
+	end if;
+	/* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+	   on ne fait pas le traitement */
+	if dbms_reputil.from_remote=TRUE then
+		return;
+	end if;
+	FOR rC1 IN C1 LOOP
+		IF rC1.acces_type = 7 AND
+		   (rC1.typeq_id = 1 OR rC1.typeq_id = 2) THEN
+		    select SEQ_MESSALRM.NEXTVAL into MessId from dual;
+		    Mess := '6#';				-- Code du message
+		    Mess := CONCAT (Mess, '8#');		-- Nb. de #
+		    Mess := CONCAT (Mess, '0#');		/* Alarm_Id */
+    		    Mess := CONCAT (Mess, MessId);
+		    Mess := CONCAT (Mess, '#'); /* stockage dans MESSALRM */
+	    	    Mess := CONCAT (Mess, '0#');		/* Alarmgeree_Id */
+	    	    Mess := CONCAT (Mess, '0#');		/* BindingId */
+   		    Mess := CONCAT (Mess, '0#');		/* BindingTyp */
+		    Mess := Mess || '4' || rC1.site_equip_comment || '/'
+			   	 || rc1.acces_nom || '/'
+				 || TO_CHAR (:new.acces_accesc_prebit) || '/'
+				 || TO_CHAR (:new.acces_accesc_derbit) || '#';
+		    insert into MESSALRM (MESSALRM_ID, MESSALRM_MESS, MESSALRM_SENT,
+					  MESSALRM_NATURE)
+	    	    values (MessId, Mess, 0, 0);
+		END IF;
+		EXIT;
+	END LOOP;
+	IF (:new.acces1_id > 0) THEN
+		UPDATE acces SET acces_nbocc = acces_nbocc + 1
+		WHERE acces_id = :new.acces1_id;
+	END IF;
+	IF (:new.acces2_id > 0) THEN
+		UPDATE acces SET acces_nbocc = acces_nbocc + 1
+		WHERE acces_id = :new.acces2_id;
+	END IF;
+/*	INSERT INTO ACCES_ACCESC2 (acces_accesc2_id, mskbri_min, mskbri_max, bri_masque,
+		mskadm_min, mskadm_max, adm_masque, trig)
+	VALUES (:new.acces_accesc_id, 0, 0, 0, 0, 0, 0, 0);*/
+	CreateMessEmMessForAl (:new.acces2_id, :new.acces1_id, :new.alarmgeree_min,
+			    :new.alarmgeree_tosurv, 0, 'C', :new.acces_bindingid,
+			    :new.alarmgeree_freqn, :new.alarmgeree_freqd);
+	IF (:new.acces1_id IS NOT NULL and :new.acces2_id IS NOT NULL) THEN
+		MajEquipNbOcc (NULL, NULL, :new.acces1_id, :new.acces2_id);
+	END IF;
+END ti_acces_accesc;
+/
+
+
+
+create or replace
+TRIGGER tib_acquittement before insert on ACQUITTEMENT for each row
+declare
+    MessId           integer;
+    Mess     	VARCHAR2 (100);	/* taille max. du message autorisé par Oracle : 1800 octets */
+begin
+	/* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+	   on ne fait pas le traitement */
+	if dbms_reputil.from_remote=TRUE then
+		return;
+	end if;
+
+	select SEQ_ACQUITTEMENT.nextval into :new.ACQUITTEMENT_ID from DUAL;
+        
+        if (:new.ACK = 1) then
+            select SEQ_MESSALRM.NEXTVAL into MessId from dual;
+
+            Mess := '5#';				-- Code du message
+            Mess := CONCAT (Mess, '7#');		-- Nb. de #
+            Mess := CONCAT (Mess, '0#');		/* Alarm_Id */
+            Mess := CONCAT (Mess, MessId); 	Mess := CONCAT (Mess, '#'); /* stockage dans MESSALRM */
+            Mess := CONCAT (Mess, '0#');		/* Alarmgeree_Id */
+            Mess := CONCAT (Mess, :new.LISTALRM_ID); Mess := CONCAT (Mess, '#'); /* ListAlarm associée à la sonnerie en cours */
+            Mess := CONCAT (Mess, '0#');		/* BindingTyp */
+
+            insert into MESSALRM (MESSALRM_ID, MESSALRM_MESS, MESSALRM_SENT, MESSALRM_NATURE)
+                values (MessId, Mess, 0, 0);
+-- dbms_lock.sleep (0.02); -- attendre que le précédent message soit émis (20 ms.)
+-- dbms_alert.signal ('Alarme', Mess);
+
+    end if;
+end tib_acquittement;
+/
+
+
+
+
+
+create or replace PROCEDURE MaskModified
+IS
+    ToDayStr	VARCHAR2 (20);	/* date et heure actuelle au format YYYY MM DD HH24:MI:SS */
+    ToDaySec	NUMBER;		/* idem en nombre de secondes depuis le 01/01/1998 00:00:00 */
+    OldMask	NUMBER;		/* 1 si l'alarme était masquée avant le changement, 0 sinon  */
+    NewMask	NUMBER;		/* 1 si l'alarme devient masquée après le changement, 0 sinon */
+    Modified	BOOLEAN;	/* TRUE si la base a été modifiée */
+
+    CURSOR CBri is			/* masquages demandés */
+	select ACCES_ACCESC2_ID, MSKBRI_MIN, MSKBRI_MAX, BRI_MASQUE
+	    from ACCES_ACCESC2
+	    where MSKBRI_MIN > 0;
+
+    CURSOR CAdm is			/* masquages demandés */
+	select ACCES_ACCESC2_ID, MSKADM_MIN, MSKADM_MAX, ADM_MASQUE
+	    from ACCES_ACCESC2
+	    where MSKADM_MIN > 0;
+
+    CURSOR CSBri is			/* masquages demandés */
+	select BITMESS2_ID, MSKBRI_MIN, MSKBRI_MAX, BRI_MASQUE
+	    from BITMESS2
+	    where MSKBRI_MIN > 0;
+
+    CURSOR CSAdm is			/* masquages demandés */
+	select BITMESS2_ID, MSKADM_MIN, MSKADM_MAX, ADM_MASQUE
+	    from BITMESS2
+	    where MSKADM_MIN > 0;
+
+BEGIN
+
+    ToDayStr := to_char (sysdate, 'YYYY MM DD HH24:MI:SS');
+    ToDaySec := CO_SEC1998 (ToDayStr);
+    Modified := FALSE;
+
+    for vBri in CBri loop
+	OldMask := vBri.BRI_MASQUE;
+	if (ToDaySec >= vBri.MSKBRI_MIN) and (ToDaySec <= vBri.MSKBRI_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	  /*  update ACCES_ACCESC2
+		set TRIG = 1
+		where ACCES_ACCESC2_ID = vBri.ACCES_ACCESC2_ID;*/
+                update ACCES_ACCESC2
+		set BRI_MASQUE = NewMask
+		where ACCES_ACCESC2_ID = vBri.ACCES_ACCESC2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;
+
+    for vAdm in CAdm loop
+	OldMask := vAdm.ADM_MASQUE;
+	if (ToDaySec >= vAdm.MSKADM_MIN) and (ToDaySec <= vAdm.MSKADM_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	   /* update ACCES_ACCESC2
+		set TRIG = 1
+		where ACCES_ACCESC2_ID = vAdm.ACCES_ACCESC2_ID;*/
+                update ACCES_ACCESC2
+		set ADM_MASQUE = NewMask
+		where ACCES_ACCESC2_ID = vAdm.ACCES_ACCESC2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;
+
+    for vSBri in CSBri loop
+	OldMask := vSBri.BRI_MASQUE;
+	if (ToDaySec >= vSBri.MSKBRI_MIN) and (ToDaySec <= vSBri.MSKBRI_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	    update BITMESS2
+		set TRIG = 1
+		where BITMESS2_ID = vSBri.BITMESS2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;
+
+    for vSAdm in CSAdm loop
+	OldMask := vSAdm.ADM_MASQUE;
+	if (ToDaySec >= vSAdm.MSKADM_MIN) and (ToDaySec <= vSAdm.MSKADM_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	    update BITMESS2
+		set TRIG = 1
+		where BITMESS2_ID = vSAdm.BITMESS2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;
+
+    if (Modified) then
+	commit;
+    end if;
+
+END MaskModified;
+/
+
+
+
+ 
+CREATE OR REPLACE TRIGGER tub_acces_accesc2 BEFORE UPDATE ON acces_accesc2 FOR EACH ROW
+
+DECLARE
+    ToDayStr	VARCHAR2 (20);	/* date et heure actuelle au format YYYY MM DD HH24:MI:SS */
+    ToDaySec	NUMBER;		/* idem en nombre de secondes depuis le 01/01/1998 00:00:00 */
+    Mess	VARCHAR2 (1800);   /* message d'alarme */
+    OldMask	NUMBER;		/* 1 si l'alarme était masquée avant le changement, 0 sinon  */
+    NewMask	NUMBER;		/* 1 si l'alarme devient masquée après le changement, 0 sinon */
+
+    ProgNb	NUMBER;		/* idem */
+    SiteId	NUMBER;		/* Id du site en défaut */
+    EquipId	NUMBER;		/* Id de l'équipement en défaut */
+    LiaiId	NUMBER;		/* Id de la liaison en défaut */
+
+    SiteNom     VARCHAR2 (40);  /* nom du site contenant l'élt. en défaut. ' ' pour une liaison
+				inter-site. Inutilisé ici */
+    Typeq    	VARCHAR2 (40);  
+				/* nom du type de l'équipement ou de la liaison. 
+				'SITE' pour une alarme	de site . Inutilisé ici*/
+    Poseq    VARCHAR2 (80);  	/* Position de l'équuipement ou nom de la liaison ou du site en 
+				défaut. Inutilisé ici */
+
+    TsPrOper VARCHAR2 (900); /* Chaîne donnant l'état opérationnel des prog. concernés par 
+				cette alarme. 70 prog. au max.
+				Structure : NbProg; ProgId, OldProgOper, ProgOper, ProgMsk;
+				NON Maintenant : Structure : ProgId, OldProgOper, ProgOper, ProgMsk; ProgId,  etc... */
+    Debord   NUMBER;	     /* 1 si débordement de la chaîne TsPrOper, 0 sinon */
+    Routage	VARCHAR2 (40);	-- Permet de savoir si un routage est associé au programme
+
+    TsPrOper2 VARCHAR2(900);
+    ProgOper	NUMBER;		/* Etat opérationnel d'un programme */
+    ProgMsk	NUMBER;		/* Masque d'un programme */
+
+    CURSOR cAlarm (Id NUMBER) is
+	select * from ALARM
+	    where ALARM_ID = Id;
+
+    CURSOR cAcc (Id NUMBER) is
+	select A.ACCES1_ID, A.ALARMGEREE_ID, A.ACCES_BINDINGID,
+	       B.ALARMGEREE_GRAVE,
+	       B.ALARM_ID, B.SITE_ID, B.EQUIP_ID, B.LIAI_ID, B.ALARM_CL, 
+	       B.ALARM_NUMOBJ, B.ALARM_NUMAL
+ 	    from ACCES_ACCESC A, ACCES_ACCESC_REP B
+	    where A.ACCES_ACCESC_ID = Id and
+	  	  A.ACCES_ACCESC_ID = B.ACCES_ACCESC_ID;
+
+    CURSOR CurProg (Id NUMBER) is	/* liste des programmes concernés par ce masquage */
+	select distinct PROG_ID from PROG_usedsites, ACCES, ACCES_ACCESC		-- al. de site
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.SITE_ID = PROG_usedsites.SITE_ID
+    	union
+	select distinct PROG_ID from PROG_usedliais, ACCES, ACCES_ACCESC		-- al. de liaison
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.LIAI_ID = PROG_usedliais.LIAI_ID
+    	union				-- al. d'équipement câblé
+	select distinct PROG_ID from CABLEQU_EQUIP, PROG_CABL, ACCES, ACCES_ACCESC
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.EQUIP_ID = CABLEQU_EQUIP.EQUIP_ID and
+		  CABLEQU_EQUIP.CABLEQU_ID = PROG_CABL.CABLEQU_ID
+	union				-- al. d'équipement GSITE ou IS ou SYST ou TRAP
+	select distinct PROG_ID from CABLEQU_EQUIP, PROG_CABL, ACCES_ACCESC
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES_BINDINGID = CABLEQU_EQUIP.EQUIP_ID and
+		  CABLEQU_EQUIP.CABLEQU_ID = PROG_CABL.CABLEQU_ID
+	union				-- al. d'équ. de multiplexage
+	select distinct PROG_ID from CABLEQU_EQUIP, LIAI_CABLEQU, PROG_usedliais, ACCES, ACCES_ACCESC
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.EQUIP_ID = CABLEQU_EQUIP.EQUIP_ID and
+		  CABLEQU_EQUIP.CABLEQU_ID = LIAI_CABLEQU.CABLEQU_ID and
+		  LIAI_CABLEQU.LIAI_ID = PROG_usedliais.LIAI_ID;
+  
+  /*  CURSOR CurTop (Id NUMBER) IS
+    select TOP_ID from top_SITE, ACCES, ACCES_ACCESC		-- al. de site
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.SITE_ID = top_SITE.SITE_ID
+    	union
+	select TOP_ID from top_LIAITEMPU, ACCES, ACCES_ACCESC		-- al. de liaison
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.LIAI_ID = top_LIAITEMPU.LIAI_ID
+    	union				-- al. d'équipement câblé
+	select TOP_ID from CABLEQU_EQUIP, top_CABLEQU, ACCES, ACCES_ACCESC
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.EQUIP_ID = CABLEQU_EQUIP.EQUIP_ID and
+		  CABLEQU_EQUIP.CABLEQU_ID = top_CABLEQU.CABLEQU_ID
+	union				-- al. d'équipement GSITE ou IS ou SYST ou TRAP
+	select TOP_ID from CABLEQU_EQUIP, top_CABLEQU, ACCES_ACCESC
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES_BINDINGID = CABLEQU_EQUIP.EQUIP_ID and
+		  CABLEQU_EQUIP.CABLEQU_ID = top_CABLEQU.CABLEQU_ID
+	union				-- al. d'équ. de multiplexage
+	select TOP_ID from CABLEQU_EQUIP, LIAI_CABLEQU, top_LIAITEMPU, ACCES, ACCES_ACCESC
+	    where ACCES_ACCESC_ID = Id and
+		  ACCES_ACCESC.ACCES1_ID = ACCES.ACCES_ID and
+		  ACCES.EQUIP_ID = CABLEQU_EQUIP.EQUIP_ID and
+		  CABLEQU_EQUIP.CABLEQU_ID = LIAI_CABLEQU.CABLEQU_ID and
+		  LIAI_CABLEQU.LIAI_ID = top_LIAITEMPU.LIAI_ID;*/
+		  
+    CURSOR CurProg2 (Id NUMBER) is	/* liste des programmes à démasquer */
+	select * from PROG_MSK
+	    where CABL_ID = Id and TYPE = 1;
+
+BEGIN
+    /* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+       on ne fait pas le traitement */
+    if (ETAT_REPLICATION = 1) then
+		return;
+	end if;
+	if dbms_reputil.from_remote=TRUE then
+		return;
+    end if;
+
+    ToDayStr := to_char (sysdate, 'YYYY MM DD HH24:MI:SS');
+    ToDaySec := CO_SEC1998 (ToDayStr);
+    Debord   := 0;
+
+    update ACCES_ACCESC
+	set MSKBRI_MIN = :new.MSKBRI_MIN,
+	    MSKBRI_MAX = :new.MSKBRI_MAX,
+	    MSKADM_MIN = :new.MSKADM_MIN,
+	    MSKADM_MAX = :new.MSKADM_MAX,
+	    MSKADM_HOW = :new.MSKADM_HOW
+	    where ACCES_ACCESC_ID = :new.ACCES_ACCESC2_ID;
+      
+     
+  /*  insert into TRACETMP (trace_id, trace_mess) values (seq_trace.nextval,  ' new ACCES_ACCESC2_ID : ' ||  to_char ( :new.ACCES_ACCESC2_ID)    
+    ||' new MSKBRI_MIN : ' || to_char (:new.MSKBRI_MIN) || 
+    ' new MSKBRI_MAX : ' || to_char (:new.MSKBRI_MAX));*/
+
+    :new.TRIG := 0;
+
+    OldMask  := :old.BRI_MASQUE;
+  /*  if (ToDaySec >= :new.MSKBRI_MIN) and (ToDaySec <= :new.MSKBRI_MAX) then
+	NewMask := 1;
+    else
+	NewMask := 0;
+    end if;
+    
+    :new.BRI_MASQUE := Newmask;*/
+    Newmask := :new.BRI_MASQUE;
+    
+    --insert into TRACETMP (trace_id, trace_mess)
+    --values (seq_trace.nextval, ' new BRI_MASQUE : ' || to_char (:new.BRI_MASQUE));
+
+
+    if (Oldmask != NewMask) then
+	for vAcc2 in cAcc (:new.ACCES_ACCESC2_ID) loop
+	    if vAcc2.ACCES1_ID > 0 then
+    	    	select SITE_ID, EQUIP_ID, LIAI_ID
+		    into SiteId, EquipId, LiaiId
+ 		    from ACCES
+		    where ACCES_ID = vAcc2.ACCES1_ID ;
+						/* recherche de l'élément géré en défaut */
+	    else
+		EquipId := vAcc2.ACCES_BINDINGID;
+	    end if;
+
+	    if (OldMask = 0 and NewMask = 1) then	/* on vient de masquer l'alarme */
+		for vProg in CurProg (:new.ACCES_ACCESC2_ID) loop
+    		    update PROG
+		    set PROG_MASQUE = 1
+		    where PROG_ID = vProg.PROG_ID and
+	      		  PROG_MASQUE = 0; 	-- pour respecter les masquages adm. éventuels
+		end loop;
+
+	    if (vAcc2.ALARM_ID is not null) then	/* l'alarme était en cours */
+		    maj_oper  (vAcc2.ALARM_ID, vAcc2.SITE_ID, vAcc2.EQUIP_ID, vAcc2.LIAI_ID,
+			   1, 0, 0, ProgNb, SiteNom, Typeq, Poseq, TsPrOper, Debord);
+			/* on fait retomber artificiellement cette alarme, afin de
+			   calculer TsPrOper qui est utilisé pour mettre à jour
+			   les "boutons programmes". On introduit le "masque" au préalable
+			   pour que TsPrOper en tienne compte.
+			   On suppose à priori que l'alarme est locale, ce qui est
+			   utilisé pour connaître l'état opérationnel du programme.
+			   Cette donnée est peut être inutile. A supprimer ultérieurement !! */
+
+		    TsPrOper2 := TsPrOper;
+				/* sauvegarde de TsPrOper, représentant l'état opérationnel
+				des programmes, indépendamment de l'alarme qui vient d'être
+				masquée */
+
+                    --insert into tracetmp (trace_id, trace_mess)
+                    --values (seq_trace.nextval, ' before stop-alrm');
+
+		    Stop_Alrm (Mess, vAcc2.ALARM_ID, vAcc2.ALARMGEREE_ID, vAcc2.SITE_ID,
+			   vAcc2.EQUIP_ID, vAcc2.LIAI_ID, vAcc2.ALARM_CL, vAcc2.ALARM_NUMOBJ,
+			   vAcc2.ALARM_NUMAL, TsPrOper);
+				/* on arrête l'alarme sur les postes clients, car
+				on ne recevra plus de message de cette alarme */
+
+		    maj_oper  (vAcc2.ALARM_ID, vAcc2.SITE_ID, vAcc2.EQUIP_ID, vAcc2.LIAI_ID,
+			   1, vAcc2.ALARMGEREE_GRAVE, 0, ProgNb, SiteNom, Typeq, Poseq, TsPrOper, Debord);
+			/* enfin, on calcule à nouveau l'état opérationnel, avec la vraie
+			   gravité de l'alarme en cours. */
+
+		else			/* l'alarme masquée n'était pas en cours */
+                
+                --insert into tracetmp (trace_id, trace_mess)
+                    --values (seq_trace.nextval, ' alarme masquée ne était pas en cours');
+                    
+		    ProgNb   := 0;
+		    TsPrOper := '';
+		    Debord   := 0;
+		    for vProg in CurProg (:new.ACCES_ACCESC2_ID) loop
+		    	select B.PROG_OPER, PROG_MASQUE into ProgOper, ProgMsk
+			    from PROG A, PROG_REP B
+			    where A.PROG_ID = vProg.PROG_ID and
+				  A.PROG_ID = B.PROG_ID;
+
+		    	if ((TsPrOper is NULL or length (TsPrOper) <= 800) and Debord = 0) then
+--	    	    	    ProgNb := ProgNb +1;
+		    	    TsPrOper := TsPrOper || to_char (vProg.PROG_ID) || ',' || to_char (ProgOper) ||
+		    	            ',' || to_char (ProgOper) || ',' || to_char (ProgMsk) || ';';
+		        elsif (length (TsPrOper) > 800) then
+			    Debord := 1;
+			end if;
+		    end loop;
+
+--		    TsPrOper2 := to_char (ProgNb) || ';' || TsPrOper;
+	    	end if;
+
+		for vProg in CurProg (:new.ACCES_ACCESC2_ID) loop
+		    insert into PROG_MSK (CABL_ID, PROG_ID, TYPE, MSK)
+			values (:new.ACCES_ACCESC2_ID, vProg.PROG_ID, 1, 1);
+		end loop;
+
+	    	Mask_Alrm (Mess, ' ', 0, to_char (:new.ACCES_ACCESC2_ID), 1,
+			   SiteId, EquipId, LiaiId, TsPrOper2);
+					/* les clients masquent l'alarme --
+					ACCES_ACCESC2_ID sert de signature pour le message */
+	    end if;	/* masquage */
+
+	    if (OldMask = 1 and NewMask = 0) then 	/* on vient de démasquer l'alarme */
+		ProgNb 	 := 0;
+		TsPrOper := '';
+		Debord   := 0;
+		for vProg in CurProg2 (:new.ACCES_ACCESC2_ID) loop
+		    update PROG
+			set PROG_MASQUE = 0
+			where PROG_ID = vProg.PROG_ID;
+
+		    select B.PROG_OPER, PROG_MASQUE into ProgOper, ProgMsk
+			from PROG A, PROG_REP B
+			where A.PROG_ID = vProg.PROG_ID and
+			      A.PROG_ID = B.PROG_ID;
+
+		    if ((TsPrOper is NULL or length (TsPrOper) <= 800) and Debord = 0) then
+--	    	    	ProgNb := ProgNb +1;
+		    	TsPrOper := TsPrOper || to_char (vProg.PROG_ID) || ',' || to_char (ProgOper) ||
+		    	            ',' || to_char (ProgOper) || ',' || to_char (ProgMsk) || ';';
+		    elsif (length (TsPrOper) > 800) then
+			Debord := 1;
+		    end if;
+		end loop;
+--		TsPrOper := to_char (ProgNb) || ';' || TsPrOper;
+
+		delete PROG_MSK
+		    where CABL_ID = :new.ACCES_ACCESC2_ID and
+			  TYPE = 1;
+
+--insert into tracetmp (trace_id, trace_mess)
+                    --values (seq_trace.nextval, ' before Mask_Alrm');
+                    
+	    	Mask_Alrm (Mess, ' ', 0, to_char (:new.ACCES_ACCESC2_ID), 0, SiteId, EquipId, LiaiId, TsPrOper);
+						/* les clients démasquent l'alarme */
+
+	    	if (vAcc2.ALARM_ID is not null) then	/* l'alarme est en cours */
+		    for cAl in cAlarm (vAcc2.ALARM_ID) loop
+		    	Start_Alrm (cAl.ALARM_ID, cAl.ALARMGEREE_ID,
+			   cAl.SITE_ID, cAl.EQUIP_ID, cAl.LIAI_ID,
+ 			   cAl.ALARM_NUM, cAl.ALARM_CL, cAl.ALARM_NUMOBJ, cAl.ALARM_TYPE,
+			   cAl.ALARM_DATE, cAl.ALARM_GRAVE, cAl.ALARM_NSEUIL, cAl.ALARM_VSEUIL,
+	               	   cAl.ALARM_NUMAL, cAl.ALARM_TEXTE, cAl.ALARM_INFO, cAl.ALARM_NOM,
+			   cAl.ALARM_COMMENT, cAl.ALARM_LOCAL, cAl.ALARM_COMMUT, cAl.ALARM_IDDEB,
+			   cAl.CABLAGES_ID, cAl.CABLAGEP_ID, cAl.ALARM_AQUITTEE, cAl.ALARM_IANA,
+			   TsPrOper, Debord);
+		    end loop;
+	    	end if;
+
+		if (ToDaySec > :new.MSKBRI_MAX) then
+
+		    -- Période de masquage dépassée, on efface les informations de masquage
+		    -- dans ACCES_ACCESC
+
+		    update ACCES_ACCESC
+			set MSKBRI_MIN = 0,
+			    MSKBRI_MAX = 0
+		    where ACCES_ACCESC_ID = :new.ACCES_ACCESC2_ID;
+		end if;
+
+		:new.MSKBRI_MIN := 0;
+		:new.MSKBRI_MAX := 0;
+	    end if;		/* démasquage */
+
+	end loop;
+    end if;		/* changement du masquage brigadier */
+
+    OldMask  := :old.ADM_MASQUE;
+    if (ToDaySec >= :new.MSKADM_MIN) and (ToDaySec <= :new.MSKADM_MAX) then
+	NewMask := 1;
+    else
+	NewMask := 0;
+    end if;
+
+    :new.ADM_MASQUE := Newmask;
+
+    if (OldMask != NewMask) then
+    --insert into tracetmp (trace_id, trace_mess)
+                    --values (seq_trace.nextval, ' mask admin');
+	for vAcc2 in cAcc (:new.ACCES_ACCESC2_ID) loop
+	    if vAcc2.ACCES1_ID > 0 then
+    	    	select SITE_ID, EQUIP_ID, LIAI_ID
+		    into SiteId, EquipId, LiaiId
+ 		    from ACCES
+		    where ACCES_ID = vAcc2.ACCES1_ID ;
+						/* recherche de l'élément géré en défaut */
+	    else
+		EquipId := vAcc2.ACCES_BINDINGID;
+	    end if;
+
+	    if (OldMask = 0 and NewMask = 1) then	/* on vient de masquer l'alarme */
+		for vProg in CurProg (:new.ACCES_ACCESC2_ID) loop
+    		    update PROG
+		    set PROG_MASQUE = 2
+		    where PROG_ID = vProg.PROG_ID;
+		end loop;
+
+	    	if (vAcc2.ALARM_ID is not null) then	/* l'alarme était en cours */
+		    maj_oper  (vAcc2.ALARM_ID, vAcc2.SITE_ID, vAcc2.EQUIP_ID, vAcc2.LIAI_ID,
+			   1, 0, 0, ProgNb, SiteNom, Typeq, Poseq, TsPrOper, Debord);
+			/* on fait retomber artificiellement cette alarme, afin de
+			   calculer TsPrOper qui est utilisé pour mettre à jour
+			   les "boutons programmes". On introduit le "masque" au préalable
+			   pour que TsPrOper en tienne compte.
+			   On suppose à priori que l'alarme est locale, ce qui est
+			   utilisé pour connaître l'état opérationnel du programme.
+			   Cette donnée est peut être inutile. A supprimer ultérieurement !! */
+
+		    TsPrOper2 := TsPrOper;
+				/* sauvegarde de TsPrOper, représentant l'état opérationnel
+				des programmes, indépendamment de l'alarme qui vient d'être
+				masquée */
+
+		    Stop_Alrm (Mess, vAcc2.ALARM_ID, vAcc2.ALARMGEREE_ID, vAcc2.SITE_ID,
+			   vAcc2.EQUIP_ID, vAcc2.LIAI_ID, vAcc2.ALARM_CL, vAcc2.ALARM_NUMOBJ,
+			   vAcc2.ALARM_NUMAL, TsPrOper);
+				/* on arrête l'alarme sur les postes clients, car
+				on ne recevra plus de message de celle-ci */
+
+		    maj_oper  (vAcc2.ALARM_ID, vAcc2.SITE_ID, vAcc2.EQUIP_ID, vAcc2.LIAI_ID,
+			   1, vAcc2.ALARMGEREE_GRAVE, 0, ProgNb, SiteNom, Typeq, Poseq, TsPrOper, Debord);
+			/* enfin, on calcule à nouveau l'état opérationnel, avec la vraie
+			   gravité de l'alarme en cours. */
+
+		    delete ALARM2 where ALARM2_ID = vAcc2.ALARM_ID;
+
+		else			/* l'alarme masquée n'était pas en cours */
+		    ProgNb   := 0;
+		    TsPrOper := '';
+		    Debord   := 0;
+		    for vProg in CurProg (:new.ACCES_ACCESC2_ID) loop
+		    	select B.PROG_OPER, PROG_MASQUE into ProgOper, ProgMsk
+			    from PROG A, PROG_REP B
+			    where A.PROG_ID = vProg.PROG_ID and
+				  A.PROG_ID = B.PROG_ID;
+
+		    	if ((TsPrOper is NULL or length (TsPrOper) <= 800) and Debord = 0) then
+--	    	    	    ProgNb := ProgNb +1;
+		    	    TsPrOper := TsPrOper || to_char (vProg.PROG_ID) || ',' || to_char (ProgOper) ||
+		    	            ',' || to_char (ProgOper) || ',' || to_char (ProgMsk) || ';';
+		        elsif (length (TsPrOper) > 800) then
+			    Debord := 1;
+			end if;
+		    end loop;
+--		    TsPrOper2 := to_char (ProgNb) || ';' || TsPrOper;
+
+	    	end if;
+
+		for vProg in CurProg (:new.ACCES_ACCESC2_ID) loop
+		    insert into PROG_MSK (CABL_ID, PROG_ID, TYPE, MSK)
+			values (:new.ACCES_ACCESC2_ID, vProg.PROG_ID, 1, 2);
+		end loop;
+
+	    	Mask_Alrm (Mess, ' ', 0, to_char (:new.ACCES_ACCESC2_ID), 3,
+			   SiteId, EquipId, LiaiId, TsPrOper2);
+				/* les clients masquent l'alarme --
+				ACCES_ACCESC2_ID sert de signature pour le message */
+	    end if;	/* masquage */
+
+	    if (OldMask = 1 and NewMask = 0) then	/* on vient de démasquer l'alarme */
+            
+            --insert into tracetmp (trace_id, trace_mess)
+                    --values (seq_trace.nextval, ' on vient de démasquer alarme');
+                    
+		ProgNb 	 := 0;
+		TsPrOper := '';
+		Debord   := 0;
+		for vProg in CurProg2 (:new.ACCES_ACCESC2_ID) loop
+		    update PROG
+			set PROG_MASQUE = 0
+			where PROG_ID = vProg.PROG_ID;
+
+		    select B.PROG_OPER, PROG_MASQUE into ProgOper, ProgMsk
+			from PROG A, PROG_REP B
+			where A.PROG_ID = vProg.PROG_ID and
+			      A.PROG_ID = B.PROG_ID;
+
+		    if ((TsPrOper is NULL or length (TsPrOper) <= 800) and Debord = 0) then
+--	    	    	ProgNb := ProgNb +1;
+		    	TsPrOper := TsPrOper || to_char (vProg.PROG_ID) || ',' || to_char (ProgOper) ||
+		    	            ',' || to_char (ProgOper) || ',' || to_char (ProgMsk) || ';';
+		    elsif (length (TsPrOper) > 800) then
+			Debord := 1;
+		    end if;
+		end loop;
+--		TsPrOper := to_char (ProgNb) || ';' || TsPrOper;
+
+		delete PROG_MSK
+		    where CABL_ID = :new.ACCES_ACCESC2_ID and
+			  TYPE = 1;
+
+--insert into tracetmp (trace_id, trace_mess)
+                    --values (seq_trace.nextval, ' les clients démasquent alarme ');
+                    
+	    	Mask_Alrm (Mess, ' ', 0, to_char (:new.ACCES_ACCESC2_ID), 2, SiteId, EquipId, LiaiId, TsPrOper);
+						/* les clients démasquent l'alarme */
+
+	    	if (vAcc2.ALARM_ID is not null) then	/* l'alarme est en cours */
+		    for cAl in cAlarm (vAcc2.ALARM_ID) loop
+                    
+                    --insert into tracetmp (trace_id, trace_mess)
+                    --values (seq_trace.nextval, ' start alarme ' || to_char(cAl.ALARM_ID));
+                    
+		    	Start_Alrm (cAl.ALARM_ID, cAl.ALARMGEREE_ID,
+			   cAl.SITE_ID, cAl.EQUIP_ID, cAl.LIAI_ID,
+ 			   cAl.ALARM_NUM, cAl.ALARM_CL, cAl.ALARM_NUMOBJ, cAl.ALARM_TYPE,
+			   cAl.ALARM_DATE, cAl.ALARM_GRAVE, cAl.ALARM_NSEUIL, cAl.ALARM_VSEUIL,
+	               	   cAl.ALARM_NUMAL, cAl.ALARM_TEXTE, cAl.ALARM_INFO, cAl.ALARM_NOM,
+			   cAl.ALARM_COMMENT, cAl.ALARM_LOCAL, cAl.ALARM_COMMUT, cAl.ALARM_IDDEB,
+			   cAl.CABLAGES_ID, cAl.CABLAGEP_ID, cAl.ALARM_AQUITTEE, cAl.ALARM_IANA,
+			   TsPrOper, Debord);
+		    end loop;
+	    	end if;
+
+		if (ToDaySec > :new.MSKADM_MAX) then
+
+		    -- Période de masquage dépassée, on efface les informations de masquage
+		    -- dans ACCES_ACCESC
+
+		    update ACCES_ACCESC
+			set MSKADM_MIN = 0,
+			    MSKADM_MAX = 0
+		    where ACCES_ACCESC_ID = :new.ACCES_ACCESC2_ID;
+		end if;
+
+		:new.MSKADM_MIN := 0;
+		:new.MSKADM_MAX := 0;
+	    end if;		/* démasquage */
+
+	end loop;
+    end if;		/* changement du masquage Adm */
+
+END	tub_acces_accesc2;
+/
+
+
+
+/*
+*	Création JPB 1998
+*
+*	Modification X.L. le 22/08/02 pour prise en compte des TRAPS fictifs SNA
+*	Ces traps sont considérés comme étant émis par l'entreprise Futurocom
+*	Les renseignements dans ALARMGEREE sont suffisants. On renvoie donc
+*	la gravité d'origine qui s'y trouve.
+*
+*	Modifié JPB le 10/11/02 : amélioration des traitements de traps, homogénisation
+*	de ALARM_INFO en début et fin d'alarme. Suppression d'écritures parasites.
+*	Modifié JPB le 20/12/02 : modification de l'appel de LookupIndex, pour le traitement
+*	des traps 190 et 191 du XNA
+*
+*	Modif X.L. le 10/01/03 pour trap SmartJog envoyés par l'agent Futurocom
+*	Ajout du paramètre addresse IP à la fonction LookupIndex.
+*
+*	Modif X.L. le 30/01/03 pour prise en compte des TRAPS fictifs AM32.
+*	Ces traps sont considérés comme étant émis par l'entreprise Futurocom
+*	Les renseignements dans ALARMGEREE sont suffisants. On renvoie donc
+*	la gravité d'origine qui s'y trouve.
+*
+*	Modif. X.L. le 09/04/03 pour prise en compte de l'IP2PORT comme équipement
+*	de collecte d'alarme boucle
+*
+*	Modif. JPB le 19/06/03 : utilisation du trap fictif '9485;6;20;', utilisé
+*	pour faire retomber une alarme en cours.
+*
+*       Modif. JPB le 22/07/03 : plus de traitements spécifiques en fonction des traps et 
+*       des constructeurs. L'aspect spécifique est reporté dans certaines fonctions de 
+*       SpvTrap2Svc.
+*       Donc : suppression de LookupIndex et tib_trap. Modification de tib_alarm
+*       Suppression du traitement TRAP. Seuls sont conservés TRAPG ou TRAPS.
+*	Init de ALARM_AQUITTEE, ALARM_ACQUITWHO et ALARM_ACQUITWHEN.
+*	
+*	Modif. JPB le 08/10/03 : utilisation du trap fictif '9485;6;21;', utilisé
+*	pour déclencher manuellement une alarme.
+*	On trouve en VarBinds les valeurs suivantes, dans cet ordre :
+*		- ALARM_GRAVE
+*		- ALARM_CL
+*		- ALARM_TEXTE
+*		- ALARM_NUMOBJ
+*		- ALARM_NUMAL
+*		- ALARM_IANA
+*		- ALARM_INFO
+*
+*	Modif. X.L. le 10/03/04 : correction d'un bug. Curseur CxionG, dans la clause where, ajout de la condition
+*	ACCES1_ID et ACCES2_ID à 0. En effet, on peut avoir des enregistrements dont ACCES1_ID et/ou ACCES2_ID
+*	différents de 0 avec même ACCES_BINDINGID.
+*
+*	Modif JPB le 18/02/05   : correction d'une erreur concernant les TRAPG, lors de la retombée d'alarme : elle ne se faisait pas.
+*	
+*	Modif ZN le 04/01/06 : 1.Utilisation du trap de commutation.
+*			       2.Sauvegarde d'etat des commutateurs dans equip.commut.
+*
+*	Modif JPB le 08/05/06	: le traitement du trap 20 était en commentaire. On avait une erreur avec l'ordre  AlarmId := TO_NUMBER (:new.ALARM_INFO);
+*
+*	Modif JPB le 20/12/06 	: traitement des alarmes bagottantes.
+*				  La gravité des alarmes est choisie par l'opérateur, et non prise dans le trap : demande GG + C Gavoille
+*				  (lue dans ACCES_ACCESC_REP ou BITMESS_REP).
+*
+*   	Modif JPB le 30/03/07 : suppression temporaire du traitement BAGOT, en raison des blocages détectés avec PurgeBagot
+*
+*	Modif XL le 25/06/09 : si ALARM_NUM est vide, on l'initialise à ALARM_ID.
+*
+*/
+create or replace trigger tib_alarm before insert on ALARM for each row
+declare
+    IsAccesId	integer;	/* ACCES_ID correspondant au n° IS et NUMAL (ou n° IP2PORT et NUMAL) */
+    NumBit   	NUMBER;		/* n° bit si alarme série : 1 .. */
+    OrigAccesId integer;	/* ACCES_ID de l'objet à l'origine de l'alarme */
+    MessId	integer;	/* ID du message série correspondant à cette alarme */
+    ScriptId	integer;	/* Id du script à déclencher éventuellement */
+    Nb		integer;	/* Nb. banal */
+    Str		varchar2 (80);  /* banal */
+    StrTest	varchar2 (1024);/* pour insert en table TEST */
+    OldId	integer;	/* ID de l'alarme déjà présente sur cet accès */
+    Grave	number;		/* gravité réelle de l'alarme */
+    lGrave	number;		/* valeur temporaire de la gravité */
+    CablageId	number;		/* ID de ACCES_ACCESC ou BITMESS de cette alarme */
+    MaskAdm	boolean;	/* true si al. masquée par Adm, false sinon */
+    Info	varchar2 (256);	/* ALARM_INFO, pour alarme GSITE */
+    Pos		NUMBER;		/* Position dans une chaîne de caractère */
+    Pos2	NUMBER;		/* idem */
+    AlarmId	NUMBER;		/* Id de l'alarme à faire retomber */
+    ARetomber   BOOLEAN;	/* true si "Alarme à faire retomber" */
+    commutOID	varchar2 (128);	/*typeq.commut-OID*/
+    typeq_commut number;
+    EquipState   number; 	/*l'etat du commutateur*/
+    DecalGrave   number; 	/* décalage entre la valeur de la gravité dans les combo et dans la base.
+			  	   Combo 0="Avertissement" .. codé 3 dans la base */
+    Signat	varchar2 (1256);/* Signature de l'alarme :
+					ALARM_CL + ALARM_NUMOBJ + ALARM_NUMAL
+					+ ALARM_INFO si ALARM_TEXTE = 3 ou 4 (GSITE ou Système)
+					+ ALARM_IANA + EquipId si ALARM_CL = TRAPG ou TRAPS */
+    BagotId	 number;	/* Id dans la table BAGOT */
+    BagotEC	 number;	/* Bagot en cours */
+    BagotCpt	 number;	/* Compteur de bagots */
+    BagotAlId	 number;	/* Id de l'alarme précédente */
+    BagotAlIddeb number;	/* Id de l'alarme précédente */
+    ModCalc number; -- Mode de calcul standard ou NEC
+	              
+    cursor CxionP is			/* IS GTR ou IP2PORT */
+	     select * from ACCES_ACCESC	where ACCES2_ID = IsAccesId;
+
+    cursor CxionS is			/* IS SEM */
+	       select * from BITMESS	where MESS_ID  = MessId and
+	      ACCES_ID = IsAccesId and BITMESS_NBIT = NumBit;
+
+    cursor CxionG is			/* GSITE ou alarme SYSTème */
+	     select * from ACCES_ACCESC 	where ACCES_BINDINGID = IsAccesId
+	     and ACCES1_ID = 0 and ACCES2_ID = 0;
+
+    cursor CxionTGS is 			/* Trap SNMP générique ou spécifique */
+	     select * from ACCES_ACCESC where ACCES_ACCESC_ID = IsAccesId;
+
+    cursor CBagot (Sig VARCHAR2) is	/* Recherche de l'alarme dans la table BAGOT */
+	select * from BAGOT
+	where BAGOT_SIG = Sig;
+
+    cursor cAlarmOld (Id NUMBER) is	/* Données de l'alarme précédente */
+	select * from ALARM
+	where ALARM_ID = Id;
+
+ /*  cursor cAlarm2Old (Id NUMBER) is	-- Données de l'alarme précédente 
+	select * from ALARM2
+	where ALARM2_ID = Id;
+
+    cursor cAlarm3Old (Id NUMBER) is	-- Données de l'alarme précédente 
+	select * from ALARM3
+	where ALARM3_ID = Id;*/
+
+begin
+
+    /* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+       on ne fait pas le traitement */
+    if dbms_reputil.from_remote=TRUE then
+	return;
+    end if;
+
+    if (:new.ALARM_NUM is null) then
+        :new.ALARM_NUM := :new.ALARM_ID;
+    end if;
+    
+    ModCalc := GetModCalc;		-- Mode de calcul standard ou NEC
+
+--    lock table ACCES_ACCESC in share row exclusive mode;
+	/* Ce lock sur la table ACCES_ACCESC permet d'éviter un interblocage
+	entre deux sources d'alarmes */
+
+    :new.ALARM_SEC := CO_SEC1998 (:new.ALARM_DATE);
+    ScriptId 	:= 0;	/* pas de script à déclencher à priori */
+    ARetomber 	:= false;
+
+    :new.ALARM_DEB_SEC := NULL;
+    
+    DecalGrave := 3;
+
+    if (ToNumber (:new.ALARM_COMMENT) >= 0 and :new.ALARM_IANA is NULL) then
+	       :new.ALARM_IANA := ToNumber (:new.ALARM_COMMENT);
+    end if;
+
+--  On regarde d'abord les alarmes système FUTUROCOM (9485) envoyés par TRAP :
+--  N° Trap = 20	: retombée d'alarme en cours
+
+    if (:new.ALARM_CL = 'E10B') then	-- Une alarme autocom. Alcatel E10B est considérée comme un TRAPS
+	       :new.ALARM_CL := 'TRAPS';
+    end if;
+
+    if (:new.ALARM_CL = 'TRAPS' and :new.ALARM_COMMENT = 9485 and :new.ALARM_NUMOBJ = 20) then
+      	Pos  := INSTR  (:new.ALARM_INFO, '=');
+      	Pos2 := INSTR  (:new.ALARM_INFO, ';', Pos);
+      	Str  := SUBSTR (:new.ALARM_INFO, Pos+2, Pos2 - Pos -2);
+      
+      	AlarmId := TO_NUMBER (Str);
+      --	AlarmId := TO_NUMBER (:new.ALARM_INFO);
+      
+      	select ALARM_CL, ALARM_TEXTE, ALARM_NUMOBJ, ALARM_NUMAL, ALARM_INFO, ALARM_IANA, ALARM_TYPE, ALARM_SEC
+      	    into :new.ALARM_CL, :new.ALARM_TEXTE, :new.ALARM_NUMOBJ, :new.ALARM_NUMAL,
+      		 :new.ALARM_INFO, :new.ALARM_COMMENT, :new.ALARM_TYPE, :new.ALARM_DEB_SEC
+      	    from ALARM
+      	    where ALARM_ID = AlarmId;
+      	:new.ALARM_GRAVE := 0;		-- On veut faire retomber cette alarme
+      	:new.ALARM_TYPMAJ := 'M';
+
+      	if (:new.ALARM_CL in ('TRAPG', 'TRAPS')) then
+      	    select ACCES_ACCESC_ID 
+      	    	into IsAccesId
+      	    	from ACCES_ACCESC_REP
+      	    	where ALARM_ID = AlarmId;
+      
+      	elsif (:new.ALARM_CL != 'IS_S') then
+      	    select ACCES2_ID
+      		into IsAccesId
+      		from ACCES_ACCESC_REP, ACCES_ACCESC
+      		where ACCES_ACCESC_REP.ALARM_ID = AlarmId and
+      		      ACCES_ACCESC_REP.ACCES_ACCESC_ID = ACCES_ACCESC.ACCES_ACCESC_ID;
+      	end if;
+
+	     ARetomber := true;
+
+--	insert into test values (seq_test.nextval, Str);
+    end if; --  N° Trap = 20	: retombée d'alarme en cours
+
+--  N° Trap = 21	: montée manuelle d'une alarme
+    if (:new.ALARM_CL = 'TRAPS' and :new.ALARM_COMMENT = 9485 and :new.ALARM_NUMOBJ = 21) then
+    	:new.ALARM_TYPMAJ := 'M';
+    
+    	StrTest := '';
+    
+    	Pos  := INSTR  (:new.ALARM_INFO, '=');
+    	Pos2 := INSTR  (:new.ALARM_INFO, ';', Pos);
+    	Str  := SUBSTR (:new.ALARM_INFO, Pos+2, Pos2 - Pos -2);	
+    	:new.ALARM_GRAVE	:= to_number (Str);
+    	StrTest	:= StrTest || Str || ' | ';
+    
+    	Pos  := INSTR  (:new.ALARM_INFO, '=', Pos2 +1);
+    	Pos2 := INSTR  (:new.ALARM_INFO, ';', Pos);
+    	Str  := SUBSTR (:new.ALARM_INFO, Pos+2, Pos2 - Pos -2);
+    	:new.ALARM_CL		:= substr (Str, 1, 11);
+    	StrTest	:= StrTest || Str || ' | ';
+    
+    	Pos  := INSTR  (:new.ALARM_INFO, '=', Pos2 +1);
+    	Pos2 := INSTR  (:new.ALARM_INFO, ';', Pos);
+    	Str  := SUBSTR (:new.ALARM_INFO, Pos+2, Pos2 - Pos -2);
+    	:new.ALARM_TEXTE	:= to_number (Str);
+    	StrTest	:= StrTest || Str || ' | ';
+    
+    	Pos  := INSTR  (:new.ALARM_INFO, '=', Pos2 +1);
+    	Pos2 := INSTR  (:new.ALARM_INFO, ';', Pos);
+    	Str  := SUBSTR (:new.ALARM_INFO, Pos+2, Pos2 - Pos -2);
+    	:new.ALARM_NUMOBJ	:= to_number (Str);
+    	StrTest	:= StrTest || Str || ' | ';
+    
+    	Pos  := INSTR  (:new.ALARM_INFO, '=', Pos2 +1);
+    	Pos2 := INSTR  (:new.ALARM_INFO, ';', Pos);
+    	Str  := SUBSTR (:new.ALARM_INFO, Pos+2, Pos2 - Pos -2);
+    	:new.ALARM_NUMAL	:= substr (Str, 1, 40);
+    	StrTest	:= StrTest || Str || ' | ';
+    
+    	Pos  := INSTR  (:new.ALARM_INFO, '=', Pos2 +1);
+    	Pos2 := INSTR  (:new.ALARM_INFO, ';', Pos);
+    	Str  := SUBSTR (:new.ALARM_INFO, Pos+2, Pos2 - Pos -2);
+    	:new.ALARM_COMMENT	:= Str;
+    	if (ToNumber (Str) >= 0) then
+    	    :new.ALARM_IANA := ToNumber (Str);
+    	end if;
+    	StrTest	:= StrTest || Str || ' | ';
+    
+    	Pos  := INSTR  (:new.ALARM_INFO, '=', Pos2 +1);
+    	Str  := SUBSTR (:new.ALARM_INFO, Pos+2);	-- Tous les caractères suivants
+    	Str  := REPLACE (Str, '}', ';');
+    	StrTest := StrTest || Str || ' | ';
+    	:new.ALARM_INFO := Str;
+    
+    --	insert into test values (seq_test.nextval, StrTest);
+    end if; --  N° Trap = 21	: montée d'une alarme
+
+
+    if (not (ARetomber and (:new.ALARM_CL = 'TRAPG' or :new.ALARM_CL = 'TRAPS'))) then
+    	if (NOT tib2_alarm 
+	    (:new.ALARM_ID, :new.ALARM_DATE, :new.ALARM_CL, :new.ALARM_TEXTE, :new.ALARM_NUMAL,
+	     :new.ALARM_NUMOBJ, :new.ALARM_COMMENT, :new.ALARM_INFO, MessId, IsAccesId, NumBit))
+    	then
+	    :new.ALARMGEREE_ID := 0;
+	    :new.ALARM_LOCAL   := 0;
+  	    :new.ALARM_COMMUT  := 0;
+	    :new.SITE_ID       := NULL;
+	    
+
+	        
+	    return;
+    	end if;		/* recherche de l'Id de l'accès sur l'IS */
+    end if;
+
+    if (NOT ARetomber and :new.ALARM_CL = 'IP2') then	/* La gravité est contenue dans ALARM_INFO */
+    	/* La gravité (début ou fin d'alarme) est contenue dans le libellé de l'événement
+	   ayant provoqué le trap. Cet événement est décrit dans la première variable
+	   du trap, sous la forme DIGn_ON (début d'alarme) ou DIGn_OFF (fin d'alarme).
+	   Le "trap" IP2 est transformé en alarme boucle dans SpvTrap2Svc. Ici, ce n'est
+	   donc plus un trap, mais une alarme boucle.
+	*/
+      	Pos  := INSTR (:new.ALARM_INFO, '=');		-- première variable
+      	Pos  := INSTR (:new.ALARM_INFO, '_', Pos);
+      	Pos2 := INSTR (:new.ALARM_INFO, ';', Pos);
+      	Str  := SUBSTR (:new.ALARM_INFO, Pos + 1, Pos2 - Pos - 1);
+      
+      	if (Str = 'ON') then
+      	    Grave := 4;				-- début d'alarme
+      	else
+      	    Grave := 0;				-- Fin d'alarme
+      	end if;
+
+-- JPB	:new.ALARM_GRAVE := Grave;
+    end if;
+
+    Nb := 0;
+    MaskAdm := false;
+
+    if (:new.ALARM_CL = 'IS_S') then
+       	for cx in CxionS loop
+        	    Nb := Nb +1;
+        	    select ALARM_ID into OldId	from BITMESS_REP
+        	   	where BITMESS_ID = cx.BITMESS_ID;
+        				   -- Id de l'alarme en cours
+        
+        --	    OldId := cx.ALARM_ID;  -- Id de l'alarme en cours (alarme/structure)
+        
+        	    if (cx.MSKADM_MAX > 0) then
+        		      MaskAdm := IsMaskedAdm ('IS_S', cx.BITMESS_ID, 0);
+        	    end if;
+        	    if (cx.SCRIPT_ID is not null) then
+        		      ScriptId := cx.SCRIPT_ID;
+        	    end if;
+        end loop;
+
+    elsif (:new.ALARM_CL = 'GSITE' or :new.ALARM_CL = 'SYST' or
+	    (:new.ALARM_CL = 'IS' and :new.ALARM_TEXTE = 3)) then
+      	for cx in CxionG loop
+      	    Nb := Nb +1;
+      	    select ALARM_ID into OldId 		from ACCES_ACCESC_REP
+      		    where ACCES_ACCESC_ID = cx.ACCES_ACCESC_ID;
+      				   -- Id de l'alarme en cours
+      --	    OldId := cx.ALARM_ID;  -- Id de l'alarme en cours
+      
+      	    :new.CABLAGEP_ID := cx.ACCES_ACCESC_ID;
+      
+      	    if (cx.MSKADM_MAX > 0) then
+      		      MaskAdm := IsMaskedAdm ('IS', 0, cx.ACCES_ACCESC_ID);
+      	    end if;
+      	    if (cx.SCRIPT_ID is not null) then
+      		      ScriptId := cx.SCRIPT_ID;
+      	    end if;
+        end loop;
+
+    elsif (:new.ALARM_CL = 'TRAPG' or :new.ALARM_CL = 'TRAPS') then
+      	for cx in CxionTGS loop
+      	    Nb := Nb +1;
+
+      	    select ALARM_ID into OldId
+      	     	from ACCES_ACCESC_REP
+      		    where ACCES_ACCESC_ID = IsAccesId; -- Id de l'alarme en cours
+      
+      	    :new.CABLAGEP_ID 	:= cx.ACCES_ACCESC_ID;
+      	    :new.ALARMGEREE_ID  := cx.ALARMGEREE_ID;
+      
+      	    if (ARetomber) then
+      		    Grave 		:= 0;
+      		    :new.ALARM_GRAVE := 0;
+      	    else
+      		    Grave		:= :new.ALARM_GRAVE;	-- Gravité calculée dans l'EM
+      	    end if;
+      
+      	    :new.EQUIP_ID	:= cx.ACCES_BINDINGID;
+      
+      	    if (cx.MSKADM_MAX > 0) then
+      		      MaskAdm := IsMaskedAdm ('IS', 0, cx.ACCES_ACCESC_ID);
+      	    end if;
+      	    if (cx.SCRIPT_ID is not null) then
+      		      ScriptId := cx.SCRIPT_ID;
+      	    end if;
+        end loop;
+
+    else		-- Alarme GTR ou IP2PORT
+    	for cx in CxionP loop
+    	    Nb := Nb +1;
+    	    select ALARM_ID into OldId	from ACCES_ACCESC_REP
+    		      where ACCES_ACCESC_ID = cx.ACCES_ACCESC_ID;
+    				   -- Id de l'alarme en cours
+    --	    OldId := cx.ALARM_ID;  -- Id de l'alarme en cours
+    
+    	    if (cx.MSKADM_MAX > 0) then
+    		      MaskAdm := IsMaskedAdm ('IS', 0, cx.ACCES_ACCESC_ID);
+    	    end if;
+    	    if (cx.SCRIPT_ID is not null) then
+    		      ScriptId := cx.SCRIPT_ID;
+    	    end if;
+      end loop;
+    end if;
+
+    if (OldId is not NULL and :new.ALARM_GRAVE > 0) then
+	insert into ERROR (ERROR_ID, ERROR_TYP, ERROR_LIBELLE)
+	    values (SEQ_ERROR.NEXTVAL, 0, 
+		'Date ' || :new.ALARM_DATE ||' Alarme deja en cours sur cet acces ' || 
+		To_Char (:new.ALARM_NUMOBJ) || '/' || :new.ALARM_NUMAL);
+	:new.ALARMGEREE_ID := 0;
+	:new.ALARM_LOCAL   := 0;
+  	:new.ALARM_COMMUT  := 0;
+	:new.SITE_ID	   := NULL;
+
+/* JPB 300307
+    	Signat := :new.ALARM_CL || ';' || to_char (:new.ALARM_NUMOBJ) || ';' || :new.ALARM_NUMAL || ';' || '%';
+	delete BAGOT
+	    where BAGOT_SIG like Signat;
+Fin JPB */
+	    
+	return;
+
+    elsif (OldId is NULL and :new.ALARM_GRAVE = 0) then
+	insert into ERROR (ERROR_ID, ERROR_TYP, ERROR_LIBELLE)
+	    values (SEQ_ERROR.NEXTVAL, 0, 
+		'Date ' || :new.ALARM_DATE ||' Alarme non en cours sur cet acces ' ||
+		 To_Char (:new.ALARM_NUMOBJ) || '/' || :new.ALARM_NUMAL);
+	:new.ALARMGEREE_ID := 0;
+	:new.ALARM_LOCAL   := 0;
+  	:new.ALARM_COMMUT  := 0;
+	:new.SITE_ID	   := NULL;
+
+/* JPB 300307
+    	Signat := :new.ALARM_CL || ';' || to_char (:new.ALARM_NUMOBJ) || ';' || :new.ALARM_NUMAL || ';' || '%';
+	delete BAGOT
+	    where BAGOT_SIG like Signat;
+Fin JPB */
+	    
+	return;
+    end if;
+
+    if (Nb = 0) then
+	insert into ERROR (ERROR_ID, ERROR_TYP, ERROR_LIBELLE)
+	    values (SEQ_ERROR.NEXTVAL, 0, 
+		'Date ' || :new.ALARM_DATE ||' Alarme non cablee ' || 
+		To_Char (:new.ALARM_NUMOBJ) || '/' || :new.ALARM_NUMAL);
+	:new.ALARMGEREE_ID := 0;
+	:new.ALARM_LOCAL   := 0;
+  	:new.ALARM_COMMUT  := 0;
+	:new.SITE_ID	   := NULL;
+
+/* JPB 300307
+    	Signat := :new.ALARM_CL || ';' || to_char (:new.ALARM_NUMOBJ) || ';' || :new.ALARM_NUMAL || ';' || '%';
+	delete BAGOT
+	    where BAGOT_SIG like Signat;
+Fin JPB */
+	    
+	return;
+
+    elsif (Nb > 1) then
+	insert into ERROR (ERROR_ID, ERROR_TYP, ERROR_LIBELLE)
+	    values (SEQ_ERROR.NEXTVAL, 0, 
+		'Date ' || :new.ALARM_DATE ||' Acces IS occupe plusieurs fois ' || 
+		To_Char (:new.ALARM_NUMOBJ) || '/' || :new.ALARM_NUMAL);
+	:new.ALARMGEREE_ID := 0;
+	:new.ALARM_LOCAL   := 0;
+  	:new.ALARM_COMMUT  := 0;
+	:new.SITE_ID	   := NULL;
+
+/* JPB 300307
+    	Signat := :new.ALARM_CL || ';' || to_char (:new.ALARM_NUMOBJ) || ';' || :new.ALARM_NUMAL || ';' || '%';
+	delete BAGOT
+	    where BAGOT_SIG like Signat;
+Fin JPB */
+	    
+	return;
+    end if;
+
+    /* Recherche de OrigAccesId (Id de l'accès alarme sur l'élt. géré) */
+    if (:new.ALARM_CL = 'IS_S') then		/* SEM */
+      	select ACCES1_ID into OrigAccesId
+      	    from ACCES_ACCESC
+      	    where ACCES2_ID = IsAccesId and
+      		  ACCES_ACCESC_PREBIT <= NumBit and
+      		  ACCES_ACCESC_DERBIT >= NumBit;
+      
+      	:new.ALARM_COMMUT := 0;
+      	select ALARMGEREE_GRAVE, ALARMGEREE_ID, BITMESS_ID
+      	    into Grave, :new.ALARMGEREE_ID, :new.CABLAGES_ID
+      	    from BITMESS
+      	    where MESS_ID   = MessId and
+      		  ACCES_ID  = IsAccesId and
+      	          BITMESS_NBIT = NumBit;
+	
+    elsif ((:new.ALARM_CL = 'IS' or :new.ALARM_CL = 'IP2') and		/* GTR ou IP2PORT */
+	    (:new.ALARM_TEXTE is null or :new.ALARM_TEXTE != 3)) then
+        select A.ACCES1_ID, B.ALARMGEREE_GRAVE, A.ALARMGEREE_ID, A.COMMUT, A.ACCES_ACCESC_ID
+	         into OrigAccesId, Grave, :new.ALARMGEREE_ID, :new.ALARM_COMMUT, :new.CABLAGEP_ID
+   	       from ACCES_ACCESC A, ACCES_ACCESC_REP B
+	          where A.ACCES2_ID = IsAccesId and  A.ACCES_ACCESC_ID = B.ACCES_ACCESC_ID;
+
+    elsif (:new.ALARM_CL = 'TRAPG' or :new.ALARM_CL = 'TRAPS') then	/* TRAP SNMP Générique ou spécifique */
+      	select TYPEQ_COMMUT, COMMUT_OID into typeq_commut, commutOID
+      	from typeq, ACCES_ACCESC where ACCES_ACCESC_id = IsAccesId and ACCES_ACCESC.typeq_id=typeq.typeq_id;
+      
+              /* insert into ERROR (ERROR_ID, ERROR_TYP, ERROR_LIBELLE)
+	      values (SEQ_ERROR.NEXTVAL, 0,
+		    'IsAccesId = ' || To_Char (IsAccesId));*/
+
+      	if (typeq_commut > 0 and INSTR (:new.ALARM_INFO, commutOID || ' ') > 0 ) then
+      
+      	    :new.ALARM_COMMUT := 1;
+      
+      	    Pos  := INSTR  (:new.ALARM_INFO, commutOID || ' ');
+      	    if (Pos<0) then
+      		      Pos  := INSTR  (:new.ALARM_INFO, commutOID || '=');
+      	    end if;
+      	    Pos2 := INSTR  (:new.ALARM_INFO, '=', Pos);
+      	    Pos  := INSTR  (:new.ALARM_INFO, ';', Pos);
+      
+      	    if (Pos2<0 or Pos<0) then
+      	 	       EquipState := 1;
+      	    else
+      		      Str  := SUBSTR (:new.ALARM_INFO, Pos2+1, Pos - Pos2 -1);
+      		      EquipState := TO_NUMBER(Str);
+      	    end if;
+      
+	          if(EquipState<=0) then
+        	       EquipState :=1;
+            end if;
+
+	         update equip_rep set equip_commut = EquipState where equip_id = :new.EQUIP_ID;
+
+	     else /*ce n'est pas le trape de commutation*/
+	          :new.ALARM_COMMUT := 0;
+	     end if;
+
+    	OrigAccesId := 0;
+    
+    	:new.ALARM_LOCAL   := 1;
+    	:new.ALARM_INFO	   := 'Trap SNMP : ' || :new.ALARM_INFO;
+
+/* JPB
+	if (:new.ALARM_GRAVE > 0 and :new.ALARM_CL = 'TRAPS') then
+	     update ACCES_ACCESC_REP
+	    	 set ALARMGEREE_GRAVE = Grave
+	    	    where ACCES_ACCESC_ID = IsAccesId; -- la gravité est donnée par le trap
+						       -- NON : demande GG + C GAVOILLE. La gravité est choisie par l'opérateur
+	end if;
+*/
+
+    	select ALARMGEREE_GRAVE into Grave
+    	     from ACCES_ACCESC_REP
+    	     where ACCES_ACCESC_ID = IsAccesId;
+
+    elsif (:new.ALARM_CL = 'GSITE') then	/* GSITE */
+    	OrigAccesId := 0;
+    	Grave := :new.ALARM_GRAVE;
+    	:new.ALARMGEREE_ID := 1;
+    	:new.ALARM_COMMUT  := 0;
+    	Info := :new.ALARM_INFO;
+    	:new.ALARM_INFO	   := 'Alarme GSITE :' || Info;
+
+/* X.L. remis comme avant car pour une alarme GSITE la gravité est dans le message envoyé par GSITE
+	select ALARMGEREE_GRAVE into Grave
+	     from ACCES_ACCESC_REP
+	     where ACCES_ACCESC_ID = 
+		(select ACCES_ACCESC_ID from ACCES_ACCESC
+		    where ACCES_BINDINGID = IsAccesId and ACCES_BINDINGCLASSID = 8);
+*/
+
+    else			/* Alarme système */
+      	OrigAccesId := 0;
+      	Grave := :new.ALARM_GRAVE;
+      	:new.ALARMGEREE_ID := 1;
+      	:new.ALARM_COMMUT  := 0;
+      	Info := :new.ALARM_INFO;
+      	:new.ALARM_INFO	   := 'Alarme systeme :' || Info;
+
+    end if;	/* recherche de l'Id de l'accès sur l'élément géré (équip. par exemple) */
+    
+ --   insert into test values (seq_test.nextval, 'tib_alarm1 :new.ALARM_Grave = '|| :new.ALARM_Grave);
+    
+    if (ModCalc=1 and :new.ALARM_CL = 'TRAPS') then --NEC, pour les traps on prend la gravité dans le trap
+      Grave := :new.ALARM_GRAVE;		   --pour les accès boucle, on prend la gravité de l'alarme gérée.
+    end if;
+
+    /* Recherche de l'élément géré en défaut */
+    if (:new.ALARM_CL = 'GSITE' or :new.ALARM_CL = 'SYST' or :new.ALARM_CL = 'TRAP' or
+	(:new.ALARM_CL = 'IS' and :new.ALARM_TEXTE = 3)) then
+	:new.EQUIP_ID := IsAccesId;
+	:new.SITE_ID := NULL;
+	:new.LIAI_ID := NULL;
+
+    elsif (:new.ALARM_CL = 'TRAPG' or :new.ALARM_CL = 'TRAPS') then
+	/* EQUIP_ID est déjà rempli */
+	:new.SITE_ID := NULL;
+	:new.LIAI_ID := NULL;
+
+    else	    
+    	select SITE_ID, EQUIP_ID, LIAI_ID
+	    into :new.SITE_ID, :new.EQUIP_ID, :new.LIAI_ID
+ 	    from ACCES
+	    where ACCES_ID = OrigAccesId;	/* recherche de l'élément géré en défaut */
+    end if;
+
+    /*déjà fait pour les TRAPS*/
+    if (:new.ALARM_COMMUT > 0 and :new.ALARM_CL <> 'TRAPG' and :new.ALARM_CL <> 'TRAPS') then
+        if(:new.ALARM_GRAVE=0) then
+            EquipState :=1;
+     	else
+	    EquipState := Grave - DecalGrave +2;
+	end if;
+	update equip_rep set equip_commut = EquipState where equip_id = :new.EQUIP_ID;
+    end if;
+
+    if (:new.ALARM_GRAVE > 0) then	/* Début d'alarme */
+	     :new.ALARM_GRAVE := Grave;
+      	if (:new.ALARM_COMMUT = 0) then
+      	    select ALARMGEREE_NOM, ALARMGEREE_TYPAL, ALARMGEREE_LOCAL, ALARMGEREE_NSEUIL,
+  	       ALARMGEREE_SEUILB * (1 - :new.ALARM_VSEUIL)
+  	       + ALARMGEREE_SEUILH * :new.ALARM_VSEUIL, ALARMGEREE_COMMENT
+                  into :new.ALARM_NOM, :new.ALARM_TYPE, :new.ALARM_LOCAL, :new.ALARM_NSEUIL,
+  	             :new.ALARM_VSEUIL, :new.ALARM_COMMENT
+      	        from ALARMGEREE
+  	        where ALARMGEREE_ID = :new.ALARMGEREE_ID;
+	      else
+  	         :new.ALARM_LOCAL := 1;
+        end if;
+
+        if (:new.ALARM_CL = 'IS_S') then	/* Alarme série */
+       	    update BITMESS_REP
+      	       set	ALARM_ID   = :new.ALARM_ID,
+      			ALARM_SEC  = CO_SEC1998 (:new.ALARM_DATE),
+      			SITE_ID	   = :new.SITE_ID,
+      			EQUIP_ID   = :new.EQUIP_ID,
+      			LIAI_ID    = :new.LIAI_ID,
+      			ALARM_CL   = :new.ALARM_CL,
+      			ALARM_NUMOBJ=:new.ALARM_NUMOBJ,
+      			ALARM_NUMAL= :new.ALARM_NUMAL
+      	       where 	BITMESS_ID = :new.CABLAGES_ID;
+
+       	else			/* Alarme GTR ou GSITE ou Alarme Système ou TRAP */
+      	    update ACCES_ACCESC_REP
+      	        set 	ALARM_ID   = :new.ALARM_ID,
+      			ALARM_SEC  = CO_SEC1998 (:new.ALARM_DATE),
+      			SITE_ID	   = :new.SITE_ID,
+      			EQUIP_ID   = :new.EQUIP_ID,
+      			LIAI_ID    = :new.LIAI_ID,
+      			ALARM_CL   = :new.ALARM_CL,
+      			ALARM_NUMOBJ=:new.ALARM_NUMOBJ,
+      			ALARM_NUMAL= :new.ALARM_NUMAL
+      		where 	ACCES_ACCESC_ID = :new.CABLAGEP_ID;
+      
+      	end if;
+
+      	if (ScriptId != 0) then
+      	    insert into ACTIVATION (ACTIVATION_ID, ACTIVATION_TIME, ACTIVATION_PERIOD,
+      				SCRIPT_ID, SCRIPT_PARAM) values
+      		(SEQ_ACTIVATION.NEXTVAL, :new.ALARM_SEC, 0, ScriptId, 1);
+      	end if;
+
+        :new.ALARM_IDDEB := NULL;
+
+    else				/* Fin d'alarme */
+        if (:new.ALARM_CL = 'IS_S') then	/* Alarme série */
+      	    if (:new.ALARM_IDDEB is NULL) then
+            	    	select ALARM_ID, ALARM_SEC into :new.ALARM_IDDEB, :new.ALARM_DEB_SEC
+         	 	    from BITMESS_REP
+      	       	    where BITMESS_ID = :new.CABLAGES_ID; 	/* Id du début d'alarme correspondant */
+      	    end if;
+
+      	    update BITMESS_REP
+         	  set 	ALARM_ID   = NULL,
+        			ALARM_SEC  = NULL,
+        			SITE_ID	   = NULL,
+        			EQUIP_ID   = NULL,
+        			LIAI_ID    = NULL,
+        			ALARM_CL   = NULL,
+        			ALARM_NUMOBJ=NULL,
+        			ALARM_NUMAL= NULL
+        	       	where 	BITMESS_ID = :new.CABLAGES_ID;
+
+ 	      else 			/* Alarme GTR ou GSITE ou Alarme Système ou TRAP */
+      	    if (:new.ALARM_IDDEB is NULL) then
+            	    	select ALARM_ID, ALARM_SEC into :new.ALARM_IDDEB, :new.ALARM_DEB_SEC
+         	 	    from ACCES_ACCESC_REP
+      		    where ACCES_ACCESC_ID = :new.CABLAGEP_ID; 	/* Id du début d'alarme correspondant */
+      	    end if;
+
+      	    update ACCES_ACCESC_REP
+        		set 	ALARM_ID   = NULL,
+        			ALARM_SEC  = NULL,
+        			SITE_ID	   = NULL,
+        			EQUIP_ID   = NULL,
+        			LIAI_ID    = NULL,
+        			ALARM_CL   = NULL,
+        			ALARM_NUMOBJ=NULL,
+        			ALARM_NUMAL= NULL
+  		            where 	ACCES_ACCESC_ID = :new.CABLAGEP_ID;
+
+	       end if;
+
+    	if (:new.ALARM_COMMUT = 0) then
+    	    select ALARMGEREE_LOCAL, ALARMGEREE_NOM, ALARMGEREE_TYPAL
+                into :new.ALARM_LOCAL, :new.ALARM_NOM, :new.ALARM_TYPE
+    	        from ALARMGEREE
+	        where ALARMGEREE_ID = :new.ALARMGEREE_ID;
+	else
+	    :new.ALARM_LOCAL := 1;
+        end if;
+
+	if (ScriptId != 0) then
+	    insert into ACTIVATION (ACTIVATION_ID, ACTIVATION_TIME, ACTIVATION_PERIOD,
+				SCRIPT_ID, SCRIPT_PARAM) values
+		(SEQ_ACTIVATION.NEXTVAL, :new.ALARM_SEC, 0, ScriptId, 0);
+	end if;
+
+/* JPB 300307
+	update BAGOT
+	    set ALARM_IDDEB   = :new.ALARM_IDDEB
+	    where BAGOT_ID    = BagotId;-- Fin d'alarme normale
+Fin JPB */
+	    
+    end if;
+
+    if (:new.ALARM_IDDEB is not NULL and :new.ALARM_DEB_SEC is NULL) then
+	select ALARM_SEC into :new.ALARM_DEB_SEC
+   	    from ALARM
+	    where ALARM_ID = :new.ALARM_IDDEB;
+    end if;
+
+    if (MaskAdm) then
+	:new.ALARMGEREE_ID := 0;
+--	:new.ALARM_LOCAL   := 0;
+  	:new.ALARM_COMMUT  := 0;
+	:new.SITE_ID	   := NULL;
+    end if;
+
+    :new.ALARM_AQUITTEE 	:= 0;	-- alarme non encore acquittée
+    :new.ALARM_ACQUITWHO	:= NULL;
+    :new.ALARM_ACQUITWHEN	:= NULL;
+end tib_alarm;
+/
+
+
+create or replace trigger ti_progliai after insert on PROG_LIAI for each row
+
+declare
+    integrity_error  exception;
+    errno            integer;
+    errmsg           char(200);
+    Mess     VARCHAR2 (1800);/* taille max. du message autorisé par Oracle : 1800 octets */
+
+begin
+    /* Si le trigger est déclenché par suite d'un enregistrement créé par réplication,
+       on ne fait pas le traitement */
+    if dbms_reputil.from_remote=TRUE then
+		return;
+    end if;
+
+    MajDebitLiai (:new.liai_id, :new.prog_id, 1);
+
+    --CMS_EltGere (Mess, 1, :new.LIAI_ID, :new.PROG_ID, 2);
+
+--  gestion des erreurs
+exception
+    when integrity_error then
+       raise_application_error(errno, errmsg);
+end ti_progliai;
+/
+
+CREATE OR REPLACE PROCEDURE MajOperSite 
+		(Id NUMBER, SiteId NUMBER, AlarmLocal NUMBER, AlarmGrave NUMBER,
+		 ProgNb IN OUT NUMBER,
+		 SiteNom IN OUT VARCHAR2, Poseq IN OUT VARCHAR2,
+     TsPrOper IN OUT VARCHAR2, Debord IN OUT NUMBER)
+	/* Cette procédure met à jour l'état opérationnel du site en défaut,
+	   ainsi que l'état opérationnel des programmes que cela concerne 
+	AlarmGrave : gravité alarme */
+IS
+    OperElt	NUMBER;		/* Etat opérationnel du site en cause */
+    Grave	NUMBER;		/* Gravité des alarmes restantes */
+    GraveS	NUMBER;		/* Gravité restante pour des alarmes SEM */
+
+    Routage	VARCHAR2 (40);	-- Permet de savoir si un routage est associé au programme
+   ModCalc	NUMBER;
+
+ 	  
+	CURSOR CurProg is
+	  select distinct Prog_id from PROG_usedsites  where SITE_ID = SiteId;
+	 
+
+BEGIN
+    ModCalc := GetModCalc;		-- Mode de calcul standard ou NEC
+
+    -- Mise à jour de SiteNom et Poseq
+
+    select SITE_NOM, SITE_NOM into SiteNom, Poseq
+	       from SITE where SITE_ID = SiteId;	
+
+    -- Mise à jour de l'état opérationnel du site
+
+    select MAX (ALARMGEREE_GRAVE) into Grave from ACCES_ACCESC_REP
+	     where SITE_ID = SiteId and  ALARM_ID <> Id;
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+	        -- on regarde les autres alarmes
+    Grave := NVL (Grave, 0); 
+		-- Retombée d'alarme, cas où il n'y a pas d'autre alarme pour ce site
+		-- (SITE_ID est NULL)
+
+ /*   select MAX (ALARMGEREE_GRAVE) into GraveS from BITMESS, BITMESS_REP
+  	where BITMESS_REP.SITE_ID = SiteId and   
+	      BITMESS_REP.ALARM_ID <> Id and
+	      BITMESS.BITMESS_ID = BITMESS_REP.BITMESS_ID;
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+		-- on regarde les autres alarmes
+    GraveS := NVL (GraveS, 0); */
+		-- Retombée d'alarme, cas où il n'y a pas d'autre alarme pour ce site
+		-- (SITE_ID est NULL)
+
+    --Grave := Max3 (Grave, GraveS, AlarmGrave);
+    Grave := Max2 (Grave, AlarmGrave);
+
+    OperElt := GetOperElt (Grave, AlarmLocal, ModCalc);
+
+    update SITE_REP
+	     set SITE_OPER = OperElt	where SITE_ID = SiteId;
+    -- Mise à jour de l'état opérationnel de tous les programmes qui utilisent ce site
+
+  --  for vProg in CurProgOper loop
+  for vProg in CurProg loop
+      UpdateProgOperProg(vProg.PROG_ID, SiteId, Id, OperElt);
+	 end loop;
+    
+ /*   for vTop in CurTop loop
+      UpdateProgOperTop(vTop.top_id, SiteId, Id, OperElt);
+    end loop;*/
+
+    ProgNb   := 0;
+
+    -- 70 prog. au max. Structure : ProgId, OldOper, ProgOper, ProgMsk; ProgId, 
+    -- OldOper, ProgOper, ProgMsk; etc... 
+
+    for vProg in CurProg loop --tous les programmes utilisant ce SiteId
+       TsPrOperProg(vProg.PROG_ID, ModCalc,/* OperElt,*/ TsPrOper, Debord);
+    end loop;		-- boucle sur les programmes affectés par cette erreur
+    
+ /*   for vTop in CurTop loop
+  --  insert into test values(seq_test.nextval, 'MajOperSite top_id ' || vTop.top_id);
+      TsPrOperTop(vTop.top_id, ModCalc, OperElt, TsPrOper, Debord);
+    end loop;*/
+    
+--    TsPrOper := to_char (ProgNb) || ';' || TsPrOper;
+
+END MajOperSite;
+/
+
+
+CREATE OR REPLACE PROCEDURE MajOperSupte (Id NUMBER, LiaiId NUMBER, OperL NUMBER, 
+					  AlarmLocal NUMBER)
+	/* Cette procédure met à jour l'état des supportés,
+	en tenant compte de l'état des supports précédents (OperL) */
+	-- Id : Id de l'alarme
+	-- OperL : état opérationnel de la liaison, provenant des supports
+
+IS 
+    OperElt	NUMBER;		-- état du supporté
+    lGrave	Number;		-- gravité banale
+    OwnGrave	Number;		-- gravité alarmes propres au supporté
+  --  OwnGraveS	Number;		-- idem pour SEM
+
+    CURSOR cSupte is	-- ensemble des supportés de LiaiId
+	select * from LIAI_LIAIC
+	    where LIAI_BINDINGID = LiaiId;
+
+BEGIN
+/* dbms_output.put_line ('MAJSUPTE DEBUT OperL '||to_char(OperL)||' Local '||
+to_char(AlarmLocal)||' LiaiId '||to_char (LiaiId)||' Id '||to_char(Id)); */
+
+    for vSupte in cSupte loop
+    	select MAX (ALARMGEREE_GRAVE) into OwnGrave from ACCES_ACCESC_REP
+	    where LIAI_ID = vSupte.LIAI_ID and   
+				-- Valeur de la gravité à prendre en compte en début d'alarme
+	      	  ALARM_ID <> Id;   -- on regarde les autres alarmes
+    	OwnGrave := NVL (OwnGrave, 0);
+
+  /*      select MAX (ALARMGEREE_GRAVE) into OwnGraveS from BITMESS, BITMESS_REP
+	    where BITMESS_REP.LIAI_ID = vSupte.LIAI_ID and 	 
+				-- Valeur de la gravité à prendre en compte en début d'alarme
+	      	  BITMESS_REP.ALARM_ID <> Id and
+				-- on regarde les autres alarmes
+		  BITMESS.BITMESS_ID = BITMESS_REP.BITMESS_ID;
+    	OwnGraveS := NVL (OwnGraveS, 0); 
+
+    	lGrave := Max2 (OwnGrave, OwnGraveS);*/
+    	
+    	lGrave := OwnGrave;
+
+    	if (lGrave >= 6 and AlarmLocal > 0)   then
+	    OperElt:= 3;	/* Alarme locale majeure ou critique : non fonctionnel */
+    	elsif (lGrave > 0 and AlarmLocal > 0) then
+	    OperElt:= 2;	/* Alarme locale mineure : dégradé suite à défaut local */
+    	elsif (lGrave > 0 and AlarmLocal = 0) then
+	    OperElt:= 1;	/* Alarme distante : dégradé suite à défaut distant */
+    	else
+	    OperElt:= 0;	/* Fin d'alarme */
+    	end if;
+
+	OperElt := Max2 (OperL, OperElt);
+
+        update LIAI_REP
+	    set LIAI_OPER = OperElt
+	    where LIAI_ID = vSupte.LIAI_ID;
+
+--	insert into SUPTES_TEMP (ALARM_ID, LIAI_ID, GRAVE) values (Id, vSupte.LIAI_ID, lGrave);
+
+	MajOperSupte (Id, vSupte.LIAI_ID, OperElt, AlarmLocal);
+    end loop;
+END MajOperSupte;
+/
+
+
+CREATE OR REPLACE PROCEDURE MajOperLiai 
+		(Id NUMBER, LiaiId NUMBER, AlarmLocal NUMBER, AlarmGrave NUMBER, 
+		 ProgNb IN OUT NUMBER, Typeq IN OUT VARCHAR2, Poseq IN OUT VARCHAR2,
+     TsPrOper IN OUT VARCHAR2, Debord IN OUT NUMBER)
+		 		 
+	/* Cette procédure met à jour l'état opérationnel de la liaison en défaut	   
+
+	Id	   : Id de l'alarme
+	LiaiId	   : Id de la liaison traitée
+	AlarmGrave : gravité alarme	*/
+
+IS
+
+    OperElt	NUMBER;		/* Etat opérationnel de la liaison en cause */
+
+    Grave	NUMBER;		/* Gravité des alarmes restantes */
+    GraveS	NUMBER;		/* Gravité banale (BitMess etc..) */
+
+    SiteId	NUMBER;		/* Id du site contenant l'équipement en défaut */
+    SiteIndex	NUMBER;		/* Index de ce site */
+
+    ModCalc	NUMBER;		/* Mode de calcul (standard ou NEC) */
+
+/*  CURSOR CurProg is			-- les programmes concernés par cette liaison en alarme
+	select distinct PROG.PROG_ID, GRAVE
+	    from PROG_usedliais, SUPTES_TEMP, PROG
+	    where ALARM_ID = Id and
+		  PROG_usedliais.LIAI_ID = SUPTES_TEMP.LIAI_ID and
+		  PROG_usedliais.PROG_ID = PROG.PROG_ID and
+		  PROG_LIAIBOUND is NULL;*/
+		  
+		  CURSOR CurProg is			-- les programmes concernés par cette liaison en alarme
+	select PROG_ID from PROG_usedliais  where Liai_id=LiaiId;   
+		  
+/*	CURSOR CurTop is			-- les topologies concernées par cette liaison en alarme
+  select TOP_ID, GRAVE
+	    from top_LIAI, SUPTES_TEMP
+	    where ALARM_ID = Id and
+		  top_LIAI.LIAI_ID = SUPTES_TEMP.LIAI_ID ;*/
+		  
+
+BEGIN
+--  insert into test values (SEQ_TEST.NEXTVAL, 'MAJOPERLIAI : LiaiId '||to_char(LiaiId));
+
+    ModCalc := GetModCalc;		-- Mode de calcul standard ou NEC
+
+    -- Mise à jour de Poseq et Typeq
+    -- Modif. GG le 22/07/03
+    -- Modif. JPB le 01/11/03. Voir remarque V 1.087
+
+    select GetLiaiNom (LiaiId), TYPLIAI_NOM
+	   into Poseq, Typeq 	from LIAI
+	   where LIAI_ID = LiaiId;
+    -- Mise à jour de l'état opérationnel de la liaison
+
+    select MAX (ALARMGEREE_GRAVE) into Grave from ACCES_ACCESC_REP
+	     where LIAI_ID = LiaiId and ALARM_ID <> Id;  
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+ 		-- on regarde les autres alarmes
+    Grave := NVL (Grave, 0);
+
+  /*  select MAX (ALARMGEREE_GRAVE) into GraveS from BITMESS, BITMESS_REP
+	   where BITMESS_REP.LIAI_ID = LiaiId and 	 
+	      BITMESS_REP.ALARM_ID <> Id and
+	      BITMESS.BITMESS_ID = BITMESS_REP.BITMESS_ID;
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+ 		-- on regarde les autres alarmes
+    GraveS := NVL (GraveS, 0); */
+
+   -- Grave := Max3 (Grave, GraveS, AlarmGrave);	-- cas d'une panne des équips. de multiplexage
+   Grave := Max2 (Grave, AlarmGrave);	-- cas d'une panne des équips. de multiplexage
+
+    OperElt := GetOperElt (Grave, AlarmLocal, ModCalc);
+
+    -- Prendre en compte l'état opérationnel des supports
+
+    OperElt := Max2 (OperElt, OperSupport (LiaiId, OperElt));
+
+    update LIAI_REP
+	     set LIAI_OPER = OperElt	where LIAI_ID = LiaiId;
+
+    -- Mise à jour de l'état opérationnel des supportés
+
+--    insert into SUPTES_TEMP (ALARM_ID, LIAI_ID, GRAVE) values (Id, LiaiId, Grave);
+
+    MajOperSupte (Id, LiaiId, OperElt, AlarmLocal);
+
+    -- Mise à jour de l'état opérationnel de tous les programmes qui utilisent cette liaison
+    -- (ou l'un de ses supportés) dans le site où elle aboutit
+
+-- ZN. l'etat operationelle des cablages n'est pas changé, inutille de calculer PROG_CABL_REP.prog_oper_grave
+
+ /*       select SITE_DESTID into SiteId
+	   from LIAI	where LIAI_ID = LiaiId;
+
+  select SITE_OPER into OperElt
+	       from SITE_REP where SITE_ID = SiteId;
+	  OperElt := NVL (OperElt, 0);
+
+  for vProg in CurProg loop
+	    UpdateProgOperProg(vProg.Prog_Id, SiteId, Id, OperElt);
+    end loop;	*/
+    
+    
+  /*  for vTop in CurTop loop
+	    UpdateProgOperTop(vTop.TOP_ID, SiteId, Id, OperElt);
+    end loop;	*/	
+
+    ProgNb   := 0;
+--    TsPrOper := '';  -- 70 prog. au max. Structure : NbProg; ProgId, OldOper, ProgOper, ProgMsk; 
+--			ProgId, OldOper, ProgOper, ProgMsk; etc...
+--    Debord   := 0;
+
+    for vProg in CurProg loop
+      MajAlarmProg(Id, vProg.PROG_ID);
+    	TsPrOperProg(vProg.PROG_ID, ModCalc, /* OperElt,*/ TsPrOper, Debord);
+    end loop;		-- boucle sur les programmes affectés par cette erreur
+
+ --   TsPrOper := to_char (ProgNb) || ';' || TsPrOper;
+ 
+/*    for vTop in CurTop loop
+      TsPrOperTopLiai(vTop.top_id, SiteId, ModCalc, OperElt, TsPrOper, Debord);
+    end loop;*/
+
+ --   delete SUPTES_TEMP where ALARM_ID = Id;
+END MajOperLiai;
+/
+
+CREATE OR REPLACE FUNCTION MajOperInclus 
+		(Id NUMBER, EquipId NUMBER, AlarmGrave NUMBER, AlarmLocal NUMBER,
+		 ProgNb IN OUT NUMBER, TsPrOper IN OUT VARCHAR2, Debord IN OUT NUMBER)
+RETURN NUMBER 
+IS
+	/* Cette fonction met à jour l'état opérationnel de l'équipement 
+	   en tenant compte des équipements inclus dans l'équip. en défaut.
+	   Elle met aussi à jour l'état opérationnel des CABLEQU et des programmes 
+	   que cela concerne.
+	   Retourne la gravité correspondante.
+
+	Id	   : Id de l'alarme
+	EquipId	   : Id de l'équipement traité
+	AlarmGrave : gravité alarme
+	ProgNb	   : nb. programmes concernés par cette alarme
+	TsPrOper   : chaîne décrivant l'état opérationnel de ces programmes */
+
+    OperElt	NUMBER;		/* Etat opérationnel de l'élt. géré en cause */
+    Grave	NUMBER;		/* Gravité des alarmes restantes */
+  --  GraveS	NUMBER;		/* Gravité restante pour des alarmes SEM */
+    GraveI	NUMBER;		/* Max de la gravité des alarmes des équipements inclus */
+
+    SiteId	NUMBER;		/* Id du site de l'équipement en défaut */
+    OperSite	NUMBER;		/* Etat opér. de ce site */
+ /*   OperProg	NUMBER;		-- Etat opérationnel du programme :
+			--		0 : tout va bien
+			--		1 : erreurs mineures rencontrées
+			--		2 : perte de la redondance
+			--		3 : non fonctionnel 
+    OldOperProg NUMBER;		-- ancien état opérationnel du programme 
+    ProgMsk	NUMBER;		-- Etat de masquage du programme :
+				--	0 : non masqué
+			--		1 : masquage brigadier
+			--		2 : masquage administrateur 
+
+    ErrWarn	BOOLEAN;	-- TRUE si une erreur existe 
+    ErrMin	BOOLEAN;	-- TRUE si une erreur mineure existe 
+    ErrMaj	BOOLEAN;	-- TRUE si une erreur majeure existe 
+    ErrTs	BOOLEAN;	-- TRUE si tous les chemins sont coupés entre un des noeuds
+				   --origine et un noeud destination 
+*/
+    ModCalc	NUMBER;		/* Mode de calcul standard ou NEC */
+
+    LProgNb	NUMBER;		/* Nb. de programmes correspondant à des liaisons en panne 
+				(mpx) */
+--    LPrOper	VARCHAR2 (450); /* Etat opérationnel de ces liaisons */
+    LPrOper	VARCHAR2 (900); /* Etat opérationnel de ces liaisons */
+
+    LTypeq	VARCHAR2 (40);	/* Sauvegarde de TypEqu */
+    LPoseq	VARCHAR2 (80);	/* Sauvegarde de Poseq */
+
+    Buf		VARCHAR2 (100); -- banal
+ --   Routage	VARCHAR2 (40);	-- Permet de savoir si un routage est associé au programme
+
+    --PROG_CABL contienne tous les câblages utilisés par le programme, y compris des câblages
+    --de topologie. C'est vrai aussi pour des programmes routés
+    CURSOR CurProg is			-- les programmes utilisant cet équip. dans un câblage
+	select distinct PROG_ID from CABLEQU_EQUIP, PROG_CABL
+	    where CABLEQU_EQUIP.EQUIP_ID = EquipId and
+		  CABLEQU_EQUIP.CABLEQU_ID = PROG_CABL.CABLEQU_ID;
+
+/*		  
+		CURSOR CurTop is
+		select TOP_ID from CABLEQU_EQUIP, TOP_CABLEQU
+	    where CABLEQU_EQUIP.EQUIP_ID = EquipId and
+		  CABLEQU_EQUIP.CABLEQU_ID = TOP_CABLEQU.CABLEQU_ID;*/
+
+    CURSOR CurCablequ is		-- les câblages utilisant cet équipement
+	select CABLEQU_ID from CABLEQU_EQUIP
+	    where EQUIP_ID = EquipId;
+
+  /*  CURSOR CurProg1 (Idl NUMBER) is	-- tous les prog. concernés par ce câblage
+					-- (prestations + liaisons support)
+	select * from PROG_CABL
+	where CABLEQU_ID = Idl;*/
+	
+/*	CURSOR CurTopCabl (Idl NUMBER) is --tous les topo concernées par ce câblage
+		select * from TOP_CABLEQU
+	    where CABLEQU_ID = Idl;*/
+
+/*    CURSOR CurProg2 (Prog NUMBER) is	-- les sites d'entrée d'un programme
+	select * from PROG_OPER
+	where PROG_ID  = Prog and
+	      SITE_NUM = 1;*/
+
+    CURSOR CurLiai (Idl NUMBER) is	-- les liaisons concernées par ce câblage
+	select LIAI_ID from LIAI_CABLEQU, CABLEQU_EQUIP
+	where LIAI_CABLEQU.CABLEQU_ID = CABLEQU_EQUIP.CABLEQU_ID and
+	      EQUIP_ID = Idl;
+
+    CURSOR CurInclus is			-- les équipements inclus dans cet équipement
+	select EQUIP_ID from EQUIP
+	    where EQUIP_BINDINGID = EquipId;
+	    
+	CURSOR CurProgCabl (Idl NUMBER) is	-- tous les prog. concernés par ce câblage
+	select distinct prog_id from PROG_CABL
+	where CABLEQU_ID = Idl;
+
+BEGIN
+
+    ModCalc := GetModCalc;		-- Mode de calcul standard ou NEC
+--  insert into test values (SEQ_TEST.NEXTVAL, 'MAJOPERINCLUS : Id, EquipId '||to_char(Id)||'; '||to_char(EquipId));
+
+    -- Mise à jour de l'état opérationnel de l'équipement
+
+    Grave := 0;
+    select MAX (ALARMGEREE_GRAVE) into Grave from ACCES_ACCESC_REP
+        where EQUIP_ID = EquipId and 
+	      ALARM_ID is not NULL; 
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+ 		-- on regarde les autres alarmes
+ 		-- on regarde les alarmes en cours sur cet équip.
+    Grave := NVL (Grave, 0);
+
+ /*   select MAX (ALARMGEREE_GRAVE) into GraveS from BITMESS, BITMESS_REP
+	   where BITMESS_REP.EQUIP_ID = EquipId and   
+	      BITMESS_REP.ALARM_ID is not NULL and
+	      BITMESS.BITMESS_ID = BITMESS_REP.BITMESS_ID;
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+ 		-- on regarde les autres alarmes
+ 		-- on regarde les alarmes en cours sur cet équip.
+    GraveS := NVL (GraveS, 0); */
+
+    GraveI := 0;
+    select PARAM_VALEUR into Buf  from PARAM
+	   where PARAM_VALEUR like 'ALARM_ENGLOB%';
+
+    if (INSTR (Buf, 'true') > 0) then  -- il faut tenir compte des englobants / englobés
+  /*      CURSOR CurInclus is			-- les équipements inclus dans cet équipement
+	select EQUIP_ID from EQUIP
+	    where EQUIP_BINDINGID = EquipId;*/
+    	for vInc in CurInclus loop
+    	    GraveI := Max2 (GraveI, MajOperInclus (Id, vInc.EQUIP_ID, AlarmGrave, AlarmLocal, ProgNb, TsPrOper, Debord));
+    	end loop;
+    end if;
+
+   -- Grave := Max3 (Grave, GraveS, GraveI);
+    Grave := Max2 (Grave, GraveI);
+    
+    OperElt := GetOperElt (Grave, AlarmLocal, ModCalc);
+
+    update EQUIP_REP	set EQUIP_OPER = OperElt
+	     where EQUIP_ID = EquipId;		-- le max des alarmes sur cet équipement
+
+    select SITE_ID into SiteId from EQUIP
+	     where EQUIP_ID = EquipId;
+
+    select SITE_OPER into OperSite	from SITE_REP
+	     where SITE_ID = SiteId;
+    
+    OperSite := NVL (OperSite, 0);
+
+    -- Mise à jour de l'état opérationnel de tous les programmes qui utilisent cet équipement
+
+    for vCabl in CurCablequ loop    -- boucle sur tous les CABLEQU qui contiennent l'équipement
+
+    	select max (EQUIP_OPER) into OperElt	-- max. Oper pour les équipements du CABLEQU
+    	    from EQUIP_REP, CABLEQU_EQUIP
+    	    where  CABLEQU_EQUIP.CABLEQU_ID = vCabl.CABLEQU_ID and
+    		   CABLEQU_EQUIP.EQUIP_ID = EQUIP_REP.EQUIP_ID;
+    
+    	OperElt := NVL (OperElt, 0);		--  OperElt : état opérationnel 
+    	                                -- max état operationnel du cablage
+    
+    	OperElt := Max2 (OperElt, OperSite);
+    
+      --pour des cablages des programmes ou des cablages des topologies ou des cablages de liaisons 
+     	update PROG_CABL_REP
+    	    set PROG_CABL_GRAVE = OperElt
+    	    where CABLEQU_ID = vCabl.CABLEQU_ID;
+    	    
+      
+   /*   CURSOR CurProgCabl (Idl NUMBER) is	-- tous les prog. concernés par ce câblage
+	select distinct prog_id from PROG_CABL
+	where CABLEQU_ID = Idl;*/
+	
+      for vCurProgCabl in CurProgCabl(vCabl.CABLEQU_ID) loop --tous les programmes concernées par ce câblage 
+    		UpdateProgOperProg(vCurProgCabl.PROG_ID, SiteId, Id, OperElt);
+    	end loop;
+    	
+  /*    -- Mise à jour de l'état opérationnel de tous les programmes qui utilisent
+      -- des  topologies qui utilisent cet équipement
+    	for vCurTopCabl in CurTopCabl (vCabl.CABLEQU_ID) loop --tous les topo concernées par ce câblage
+		    UpdateProgOperTop(vCurTopCabl.top_id, SiteId, Id, OperElt);
+      end loop;*/
+
+	-- Pour chacun des programmes qui utilisent cet équipement, OperElt représente son
+	-- état opérationnel, en tenant compte aussi des alarmes de site.
+	-- Les alarmes de liaisons inter-sites seront prises en compte dans le 
+	-- traitement suivant, qui considère aussi les redondances éventuelles.
+    end loop; --CurCablequ
+
+    -- 70 prog. au max. Structure : ProgId, OldOper, ProgOper, ProgMsk; ProgId, 
+    -- OldOper, ProgOper, ProgMsk; etc... 
+
+ /*  CURSOR CurProg is			-- les programmes utilisant cet équip. dans un câblage
+	select distinct PROG_ID from CABLEQU_EQUIP, PROG_CABL
+	    where CABLEQU_EQUIP.EQUIP_ID = EquipId and
+		  CABLEQU_EQUIP.CABLEQU_ID = PROG_CABL.CABLEQU_ID;*/
+
+    for vProg in CurProg loop -- les programmes de utilisant cet équip. dans un câblage
+      OperElt := 0;
+
+   -- 	insert into test values (SEQ_TEST.NEXTVAL, 'MAJOPERINCLUS : PROG_ID = '||vProg.PROG_ID);
+
+      TsPrOperProg(vProg.PROG_ID, ModCalc, /*OperElt,*/ TsPrOper, Debord);
+    end loop;		-- boucle sur les programmes affectés par cette erreur
+    
+ /*   for vTop in CurTop loop
+      OperElt:=0;
+  --    insert into test values (SEQ_TEST.NEXTVAL, 'MAJOPERINCLUS : top_ID = '||vTop.top_id);
+
+      TsPrOperTop(vTop.top_id, ModCalc, OperElt, TsPrOper, Debord);
+    end loop;*/
+
+    LProgNb := 0;
+    LPrOper := '';
+
+--    for vCabl in CurCablequ loop    -- boucle sur tous les CABLEQU qui contiennent l'équipement
+/*
+      for vLiai in CurLiai (EquipId) loop 	-- boucle sur les liaisons concernées par ce câblage
+						-- cas des équipements de multiplexage
+	     MajOperLiai (Id, vLiai.LIAI_ID, AlarmLocal, AlarmGrave, LProgNb, LTypeq, LPoseq, LPrOper, Debord);
+--	    ProgNb  := ProgNb + LProgNb;
+--	    LPrOper := SUBSTR (LPrOper, INSTR (LPrOper, ';') +1);
+
+ 	    if ((TsPrOper is NULL or length (TsPrOper) <= 800) and Debord = 0) then
+  		      TsPrOper := TsPrOper || LPrOper;
+  	    else
+  		      Debord := 1;
+  	    end if;
+      end loop;
+*/--les etats operationelles des liaisons ne sont pas changés, 
+--l'etat des cablages des liaisons est deja pris en compte
+--    end loop;
+
+    return Grave;
+     
+END MajOperInclus;
+/
+
+create or replace
+PROCEDURE OperEnglob (AlarmGrave NUMBER, EquipId NUMBER, AlarmLocal NUMBER,
+					ProgNb IN OUT NUMBER, TsPrOper IN OUT VARCHAR2, Debord IN OUT NUMBER)
+IS
+	/* Signale à l'englobant un changement de l'état opérationnel d'un équipement inclus.
+	Modifie en conséquence l'état opérationnel de l'englobant, afin que son affichage
+	soit correct.
+	Ne modifie pas l'état opérationnel des programmes utilisant l'englobant,
+	car ces programmes ne sont pas affectés.   A REVOIR
+
+	AlarmGrave : gravité max. de l'équipement inclus (et de ses sous-équipements)
+	EquipId	   : Id de l'englobant
+	AlarmLocal : précise si l'alarme est locale ou vient du distant (SIA par exemple) */
+
+    Grave	NUMBER;		/* Gravité des alarmes restantes */
+ --   GraveS	NUMBER;		/* Gravité restante pour des alarmes SEM */
+    OperElt	NUMBER;		/* Etat opérationnel de l'élt. géré en cause */
+    BindingId	NUMBER;		/* Id de l'englobant de EquipId. 0 si fini */
+
+
+    OperSite	NUMBER;		/* Etat opér. de ce site */
+ /*  ErrWarn	BOOLEAN;	--TRUE si une erreur existe
+    ErrMin	BOOLEAN;	-- TRUE si une erreur mineure existe
+    ErrMaj	BOOLEAN;	-- TRUE si une erreur majeure existe
+   ErrTs	BOOLEAN;	-- TRUE si tous les chemins sont coupés entre un des noeuds
+				--origine et un noeud destination */
+
+    ModCalc	NUMBER;		/* Mode de calcul standard ou NEC */
+
+--    OperProg	NUMBER;		--Etat opérationnel du programme :
+				--	0 : tout va bien
+				--	1 : erreurs mineures rencontrées
+				--	2 : perte de la redondance
+				--	3 : non fonctionnel
+--    OldOperProg NUMBER;		/* ancien état opérationnel du programme */
+--    ProgMsk	NUMBER;		 Etat de masquage du programme :
+				--	0 : non masqué
+				--	1 : masquage brigadier
+				--	2 : masquage administrateur
+
+  --  Routage	VARCHAR2 (40);	-- Permet de savoir si un routage est associé au programme
+
+    CURSOR CurProg is			-- les programmes utilisant cet équip. dans un câblage
+	select distinct PROG_ID from CABLEQU_EQUIP, PROG_CABL
+	    where CABLEQU_EQUIP.EQUIP_ID = EquipId and
+		  CABLEQU_EQUIP.CABLEQU_ID = PROG_CABL.CABLEQU_ID ;
+
+
+ /*   CURSOR CurTop is
+    select TOP_ID from CABLEQU_EQUIP, TOP_CABLEQU
+	    where CABLEQU_EQUIP.EQUIP_ID = EquipId and
+		  CABLEQU_EQUIP.CABLEQU_ID = top_CABLEQU.CABLEQU_ID;*/
+
+    CURSOR CurCablequ is		-- les câblages utilisant cet équipement
+	select CABLEQU_ID from CABLEQU_EQUIP
+	    where EQUIP_ID = EquipId;
+
+    CURSOR CurProg1 (Idl NUMBER) is	-- tous les prog. concernés par ce câblage
+					-- (prestations + liaisons support)
+	select distinct prog_id, site_id from PROG_CABL
+	where CABLEQU_ID = Idl;
+
+/*    CURSOR CurProg2 (Prog NUMBER) is	-- les sites d'entrée d'un programme
+	select * from PROG_OPER
+	where PROG_ID  = Prog and
+	      SITE_NUM = 1;*/
+
+BEGIN
+
+    ModCalc := GetModCalc;		-- Mode de calcul standard ou NEC
+
+    select MAX (ALARMGEREE_GRAVE) into Grave from ACCES_ACCESC_REP
+        where EQUIP_ID = EquipId and
+	      ALARM_ID is not NULL;
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+		-- on regarde les alarmes en cours sur cet équip.
+    Grave := NVL (Grave, 0);
+
+  /*  select MAX (ALARMGEREE_GRAVE) into GraveS from BITMESS, BITMESS_REP
+	     where BITMESS_REP.EQUIP_ID = EquipId and
+	      BITMESS_REP.ALARM_ID is not NULL and
+	      BITMESS.BITMESS_ID = BITMESS_REP.BITMESS_ID;
+		-- Valeur de la gravité à prendre en compte en début d'alarme
+		-- on regarde les alarmes en cours sur cet équip.
+    GraveS := NVL (GraveS, 0);
+
+    Grave := Max3 (Grave, GraveS, AlarmGrave);*/
+    Grave := Max2 (Grave, AlarmGrave);
+
+    OperElt := GetOperElt (Grave, AlarmLocal, ModCalc);
+
+    update EQUIP_REP
+	     set EQUIP_OPER = OperElt	where EQUIP_ID = EquipId;
+
+    -- Mise à jour de l'état opérationnel de tous les programmes qui utilisent cet équipement
+
+    for vCabl in CurCablequ loop    -- boucle sur tous les CABLEQU qui contiennent l'équipement
+
+    	select max (EQUIP_OPER) into OperElt	-- max. Oper pour les équipements du CABLEQU
+    	    from EQUIP_REP, CABLEQU_EQUIP
+    	    where  CABLEQU_EQUIP.CABLEQU_ID = vCabl.CABLEQU_ID and
+    		   CABLEQU_EQUIP.EQUIP_ID = EQUIP_REP.EQUIP_ID;
+    	OperElt := NVL (OperElt, 0);
+
+    	update PROG_CABL_REP
+    	    set PROG_CABL_GRAVE = OperElt
+    	    where CABLEQU_ID = vCabl.CABLEQU_ID;
+
+    	for vProg in CurProg1 (vCabl.CABLEQU_ID) loop	/* tous les PROG_CABL tq CABLEQU_ID = Id */
+    -- insert into test values ('EQUIP '||to_char(EquipId)||' PROG '||to_char(vProg.PROG_ID));
+    	    select max (PROG_CABL_GRAVE) into OperElt
+    	    	from PROG_CABL_REP	-- max. Oper pour les CABLEQU de ce prog. dans ce site
+    	    	where PROG_ID = vProg.PROG_ID and
+    		      SITE_ID = vProg.SITE_ID;
+    	    OperElt := NVL (OperElt, 0);
+
+    	    select SITE_OPER into OperSite
+    		from SITE_REP
+    		where SITE_ID = vProg.SITE_ID;
+    	    OperSite := NVL (OperSite, 0);
+
+    	    OperElt := Max2 (OperElt, OperSite);
+    -- insert into test values ('OperElt '||to_char(OperElt));
+    	    update PROG_OPER_REP
+    	    	set PROG_OPER_GRAVE = OperElt
+    	    	where PROG_ID = vProg.PROG_ID and
+    		      SITE_ID = vProg.SITE_ID;
+
+    		-- OperElt est le max. de l'état opér. des CABLEQU, pour ts. les PROG qui
+    		-- utilisent cet équip.
+    		-- Ceci tient compte aussi des alarmes de site.
+    		-- Les alarmes de liaisons inter-sites seront prises en compte dans le
+    		-- traitement suivant, qui considère aussi les redondances éventuelles.
+    	end loop;
+    end loop;
+
+    -- 70 prog. au max. Structure : ProgId, OldOper, ProgOper, ProgMsk; ProgId,
+    -- OldOper, ProgOper, ProgMsk; etc...
+
+    for vProg in CurProg loop --PROG_ID from CABLEQU_EQUIP, PROG_CABLEQU
+  /*  	ErrWarn := FALSE;
+    	ErrMin := FALSE;
+    	ErrMaj := FALSE;
+    	ErrTs  := FALSE;
+
+    	select PROG_ROUTAGE into Routage
+    	    from PROG
+    	    where PROG_ID = vProg.PROG_ID;
+
+    	if (Routage is NULL) then		-- Pas de routage
+    	    for vProg2 in CurProg2 (vProg.PROG_ID) loop
+    		-- boucle sur tous les sites d'entrée du programme
+    	    	ErrWarn := ErrWarn or EWarn   (vProg2.NODE_ID);
+    	    	ErrMin  := ErrMin  or EMin    (vProg2.NODE_ID, ModCalc);
+    	    	ErrMaj  := ErrMaj  or ECoupe  (vProg2.NODE_ID);
+    	    	ErrTs   := ErrTs   or TsCoupe (vProg2.NODE_ID);
+    	    end loop;	-- boucle sur les sites d'entrée du programme
+
+    	else
+    	-- en cas de routage, on ne calcule pas la connexité (celle-ci dépend du routage)
+    	    select max (PROG_OPER_GRAVE) into OperElt
+    		from PROG_OPER_REP
+    	    	where PROG_ID = vProg.PROG_ID;
+    	end if;		-- si pas de routage
+
+    	if (ModCalc = 0) then	-- Cas standard SPV
+    	    if (ErrTs     or OperElt >= 3) then
+    	    	OperProg := 3;
+    	    elsif (ErrMaj or OperElt = 2) then
+    	    	OperProg := 2;
+    	    elsif (ErrMin or OperElt = 1) then
+    	    	OperProg := 1;
+    	    else
+    	    	OperProg := 0;
+    	    end if;
+
+    	else			-- Cas NEC
+    	    if (ErrMaj     or OperElt >= 3) then
+    	    	OperProg := 3;
+    	    elsif (ErrMin  or OperElt = 2) then
+    	    	OperProg := 2;
+    	    elsif (ErrWarn or OperElt = 1) then
+    	    	OperProg := 1;
+    	    else
+    	    	OperProg := 0;
+    	    end if;
+    	end if;
+
+    	select B.PROG_OPER, PROG_MASQUE
+    	    into OldOperprog, ProgMsk
+    	    from PROG A, PROG_REP B
+    	    where A.PROG_ID = vProg.PROG_ID and
+    		  A.PROG_ID = B.PROG_ID;
+
+            update PROG_REP
+    	    set PROG_OPER = OperProg
+    	    where PROG_ID = vProg.PROG_ID;
+
+    	if ((TsPrOper is NULL or length (TsPrOper) <= 800) and Debord = 0) then
+    --	    ProgNb := ProgNb +1;
+    	    TsPrOper := TsPrOper || to_char (vProg.PROG_ID) || ',' || to_char (OldOperProg) ||
+    		    	',' || to_char (OperProg) || ',' || to_char (ProgMsk) || ';';
+    	elsif (length (TsPrOper) > 800) then
+    	    Debord := 1;
+    	end if;*/
+
+    	--  insert into test values (SEQ_TEST.NEXTVAL, 'OperEnglob : prog_ID = '||vProg.PROG_ID);
+
+      TsPrOperProg(vProg.PROG_ID, ModCalc, /* OperElt,*/ TsPrOper, Debord);
+    end loop;		-- boucle sur les programmes affectés par cette erreur
+
+  /*  for vTop in CurTop loop
+      -- 	  insert into test values (SEQ_TEST.NEXTVAL, 'OperEnglob : top_ID = '||vTop.top_id);
+
+      TsPrOperTop(vTop.top_id, ModCalc, OperElt, TsPrOper, Debord);
+    end loop;*/
+
+    BindingId := 0;
+    select EQUIP_BINDINGID into BindingId
+	     from EQUIP	where EQUIP_ID = EquipId;
+
+    BindingId := NVL (BindingId, 0);
+
+    if (BindingId > 0) then
+	     OperEnglob (Grave, BindingId, AlarmLocal, ProgNb, TsPrOper, Debord);
+    end if;
+END   OperEnglob;
+/
+
+create or replace
+PROCEDURE MaskModified
+IS
+    ToDayStr	VARCHAR2 (20);	/* date et heure actuelle au format YYYY MM DD HH24:MI:SS */
+    ToDaySec	NUMBER;		/* idem en nombre de secondes depuis le 01/01/1998 00:00:00 */
+    OldMask	NUMBER;		/* 1 si l'alarme était masquée avant le changement, 0 sinon  */
+    NewMask	NUMBER;		/* 1 si l'alarme devient masquée après le changement, 0 sinon */
+    Modified	BOOLEAN;	/* TRUE si la base a été modifiée */
+
+    CURSOR CBri is			/* masquages demandés */
+	select ACCES_ACCESC2_ID, MSKBRI_MIN, MSKBRI_MAX, BRI_MASQUE
+	    from ACCES_ACCESC2
+	    where MSKBRI_MIN > 0;
+
+    CURSOR CAdm is			/* masquages demandés */
+	select ACCES_ACCESC2_ID, MSKADM_MIN, MSKADM_MAX, ADM_MASQUE
+	    from ACCES_ACCESC2
+	    where MSKADM_MIN > 0;
+
+  /*  CURSOR CSBri is			
+	select BITMESS2_ID, MSKBRI_MIN, MSKBRI_MAX, BRI_MASQUE
+	    from BITMESS2
+	    where MSKBRI_MIN > 0;
+
+    CURSOR CSAdm is			
+	select BITMESS2_ID, MSKADM_MIN, MSKADM_MAX, ADM_MASQUE
+	    from BITMESS2
+	    where MSKADM_MIN > 0;*/
+
+BEGIN
+
+    ToDayStr := to_char (sysdate, 'YYYY MM DD HH24:MI:SS');
+    ToDaySec := CO_SEC1998 (ToDayStr);
+    Modified := FALSE;
+
+    for vBri in CBri loop
+	OldMask := vBri.BRI_MASQUE;
+	if (ToDaySec >= vBri.MSKBRI_MIN) and (ToDaySec <= vBri.MSKBRI_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	  /*  update ACCES_ACCESC2
+		set TRIG = 1
+		where ACCES_ACCESC2_ID = vBri.ACCES_ACCESC2_ID;*/
+                update ACCES_ACCESC2
+		set BRI_MASQUE = NewMask
+		where ACCES_ACCESC2_ID = vBri.ACCES_ACCESC2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;
+
+    for vAdm in CAdm loop
+	OldMask := vAdm.ADM_MASQUE;
+	if (ToDaySec >= vAdm.MSKADM_MIN) and (ToDaySec <= vAdm.MSKADM_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	   /* update ACCES_ACCESC2
+		set TRIG = 1
+		where ACCES_ACCESC2_ID = vAdm.ACCES_ACCESC2_ID;*/
+                update ACCES_ACCESC2
+		set ADM_MASQUE = NewMask
+		where ACCES_ACCESC2_ID = vAdm.ACCES_ACCESC2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;
+
+ /*   for vSBri in CSBri loop
+	OldMask := vSBri.BRI_MASQUE;
+	if (ToDaySec >= vSBri.MSKBRI_MIN) and (ToDaySec <= vSBri.MSKBRI_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	    update BITMESS2
+		set TRIG = 1
+		where BITMESS2_ID = vSBri.BITMESS2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;
+
+    for vSAdm in CSAdm loop
+	OldMask := vSAdm.ADM_MASQUE;
+	if (ToDaySec >= vSAdm.MSKADM_MIN) and (ToDaySec <= vSAdm.MSKADM_MAX) then
+	    NewMask := 1;
+	else
+	    NewMask := 0;
+	end if;
+
+	if (OldMask != Newmask) then
+	    update BITMESS2
+		set TRIG = 1
+		where BITMESS2_ID = vSAdm.BITMESS2_ID;
+	    Modified := TRUE;
+	end if;
+    end loop;*/
+
+    if (Modified) then
+	commit;
+    end if;
+
+END MaskModified;
+/
+
+create or replace
+PROCEDURE mess_alrm (Mess IN OUT VARCHAR2,
+    Id NUMBER, AlarmIddeb NUMBER, AlGereeId NUMBER, SiteId NUMBER, EquipId NUMBER,
+    LiaiId NUMBER, AlarmNum NUMBER, AlarmCl VARCHAR2, AlarmNumObj NUMBER,
+    AlarmType NUMBER, AlarmDate VARCHAR2, AlarmGrave NUMBER, AlarmNseuil VARCHAR2,
+    AlarmVseuil	NUMBER, AlarmNumal VARCHAR2, AlarmTexte NUMBER, AlarmInfo VARCHAR2,
+    AlarmNomL VARCHAR2, AlarmComment VARCHAR2, AlarmCommut NUMBER,
+    ProgNom VARCHAR2, ClientNom VARCHAR2, ProgOper VARCHAR2,
+    SiteNom VARCHAR2, Typeq VARCHAR2, Poseq VARCHAR2, TsPrOper VARCHAR2,
+    FEltG VARCHAR2, FAlG VARCHAR2, Sonne NUMBER, Acquit NUMBER, Acquittee NUMBER, stBindingVarInfo VARCHAR2)
+
+IS
+    BindingId 		NUMBER;
+    BindingType 	NUMBER;
+    MessId		NUMBER;
+    MaxMess		NUMBER;			/* Taille max. de la variable Mess (à ne pas dépasser) */
+    MaxChamps   	NUMBER;			/* Taille max. accordée à certains champs */
+    AlarmInfoLoc	VARCHAR2 (1024);
+    ProgNomLoc		VARCHAR2 (1000);
+    ClientNomLoc	VARCHAR2 (1000);
+    FEltGLoc		VARCHAR2 (500);
+    FAlGLoc		VARCHAR2 (500);
+    BindingInfoLoc 	VARCHAR2 (500);
+
+BEGIN
+    /* Vérifications de taille */
+
+ --   insert into test values(seq_test.nextval, 'mess_alrm TsPrOper' || TsPrOper);
+
+    MaxMess  		:= 1800;
+    MaxChamps 		:= 1496;
+    AlarmInfoLoc 	:= AlarmInfo;
+    ProgNomLoc 		:= ProgNom;
+    ClientNomLoc 	:= ClientNom;
+    FEltGLoc 		:= substr (FEltG, 1, 500);
+    FAlGLoc  		:= substr (FAlG, 1, 500);
+    BindingInfoLoc 	:= substr (stBindingVarInfo, 1, 500);
+
+    IF (NVL(LENGTH(AlarmInfo), 0) + NVL(LENGTH(ProgNom),        0) +
+        NVL(LENGTH(ClientNom), 0) + NVL(LENGTH(ProgOper),       0) +
+	NVL(LENGTH(TsPrOper),  0) + NVL(LENGTH(FEltGLoc),       0) +
+	NVL(LENGTH(FAlGLoc),   0) + NVL(LENGTH(BindingInfoLoc), 0) > MaxChamps) THEN
+	-- On sacrifie les champs longs correspondants et on met 'Debordement' dedans
+	AlarmInfoLoc	:= 'Debordement';
+	ProgNomLoc 	:= 'Debordement';
+	ClientNomLoc 	:= 'Debordement';
+	FEltGLoc 	:= NULL;
+	FAlGLoc  	:= NULL;
+	BindingInfoLoc 	:= 'Debordement';
+    END IF;
+
+    select SEQ_MESSALRM.NEXTVAL into MessId from dual;
+
+--    Mess := CONCAT (Mess, '0#');
+    Mess := '0#';			-- Code du message
+    Mess := CONCAT (Mess, '34#');	-- Nb. de # dans ce message
+    Mess := CONCAT (Mess, Id);	   	Mess := CONCAT (Mess, '#'); /* Id alarme */
+--  Mess := CONCAT (Mess, AlarmNum); 	Mess := CONCAT (Mess, '#'); /* Num envoyé par l'EM */
+    Mess := CONCAT (Mess, MessId); 	Mess := CONCAT (Mess, '#'); /* stockage dans MESSALRM */
+    Mess := CONCAT (Mess, AlGereeId);   Mess := CONCAT (Mess, '#');
+
+    if (NOT (SiteId IS NULL)) then
+	BindingId:=SiteId;
+	BindingType:=1;
+    elsif (NOT (EquipId IS NULL)) then
+	BindingId:=EquipId;
+	BindingType:=4;
+    elsif (NOT (LiaiId IS NULL)) then
+	BindingId:=LiaiId;
+	BindingType:=5;
+    else
+	BindingId:=999;
+	BindingType:=9;
+    end if;
+
+    Mess := CONCAT (Mess, BindingId);   Mess := CONCAT (Mess,  '#');  /* BindingId */
+    Mess := CONCAT (Mess, BindingType); Mess := CONCAT (Mess,  '#');  /* BindingType */
+    Mess := CONCAT (Mess, AlarmIddeb);  Mess := CONCAT (Mess,  '#');  /* Id début al. */
+    Mess := CONCAT (Mess, AlarmNomL);  	Mess := CONCAT (Mess,  '#');  /* Nom de l'al. gérée */
+    Mess := CONCAT (Mess, AlarmCl);    	Mess := CONCAT (Mess,  '#');  /* Classe : IS etc.. */
+    Mess := CONCAT (Mess, AlarmNumObj);	Mess := CONCAT (Mess,  '#');  /* n°objet : IS */
+    Mess := CONCAT (Mess, AlarmType);  	Mess := CONCAT (Mess,  '#');  /* Type al. gérée */
+    Mess := CONCAT (Mess, AlarmDate);  	Mess := CONCAT (Mess,  '#');  /* date */
+    Mess := CONCAT (Mess, AlarmGrave); 	Mess := CONCAT (Mess,  '#');  /* gravité alarme */
+    Mess := CONCAT (Mess, AlarmNseuil);	Mess := CONCAT (Mess,  '#');  /* Nom seuil */
+    Mess := CONCAT (Mess, AlarmVseuil);	Mess := CONCAT (Mess,  '#');  /* Valeur seuil */
+    Mess := CONCAT (Mess, AlarmNumal); 	Mess := CONCAT (Mess,  '#');
+    Mess := CONCAT (Mess, AlarmTexte); 	Mess := CONCAT (Mess,  '#');  /* Texte : 0 = al. phy. etc..*/
+    Mess := CONCAT (Mess, AlarmComment);Mess := CONCAT (Mess,  '#');  /* Commentaire de al. gérée */
+    Mess := CONCAT (Mess, AlarmInfoLoc); 	Mess := CONCAT (Mess,  '#');  /* Info additionnelle fournie par l'EM */
+    Mess := CONCAT (Mess, to_char (Acquit));  	Mess := CONCAT (Mess,  '#');  /* A Acquitter */
+--    Mess := CONCAT (Mess, to_char (Acquittee)); Mess := CONCAT (Mess,  '#');  /* Acquittée */
+    Mess := CONCAT (Mess, to_char (Sonne));   	Mess := CONCAT (Mess,  '#');  /* Sonner */
+    Mess := CONCAT (Mess, '0');   	Mess := CONCAT (Mess,  '#');  /* Type sonnerie */
+    Mess := CONCAT (Mess, AlarmCommut);	Mess := CONCAT (Mess,  '#');  /* 1 : chgt. état commutateur, 0 : alarme */
+    Mess := CONCAT (Mess, SiteNom);	Mess := CONCAT (Mess,  '#');  /* Site de l'élt. en défaut */
+    Mess := CONCAT (Mess, Typeq);	Mess := CONCAT (Mess,  '#');  /* Type (d'équip, de liai) de l'élt. en défaut */
+    Mess := CONCAT (Mess, Poseq);	Mess := CONCAT (Mess,  '#');  /* Position de l'élt. en défaut */
+    Mess := CONCAT (Mess, ProgNomLoc);	Mess := CONCAT (Mess,  '#');  /* Nom du prog. concerné par l'alarme ou ' ' ou '+' */
+    Mess := CONCAT (Mess, ClientNomLoc); Mess := CONCAT (Mess,  '#');  /* Nom du client concerné par l'alarme ou ' ' ou '+' */
+    Mess := CONCAT (Mess, ProgOper);	Mess := CONCAT (Mess,  '#');  /* Etat opér. du prog. concerné par l'alarme ou ' ' */
+    Mess := CONCAT (Mess, TsPrOper);	Mess := CONCAT (Mess,  '#');  /* Etat opér. des prog. concernés par l'alarme (<= 70) */
+    Mess := CONCAT (Mess, FEltGLoc); Mess := CONCAT (Mess,  '#');  /* Consigne de l'élément géré en défaut */
+    Mess := CONCAT (Mess, FAlGLoc);  Mess := CONCAT (Mess,  '#');  /* Consigne de l'alarme gérée */
+    Mess := CONCAT (Mess, BindingInfoLoc);	Mess := CONCAT (Mess,  '#');  /*<nom de var.visible1> = <valeur de var.visible1>;<nom de var.visible2> = <valeur de var.visible2>;... */
+
+-- dbms_lock.sleep (0.02); -- attendre que le précédent message soit émis (20 ms.)
+
+--     dbms_alert.signal ('Alarme', Mess);
+
+--insert into test values(seq_test.nextval, 'mess_alrm' || Mess);
+
+    insert into MESSALRM (MESSALRM_ID, MESSALRM_MESS, MESSALRM_SENT, MESSALRM_NATURE)
+	values (MessId, Mess, 0, 0);
+
+  /*  insert into MAILALRM (MAILALRM_ID, MAILALRM_MESS, MAILALRM_SENT, MAILALRM_NATURE)
+	values (MessId, Mess, 0, 0);*/
+
+END mess_alrm;
+/
+
+create or replace
+FUNCTION IsMaskedAdm (AlarmCl VARCHAR2, CablS NUMBER, CablP NUMBER)
+RETURN BOOLEAN
+	/* Cette fonction retourne TRUE si l'alarme est masquée par un Administrateur autorisé
+	   (l'alarme n'apparait pas sur les écrans, mais l'état opérationnel de l'élément
+	   géré et des programmes qui l'utilisent, est modifié).
+	   La fonction retourne FALSE dans le cas contraire. */
+
+IS
+
+    ToDayStr	VARCHAR2 (20);	/* date et heure actuelle au format YYYY MM DD HH24:MI:SS */
+    ToDaySec	NUMBER;		/* idem en nombre de secondes depuis le 01/01/1998 00:00:00 */
+    MskMin	NUMBER;		/* valeur min. du masquage, en nb. secondes */
+    MskMax	NUMBER;		/* valeur max. du masquage, en nb. secondes */
+
+BEGIN
+
+    ToDayStr := to_char (sysdate, 'YYYY MM DD HH24:MI:SS');
+    ToDaySec := CO_SEC1998 (ToDayStr);
+
+  --  if (AlarmCl != 'IS_S') then
+	select MSKADM_MIN, MSKADM_MAX into MskMin, MskMax
+	    from ACCES_ACCESC
+	    where ACCES_ACCESC_ID = CablP;
+	if (ToDaySec >= MskMin and ToDaySec < MskMax) then
+	    return TRUE;
+	else
+     	    return FALSE;
+	end if;
+
+ /*   else
+	select MSKADM_MIN, MSKADM_MAX into MskMin, MskMax
+	    from BITMESS
+	    where BITMESS_ID = CablS;
+	if (ToDaySec >= MskMin and ToDaySec < MskMax) then
+	    return TRUE;
+	else
+     	    return FALSE;
+	end if;
+    end if;*/
+
+    return FALSE;
+END IsMaskedAdm;
+/	
+
+create or replace
+FUNCTION IsMaskedBri (AlarmCl VARCHAR2, CablS NUMBER, CablP NUMBER)
+RETURN BOOLEAN
+	/* Cette fonction retourne TRUE si l'alarme est masquée par un Brigadier autorisé
+	   (l'alarme n'apparait pas sur les écrans, mais l'état opérationnel de l'élément
+	   géré et des programmes qui l'utilisent, est modifié).
+	   La fonction retourne FALSE dans le cas contraire. */
+
+IS
+
+    ToDayStr	VARCHAR2 (20);	/* date et heure actuelle au format YYYY MM DD HH24:MI:SS */
+    ToDaySec	NUMBER;		/* idem en nombre de secondes depuis le 01/01/1998 00:00:00 */
+    MskMin	NUMBER;		/* valeur min. du masquage, en nb. secondes */
+    MskMax	NUMBER;		/* valeur max. du masquage, en nb. secondes */
+
+BEGIN
+
+    ToDayStr := to_char (sysdate, 'YYYY MM DD HH24:MI:SS');
+    ToDaySec := CO_SEC1998 (ToDayStr);
+
+ --   if (AlarmCl != 'IS_S') then
+	select MSKBRI_MIN, MSKBRI_MAX into MskMin, MskMax
+	    from ACCES_ACCESC
+	    where ACCES_ACCESC_ID = CablP;
+	if (ToDaySec >= MskMin and ToDaySec < MskMax) then
+	    return TRUE;
+	else
+     	    return FALSE;
+	end if;
+
+  /*  else
+	select MSKBRI_MIN, MSKBRI_MAX into MskMin, MskMax
+	    from BITMESS
+	    where BITMESS_ID = CablS;
+	if (ToDaySec >= MskMin and ToDaySec < MskMax) then
+	    return TRUE;
+	else
+     	    return FALSE;
+	end if;
+    end if;*/
+
+    return FALSE;
+END IsMaskedBri;
+/
+
+create or replace
+FUNCTION correl_alrm (Mess IN OUT VARCHAR2,
+    Id NUMBER, SiteId NUMBER, EquipId NUMBER, LiaiId NUMBER, DateAlSec NUMBER, AlarmGrave NUMBER,
+    AlarmIddeb NUMBER, TsPrOper IN OUT VARCHAR2, Debord IN OUT NUMBER)
+RETURN BOOLEAN
+	/* Cette fonction effectue les différents traitements liés à la corrélation des alarmes.
+	   Elle appelle les procédures ou fonctions :
+		- IsMaskedBy (Id1, Id2)
+		- AlarmNature (Id)
+		- MaskeBy (Id1, Id2)
+	   Elle retourne :
+	   	- FALSE : arrêter le traitement d'alarme (alarme masquée)
+	   	- TRUE  : continuer le traitement d'alarme (alarme indépendante ou mère) */
+
+IS
+    PrecTime	integer;	/* Précision de datation des EDC, en sec. */
+    Nature	integer;	/* Nature d'une alarme */
+
+    CURSOR cAccesc is
+	select B.ALARM_ID, B.SITE_ID, B.EQUIP_ID, B.LIAI_ID, A.ALARMGEREE_ID, B.ALARM_CL,
+	       B.ALARM_NUMOBJ, B.ALARM_NUMAL
+	    from ACCES_ACCESC A, ACCES_ACCESC_REP B
+	    where A.ACCES_ACCESC_ID = B.ACCES_ACCESC_ID and
+		  A.COMMUT = 0 and
+		  ABS (DateAlSec - B.ALARM_SEC) <= PrecTime and
+		  B.ALARM_ID != Id;
+	/*union
+	select B.ALARM_ID, B.SITE_ID, B.EQUIP_ID, B.LIAI_ID, A.ALARMGEREE_ID, B.ALARM_CL,
+	       B.ALARM_NUMOBJ, B.ALARM_NUMAL
+	    from BITMESS A, BITMESS_REP B
+	    where A.BITMESS_ID = B.BITMESS_ID and
+		  ABS (DateAlSec - B.ALARM_SEC) <= PrecTime and
+		  B.ALARM_ID != Id;*/
+			-- Toutes les autres alarmes en cours, démarrées en même temps que Id
+
+    CURSOR cAlarm is
+	select ALARM_ID from ALARM_ALARMC
+	    where ALARM_ID = AlarmIddeb;
+
+    AlarmType 	NUMBER;
+    AlarmNseuil VARCHAR2 (50);
+    AlarmNomL 	VARCHAR2 (50);
+    AlarmComment VARCHAR2(260);
+
+    ProgNb	NUMBER;		/* inutilisé ici */
+
+    SiteNom     VARCHAR2 (40);  /* nom du site contenant l'élt. en défaut. ' ' pour une liaison
+				inter-site. Inutilisé ici */
+    Typeq    VARCHAR2 (40);  	/* nom du type de l'équipement ou de la liaison.
+				'SITE' pour une alarme	de site . Inutilisé ici*/
+    Poseq    VARCHAR2 (80);  	/* Position de l'équipement ou nom de la liaison ou du site en
+				défaut. Inutilisé ici */
+
+BEGIN
+
+    PrecTime := 4;	/* Précision de datation IS en s. : 2 s. * 2 IS */
+
+    if (AlarmGrave > 0) then	/* Début d'alarme */
+    	for cAl in cAccesc loop /* Boucle sur les alarmes arrivées à peu près en même temps */
+  	    if (IsMaskedBy (Id, EquipId, LiaiId, cAl.ALARM_ID, cAl.EQUIP_ID, cAl.LIAI_ID)) then
+  				/* Id est masquée par cAl.ALARM_ID */
+  				/* On ne peut être masqué que par une alarme mère ou autonome */
+  		      insert into ALARM_ALARMC (ALARM_ID, ALARM_BINDINGID) values (Id, cAl.ALARM_ID);
+    --        insert into test values(seq_test.nextval, 'correl1 Eq1= ' || EquipId || 'correl1 Eq2= ' ||cAl.EQUIP_ID);
+  		      return FALSE;	/* Alarme fille */
+  	    end if;
+	    end loop;
+
+    	for cAl in cAccesc loop	/* Ces alarmes sont elles masquées par la nouvelle alarme ? */
+  	    if (IsMaskedBy (cAl.ALARM_ID, cAl.EQUIP_ID, cAl.LIAI_ID, Id, EquipId, LiaiId)) then
+ -- 				  insert into test values(seq_test.nextval, 'correl2 Eq1= ' || cAl.EQUIP_ID || 'correl2 Eq2= ' ||EquipId);
+
+          /* Id masque cAl.ALARM_ID */
+  		      Nature := AlarmNature (cAl.ALARM_ID);
+  				/* Alarme autonome (0), mère (1), fille (2) */
+
+  --				insert into test values(seq_test.nextval, 'Debut dalarm Nature=' || Nature);
+
+        		if (Nature = 1) then
+        		    update ALARM_ALARMC			/* cAl.ALARM_ID était une alarme mère */
+        			set ALARM_BINDINGID = Id	/* Elle est déclassée par Id */
+        			where ALARM_BINDINGID = cAl.ALARM_ID;
+        		end if;
+
+        		if (Nature != 2) then		/* cAl.ALARM_ID n'est pas une alarme fille :
+        						   on la masque */
+        		    insert into ALARM_ALARMC (ALARM_ID, ALARM_BINDINGID)
+        			     values (cAl.ALARM_ID, Id);
+
+        --			    	insert into test values (SEQ_TEST.NEXTVAL, 'correl_alrm : SiteId = '||cAl.SITE_ID ||
+         --     ' EquipId = '|| cAl.EQUIP_ID || ' LiaiId = ' || cAl.LIAI_ID);
+
+        		    maj_oper (cAl.ALARM_ID, cAl.SITE_ID, cAl.EQUIP_ID, cAl.LIAI_ID, 0, 0, 0,
+        			      ProgNb, SiteNom, Typeq, Poseq, TsPrOper, Debord);
+        						/* "retombée" de cAl.ALARM_ID */
+
+        /* insert into testcorr (Id,T,V1,V2) values (SEQ_TEST.NEXTVAL,'OFF2', cAl.ALARM_NUMAL, cAl.ALARM_ID); */
+
+        		    delete ALARM2 where ALARM2_ID = cAl.ALARM_ID;
+
+        		    Stop_Alrm (Mess, cAl.ALARM_ID, cAl.ALARMGEREE_ID, cAl.SITE_ID, cAl.EQUIP_ID,
+        			       cAl.LIAI_ID, cAl.ALARM_CL, cAl.ALARM_NUMOBJ, cAl.ALARM_NUMAL, TsPrOper);
+        			/* envoi du message de retombée de l'alarme pour chacune de ces alarmes
+        			   qui sont masquées par la nouvelle alarme arrivée */
+        		end if;	/* retombée de cAl.ALARM_ID */
+
+      	  end if;--IsMaskedBy
+	    end loop;
+
+    else			/* Fin d'alarme */
+    	Nature := AlarmNature (AlarmIddeb);
+---    	insert into test values(seq_test.nextval, 'Fin dalarm Nature=' || Nature);
+
+
+	   if (Nature = 1) then 	/* Alarme mère */
+	    insert into FINALARM (FINALARM_ID, ALARM_ID) values (SEQ_FINALARM.NEXTVAL, Id);
+	   elsif (Nature = 2) then	/* Alarme fille */
+	    delete ALARM_ALARMC
+  	        where ALARM_ID = AlarmIddeb;
+	    return FALSE;
+     end if;
+
+    end if;--Fin d'alarme
+
+    return TRUE;
+
+END correl_alrm;
+/
+
+create or replace
+FUNCTION IsToAff (AlarmCl VARCHAR2, CablS NUMBER, CablP NUMBER)
+RETURN BOOLEAN
+	/* Cette fonction retourne TRUE si l'alarme est masquée par un Brigadier autorisé
+	   (l'alarme n'apparait pas sur les écrans, mais l'état opérationnel de l'élément
+	   géré et des programmes qui l'utilisent, est modifié).
+	   La fonction retourne FALSE dans le cas contraire. */
+
+IS
+
+    ToAff		acces_accesc.alarmgeree_toaff%TYPE;
+    ToAff2		alarmgeree.alarmgeree_toaff%TYPE;
+    AccesId		acces.acces_id%TYPE;
+
+BEGIN
+
+    ToAff := 1;
+    ToAff2 := 1;
+
+--    if (AlarmCl != 'IS_S') then
+	select ACC.alarmgeree_toaff, acces1_id, ALG.alarmgeree_toaff into ToAff, AccesId, ToAff2
+	    from ALARMGEREE ALG, ACCES_ACCESC ACC
+	    where ACCES_ACCESC_ID = CablP
+	    and ALG.ALARMGEREE_ID = ACC.ALARMGEREE_ID;
+
+	if (ToAff = 0 or ToAff2 = 0) then
+	    return FALSE;
+	end if;
+
+   /* else
+	select bitmess.alarmgeree_toaff, alarmgeree.alarmgeree_toaff into ToAff, ToAff2
+	    from ALARMGEREE, BITMESS
+	    where BITMESS_ID = CablS
+	    and ALARMGEREE.ALARMGEREE_ID = BITMESS.ALARMGEREE_ID;
+
+	if (ToAff = 0 or ToAff2 = 0) then
+	    return false;
+	end if;
+    end if;*/
+
+    return TRUE;
+END IsToAff;
+/
+
+create or replace
+PROCEDURE PurgeAlarmes (iMaxJoursAl NUMBER, iMaxErr NUMBER, iMaxMail NUMBER, iMaxLog NUMBER)
+IS
+    LastDayStr	VARCHAR2 (20);	-- date et heure actuelle - MaxJoursAl au format YYYY MM DD HH24:MI:SS
+    LastDaySec	NUMBER;		-- idem en nombre de secondes depuis le 01/01/1998 00:00:00
+
+    IdErrMax	NUMBER;		-- Id de la donnée la plus récente
+    IdErrMin	NUMBER;		-- Id de la donnée la plus ancienne conservée
+
+    SSecours	BOOLEAN;	-- False si c'est un serveur Normal, ou pas de réplication
+				-- True  pour le serveur Secours en réplication
+    MaxJoursAl	NUMBER;		-- Nb. max. de jours d'alarmes à garder
+    MaxErr	NUMBER;		-- Nb. max. d'erreurs à garder
+    MaxMail	NUMBER;		-- Nb. max. de mails à garder
+    MaxLog	NUMBER;		-- Nb. max. de logs à garder
+
+    MyDate	DATE;
+BEGIN
+
+    -- Sécurité sur les paramètres : valeurs autorisées
+
+    if (iMaxJoursAl < 10) then
+	MaxJoursAl := 10;
+    elsif (iMaxJoursAl > 1460) then
+	MaxJoursAl := 1460;
+    else
+	MaxJoursAl := iMaxJoursAl;
+    end if;
+
+    if (iMaxErr < 100) then
+	MaxErr := 100;
+    else
+	MaxErr := iMaxErr;
+    end if;
+    if (iMaxErr > 50000) then
+	MaxErr := 50000;
+    else
+	MaxErr := iMaxErr;
+    end if;
+
+    if (iMaxMail < 0) then
+	MaxMail := 0;
+    else
+	MaxMail := iMaxMail;
+    end if;
+    if (iMaxMail > 10000) then
+	MaxMail := 10000;
+    else
+	MaxMail := iMaxMail;
+    end if;
+
+    if (iMaxLog < 0) then
+	MaxLog := 0;
+    else
+	MaxLog := iMaxLog;
+    end if;
+    if (iMaxLog > 10000) then
+	MaxLog := 10000;
+    else
+	MaxLog := iMaxLog;
+    end if;
+
+    -- Suppression des alarmes les plus anciennes
+
+    --LastDayStr := to_char (ADD_MONTHS (sysdate, - MaxMoisAl), 'YYYY MM DD HH24:MI:SS');
+    LastDayStr := to_char (sysdate - MaxJoursAl, 'YYYY MM DD HH24:MI:SS');
+    LastDaySec := CO_SEC1998 (LastDayStr);
+
+    -- On supprime d'abord les fins d'alarme, correspondant à une alarme ayant démarré avant Idmax
+
+    delete ALARM2 where ALARM2_ID in
+	(select B.ALARM_ID from ALARM A, ALARM B
+	     where A.ALARM_SEC <= LastDaySec and A.ALARM_ID = B.ALARM_IDDEB);
+    delete ALARM3 where ALARM3_ID in
+	(select B.ALARM_ID from ALARM A, ALARM B
+	     where A.ALARM_SEC <= LastDaySec and A.ALARM_ID = B.ALARM_IDDEB);
+    delete ALARM where ALARM_ID in
+	(select B.ALARM_ID from ALARM A, ALARM B
+	     where A.ALARM_SEC <= LastDaySec and A.ALARM_ID = B.ALARM_IDDEB);
+
+    -- On supprime maintenant les alarmes ayant démarré avant LastDaySec
+
+    delete ALARM2 where ALARM2_ID in
+	(select ALARM_ID from ALARM
+	     where ALARM_SEC <= LastDaySec);
+    delete ALARM3 where ALARM3_ID in
+	(select ALARM_ID from ALARM
+	     where ALARM_SEC <= LastDaySec);
+
+    -- On fait "retomber" ces alarmes, si elles sont encore "en-cours"
+
+    update ACCES_ACCESC_REP
+	set ALARM_ID = NULL,
+	    SITE_ID  = NULL,
+	    EQUIP_ID = NULL,
+	    LIAI_ID  = NULL,
+	    ALARM_SEC= NULL
+	where ALARM_ID in
+	(select ALARM_ID from ALARM
+	     where ALARM_SEC <= LastDaySec);
+
+  /*  update BITMESS_REP
+	set ALARM_ID = NULL,
+	    SITE_ID  = NULL,
+	    EQUIP_ID = NULL,
+	    LIAI_ID  = NULL,
+	    ALARM_SEC= NULL
+	where ALARM_ID in
+	(select ALARM_ID from ALARM
+	     where ALARM_SEC <= LastDaySec);*/
+
+    -- Enfin, on met ALARM à jour
+
+    delete ALARM where ALARM_SEC <= LastDaySec;
+
+    -- Suppression des erreurs les plus anciennes
+
+    select max (ERROR_ID) into IdErrMax from ERROR;
+    IdErrMin := IdErrMax - MaxErr;	-- on suppose qu'il n'y a pas eu de trous dans les Id
+
+    if (IdErrMin > 0) then
+	delete ERROR
+	    where ERROR_ID < IdErrMin;
+    end if;
+
+    -- Suppression des mails les plus anciens
+
+  /*  select max (MAILALRM_ID) into IdErrMax from MAILALRM;
+    IdErrMin := IdErrMax - MaxMail;	-- on suppose qu'il n'y a pas eu de trous dans les Id
+
+    if (IdErrMin > 0) then
+	delete MAILALRM
+	    where MAILALRM_ID < IdErrMin;
+    end if;*/
+
+    -- Suppression des logs les plus anciens
+
+    select max (LOG_ID) into IdErrMax from LOGSPV;
+    IdErrMin := IdErrMax - MaxLog;	-- on suppose qu'il n'y a pas eu de trous dans les Id
+
+    if (IdErrMin > 0) then
+	delete LOGSPV
+	    where LOG_ID < IdErrMin;
+    end if;
+
+    -- On vérifie si on est en mode répliqué et dans ce cas, si on est "Secours"
+
+    -- SSecours := Sys.Spv_Sys.IsSecours;
+    SSecours := IsSecours;
+
+    if (SSecours) then
+	--	delete MAILALRM;
+		delete MESSALRM;
+		delete LOGSPV;
+	   	delete GDCSVC;
+   		delete GDCSVC_TEMP;
+   		delete GDCSVC_TEMP2;
+	--   	delete LIAIVPIVCI;
+   	--	delete LIAIVPI;
+	   	delete PROG_LIAITEMP;
+   	--	delete VERROU;
+    end if;
+
+    -- Purge des enregistrements de MESSEMREAD et MESSEM <= J - 2
+    select SYSDATE - 2 into MyDate from DUAL;
+
+    delete MESSEMREAD where MESSEM_ID in (select MESSEM_ID from MESSEM where MESSEM_DATE <= MyDate);
+    delete MESSEM where MESSEM_DATE <= MyDate;
+
+    insert into LOGSPV (LOG_ID, LOG_DATE, LOG_TEXT) values
+	(SEQ_LOGSPV.NEXTVAL, sysdate, 'Processus de purge effectué');
+
+    commit;
+
+--  gestion des erreurs
+EXCEPTION
+    when OTHERS then
+	rollback;
+	insert into LOGSPV (LOG_ID, LOG_DATE, LOG_TEXT) values
+	    (SEQ_LOGSPV.NEXTVAL, sysdate, 'Processus de purge : exception rencontrée');
+	commit;
+
+END	PurgeAlarmes;
+/
+
+create or replace
+FUNCTION TestAlarm
+(
+	Type	VARCHAR2,	-- 'BOUCLE', 'SERIE', 'TRAPG', 'TRAPS' ou 'SYST'
+	EquCapture VARCHAR2,	-- Nom du type de l'équipement de capture (aujourd'hui 'IS', 'IP2PORTS')
+	NumObj	NUMBER,		-- N° de l'équipement de capture auquel l'élément géré est raccordé
+				-- pour les alarmes 'BOUCLE' et 'SERIE'
+				-- N° de trap pour les alarmes 'TRAPG' ou 'TRAPS'
+	NumAl	VARCHAR2,	-- N° de l'accès sur l'équipement de capture, auquel l'élément géré est raccordé
+				-- (alarmes 'BOUCLE'. Pour les 'IS' : (n° carte -1) * 48 + n° accès sur la carte)
+				-- N° du bit d'alarme dans le message série, pour les alarmes 'SERIE'
+				-- (Pour les 'IS' : ((n° carte -1) * 8 + (n° accès sur la carte -1)) *10000 + n° bit)
+				-- Adresse IP de l'élément géré pour les 'TRAP'
+				-- Identifiant de l'alarme pour les alarmes 'SYST'
+	IANA	VARCHAR2	-- Pour les 'TRAP', n° IANA attribué au fabricant de l'agent
+)
+RETURN BOOLEAN
+IS
+	AlarmCl VARCHAR2 (5);	-- Classe de l'alarme
+	Id	NUMBER;		-- Id. de l'élément géré en défaut
+
+	CURSOR CTest IS
+	    select *
+	    	from ACCES_ACCESC_REP
+	    	where ALARM_CL 	   = AlarmCl and
+		      ALARM_NUMOBJ = NumObj  and
+		      ALARM_NUMAL  = NumAl;
+
+/*	CURSOR CTestS IS	-- Alarme série
+	    select *
+	    	from BITMESS_REP
+	    	where ALARM_CL 	   = AlarmCl and
+		      ALARM_NUMOBJ = NumObj  and
+		      ALARM_NUMAL  = NumAl;*/
+
+	CURSOR CTestSyst IS	-- Alarme système
+	    select *
+	    	from ACCES_ACCESC_REP
+	    	where ALARM_CL 	   = AlarmCl and
+		      ALARM_NUMAL  = NumAl;
+BEGIN
+
+	if (Type = 'BOUCLE') then
+	    if (EquCapture = 'IS') then
+		AlarmCl := 'IS';
+	    else
+		AlarmCl := 'IP2';
+	    end if;
+	elsif (Type = 'SERIE') then
+	    AlarmCl := 'IS_S';
+	elsif (Type = 'TRAP')  then -- Temporaire, ce type va disparaître
+		AlarmCl := 'TRAPS';
+	   else
+	   	AlarmCl := Type;
+	   end if;
+
+	Id := 0;
+	for vTest in CTest loop
+	    if (vTest.EQUIP_ID is not null) then
+		Id := vTest.EQUIP_ID;
+	    elsif (vTest.LIAI_ID is not null) then
+		Id := vTest.LIAI_ID;
+	    elsif (vTest.SITE_ID is not null) then
+		Id := vTest.SITE_ID;
+	    end if;
+	end loop;
+
+	/*if (Type = 'SERIE') then
+	    for vTest in CTestS loop
+	    	if (vTest.EQUIP_ID is not null) then
+		    Id := vTest.EQUIP_ID;
+	    	elsif (vTest.LIAI_ID is not null) then
+		    Id := vTest.LIAI_ID;
+	    	elsif (vTest.SITE_ID is not null) then
+		    Id := vTest.SITE_ID;
+	    	end if;
+	    end loop;
+	end if;*/
+
+	if (Type = 'SYST') then
+	    for vTest in CTestSyst loop
+	    	if (vTest.EQUIP_ID is not null) then
+		    Id := vTest.EQUIP_ID;
+	    	elsif (vTest.LIAI_ID is not null) then
+		    Id := vTest.LIAI_ID;
+	    	elsif (vTest.SITE_ID is not null) then
+		    Id := vTest.SITE_ID;
+	    	end if;
+	    end loop;
+	end if;
+
+	if (Id > 0) then
+	    return TRUE;
+	else
+	    return FALSE;
+	end if;
+
+END	TestAlarm;
+/
+
+create or replace
+PROCEDURE Start_Alrm (Id NUMBER, AlGereeId NUMBER, SiteId NUMBER,
+    EquipId NUMBER, LiaiId NUMBER, AlarmNum NUMBER, AlarmCl VARCHAR2, AlarmNumObj NUMBER,
+    AlarmType NUMBER, AlarmDate VARCHAR2, AlarmGrave NUMBER, AlarmNseuil VARCHAR2,
+    AlarmVseuil	NUMBER, AlarmNumal VARCHAR2, AlarmTexte NUMBER, AlarmInfo VARCHAR2,
+    AlarmNomL VARCHAR2, AlarmComment VARCHAR2, AlarmLocal NUMBER, AlarmCommut NUMBER,
+    AlarmIddeb NUMBER, CablSId NUMBER, CablPId NUMBER, Acquittee NUMBER, Iana NUMBER,
+    TsPrOper IN OUT VARCHAR2, Debord IN OUT NUMBER)
+
+IS
+    Mess   VARCHAR2 (1800);  /* taille max des messages Oracle */
+
+    ProgNb	NUMBER;	     /* Nb. de programmes concernés par l'alarme */
+    ProgNom  VARCHAR2 (40);  /* ' ' si pas de prog. concerné par cette alarme,
+				nom du prog. si un seul prog. concerné,
+				'+' si plusieurs prog. concernés */
+    ClientNom  VARCHAR2 (40);  /* ' ' si pas de client concerné par cette alarme,
+				nom du client si un seul  concerné,
+				'+' si plusieurs concernés */
+    ProgOper 	NUMBER;	     /* Etat opérationnel du programme concerné. 0 si plusieurs */
+
+    SiteNom     VARCHAR2 (40);  /* nom du site contenant l'élt. en défaut. ' ' pour une liaison
+				inter-site */
+    Typequ   VARCHAR2 (40);  /* nom du type de l'équipement ou de la liaison. 'SITE'
+				pour une alarme	de site */
+    TypeqId  NUMBER;	     /* Id de ce type d'équipement ou liaison */
+
+    Poseq    VARCHAR2 (80);  /* Position de l'équuipement ou nom de la liaison ou du site
+				en défaut */
+    FEltG    VARCHAR2 (4000);/* Consigne de l'élément géré en défaut */
+    FAlG     VARCHAR2 (4000);/* Consigne de l'alarme gérée */
+
+    Al2Fait	 BOOLEAN;    /* Si des alarmes masquées BRI surviennent, ALRM2 sera écrit.
+				Au moment du démasquage d'une alarme en cours, il ne faut pas
+				l'écrire à nouveau, sinon erreur PK_ALARM2 */
+    Al3Fait	 BOOLEAN;    /* Si des alarmes masquées BRI surviennent, ALRM3 sera écrit.
+				Au moment du démasquage d'une alarme en cours, il ne faut pas
+				l'écrire à nouveau, sinon erreur PK_ALARM3 */
+
+    CliConc  VARCHAR2 (1000);/* nom des clients concernés par l'alarme */
+    PrConc   VARCHAR2 (1000);/* nom des programmes concernés */
+    PrEtat   VARCHAR2 (100); /* état des programmes concernés */
+    SStr     VARCHAR2 (900); /* sous- string de TsPrOper */
+    SPrId    VARCHAR2 (10);  /* Id du programme */
+    SPos     NUMBER;	     /* position dans ce sous-string */
+
+    Sonne    NUMBER;	     /* 1 s'il faut sonner pour cette alarme, 0 sinon */
+    Acquit   NUMBER;	     /* 1 s'il faut acquitter cette alarme, 0 sinon */
+
+    stBindingVarInfo VARCHAR2 (2000);
+
+    CURSOR cAl2 IS
+		select * from ALARM2
+			where ALARM2_ID = Id;
+
+    CURSOR cAl3 IS
+		select * from ALARM3
+			where ALARM3_ID = Id;
+
+    CURSOR cProg IS
+        select PROG_NOM, B.PROG_OPER, CLIENT_NOM
+            from PROG A, PROG_REP B, CLIENT
+	    	where A.PROG_ID = SPrId and
+		      A.CLIENT_ID = CLIENT.CLIENT_ID and
+		      A.PROG_ID = B.PROG_ID;
+BEGIN
+
+    if (not IsMaskedAdm (AlarmCl, CablSId, CablPId)) then
+
+--        insert into test values (SEQ_TEST.NEXTVAL, 'Start_Alrm: SiteId = '||SiteId ||
+ --     ' EquipId = '|| EquipId || ' LiaiId = ' || LiaiId);
+
+    	maj_oper (Id, SiteId, EquipId, LiaiId, AlarmLocal, AlarmGrave, AlarmCommut, ProgNb, SiteNom, Typequ, Poseq, TsPrOper, Debord);
+
+--		insert into test values (SEQ_TEST.NEXTVAL, 'Start_Alrm: TsPrOper = '||TsPrOper);
+	Al2Fait := FALSE;
+	for vAl2 in cAl2 loop
+		Al2Fait := TRUE;
+	end loop;
+
+	if (NOT Al2Fait and Debord = 0) then
+	    insert into ALARM2 (ALARM2_ID, ALARM2_TSPROPER) values (Id, TsPrOper);
+	elsif (NOT Al2Fait and Debord = 1) then
+	    SStr := TsPrOper || 'Debordement';
+	    insert into ALARM2 (ALARM2_ID, ALARM2_TSPROPER) values (Id, SStr);
+	end if;
+
+    	CliConc := '';
+    	PrConc  := '';
+    	PrEtat  := '';
+    	SStr    := TsPrOper;
+	SPos    := INSTR (SStr, ';') +1;
+
+	while (SPos < LENGTH (SStr)) loop
+	    SStr    := SUBSTR (SStr, SPos);
+	    SPos    := INSTR (SStr, ';') +1;
+	end loop;
+
+    	while (LENGTH (SStr) > 0) loop
+	    SPos  := INSTR  (SStr, ',') -1;
+	    SPrId := SUBSTR (SStr, 1, SPos);
+/*
+	    select PROG_NOM, B.PROG_OPER, CLIENT_NOM into ProgNom, ProgOper, ClientNom
+	    	from PROG A, PROG_REP B, CLIENT
+	    	where A.PROG_ID = SPrId and
+		      A.CLIENT_ID = CLIENT.CLIENT_ID and
+		      A.PROG_ID = B.PROG_ID;
+*/
+            FOR rCProg IN CProg LOOP
+                ClientNom := rCProg.CLIENT_NOM;
+                ProgNom := rCProg.PROG_NOM;
+                ProgOper := rCProg.PROG_OPER;
+                CliConc  := CliConc || ClientNom || ';';
+                PrConc   := PrConc  || ProgNom   || ';';
+                PrEtat   := PrEtat  || ProgOper  || ';';
+                EXIT;
+            END LOOP;
+
+	    if (length (PrEtat) > 80) then		-- vs 85
+	    	PrEtat := PrEtat || 'Debordement;';
+	    	exit;
+	    end if;
+	    if (length (PrConc) > 990) then		-- vs 1000
+	    	PrConc := PrConc || 'Debordement;';
+	    	exit;
+	    end if;
+	    if (length (CliConc) > 990) then		-- vs 1000
+	    	CliConc := CliConc || 'Debordement;';
+	    	exit;
+	    end if;
+
+	    SPos  := INSTR  (SStr, ';') +1;
+	    SStr  := SUBSTR (SStr, SPos);
+    	end loop;
+
+	Al3Fait := FALSE;
+	for vAl3 in cAl3 loop
+		Al3Fait := TRUE;
+	end loop;
+
+    /*	if (SiteId is not null) then
+	    FEltG := GetDataFiche ('SITE', SiteId, 'SITE', SiteId);
+    	elsif (EquipId is not null) then
+	    select TYPEQ_ID into TypeqId
+	    	from TYPEQ
+	    	where TYPEQ_NOM = Typequ;
+	    FEltG := GetDataFiche ('TYPEQ', TypeqId, 'EQUIP', EquipId);
+    	elsif (LiaiId is not null) then
+	    select TYPLIAI_ID into TypeqId
+	    	from TYPLIAI
+	    	where TYPLIAI_NOM = Typequ;
+	    FEltG := GetDataFiche ('TYPLIAI', TypeqId, 'LIAI', LiaiId);
+    	end if;
+
+    	FAlG := GetDataFiche ('ALARMGEREE', AlGereeId, 'ALARMGEREE', AlGereeId);*/
+
+	if (NOT Al3Fait) then
+  		insert into ALARM3 (ALARM3_ID, ALARM3_CLICONC, ALARM3_PRCONC, ALARM3_PRETAT,
+				ALARM3_SITENOM, ALARM3_TYPEQ, ALARM3_EQTG,
+			        ALARM3_FELTG, ALARM3_FALG)
+		    values (Id, CliConc, PrConc, PrEtat, SiteNom, Typequ, Poseq, FEltG, FAlG);
+	end if;
+
+ 	if (not IsMaskedBri (AlarmCl, CablSId, CablPId)) then
+	    if (CablPId > 0) then
+	    	select ALARMGEREE_SON, ALARMGEREE_ACQ into Sonne, Acquit
+		    from ACCES_ACCESC
+		    where ACCES_ACCESC_ID = CablPId;
+	  /*  elsif (CablSId > 0) then
+	    	select ALARMGEREE_SON, ALARMGEREE_ACQ into Sonne, Acquit
+		    from BITMESS
+		    where BITMESS_ID = CablSId;*/
+	    else
+		Sonne  := 0;
+		Acquit := 0;
+	    end if;
+
+	    if AlarmGrave = 0 OR IsToAff (AlarmCl, CablSId, CablPId) then
+		-- Pour une fin d'alarme, on envoie toujours le message afin de ne pas risquer
+		-- de voir des alarmes rester affichées à la console.
+
+		/*traitement de binding variables des traps*/
+    		stBindingVarInfo := '';
+    		if (AlarmCl = 'TRAPG' or AlarmCl = 'TRAPS' ) then
+		    stBindingVarInfo := BindingVarInfo (AlarmInfo, EquipId, Iana, AlarmNumObj);
+    		end if;
+
+		mess_alrm  (Mess, Id, AlarmIddeb, AlGereeId,
+			    SiteId, EquipId, LiaiId,
+ 			    AlarmNum, AlarmCl, AlarmNumObj, AlarmType,
+			    AlarmDate, AlarmGrave, AlarmNseuil, AlarmVseuil,
+	               	    AlarmNumal, AlarmTexte, AlarmInfo, AlarmNomL,
+			    AlarmComment, AlarmCommut, PrConc, CliConc, to_char (ProgOper),
+			    SiteNom, Typequ, Poseq, TsPrOper, FEltG, FAlG, Sonne, Acquit, Acquittee, stBindingVarInfo);
+/*
+            mess_video (Mess, Id, AlarmIddeb, AlGereeId,
+		       	SiteId, EquipId, LiaiId,
+ 			AlarmNum, AlarmCl, AlarmNumObj, AlarmType,
+			AlarmDate, AlarmGrave, AlarmNseuil, AlarmVseuil,
+	               	AlarmNumal, AlarmTexte, AlarmInfo, AlarmNomL,
+			AlarmComment, AlarmCommut, PrConc, CliConc, to_char (ProgOper),
+			SiteNom, Typequ, Poseq, TsPrOper, FEltG, FAlG);
+*/
+	    end if; /* l'alarme gérée est à afficher sur les consoles */
+	end if; /* l'alarme n'est pas masquée par le Brigadier */
+    end if;	/* l'alarme n'est pas masquée par l'Administrateur */
+
+END	Start_Alrm;
+/

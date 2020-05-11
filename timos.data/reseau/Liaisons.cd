@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="timos.data.CTypeLienReseau" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>reseau\CTypeLienReseau.cs</FileName>
+      <HashCode>AgAQAwABAAAAAAAggAQgAAAAQAAIAQEgAACADBAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CLienReseau" Collapsed="true">
+    <Position X="3.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>reseau\CLienReseau.cs</FileName>
+      <HashCode>AACYQBAljgAAIAAkECWASIAJAgAYAYIAlSKACEAAAAM=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TypeLienReseau" />
+      <Property Name="Element1" />
+      <Property Name="Element2" />
+      <Property Name="Complement1" />
+      <Property Name="Complement2" />
+    </ShowAsAssociation>
+    <AssociationLine Name="Element1" Type="timos.data.IElementALiensReseau">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.55" Y="-0.817" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Element2" Type="timos.data.IElementALiensReseau">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.048" Y="-1.346" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Complement1" Type="timos.data.IComplementElementALiensReseau" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="3.13" />
+        <Point X="4" Y="4.188" />
+        <Point X="2.25" Y="4.188" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Complement2" Type="timos.data.IComplementElementALiensReseau" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.594" Y="3.13" />
+        <Point X="3.594" Y="3.875" />
+        <Point X="2.25" Y="3.875" />
+      </Path>
+    </AssociationLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CCheminLienReseau" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>reseau\CCheminLienReseau.cs</FileName>
+      <HashCode>ABEQAAAAAgAACAAAAAQAAAAIAAAIkQAAAAIECAAAAAQ=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LienReseauCommeExtremite1" />
+      <Property Name="LienReseauCommeExtremite2" />
+      <Property Name="CheminParent" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="timos.data.IElementALiensReseau" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>reseau\IElementALien.cs</FileName>
+      <HashCode>AAAAAAACAAQAAAAAAAAAAAEQAAAAAABAAACAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="timos.data.IComplementElementALiensReseau" Collapsed="true">
+    <Position X="0.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>reseau\IElementALien.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

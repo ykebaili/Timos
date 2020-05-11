@@ -1,0 +1,24 @@
+﻿10000;Libellé
+10001;Date début
+10002;Date fin
+10003;Type d'Alarme
+10004;Site
+10005;Equipement Logique
+10006;Lien Réseau
+10007;Entité SNMP
+
+
+20000;CreateAlarm ( Nom, AlarmTypeId )\r\nCrée une nouvelle alarme du type demandé. La nouvelle alarme est accessible via la variable 'Nom'")
+20001;Variable name
+20002;Alarm type id
+20003;Inconnu
+20004;En cours
+20005;Terminée
+20006;Fermer quand tous les fils sont fermés
+20007;Fermer quand un fils est fermé
+20008;Manuel
+20009;Aucun
+20010;Site
+20011;Equipement logique
+20012;Lien réseau
+20013;Entité SNMP

@@ -1,0 +1,885 @@
+50;Ce Libellé existe déjà
+60;Heure
+61;Jour
+62;Semaine
+63;Mois
+64;Année
+70;Debut
+71;Fin
+72;Supprimer
+100;La relation  Element/Entité organisationnelle
+101;Profil utilisateur @1
+102;Profil utilisateur/Inclusion
+103;User/Profile
+104;Fournisseur
+105;Le Stock @1
+106;Le type de stock
+107;Type de stock
+108;En production
+109;En réserve
+110;En panne
+111;Le statut d'équipement @1
+112;Le mouvement d'équipement @1
+113;Détruit
+114;Date
+115;Emplacement d'origine
+116;Equipement d'origine
+117;Relation Type de Contrainte/Type de Ressource
+118;Relation Contrainte/Ressource
+119;L'attribut:
+120;Type d'Equipement de Remplacement:
+121;Le format de numérotation
+122;Relation Attribut/Type Contrainte
+123;Type d'Intervention
+124;Type d'Intervention / Profil intervenant
+125;Liens entre tâches
+126;Système de coordonnées
+127;Format de numérotation @1 pour système de coordonnées @2
+128;La référence est au delà de valeurs possibles
+129;Le caractère @1 n'existe pas dans la sequence (@2)
+130;La reference doit posséder @1 Caractères
+131;L'index est au delà des limites
+132;L'index ne peut être négatif
+133;La sequence est vide
+134;La Référence de @1 ne peut être nulle
+135;Type d'opération @1
+136;Type intervention/type opération
+137;L'Opération
+138;L'intervention @1
+139;Le profil d'intervenant
+140;Profil intervenant / Groupe de acteur
+141;Une autre association existe déjà pour le couple Type contrainte/type ressource
+142;Une autre association existe déjà pour le couple Contrainte/Ressource
+143;Une autre association existe déjà pour le couple Type Contrainte/Champs Custom
+144;Une autre association existe déjà pour le couple Type Contrainte/Formulaire
+145;Une autre association existe déjà pour le couple Type Ressource/Champs Custom
+146;Une autre association existe déjà pour le couple Type Ressource/Formulaire
+147;Une autre association existe déjà pour le couple Type Site/Champs Custom
+148;Une autre association existe déjà pour le couple Type Site/Formulaire
+149;Une autre association existe déjà pour le couple Type Remplaçable/Type Remplaçant
+150;Active
+151;Inactive
+152;Utilisée
+153;Non planifiée
+154;Pré-planifiée
+155;Planifiée
+156;En cours
+157;Gelée
+158;Terminée
+159;Annulée
+160;Intervention/Intervenant
+161;Une autre association existe déjà pour le triplet Intervention/Profil/Acteur
+162;Profil intervenant/Type entité organisationnelle
+163;Une autre association existe déjà pour le couple Profil intervenant/Type entité organisationnelle
+164;Type Intervention/Intervenant
+165;Une autre associatino existe déjà pour ce sous profil
+166;Type Intervention/Sous profil
+167;Un Horaire Journalier portant ce Libelle existe déjà
+168;Un Calendrier avec ce Libelle existe déjà
+169;La sequence doit avoir un minimum de 2 caractères
+170;La relation entre l'élément et une Intervention
+171;Un Calendrier avec ce Code existe déjà
+172;L'occupation de l'objet n'est pas déterminée
+173;La position de la coordonnee ne correspond pas avec l'unite
+174;L'occupation de l'objet est trop importante pour cette coordonnee
+175;La reference @1 n'est pas valide
+176;Parametrage du systeme de coordonnee @1 de l'objet @2
+177;La position n'existe pas : l'unité ne peut pas être trouvée
+178;La position n'existe pas : le niveau ne peut pas être trouvée
+179;L'unité ne correspond à aucun niveau du systeme de coordonnée
+180;@1 occupe une coordonnée qui entre en conflit avec la coordonnée @2 (à @3)
+181;Le niveau n'existe pas
+182;La position @1 n'existe pas dans la coordonnée @2
+183;La coordonnee n'est pas assez précise pour atteindre la position @1
+184;La coordonnée ne peut être nulle
+185;Le niveau @1 de la coordonnée ne peut être vide
+186;@1 : Prefixe @2 manquant pour le niveau @3
+187;Le niveau @1 de la coordonnée n'a pas de valeur apres le prefixe
+188;Erreur dans la coordonnée
+189;En dehors de la plage possible
+190;La coordonnée suivante n'existe pas pour ce niveau
+191;Parametrage Niveau @1
+192;L'index @1 est au delà du dernier index (@2)
+193;L'index @1 est en dessous du premier index (@2)
+194;La référence @1 est au delà de la derniere référence (@2)
+195;La référence @1 est en dessous de la premiere référence (@2)
+196;Unité @1
+197;Le parametrage du systeme de coordonnées est introuvable
+198;Impossible d'affecter cette ressource
+199;L'equipement ne peut avoir de coordonnee car il n'est pas défini dans un systeme de coordonnee
+200;L'equipement ne peut avoir de coordonnee car son occupation est nulle ou définie à 0
+201;L'unité spécifiée par l'équipement ne correspond pas à l'unité de la coordonnée
+202;Intervenant
+203;Ressource matérielle
+204;Mode du controle de l'espace non déterminé
+205;Constructeur
+206;Intervention/Ressource
+207;Avec emplacement et unité d'occupation
+208;Avec emplacement de 1 et unité d'occupation
+209;Sans place ni unité d'occupation
+210;L'élement @1 est inclue dans l'élement @2 qui requiert une coordonnée pour ses fils
+211;Profil de ressource
+212;Une autre association existe déjà pour ce profil de ressource/Entité organisationnelle
+213;Profil de ressource/Entité organisationnelle
+214;Tous les @1
+215;Le @1
+216;Sequence indéterminée
+217;Modèle de texte @1
+218;Qualification du Ticket:
+219;Type de Ticket
+220;Le Libelle de ce Type de Ticket est déjà utilisé
+221;Le Libelle de ce Ticket est déjà utilisé
+222;Le Ticket @1
+223;Numéro de Phase
+224;Dépendance Ticket
+225;Une autre association existe déjà pour le couple Type Ticket/Champs Custom
+226;Une autre association existe déjà pour le couple Type Ticket/Formulaire
+227;Impossible de modifier le système de coordonnées tant que des sites l'utilisent
+228;Impossible de modifier "Coordonnée obligatoire", car des sites sont dépendants de cette valeur
+229;Impossible de modifier le mode de contrôle de coordonnées, car des sites sont dépendants de cette valeur
+230;Impossible de modifier la gestion des coordonnées car il est en cours d'uilisation
+231;L'Origine de Ticket @1
+232;Le Libellé de cette Origine de Ticket est déjà utilisée
+233;Le Libellé de cette Urgence de Ticket est déjà utilisée
+234;Le Niveau de Priorité de cette Urgence de Ticket est déjà utilisée
+235;Remplacement par @1
+236;Equipement retiré durant l'opération @1
+237;Remplacé
+238;Impossible de supprimer cette ligne d'activité car des relations aux interventions existent
+239;Profil élément @1
+240;Erreur lors de l'évaluation de la condition d'application
+241;Impossible de calculer le filtre
+242;Element Profil / Profil inclus
+243;Lien simple
+244;L'attribut de Ressource @1
+245;L'attribut de Contrainte @1
+246;La Contrainte @1 
+247;La Ressource : @1
+248;Le déplacement doit avoir un emplacement destination
+249;Aucun utilisateur pour le déplacement
+250;Le type de Ressource @1
+251;Trop de niveaux dans la coordonnée
+252;L'unité (@1) ne correspond pas à l'unité attendue (@2)
+253;La coordonnée comporte trop de niveaux pour le système utilisé
+254;INCONNUE
+255;L'élément '@1' ne respecte pas les contraintes de coordonnée
+256;Aucune occupation définie, contrôle impossible
+257;Le nombre d'unités occupé est incorrect
+258;Coordonnée obligatoire
+259;Impossible de vérifier les coordonnées d'un objet qui n'est pas positionné
+260;Le Constructeur @1
+261;Le Fournisseur @1
+262;L'équipement @1
+263;La Famille d'Equipement @1
+264;Héritage type equipement
+265;Inclusion de type d'equipement
+266;Le remplacement d'équipement @1
+267;Impossible d'annuler le remplacement
+268;L'emplacement de destination doit être renseigné
+269;L'équipement remplacé doit être renseigné
+270;Impossible de déplacer l'équipement @1
+271;Remplacement de @1 
+272;Type d'équipement @1
+273;Projet @1
+274;Relation entre les Types de Site
+275;Le Site: @1
+276;Le Type de Site: @1
+277;L'Acteur : @1
+278;L'Acteur @1 existe déjà
+279;Acteurs selon profil : @1
+280;La Civilité : @1
+281;Le Client : @1
+282;Le Groupe d'Acteurs : @1
+283;Ce groupe est lié à '@1' Acteur(s) qui ne possède(nt) pas ce rôle. Le rôle sera appliqué à tous les Acteurs du Groupe
+284;Relation entre @1 et @2
+285;Relation Utilisateur / Droit @1
+286;Relation d'appartenance entre le groupe '@1' et le groupe '@2'
+287;La nécessité entre le Groupe @1 et @2
+288;La Restriction de Champ Custom @1
+289;Utilisateur de l'application @1
+290;Utilisateur de l'application
+291;Retourne l'entité utilisateur associée à l'action
+292;Entité Organisationnelle @1
+293;Entité Organisationnelle
+294;Le groupe de restrictions @1
+295;La relation profil/restriction @1
+296;Entités Organisationnelles
+297;Type Entité Organisationnelle / Formulaire par Type @1
+298;Relation Utilisateur / Profil @1
+299;Relation Utilisateur / Profil / Entité Organisationnelle @1
+300;Le type d'entité organisationnelle @1
+301;Formulaire pour Type
+302;Calendrier @1
+303;Calendrier de @1
+304;La désactivation de l'entrée d'agenda cyclique
+305;Dossier de Suivi @1
+306;Dossier de Suivi
+307;Entree Agenda @1 du @2
+308;La synchronisation de l'entrée d'agenda @1 @2
+309;Information
+310;Annulé
+311;Terminé
+312;La Grille Générique @1
+313;L'Horaire Journalier @1
+314;L'Horaire Jounalier Tranche : @1 - @2
+315;Le type d'entrée d'agenda du paramètre n'est pas défini
+316;La formule de libellé n'est pas définie
+317;La formule de date de début n'est pas définie
+318;La formule de date de début doit retourner un type date
+319;La formule de date de fin n'est pas définie
+320;La formule de date de fin doit retourner un type date
+321;La formule de @1 doit retourner un élément de type @2
+322;Erreur lors du calcul de la clé de l'entrée d'agenda
+323;Erreur dans la formule de libellé
+324;Erreur dans la formule de date de début
+325;La formule de date de début est incorrecte
+326;Erreur dans la formule de date de fin
+327;La formule de date de fin est incorrecte
+328;Erreur dans la formule du champ @1
+329;Erreur dans la formule du lien @1
+330;Notes
+331;Note n° @1
+332;La relation entre le Dossier @1
+333; et @1
+334;La relation entre l'entrée de Agenda 
+335;La relation entre la Tâche planifiée @1 et l'action @2
+336;La relation entre la Tâche planifiée @1 et le type de donnée @2
+337;Relation Type de dossier suivi / Type élément @1
+338;<Tout type d'entité>
+339;Relation entre l'entrée Agenda et le type élément @1
+340;Le role sur agenda @1
+341;ROLE_IN_DB_@1
+342;Tâche planifiée @1
+343;Le Type de Dossier @1
+344;Le Type d'Entrée Agenda @1
+345;Impossible de remplir une entrée d'Agenda vide
+346;Impossible de créer une entrée sur un élément nul
+347;Aucune relation sur le type @1 n'existe pour les Entrées Agenda de type @2
+348;Le Type d'Occupation Horaire @1
+349;Ressource
+350;Liste
+351;Source élément
+352;Formulaire standard
+353;Formulaire personnalisé
+354;Entité
+355;Action
+356;Le Menu personnalsé @1
+357;ParentCode(texte, taille) : Retourne tous les codes parent d'un code hiérarchique, en utilisant la taille spécifiée pour chaque niveau
+358;Erreur dans la fonction ParentCode
+359;GetUserMember() : Retourne l'acteur associé au process en cours
+360;GetUserId() : Retourne l'id de l'utilisateur associé au process en cours
+361;Copier un document
+362;Copie un document sur le système de fichiers
+363;La formule de document est incorrect
+364;La formule de document doit retourner un document de GED
+365;La formule de nom de fichier est incorrecte
+366;La formule de renommage est incorrecte
+367;Erreur lors de l'évaluation du document
+368;Erreur lors de l'évaluation du nom de fichier destinatation
+369;La formule de nom de fichier ne retourne pas un nom de fichier
+370;Erreur dans le nom de fichier de renommage
+371;La formule de renommage ne retourne pas un texte
+372;Nouveau nom : '@1'
+373;Erreur lors du renommage du fichier existant
+374;Créer une entrée d'agenda
+375;Permet de créer une entrée d'agenda et de l'associer à divers éléments
+376;Le paramètre d'entrée n'est pas défini
+377;Définir utilisateur associé à l'Action
+378;Permet d'indiquer l'utilisateur qui est associé à l'action. Cet utilisateur recevra les notifications et autres informations émises par l'action
+379;Formule Id d'utilisateur nulle
+380;La formule d'id doit retourner un entier
+381;L'expression d'utilisateur ne retourne pas un entier
+382;L'utilisateur @1 n'existe pas
+383;Editer un élément
+384;Affiche un élément et permet à l'utilisateur de l'éditer. Cette action est forcement une action finale du process
+385;La formule indiquant l'élément à éditer est incorrecte
+386;La formule indiquant l'élément à éditer doit retourner une entité
+387;Envoyer un Email
+388;Envoi un Email
+389;Formule d'adresse d'expediteur incorrecte
+390;La formule d'adresse d'expediteur doit retourner un texte, un Acteur ou un Groupe d'Acteur
+391;Formule de sujet incorrecte
+392;La formule de sujet doit retourner un texte
+393;Formule de message incorrecte
+394;La formule de message doit retourner un texte
+395;Aucun destinataire
+396;Formule de destinataire @1 incorrecte
+397;La formule de destinataire @1 doit retourner un texte, un Acteur ou un Groupe d'Acteur
+398;La formule de piece jointe doit retourner un ou des documents de GED
+399;Erreur lors de l'évaluation de l'adresse d'expediteur
+400;Erreur lors de l'évaluation du sujet du mail
+401;Erreur lors de l'évaluation du contenu du mail
+402;Erreur lors de l'évaluation d'un des destinataires
+403;Exporter des données
+404;Permet d'exporter des données et de stocker le résultat dans la GED
+405;Erreur lors de l'export des données
+406;Erreur lors de la création du fichier d'export
+407;La clé du document n'a pas pu être calculée
+408;Le libellé du document n'a pas pu être calculée
+409;Le descriptif du document n'a pas pu être calculée
+410;Formulaire
+411;Créer un Formulaire de saisie
+412;Présente un formulaire à l'utilisateur
+413;Voir une liste
+414;Visualiser une liste d'objets
+415;Permet d'ouvrir une fenêtre de visualisation de liste d'entités
+416;Erreur sérialization filtre
+417;Le type des objets de l'action de création de liste n'est pas défini
+418;Le type des objets de la liste n'est pas défini
+419;Erreur lors du calcul du filtre
+420;L'id de rôle '@1' n'est pas unique ! (CRoleActeur)
+421;La Liste d'Opérations @1
+422;La Liste d'Opérations pour l'Intervention @1
+423;Type de Contrat
+424;Types de Contrat
+425;Relation Contrat / Site
+426;Relation Contrat / Liste Opérations
+427;Relation Contrat Liste Op. / Site
+428;L'Opération est déjà en mode prévisionnelle sur l'Intervention '@1'
+429;L'Opération est déjà liée à un compte rendu de l'Intervention '@1'
+430;Cette Liste d'Inteventions est déjà basculée en Interventions Prévisionnelles
+431;Le Site '@1' n'a pas d'équipements de Type '@2' spécifié par le l'Opérations '@3'
+432;Tableau Planning
+433;Tableaux Planning
+434;OE
+435;Table Parametrable @1
+436;Type Table Parametrable @1
+437;Format de Numérotation @1
+438;La colonne parametrable @1
+439;Relation Equipement @1 / Table Parametrable @2
+440;Relation Type Equipement @1 / Type Table Parametrable @2
+441;Relation Type Site @1 / Type Table Parametrable @2
+442;Relation Site @1 / Table Parametrable @2
+443;Table parametrable @1 déjà liée au Site @2
+444;Table parametrable @1 déjà liée à l'équipement @2
+445;Liaison entre le site @1 et la table parametrable @2 introuvable
+446;Liaison entre l'equipement @1 et la table parametrable @2 introuvable
+447;Type de Projet @1
+448;Le libellé du Type de projet ne peut être vide
+449;Le Projet doit avoir un Type
+450;Phase @1 du Ticket N° @2
+451;Lien
+452;Relation entre le Type Phase @1 et le Type de Ticket @2
+453;Relation entre un Type Phase et un Type Ticket
+454;Fraction de l'intervention @1
+455;Affichage limité à 31 jours
+456;Intervention
+457;Projet
+458;Démarrent en même temps
+459;Finissent en même temps
+460;Démarrent et Finissent en même temps
+461;Element A Demarre Quand Element B Termine
+462;Element B Demarre Quand Element A Termine
+463;Une autre association existe déjà pour le couple Type Projet/Formulaire
+464;Une autre association existe déjà pour le couple Type Projet/Champ Custom
+465;Met à jour les Eos de l'élement (utile pour les Eos planifiées)
+466;Impossible de mettre à jour les Eos de cet élément
+467;Appliquer les EOs planifiées
+468;Applique les EOS planifiées sur les acteurs en fonction de la date actuelle
+469;'@1' commence et fini au même moment
+470;'@1' ne peut finir avant de commencer
+471;'@1' demarre avant son projet @2
+472;'@1' demarre en même temps que la fin de son projet @2
+473;'@1' demarre apres la fin de son projet @2
+474;'@1' fini avant que son projet @2 commence
+475;'@1' n'est pas entièrement planifié
+476;'@1' n'est pas planifié
+477;'@1' n'est pas entièrement préplanifié
+478;'@1' n'est pas préplanifié
+479;'@1' n'a pas de date de début et de fin parametré
+480;'@1' n'a pas de date de fin parametré
+481;'@1' n'a pas de date de début parametré
+482;'@1' fini en même temps que son projet @2 commence
+483;'@1' fini apres la fin de son projet @2
+484;Lien de dépendance invalide : le lien n'a pas d'éléments attachés
+485;Lien de dépendance invalide : pas d'élément attaché à @1
+486;Contrainte de date non respectée pour les éléments @1 et @2
+487;'@1' ne pourra pas fonctionner car '@2' n'a pas de date de fin
+488;'@1' ne pourra pas fonctionner car '@2' fini apres '@3'
+489;'@1' ne pourra pas fonctionner car '@2' et '@3' n'ont pas leur dates de début
+490;'@1' ne pourra pas fonctionner car '@2' n'a pas de date de début
+491;'@1' ne pourra pas fonctionner car '@2' commence apres '@3'
+492;'@1' ne pourra pas fonctionner car '@2' n'a pas de date de début et '@3' n'a pas de date de fin
+493;'@1' ne pourra pas fonctionner car '@2' n'a pas de date de début
+494;'@1' ne pourra pas fonctionner car '@2' n'a pas de date de fin
+495;'@1' ne pourra pas fonctionner car '@2' démarre apres que '@3' se termine
+496;'@1' ne pourra pas fonctionner car '@2' démarre avant que '@3' se termine
+497;'@1' ne pourra pas fonctionner car '@2' n'a pas de date de fin et '@3' n'a pas de date de début
+498;'@1' ne pourra pas fonctionner car '@2' et '@3' ont des dates de fin qui ne respectent pas la tolérance
+499;'@1' ne pourra pas fonctionner car '@2' et '@3' ont des dates de début qui ne respectent pas la tolérance
+500;'@1' ne pourra pas fonctionner car '@2' et '@3' ont des dates de fin à début qui ne respectent pas la tolérance
+501;Un problème de structure a été detecté dans le projet @1 (boucle)
+502;Import de table
+503;Import un fichier texte dans une table
+504;Les parametres de lecture CSV doivent être définis
+505;La formule définissant la table destination est incorrecte
+506;La formule définissant le fichier source est incorrecte
+507;Le nom du fichier source est incorrect (@1)
+508;Le fichier source n'existe pas (@1)
+509;Erreur lors de la lecture du fichier texte
+510;Erreur lors de l'évaluation de la formule de table de destination
+511;La formule de table de destination ne retourne pas une table
+512;La table source ne contient pas assez de colonnes
+513;La colonne source @1 n'est pas compatible avec la colonne destination @2
+514;Une erreur est survenue lors de l'affectation du champ @1
+515;L'entité @1 @2 n'existe pas
+516;Remplacement dotation @1 par @2
+517;La clé primaire doit être mappée
+518;Le mode de mappage est nécéssaire
+519;Ecraser et Importer
+520;Mettre à jour ou créer
+521;Une autre association Champ Custom / Type Table Parametrable identique existe déjà 
+522;Une autre association Formulaire / Type Table Parametrable identique existe déjà 
+523;Table Parametrable
+524;Projet
+525;En retard
+526;Planifié
+527;Pré-Planifié
+528;A Pré-Planifier
+529;En Standby
+530;Les colonnes @1 n'acceptent pas de valeur nulles
+531;Dépendance de '@1' vers '@2'
+532;Relation defectueuse
+533;Boucle / Incoherence structurelle
+534;Non respect de contraintes de dates
+535;Pré planification incomplete
+536;Planification incomplete
+537;La liste d'opérations est déjà plannifiée
+538;La liste d'opérations est vide
+539;Intervention pour @1
+540;@1 pour previsionnelle du contrat @2
+541;@1 préplanifié entre le @2 et @3
+542;Le découpage actuel dépasse la limite de tranches autorisées (@1 autorisée(s))
+543;La date de début ne peut être avant la date de fin
+544;Le Contrat @1
+545;Erreur lors de la lecture de la table
+546;Impossible de geler un élément déjà gelée
+547;Clé sans nom
+548;La lecture des Ids des types de la clé @1 a échouée
+549;Nom du type indéterminé
+550;Type audit @1 pour Version
+551;Impossible de dégeler un élément non gelé
+552;Audit Version @1
+553;Ligne sans identifiant
+554;Ligne clé @1
+555;IMPOSSIBLE D'IDENTIFIER LA LIGNE
+556;Aucune Valeur
+557;Erreur système : Import de la ligne impossible
+558;La version source ne peut pas être identique à la version cible
+559;Vous devez spécifier le type d'audit
+560;Impossible de réexécuter l'audit car des éléments y sont attachés
+561;Erreur lors de l'évaluation de la clé. Element @1 (@2)
+562;Plusieurs éléments de type @1 correspondent à la clé @2 de la formule de mappage
+563;Objet d'Audit de Version
+564;Donnee d'objet d'Audit de Version
+565;Cette Entité Organisationnelle est déjà affectée à l'élément: @1
+566;Cette Entité Organisationnelle n'est pas affectée à l'élément: @1
+567;Une erreur c'est produite lors de l'évaluation de la formule du Paramètre: @1
+568;Le Type de Contrainte @1
+1140;Quotidien
+1141;Hebdomadaire
+1142;Bimensuel
+1143;Mensuel
+1144;Bimestriel
+1145;Trimestriel
+1146;Semestriel
+1147;Annuel
+
+10000;La formule de code du formulaire d'édition doit retourner une chaine de caractères
+10001;Modèle de Structure incorrecte
+10002;Formule de destinataire CC @1 incorrecte
+10003;La formule de destinataire CC @1 doit retourner un texte, un Acteur, une liste d'Acteurs ou un Groupe d'Acteurs
+10004;Formule de destinataire BCC @1 incorrecte
+10005;La formule de destinataire CC @1 doit retourner un texte, un Acteur, une liste d'Acteurs ou un Groupe d'Acteurs
+10006;Cablage
+10007;Se produit lorsque les dates de saisie sont modifiées
+10008;En retard
+10009;Avertissements
+10010;Terminé
+10011;Début au plus tôt
+10012;Début au plus tard
+10013;Fin au plus tôt
+10014;Fin au plus tard
+10015;Contrainte de Projet @1
+10016;Aucun utilisateur AD ni login associé
+10017;Il n'y a pas de mot de passe utilisateur
+10018;Proxy SNMP @1
+10019;Sévérité d'Alarme
+10020;Paramétrage d'affichage d'Alarmes @1
+10021;Erreur lors de l'Acquittement de l'alarme @1
+10022;L'Id d'Alarme @1 n'a pas été trouvé
+10023;Sévérité d'Alarme @1
+10024;Filtrage d'Alarme @1
+10025;Aucun utilisateur Active Directory ni Login associé
+10026;Il n'y a pas de mot de passe utilisateur
+10030;Type de Consommable @1
+10031;Conditionnement @1
+10032;Lot de Consommable @1
+10033;Type de Consommable
+10034;Retourne une liste d'Acteurs affectés à l'Etape en cours
+10035;Action Menu déroulant
+10036;Action Formulaire Popup
+
+20000;Résumé d'activité d'acteur
+20001;Member activity
+20002;Le type de table @1 ne contient aucun paramètrage d'import
+20003;Impossible de trouver la grille @1
+20004;Retourne les interventions liées
+20005;Erreur lors de l'audit du type @1
+20006;Impossible d'audit deux versions si la version cible n'est pas fille de la version source sans utiliser de formules
+20007;Type de clé : @1
+20008;Erreur durant l'évaluation de la clé de l'entité @1 (du type @2) @3
+20009;Aucune formule pour le type @1 : @2
+20010;Toujours
+20011;Référentiel
+20012;Version
+20013;Valeur de paramètre incorrect pour @1 (Entier attendu)
+20014;L'utilisateur @1 n'existe pas
+20015;Impossible de trouver la session @1
+20016;Type d'équipement
+20017;Type de d'Equipement Logique
+20018;Le Type de d'Equipement Logique @1
+20019;La Famille de d'Equipements Logiques @1
+20020;Inclusion de types d'Equipements logiques
+20021;Equipement logique
+20022;Equipement
+20023;L'équipement logique @1
+20024;Elements
+20025;La consultation hiérarchique @1
+20026;Le schéma de réseau @1
+20027;L'élément de schéma @1
+20028;Le chemin de lien réseau @1
+20029;Sélectionnez une extremité
+20030;Montant
+20031;Descendant
+20032;Indéfini
+20033;L'extremité de lien @1
+20034;Aller
+20035;Retour
+20036;GPSDist(Point1X, Point1Y, Point2X, Point2Y)\nRetourne la distance entre deux coordonnées GPS
+20037;Valeur de paramètres incorrects pour la fonction GPSDist
+20038;Imprimer un modèle de texte
+20039;Imprime un texte, en utilisant un modèle de texte et un élément source
+20040;Le modèle de texte doit être indiqué
+20041;La formule de paramètres d'impression n'est pas correcte
+20042;Le lien @1 est supporté par le lien @2, et @2 est supporté par @1
+20043;Impossible de trouver l'extremité du lien @1
+20044;Erreur dans le sous schéma @1
+20045;L'equipement contenant n'est pas au même emplacement que l'équipement contenu
+20046;Tous nécéssaires
+20047;Redondance automatique
+20048;Personnalisé
+20049;Mode opérationnel
+20050;Chemin incorrect pour le lien @1 dans le graphe du schéma @2
+20051;Schéma @1 introuvable
+20052;Plus d'un cablage a été trouvé pour le site @1 dans le schéma @2
+20053;Le paramètre de vue réseau dynamique @1
+20054;Paramètres dynamiques
+20055;Symbole dynamique
+20056;Parametrage gantt
+20057;Dossier
+20058;Filtre
+20059;Formule
+20060;Autre
+20061;Vue physique de @1
+20062;Avant
+20063;Gauche
+20064;Dessus
+20065;Arrière
+20066;Droite
+20067;Dessous
+20068;Composant physique @1
+20069;Extremité 1
+20070;Extremité 2
+20071;Paramétrage de dessin gantt
+20072;Le lien entre @1 et @2 est invalide car @1 est parent de @2
+20073;Le lien entre @1 et @2 provoque une dépendance cyclique
+20074;Déplacer uniquement les éléments non figés
+20075;Déplacer les éléments figés
+20076;Déplacer les éléments figés et terminés
+20077;Dossiers liés
+20078;Dossiers
+20079;Entrées d'agenda
+20080;Contrat(@1)/Type ticket(@2)/Site(@3)
+20081;Contrat(@1)/Type ticket(@2)/Site(@3)/Periode(@5-@6)
+20082;La période @1-@2 pour le site @3 est en conflit avec une autre période
+20083;Lien hiérarchique entre @1 et @2
+20084;SNMP mib @1
+20085;Carte dynamique @1
+20086;Annulation du mouvement précédent
+20087;Type d'agent snmp @1
+20088;La relation entre le type d'agent snmp @1 et le module de mib @2
+20089;Equipement de médiation @1
+20090;Type d'alarme @1
+20091;Alarm @1
+20092;Type d'entité SNMP @1
+20093;Entite SNMP @1
+20094;Agent SNMP @1
+20095;Le type d'agent n'est pas défini
+20096;Requête source invalide pour le type d'entité @1
+20097;Un formulaire par entité
+20098;Formulaire sur agent
+20099;Impossible de trouver la source SNMP pour le champ @1
+20100;Le type d'entité SNMP n'appartient pas à un type d'agent SNMP.
+20101;Requete introuvable
+20102;Objet source introuvable dans la requête
+20103;MediationSynchronisation()\nMet à jour la configuration des services de médiation et des proxy
+20104;Le type d'alarme @1 n'existe pas
+20105;Entité @1 (@2), Champ @3 : 
+20106;Message SMS : @1
+20107;Envoyer un SMS
+20108;Cette action envoie un SMS
+20109;La formule de destinataire @1 doit retourner un numéro de téléphone
+20110;Erreur lors de l'évaluation du contenu du message SMS
+20111;Vous ne pouvez pas associer de version de données à ce projet car certains projets fils ont des versions de données associées
+20112;Aucune version
+20113;Création manuelle
+20114;Création automatique
+20115;Type de commande @1
+20116;Commande
+20117;Commande @1 à @2
+20118;Ligne de commande
+20119;Type de livraison @1
+20120;Livraison
+20121;Livraison @1
+20122;Ligne de livraison
+20123;Lot de valorisation du @1
+20124;Valorisation de @1
+20125;Livraison/Lot de valorisation
+20126;Attention, ce système de coordonnées est utilisé. Vérifiez que vous modifications sont compatibles avec les données existantes
+20127;Il s'agit d'une entité en lecture seule
+20128;Sequence de numérotation @1
+20129;Valeur de séquence de numérotation
+20130;La source est invalide pour la séquence @1 (@2)
+20131;Erreur lors de l'évaluation de la formule clé pour la séquence @1
+20132;Echec lors de l'obtention d'un numéro '@1'. Tentez de valider de nouveau
+20133;Libellé equipement pour mouvement
+20134;Meta projet @1
+20135;Lien entre @1 et @2
+20136;Le type de meta-projet @1
+20137;Meta-projet
+20138;Droits spécifiques
+20139;Element / Droit
+20140;Application de droit
+20141;Projet
+20142;L'étape de workflow @1 ne définit pas de champ pour stocker le projet associé
+20143;Impossible de créer le workflow pour l'étape @1
+20144;Le type de projet @1 pour l'étape @2 n'existe pas
+20145;Squelette de projet
+20146;Crée un projet, ses projets fils et ses dépendances à partir d'un workflow
+20147;La formule de workflow est incorrecte
+20148;La formule de projet parent est incorrecte
+20149;Workflow invalide
+20150;Retourne le projet en cours associé à un certain type d'étape
+20151;Création du projet
+20152;Ittérations du projet
+20153;Le sous type de projet @1 du projet @2
+20154;Lien hiérarchique de sous type entre @1 et @2
+20155;Formule d'étape de début invalide
+20156;Le besoin @1
+20157;La dépendance de besoin entre @1 et @2
+20158;Quantité @1 du besoin @2
+20159;Spécification de besoin @1
+20160;Coût parent
+20161;Pourcentage
+20162;Quantité/Coût
+20163;Equipement
+20164;Besoins satisfaits
+20165;Relation entre le besoin @1 et @2
+20166;Commande d'équipements @1
+20167;Besoin 
+20168;Selections de quantités de besoins
+20169;Spécification @1
+20170;Projet @1
+20171;Intervention @1
+20172;Lot de consommable
+20173;Impossible de valoriser le même type d'équipement plusieurs fois dans la même valorisation
+20174;Impossible de valoriser le même type de consommable plusieurs fois dans la même valorisation
+20175;Consommable
+20176;Temps
+20177;Operation @1 de l'intervention @2
+20178;L'opération @1 doit utiliser un type
+20179;Le niveau de l'opération @1 n'est pas correct
+20180;Erreur sur l'opération @1. @2 n'est pas un sous-type valide pour @3
+20181;Opération
+20182;Impossible de calculer le cout . Erreur de redondance cyclique
+20183;Erreur dans le paramétrage du type de projet. La formule de formulaire doit retourne un id de formulaire existant ou un formualire
+20184;Opération annulée
+20185;Q
+20186;T
+20187;C
+20188;E
+20189;O
+20190;P
+20191;Projet
+20192;La restriction doit être liée à une formule
+20193;La formule de la restriction doit retourner un booléen
+20194;La restriction doit être associée à un groupe de restrictions
+20195;Erreur à la création de l'étape '@1'
+20196;Le type d'étape @1 n'existe pas
+20197;Le type d'étape @1 n'appartient au type de workflow @2
+20198;Le type d'étape @1 n'est pas un type d'étape projet valide
+20199;Erreur lors de la création de l'étape @1
+20200;Erreur lors de la création du workflow de l'étape @1
+20201;Nettoyage relation sans IR
+20202;Utilitaire base de données : nettoyage des relations sans intégrité référentielle
+20203;Relevé du @2 du site @1
+20204;Relevé de l'équipement @1
+20205;Créer l'équipement @1 @2
+20206;Déplacer @1 depuis @2 vers @3
+20207;Choisissez une action
+20208;Mettre à jour l'équipement @1
+20209;Ne rien faire
+20210;L'équipement vu sur site a probablement été déplacé depuis l'inventaire.
+20211;Le numero de série a été modifié durant l'inventaire. @1 autre(s) équipement(s) possède un numéro de série correspondant
+20212;Le numéro de série a été modifié durant l'inventaire
+20213;Les données relevées sont différentes des données Timos
+20214;Déplacer @1 sur @2 et mettre à jour l'équipement
+20215;et
+20216;Le stock 'Perdu / trouvé' n'a pas été défini. Veuillez contacter l'administrateur Timos
+20217;L'équipement a été noté absent durant l'inventaire.
+20218;Aucune information de présence n'a été indiquée durant l'inventaire
+20219;L'équipement a été noté présent lors du relevé. Vérifiez les équipements contenus
+20220;L'action '@1' ne peut pas être executée sur @2
+20221;Vous devez définir un statut par défaut sur le relevé
+20222;Aucun
+20223;Validée
+20224;Appliquée
+20225;Non évalué
+20226;A executer
+20227;Executé
+20228;Annulé
+20229;A valider
+20230;Retourne la liste des groupes affectés à l'étape
+20231;Retourne la liste des profils affectés à l'étape
+20232;Importer une ligne de table
+20233;Importe les données d'une ligne de table dans un objet
+20234;La formule d'élément cible ne devrait pas être vide
+20235;Sélectionnez un type de table
+20236;Erreur dans la formule d'élément cible
+20237;La formule de ligne de table est invalide
+20238;Erreur dans le formule de ligne de table
+20239;Importer une ligne de table
+20240;Standard
+20241;Pas d'itération automatique
+20242;L'étape ne change pas les dates
+20243;Reset options en fin d'étape
+20244;Relevé équipement
+20245;Mouvement d'inventaire
+20246;Type d'alarme
+20247;Pas de formulaire
+20248;Séparateur
+20249;Libellé non défini
+20250;Erreur dans la formule de nom d'utilisateur
+20251;Erreur dans la formule de mot de passe
+20252;Nom de fichier invalide pour le transfert FTP
+20253;Champ de polling SNMP @1
+20254;Impossible de calculer la formule de polling à l'entité @1
+20255;Impossible de trouver le champ SNMP pour le champ @1
+20256;Champ de polling invalide
+20257;Formule d'id d'entité invalide
+20258;Erreur lors de la conversion de la formule de polling
+20259;Erreur sur l'entité @1
+20260;KmToShowToMapZoom(value)\nRetourne le zoom à appliquer à une carte pour afficher l'échelle demandée (approximatif)
+20261;km
+20162;Paramètres incorrects pour la fonction KmToShowToMapZoom
+
+30000;Le type de la colonne @1 est différent du type de la colonne @2 (@3 <> @4)
+30001;La colonne @1 n'accepte pas les valeur nulles
+30002;La valeur '@1' ne peut être convertie en type @2
+30003;Aucun mappage disponnible
+30004;La table source fournie ne correspond pas au type cible attendu
+30005;Une ou plusieurs lignes n'ont pas pu être importées :
+30006;La ligne ' @1 ' n'a pas pu être importée car @2
+30007;Referentiel
+30008;Aucune colonne de destination n'est définie
+30009;La colonne @1 fait partie de la clé primaire : elle doit être mappée avec une autre colonne
+30010;La colonne @1 n'accepte pas les valeur nulles : elle doit avoir une valeur par défaut valide ou bien être mappée
+30011;La valeur par défaut '@1' ne peut pas être convertie en type @2
+30012;Vous ne pouvez pas mettre null comme valeur par défaut à la colonne @1
+30013;Attention : la colonne @1 autorise les nulls mais la colonne de destination @2 ne les autorises pas et la valeur par défaut est NULL : des lignes risquent de ne pas pouvoir être importées
+30014;Attention : la colonne @1 autorise les nulls mais la colonne de destination @2 ne les autorises pas et la valeur par défaut n'est pas du bon type : des lignes risquent de ne pas pouvoir être importées
+30015;Mappage de la colonne @1 vers la colonne @2
+30016;Mappage de la constante @1 avec la colonne @2
+30017;Mappage de la colonne @1 vers une colonne non déterminée
+30018;Mappage entre 2 colonnes non déterminées
+30019;Table source nécessaire
+30020;Table destination nécessaire
+30021;La table cible fournie ne correspond pas au type source
+30022;Erreur lors de l'affectation de la valeur '@1' dans la colonne @2
+30023;La colonne de destination @1 ne peut être mappée plusieurs fois
+30024;Erreur : Plusieurs types de table de destination sont présents
+30025;Erreur de mappage (@1)
+30026;Erreur : Les colonnes d'origine n'appartiennent pas toutes au Type @1
+30027;Erreur : Les colonnes de destination n'appartiennent pas toutes au Type @1
+30028;Seul l'utilisateur ou un administrateur sont habilités à modifier le mot de passe
+30029;Ancien mot de passe invalide, seul l'administrateur ou le détenteur de l'ancien mot de passe sont autorisés à le modifier
+30030;Mot de passe invalide !
+30031;Erreur lors du calcul des clés dans la version originale
+30032;Erreur lors du calcul des clés dans la version destination
+30033;La Famille de symboles @1
+30034;Le symbole de bilbliothèque @1
+30035;Le symbole
+30036;Impossible d'annuler le mouvement de l'équipement '@1', car il ne s'agit pas du dernier mouvement de cet équipement
+30037;Impossible de supprimer cette activité car elle est en relation avec des interventions
+30038;Fraction intervention/activité acteur
+30039;Type d'Activité @1
+30040;Générer un état
+30041;Permet de générer un état et de le stocker dans la GED
+30042;Le modèle d'état est incorrect
+30043;L'état devra être stocké dans au moins une catégorie de GED
+30044;L'état ne comporte pas de structure de données
+30045;La valeur pour la variable @1 est incohérente avec le type de la variable
+30046;Le rapport @1 n'existe pas
+30047;Erreur lors de l'affectation de la variable @1
+30048;Erreur lors de la création du rapport
+30049;Erreur lors de l'impression
+30050;La clé du document n'a pas pu être calculée
+30051;Le libellé du document n'a pas pu être calculé
+30052;Le descriptif du document n'a pas pu être calculé
+30053;Timos ne peut pas trouver un élément dans le champ @1
+30054;Impossible de trouver le champ personnalisé @1
+30055;Timos ne peut pas filtrer le champ personnalisé @1
+30056;Impossible de filtrer sur @1
+30057;@1 n'existe pas
+30058;Impossible de remplir une structure pour le type @1
+30059;La version de données @1 n'existe pas
+30060;La version de données @1 n'est pas une version future
+30061;Modificateur TIAG	
+30062;La cause de gel @1
+30063;L'état de clôture	@1
+30064;Résolu
+30065;Annulé
+30066;Hors contrat
+30067;Gel entre le @1 et le @2
+30068;Historique du ticket @1
+30069;Lien du type de phase 
+30070;vers le type de phase
+30071;Note de Phase pour Ticket @1
+30072;Phase non démarrée
+30073;Phase en cours
+30074;Relation Ticket/EO concernées
+30075;Relation Site/ticket
+30076;La phase en cours est gelée
+30077;La condition de sortie de la phase n'est pas valide
+30078;Type de Phase pour Ticket @1
+30079;Contrat(@1)/Type ticket(@2)
+30080;L'Urgence de Ticket @1
+30081;Le type d'entrée est incorrect
+30082;Relation entre l'entrée d'agenda @1
+30083;<Tout type d'entité>
+30084;Ouvert
+30085;Clos
+30086;Le Port @1
+30087;Le type de lien réseau @1
+30088;Le lien réseau @1
+30089;Types de liens supportés
+30090;Liens réseaux supportes
+30091;Element 1 -> Element 2
+30092;Element 2 -> Element 1
+30093;Bi-Directionnel
+30095;Lien réseau
+30096;Schéma réseau
+30097;Le modèle d'étiquette de schéma @1
+
+50000;Type de port @1

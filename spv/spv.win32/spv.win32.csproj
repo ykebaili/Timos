@@ -1,0 +1,634 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{17960F58-966C-4304-87B7-A6BF33148182}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>spv.win32</RootNamespace>
+    <AssemblyName>plgspv.win32</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MagicLibrary, Version=1.7.4.0, Culture=neutral, PublicKeyToken=3a6eb82f876a49bc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\MagicLibrary.DLL</HintPath>
+    </Reference>
+    <Reference Include="MdiFormsWndManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Developpement\APPLI\MFCfromCSharp\FromCodeProject\Version2\MyMFCDocTest\HostingSamples\MdiFormsDemo\MdiFormsWndManager\Bin\Debug\MdiFormsWndManager.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=1.0.3323.24786, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=1.0.3328.19324, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=1.0.3328.34035, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.serveur, Version=1.0.3440.28125, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.data.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents, Version=1.0.3328.34042, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.documents.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=1.0.3328.31017, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=1.0.3328.34035, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire.win32.editor, Version=1.0.3364.16356, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.formulaire.win32.editor.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=1.0.3328.19317, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process, Version=1.0.3328.34038, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.process.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.common, Version=1.0.3364.16346, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.data, Version=1.0.3328.33441, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.data.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.data.dynamic, Version=1.0.3328.34037, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.data.navigation, Version=1.0.3460.27104, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.data.navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.expression, Version=1.0.3328.33440, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.navigation, Version=1.0.3328.33442, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.win32.process, Version=1.0.3547.18184, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\sc2i.win32.process.dll</HintPath>
+    </Reference>
+    <Reference Include="SpvNativeWrapper, Version=1.0.3520.25301, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\SpvNativeWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tiag.interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\dep\tiag.interface.dll</HintPath>
+    </Reference>
+    <Reference Include="timos.data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\timos.data\bin\Debug\timos.data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CExtenderFormSchemaReseau.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormSchemaReseau.Designer.cs">
+      <DependentUpon>CExtenderFormSchemaReseau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtenderFormSitePrestation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormSitePrestation.Designer.cs">
+      <DependentUpon>CExtenderFormSitePrestation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtenderFormTypeq.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeq.Designer.cs">
+      <DependentUpon>CExtenderFormTypeq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtenderFormTypeqMIB.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeqMIB.Designer.cs">
+      <DependentUpon>CExtenderFormTypeqMIB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtendeurFormSite.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtendeurFormSite.Designer.cs">
+      <DependentUpon>CExtendeurFormSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtendeurFormEquipement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtendeurFormEquipement.Designer.cs">
+      <DependentUpon>CExtendeurFormEquipement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormConsultationAlarmeGeree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormConsultationAlarmeGeree.Designer.cs">
+      <DependentUpon>CFormConsultationAlarmeGeree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormConsultationAlarmEvent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormConsultationAlarmEvent.Designer.cs">
+      <DependentUpon>CFormConsultationAlarmEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormEditActionCreateEquipementsDecouverts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionParamSysteme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeAcces_Accesc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeAcces_AccescMasqueAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeParamSysteme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeTypeAccesAlarmes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionTypeAccesAlarme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormMenuSPV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionCablageAccesAlarmeBoucle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionTypeAccesAlarmeBoucle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeCauseAlarme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionCauseAlarme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeqAlarms.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeqAlarms.Designer.cs">
+      <DependentUpon>CExtenderFormTypeqAlarms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormEditionTableSnmp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionTableSnmp.Designer.cs">
+      <DependentUpon>CFormEditionTableSnmp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtenderFormTypeqSnmpTables.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeqSnmpTables.Designer.cs">
+      <DependentUpon>CExtenderFormTypeqSnmpTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtenderFormEquipmentPorts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormEquipmentPorts.Designer.cs">
+      <DependentUpon>CExtenderFormEquipmentPorts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormEditionAccesAlarmeEquipement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditSpvProg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditSpvProg.Designer.cs">
+      <DependentUpon>CFormEditSpvProg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtenderFormEquipmentBoucles.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormEquipmentBoucles.Designer.cs">
+      <DependentUpon>CExtenderFormEquipmentBoucles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormListeConsultationAlarmesEnCours.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionConsultationAlarmesEnCours.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeModulesMib.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionModuleMib.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionObjetMib.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeAlarmeEnCours.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeAlarmeEnCours.Designer.cs">
+      <DependentUpon>CFormListeAlarmeEnCours.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormSelectOID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormSelectOID.Designer.cs">
+      <DependentUpon>CFormSelectOID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormTestSpvGraph.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormTestSpvGraph.Designer.cs">
+      <DependentUpon>CFormTestSpvGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CListeViewOptimiseeParLigne.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeSchemaReseau.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeSchemaReseau.Designer.cs">
+      <DependentUpon>CExtenderFormTypeSchemaReseau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormListeFamillesModulesMib.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CListViewAlarmes.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CListViewAlarmes.Designer.cs">
+      <DependentUpon>CListViewAlarmes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormEditionFamilleModulesMib.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionFamilleModulesMib.Designer.cs">
+      <DependentUpon>CFormEditionFamilleModulesMib.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormListeAcces_AccescMasqueBri.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormListeAlarms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CExtendeurFormLiai.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtendeurFormLiai.Designer.cs">
+      <DependentUpon>CExtendeurFormLiai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtenderFormChampCustom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormChampCustom.Designer.cs">
+      <DependentUpon>CExtenderFormChampCustom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CExtendeurFormEquipementDoneesSNMP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtendeurFormEquipementDoneesSNMP.Designer.cs">
+      <DependentUpon>CExtendeurFormEquipementDoneesSNMP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CFormEditionConsultationAlarmesEnCours2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CPanelListChampsExport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CPanelListChampsExport.designer.cs">
+      <DependentUpon>CPanelListChampsExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CSonneurDeSonnerieAlarme.cs" />
+    <Compile Include="CFormListeAlarmColor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFormEditionAlarmeCouleur.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CSpvWin32Registre.cs" />
+    <Compile Include="CUtilCouleursAlarmes.cs" />
+    <Compile Include="IPanelEditListChampsExport.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CExtenderFormTypeLienReseau.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CExtenderFormTypeLienReseau.Designer.cs">
+      <DependentUpon>CExtenderFormTypeLienReseau.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="VueAnimee\CControlSchemaSupervise.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VueAnimee\CControlSchemaSupervise.Designer.cs">
+      <DependentUpon>CControlSchemaSupervise.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VueAnimee\CFormSupervisionSchema.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VueAnimee\CFormSupervisionSchema.Designer.cs">
+      <DependentUpon>CFormSupervisionSchema.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\spv.data\spv.data.csproj">
+      <Project>{B5E49F80-B60C-4767-B30D-EB79D196143D}</Project>
+      <Name>spv.data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CExtenderFormSchemaReseau.resx">
+      <DependentUpon>CExtenderFormSchemaReseau.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormSitePrestation.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CExtenderFormSitePrestation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormTypeq.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CExtenderFormTypeq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormTypeqMIB.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CExtenderFormTypeqMIB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtendeurFormSite.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CExtendeurFormSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtendeurFormEquipement.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CExtendeurFormEquipement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormConsultationAlarmeGeree.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormConsultationAlarmeGeree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormConsultationAlarmEvent.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormConsultationAlarmEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditActionCreateEquipementsDecouverts.resx">
+      <DependentUpon>CFormEditActionCreateEquipementsDecouverts.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionParamSysteme.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormEditionParamSysteme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeAcces_Accesc.resx">
+      <DependentUpon>CFormListeAcces_Accesc.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeAcces_AccescMasqueAdmin.resx">
+      <DependentUpon>CFormListeAcces_AccescMasqueAdmin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeParamSysteme.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormListeParamSysteme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeTypeAccesAlarmes.resx">
+      <DependentUpon>CFormListeTypeAccesAlarmes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionTypeAccesAlarme.resx">
+      <DependentUpon>CFormEditionTypeAccesAlarme.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormMenuSPV.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormMenuSPV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionCablageAccesAlarmeBoucle.resx">
+      <DependentUpon>CFormEditionCablageAccesAlarmeBoucle.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeCauseAlarme.resx">
+      <DependentUpon>CFormListeCauseAlarme.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionCauseAlarme.resx">
+      <DependentUpon>CFormEditionCauseAlarme.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormTypeqAlarms.resx">
+      <DependentUpon>CExtenderFormTypeqAlarms.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionTableSnmp.resx">
+      <DependentUpon>CFormEditionTableSnmp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormTypeqSnmpTables.resx">
+      <DependentUpon>CExtenderFormTypeqSnmpTables.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormEquipmentPorts.resx">
+      <DependentUpon>CExtenderFormEquipmentPorts.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionAccesAlarmeEquipement.resx">
+      <DependentUpon>CFormEditionAccesAlarmeEquipement.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditSpvProg.resx">
+      <DependentUpon>CFormEditSpvProg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormEquipmentBoucles.resx">
+      <DependentUpon>CExtenderFormEquipmentBoucles.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeConsultationAlarmesEnCours.resx">
+      <DependentUpon>CFormListeConsultationAlarmesEnCours.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionConsultationAlarmesEnCours.resx">
+      <DependentUpon>CFormEditionConsultationAlarmesEnCours.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeModulesMib.resx">
+      <DependentUpon>CFormListeModulesMib.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionModuleMib.resx">
+      <DependentUpon>CFormEditionModuleMib.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionObjetMib.resx">
+      <DependentUpon>CFormEditionObjetMib.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeAlarmeEnCours.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormListeAlarmeEnCours.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormTypeLienReseau.resx">
+      <DependentUpon>CExtenderFormTypeLienReseau.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormSelectOID.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormSelectOID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormTestSpvGraph.resx">
+      <DependentUpon>CFormTestSpvGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CListeViewOptimiseeParLigne.resx">
+      <DependentUpon>CListeViewOptimiseeParLigne.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormTypeSchemaReseau.resx">
+      <DependentUpon>CExtenderFormTypeSchemaReseau.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeFamillesModulesMib.resx">
+      <DependentUpon>CFormListeFamillesModulesMib.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionFamilleModulesMib.resx">
+      <DependentUpon>CFormEditionFamilleModulesMib.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeAcces_AccescMasqueBri.resx">
+      <DependentUpon>CFormListeAcces_AccescMasqueBri.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeAlarms.resx">
+      <DependentUpon>CFormListeAlarms.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormListeAlarmColor.resx">
+      <DependentUpon>CFormListeAlarmColor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionAlarmeCouleur.resx">
+      <DependentUpon>CFormEditionAlarmeCouleur.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionEmail.resx">
+      <DependentUpon>CFormEditionEmail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtendeurFormLiai.resx">
+      <DependentUpon>CExtendeurFormLiai.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtenderFormChampCustom.resx">
+      <DependentUpon>CExtenderFormChampCustom.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CExtendeurFormEquipementDoneesSNMP.resx">
+      <DependentUpon>CExtendeurFormEquipementDoneesSNMP.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CFormEditionConsultationAlarmesEnCours2.resx">
+      <DependentUpon>CFormEditionConsultationAlarmesEnCours2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CPanelListChampsExport.resx">
+      <DependentUpon>CPanelListChampsExport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VueAnimee\CControlSchemaSupervise.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CControlSchemaSupervise.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VueAnimee\CFormSupervisionSchema.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CFormSupervisionSchema.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="plgspv.win32.fr" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CablageAlarmBoucle.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IndicateurAlarmRepos.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IndicateurAlarmEtat1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Resources\IndicateurAlarmEtat2.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)..\timos\bin\Debug
+Copy $(TargetPath) $(SolutionDir)..\timos\bin\Release
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

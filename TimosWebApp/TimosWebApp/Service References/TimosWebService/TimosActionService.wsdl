@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://TimosUri/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://TimosUri/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://TimosUri/">
+      <s:element name="GetVersion">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetVersionResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActions">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetActionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StartSimpleAction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdAction" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StartSimpleActionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartSimpleActionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StartAction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="nIdAction" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strParametres" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="StartActionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartActionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionTableName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetActionTableNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionTableNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionIdFieldName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetActionIdFieldNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionIdFieldNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionLabelFieldName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetActionLabelFieldNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionLabelFieldNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionDescpritionFieldName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetActionDescpritionFieldNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionDescpritionFieldNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActionTypeFieldName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetActionTypeFieldNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActionTypeFieldNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVariablesTableNameName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVariablesTableNameNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVariablesTableNameNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVariableIdFieldName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVariableIdFieldNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVariableIdFieldNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVariableNameFieldName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVariableNameFieldNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVariableNameFieldNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVariableTypeFieldName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVariableTypeFieldNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVariableTypeFieldNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVersion" />
+  </wsdl:message>
+  <wsdl:message name="GetVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActions" />
+  </wsdl:message>
+  <wsdl:message name="GetActionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartSimpleActionSoapIn">
+    <wsdl:part name="parameters" element="tns:StartSimpleAction" />
+  </wsdl:message>
+  <wsdl:message name="StartSimpleActionSoapOut">
+    <wsdl:part name="parameters" element="tns:StartSimpleActionResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartActionSoapIn">
+    <wsdl:part name="parameters" element="tns:StartAction" />
+  </wsdl:message>
+  <wsdl:message name="StartActionSoapOut">
+    <wsdl:part name="parameters" element="tns:StartActionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionTableNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActionTableName" />
+  </wsdl:message>
+  <wsdl:message name="GetActionTableNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionTableNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionIdFieldNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActionIdFieldName" />
+  </wsdl:message>
+  <wsdl:message name="GetActionIdFieldNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionIdFieldNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionLabelFieldNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActionLabelFieldName" />
+  </wsdl:message>
+  <wsdl:message name="GetActionLabelFieldNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionLabelFieldNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionDescpritionFieldNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActionDescpritionFieldName" />
+  </wsdl:message>
+  <wsdl:message name="GetActionDescpritionFieldNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionDescpritionFieldNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActionTypeFieldNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActionTypeFieldName" />
+  </wsdl:message>
+  <wsdl:message name="GetActionTypeFieldNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActionTypeFieldNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVariablesTableNameNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVariablesTableNameName" />
+  </wsdl:message>
+  <wsdl:message name="GetVariablesTableNameNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVariablesTableNameNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVariableIdFieldNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVariableIdFieldName" />
+  </wsdl:message>
+  <wsdl:message name="GetVariableIdFieldNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVariableIdFieldNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVariableNameFieldNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVariableNameFieldName" />
+  </wsdl:message>
+  <wsdl:message name="GetVariableNameFieldNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVariableNameFieldNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVariableTypeFieldNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVariableTypeFieldName" />
+  </wsdl:message>
+  <wsdl:message name="GetVariableTypeFieldNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVariableTypeFieldNameResponse" />
+  </wsdl:message>
+  <wsdl:portType name="TimosActionServiceSoap">
+    <wsdl:operation name="GetVersion">
+      <wsdl:input message="tns:GetVersionSoapIn" />
+      <wsdl:output message="tns:GetVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActions">
+      <wsdl:input message="tns:GetActionsSoapIn" />
+      <wsdl:output message="tns:GetActionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StartSimpleAction">
+      <wsdl:input message="tns:StartSimpleActionSoapIn" />
+      <wsdl:output message="tns:StartSimpleActionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StartAction">
+      <wsdl:input message="tns:StartActionSoapIn" />
+      <wsdl:output message="tns:StartActionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionTableName">
+      <wsdl:input message="tns:GetActionTableNameSoapIn" />
+      <wsdl:output message="tns:GetActionTableNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionIdFieldName">
+      <wsdl:input message="tns:GetActionIdFieldNameSoapIn" />
+      <wsdl:output message="tns:GetActionIdFieldNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLabelFieldName">
+      <wsdl:input message="tns:GetActionLabelFieldNameSoapIn" />
+      <wsdl:output message="tns:GetActionLabelFieldNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionDescpritionFieldName">
+      <wsdl:input message="tns:GetActionDescpritionFieldNameSoapIn" />
+      <wsdl:output message="tns:GetActionDescpritionFieldNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActionTypeFieldName">
+      <wsdl:input message="tns:GetActionTypeFieldNameSoapIn" />
+      <wsdl:output message="tns:GetActionTypeFieldNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVariablesTableNameName">
+      <wsdl:input message="tns:GetVariablesTableNameNameSoapIn" />
+      <wsdl:output message="tns:GetVariablesTableNameNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableIdFieldName">
+      <wsdl:input message="tns:GetVariableIdFieldNameSoapIn" />
+      <wsdl:output message="tns:GetVariableIdFieldNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableNameFieldName">
+      <wsdl:input message="tns:GetVariableNameFieldNameSoapIn" />
+      <wsdl:output message="tns:GetVariableNameFieldNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableTypeFieldName">
+      <wsdl:input message="tns:GetVariableTypeFieldNameSoapIn" />
+      <wsdl:output message="tns:GetVariableTypeFieldNameSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TimosActionServiceSoap" type="tns:TimosActionServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap:operation soapAction="http://TimosUri/GetVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActions">
+      <soap:operation soapAction="http://TimosUri/GetActions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartSimpleAction">
+      <soap:operation soapAction="http://TimosUri/StartSimpleAction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartAction">
+      <soap:operation soapAction="http://TimosUri/StartAction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionTableName">
+      <soap:operation soapAction="http://TimosUri/GetActionTableName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionIdFieldName">
+      <soap:operation soapAction="http://TimosUri/GetActionIdFieldName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLabelFieldName">
+      <soap:operation soapAction="http://TimosUri/GetActionLabelFieldName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionDescpritionFieldName">
+      <soap:operation soapAction="http://TimosUri/GetActionDescpritionFieldName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionTypeFieldName">
+      <soap:operation soapAction="http://TimosUri/GetActionTypeFieldName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariablesTableNameName">
+      <soap:operation soapAction="http://TimosUri/GetVariablesTableNameName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableIdFieldName">
+      <soap:operation soapAction="http://TimosUri/GetVariableIdFieldName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableNameFieldName">
+      <soap:operation soapAction="http://TimosUri/GetVariableNameFieldName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableTypeFieldName">
+      <soap:operation soapAction="http://TimosUri/GetVariableTypeFieldName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TimosActionServiceSoap12" type="tns:TimosActionServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap12:operation soapAction="http://TimosUri/GetVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActions">
+      <soap12:operation soapAction="http://TimosUri/GetActions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartSimpleAction">
+      <soap12:operation soapAction="http://TimosUri/StartSimpleAction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartAction">
+      <soap12:operation soapAction="http://TimosUri/StartAction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionTableName">
+      <soap12:operation soapAction="http://TimosUri/GetActionTableName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionIdFieldName">
+      <soap12:operation soapAction="http://TimosUri/GetActionIdFieldName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionLabelFieldName">
+      <soap12:operation soapAction="http://TimosUri/GetActionLabelFieldName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionDescpritionFieldName">
+      <soap12:operation soapAction="http://TimosUri/GetActionDescpritionFieldName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActionTypeFieldName">
+      <soap12:operation soapAction="http://TimosUri/GetActionTypeFieldName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariablesTableNameName">
+      <soap12:operation soapAction="http://TimosUri/GetVariablesTableNameName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableIdFieldName">
+      <soap12:operation soapAction="http://TimosUri/GetVariableIdFieldName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableNameFieldName">
+      <soap12:operation soapAction="http://TimosUri/GetVariableNameFieldName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVariableTypeFieldName">
+      <soap12:operation soapAction="http://TimosUri/GetVariableTypeFieldName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TimosActionService">
+    <wsdl:port name="TimosActionServiceSoap" binding="tns:TimosActionServiceSoap">
+      <soap:address location="http://localhost/TimosWeb/TimosActionService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TimosActionServiceSoap12" binding="tns:TimosActionServiceSoap12">
+      <soap12:address location="http://localhost/TimosWeb/TimosActionService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="timos.data.CSchemaReseau" Collapsed="true">
+    <Position X="1.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAgTEAAUAoQQKUEkAaUAAegEBIBZIShEFCSBCABQAEc=</HashCode>
+      <FileName>reseau\CSchemaReseau.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CElementDeSchemaReseau">
+    <Position X="0.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAATQAAABhgggAwMACSAAUZAAAIIAZICABQAKkAC4AU=</HashCode>
+      <FileName>reseau\CElementDeSchemaReseau.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SchemaReseau" />
+      <Property Name="EquipementLogique" />
+      <Property Name="LienReseau" />
+      <Property Name="Site" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="timos.data.CEquipementLogique" Collapsed="true">
+    <Position X="4" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>goASAgAGQoYAiEAlAQcAAQEwAgAYgQxCFCTACAgAAAQ=</HashCode>
+      <FileName>equipement\CEquipementLogique.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CSite" Collapsed="true">
+    <Position X="5.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>g0sycKFmgrygIWU1ES8wEUEyhDAaBS3QVCSCCAiRFYg=</HashCode>
+      <FileName>sites\CSite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="timos.data.CLienReseau" Collapsed="true">
+    <Position X="4.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABQIBQnzgAAIUAkECWgQKAJAgAYAYIDl3KKCEAIwAM=</HashCode>
+      <FileName>reseau\CLienReseau.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="timos.data.IElementDeSchemaReseau" Collapsed="true">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>reseau\IElementDeSchemaReseau.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

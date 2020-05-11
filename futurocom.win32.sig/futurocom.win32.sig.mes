@@ -1,0 +1,73 @@
+﻿10000;Variables du filtre
+10001;Saisie
+10002;Calculée
+10003;Sélection
+10004;Supprimer l'item sélectionné ?
+10005;Impossible de supprimer cette v&riable car elle est utilisée
+
+20000;Elements de la carte
+20001;Formulaire
+20002;Editer les variables
+20003;Libellé
+20004;Bulle
+20005;Condition
+20006;Icone
+20007;Supprimer cet élément ?
+20008;Elements
+20009;Dessin
+20010;Latitude
+20011;Longitude
+20012;Type d'élément source
+20013;Click droit pour configurer
+20014;Configuration du calque
+20015;Action sur clic
+20016;Supprimer l'action ?
+20017;Sélectionnez un type d'élement
+20018;Configuration de la carte
+20019;Configuration générale
+20020;Calques
+20021;Longitude
+20022;Latitude
+20023:Centre de la carte
+20024;Options de visualisation
+20025;Zoom
+20026;Mode affichage
+20027;Carte
+20028;Satellite
+20029;Hybride
+20030;Calques visibles
+20031;Options du calque
+20032;Permanent
+20033;Conservation d'état
+20034;Clé d'état
+20035;Requête
+20036;Paramètres de génération
+20037;Table source
+20038;Champ latitude
+20039;Champ longitude
+20040;Regrouper par
+20041;Libellé
+20042;Distance min.
+20043;Latitude 1
+20044;Longitude 1
+20045;Latitude 2
+20046;Longitude 2
+20047;Ligne
+20048;Pixels
+20049;Remplacer la configuration ?
+20050;Nouveau point
+20051;Tootip permanent
+20052;Texte
+20053;Segment
+20054;Supprimer
+20055;Supprimer cet élément ?
+20056;Nouvelle ligne
+20057;Terminer la ligne ?
+20058;Ligne
+20059;Point
+20060;Couleur
+20061;Epaisseur
+20062;Segment
+20063;Ajouter un point
+20064;Supprimer le point
+20065;Type

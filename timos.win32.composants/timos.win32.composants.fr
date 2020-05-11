@@ -1,0 +1,232 @@
+10;Ok
+11;Annuler
+50;Libellé
+64;Nom
+100;Type de lien
+101;Type de phase
+102;Glissez/déplacer l'image de la tâche ci contre pour ajouter le type de tâche sélectionné comme sous tâche de la tâche éditée
+103;Date de début
+104;Date de fin
+105;Retard 2/1
+106;Heure(s)
+107;Intervenants
+108;Ajouter un intervenant
+109;Propriétés de l'intervenant
+110;Intervenant
+111;Cet intervenant est utilisé comme intervenant suivant pour les sous tâches
+112;Intervenant
+113;Etes vous sûr de vouloir supprimer cet intervenant ?
+114;Afficher tous
+115;<Cliquez pour affecter>
+116;Masquer @1
+117;Zoom sur @1
+118;Deux jours
+119;Trois jours
+120;Cinq jours
+121;Semaine
+122;Deux semaines
+123;Editer
+124;Ajouter
+125;Heure
+126;De
+127;à
+128;Chaque
+130;Lundi
+131;Mardi
+132;Mercredi
+133;Jeudi
+134;Vendredi
+135;Samedi
+136;Dimanche
+137;Valeurs incorrectes pour les heures début/fin/écart
+201;Masquer
+472;Type d'éléments
+473;Sélectionner un type d'éléments pour ce modèle
+475;Taille par défaut
+698;Les Intervenants doivent satisfaire les contraintes suivantes
+699;Check Liste
+700;Début
+701;Fin
+702;Durée
+703;Contrainte
+704;Recherche
+705;Fractionner Intervention
+706;Date de fin de la première Fraction
+
+10000;Affichage
+10001;Date début planifiée
+10002;Date fin planifiée
+10003;Confirmation
+10004;Ne plus me poser la question pour le moment
+10005;Déplacer les elements ayants des dates non automatiques
+10006;L'Element que vous tentez de déplacer possède un ou plusieurs fils terminés. Ces fils ne seront pas déplacés automatiquement.
+10007;Etes-vous sûr de vouloir continuer le déplacement de l'Element :
+10008;L'Element que vous tentez de déplacer possède un ou plusieurs fils avec des dates Non Automatiques.
+10009;Que souhaitez vous faire ?
+10010;Vous n'avez pas le droit d'affecter ce Droit Système : @1
+
+20000;Erreur au chargement du modèle
+20001;Erreur dans la formule
+20002;Supprimer la dépendance entre @1 et @2 ?
+20003;Créer une dépendance entre @1 et @2 ?
+20004;Heure
+20005;Jour
+20006;Semaine
+20007;Mois
+20008;Précision
+20009;Début
+20010;Fin
+20011;Trier par
+20012;Then
+20013;Croissant
+20014;Décroissant
+20015;Sites
+20016;Masquer tous
+20016;Acteurs
+20017;Ressources
+20018;Ajout par filtre
+20019;Info
+20020;Chercher @1
+20021;Afficher les @1 acteur(s) cochés
+20022;Affecter @1 en tant que @2
+20023;Détail
+20024;Diviser
+20025;Check list
+20026;Ajout par filtre
+20027;Retrait par filtre
+20028;Appliquer un modèle
+20029;Sélectionnez un élément de test
+20030;Définir comme échelle par défaut
+
+30000;Descripton du module
+30001;Modules Applicatif
+30002;Module Client
+30003;Liste des modules associés au contrôle
+30004;Description du module 
+30005;Applicatif
+30006;Client
+30007;Ajouter une planification
+30008;Supprimer cette planification ?
+30009;Type de planification
+30010;Aucun type de planification sélectionné
+30011;les
+30012;Toutes les
+30013;semaines
+30014;Tous les
+30015;du mois
+30016;Chaque
+30017;Mois
+30018;Premier
+30019;Deuxième
+30020;Troisième
+30021;Quatrième
+30022;Dernier
+30023;Lundi
+30024;Mardi
+30025;Mercredi
+30026;Jeudi
+30027;Vendredi
+30028;Samedi
+30029;Dimanche
+30030;Tous les
+30031;(Profil défini par l'intervention)
+30032;Insérer
+30033;Formule
+30034;Impossible de sélectionner tout le contenu du document
+30035;Impossible de copier le contenu du document
+30036;Impossible de couper le contenu du document
+30037;Impossible de coller le contenu du presse-paipers dans le document
+30038;Police
+30039;Gauche
+30040;Centre
+30041;Droite
+30042;Gras
+30043;Italique
+30044;Souligné
+30045;Editer
+30046;Refaire
+30047;Annuler
+30048;Rechercher
+30049;Rechercher et remplacer
+30050;Sélectionner tout
+30051;Couper
+30052;Copier
+30053;Coller
+30054;Insérer l'image...
+30055;Police
+30056;Sélectionner police
+30057;Couleur de police
+30058;Gras
+30059;Italique
+30060;Souligné
+30061;Normal
+30062;Couleur de page
+30063;Paragraphe
+30064;Indentation
+30065;Aucune
+30066;5 pts
+30067;10 pts
+30068;15 pts
+30069;20 pts
+30070;Alignement
+30071;Gauche
+30072;Centre
+30073;Droite
+30074;Bulles
+30075;Mettre les bulles
+30076;Enlever les bulles
+30077;Le type de groupe doit hériter de CGroupeStructurant
+30078;Le type des objets de la liste doit hériter de CGroupeStructurant
+30079;Non disponible
+30080;Aucun type d'entrée de Agenda ne peut s'appliquer à ce type d'élément
+30081;Aucun filtre n'existe sur 
+30082;Aucun
+30083;Erreur lors de l'application du filtre
+30084;[JOUR]
+30085;Elément
+30086;Ajouter l'élément
+30087;Ajout par filtre
+30088;Vous allez ajouter @1 element(s) à la sélection. Continuer ?
+30089;Aucun @1 ne correspond au filtre
+30090;Hiérarchies des groupes
+30091;Close
+30092;Janvier
+30093;Février
+30094;Mars
+30095;Avril
+30096;Mai
+30097;Juin
+30098;Juillet
+30099;Août
+30100;Septembre
+30101;Octobre
+30102;Novembre
+30103;Décembre
+30104;Gérer les formulaires
+30105;Gérer les champs
+30106;Ordre
+30107;Phase finale
+30108;Phase de démarrage
+30109;Condition
+30110;à
+30111;De
+30112;Droits
+30113;(informations)
+30114;Element
+30115;Sélectionner l'élément
+30116;Ne rien sélectionner
+30117;Vous allez dissocier @1 éléments de cette entrée d'agenda. Confirmez vous cette opération ? 
+30118; éléments sélectionnés
+30119;Le système ne sait pas lister les éléments du type @1
+30120;Le système ne sait pas afficher les éléments du type @1
+30121;Ajout par liste
+30122;La liste est vide !
+30123;Nom de la liste
+30124;Liste sauvegardée sous '@1'
+30125;Remplacer la liste '@1' ?
+30126;Liste sauvegardée
+30127;(Vide)
+30291;(Aucun)
+30292;Ajouter par Liste
+
+

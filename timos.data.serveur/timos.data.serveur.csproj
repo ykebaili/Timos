@@ -1,0 +1,521 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C72166F3-84D8-48BF-814A-4E0CF6574E34}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>timos.data.serveur</RootNamespace>
+    <AssemblyName>timos.data.serveur</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug avec doc|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug avec doc\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>bin\Debug avec doc\timos.data.serveur.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug avec doc|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug avec doc\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug avec doc\timos.data.serveur.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CLicenceLogicielPrtct, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\CLicenceLogicielPrtct.dll</HintPath>
+    </Reference>
+    <Reference Include="data.hotel.client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\data.hotel.client.dll</HintPath>
+    </Reference>
+    <Reference Include="Lys.Licence, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\Lys.Licence.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.common, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.common.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.client, Version=1.0.2749.24110, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=1.0.2749.24417, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.dynamic.loader, Version=1.0.2749.24543, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.loader.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.data.serveur, Version=1.0.2749.24388, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents, Version=1.0.2749.24544, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.documents.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.documents.serveur, Version=1.0.2749.24545, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.documents.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.expression, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.expression.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.formulaire, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.formulaire.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.client, Version=1.0.2747.24927, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.client.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.multitiers.server, Version=1.0.2747.24929, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.multitiers.server.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process, Version=1.0.2749.24543, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.process.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process.serveur, Version=1.0.2749.24544, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.process.serveur.dll</HintPath>
+    </Reference>
+    <Reference Include="sc2i.process.web, Version=1.0.2749.24545, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.process.web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tiag.interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\tiag.interface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Aspectize\CTimosServiceForAspectize.cs" />
+    <Compile Include="commandes\CLigneCommandeServeur.cs" />
+    <Compile Include="commandes\CCommandeServeur.cs" />
+    <Compile Include="commandes\CLivraisonEquipementServeur.cs" />
+    <Compile Include="commandes\CLigneLivraisonEquipementServeur.cs" />
+    <Compile Include="commandes\CLotValorisationServeur.cs" />
+    <Compile Include="commandes\CLivraisonLotValorisationServeur.cs" />
+    <Compile Include="commandes\CValorisationElementServeur.cs" />
+    <Compile Include="commandes\CRelationLivraisonEquipement_ChampCustomServeur.cs" />
+    <Compile Include="commandes\CRelationTypeLivraisonEquipement_ChampCustomServeur.cs" />
+    <Compile Include="commandes\CRelationTypeLivraisonEquipement_FormulaireServeur.cs" />
+    <Compile Include="commandes\CTypeLivraisonEquipementServeur.cs" />
+    <Compile Include="commandes\CRelationCommande_ChampCustomServeur.cs" />
+    <Compile Include="commandes\CRelationTypeCommande_ChampCustomServeur.cs" />
+    <Compile Include="commandes\CRelationTypeCommande_FormulaireServeur.cs" />
+    <Compile Include="commandes\CTypeCommandeServeur.cs" />
+    <Compile Include="composantphysique\CComposantPhysiqueInDbServeur.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_ChampCustomValeurServeur.cs" />
+    <Compile Include="contraintes\CRelationTypeRessource_ChampCustomValeurServeur.cs" />
+    <Compile Include="coordonnees\CFormatNumerotationServeur.cs" />
+    <Compile Include="coordonnees\CUniteCoordonneeServeur.cs" />
+    <Compile Include="coordonnees\CParametrageSystemeCoordonneesServeur.cs" />
+    <Compile Include="coordonnees\CParametrageNiveauServeur.cs" />
+    <Compile Include="coordonnees\CSystemeCoordonneesServeur.cs" />
+    <Compile Include="coordonnees\CRelationSystemeCoordonnees_FormatNumerotationServeur.cs" />
+    <Compile Include="contraintes\CAttributRessourceServeur.cs" />
+    <Compile Include="contraintes\CAttributContrainteServeur.cs" />
+    <Compile Include="contraintes\CAttributTypeContrainteServeur.cs" />
+    <Compile Include="contraintes\CMouvementRessourceServeur.cs" />
+    <Compile Include="contraintes\CRessourceServeur.cs" />
+    <Compile Include="contraintes\CContrainteServeur.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_ChampCustomServeur.cs" />
+    <Compile Include="contraintes\CRelationRessource_ChampCustomValeurServeur.cs" />
+    <Compile Include="contraintes\CRelationContrainte_ChampCustomServeur.cs" />
+    <Compile Include="contraintes\CRelationContrainte_RessourceServeur.cs" />
+    <Compile Include="contraintes\CRelationTypeRessource_FormulaireServeur.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_FormulaireServeur.cs" />
+    <Compile Include="contraintes\CRelationTypeContrainte_TypeRessourceServeur.cs" />
+    <Compile Include="contraintes\CRelationTypeRessource_ChampCustomServeur.cs" />
+    <Compile Include="contraintes\CTypeRessourceServeur.cs" />
+    <Compile Include="contraintes\CTypeContrainteServeur.cs" />
+    <Compile Include="coordonnees\SObjetAFilsACoordonneeServeur.cs" />
+    <Compile Include="equipement\CMouvementEquipementServeur.cs" />
+    <Compile Include="equipement\CDonneesPartenaireConstructeurServeur.cs" />
+    <Compile Include="equipement\CEquipementLogiqueServeur.cs" />
+    <Compile Include="equipement\consommables\CConditionnementConsommableServeur.cs" />
+    <Compile Include="equipement\consommables\CLotConsommableServeur.cs" />
+    <Compile Include="equipement\consommables\CRelationLotConsommable_ChampCustomServeur.cs" />
+    <Compile Include="equipement\consommables\CRelationTypeConsommable_ChampCustomValeurServeur.cs" />
+    <Compile Include="equipement\consommables\CRelationTypeConsommable_ChampCustomServeur.cs" />
+    <Compile Include="equipement\consommables\CRelationTypeConsommable_FormulaireServeur.cs" />
+    <Compile Include="equipement\consommables\CTypeConsommableServeur.cs" />
+    <Compile Include="equipement\CRelationTypeStock_ChampCustomValeurServeur.cs" />
+    <Compile Include="equipement\CTypePortServeur.cs" />
+    <Compile Include="equipement\CPortServeur.cs" />
+    <Compile Include="equipement\CRelationEquipementLogique_ChampCustomServeur.cs" />
+    <Compile Include="equipement\CRelationEquipement_TableParametrableServeur.cs" />
+    <Compile Include="equipement\CRelationStock_ChampCustomValeurServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypeTableParametrableServeur.cs" />
+    <Compile Include="equipement\CRelationTypeStock_ChampCustomServeur.cs" />
+    <Compile Include="equipement\CRelationTypeStock_FormulaireServeur.cs" />
+    <Compile Include="interventions\CListeOperationsServeur.cs" />
+    <Compile Include="interventions\CIntervention_ListeOperationServeur.cs" />
+    <Compile Include="interventions\CContrat_ListeOperationsServeur.cs" />
+    <Compile Include="interventions\CContratListeOp_SiteServeur.cs" />
+    <Compile Include="interventions\CActiviteActeurResumeServeur.cs" />
+    <Compile Include="interventions\CRelationActiviteActeurResume_ChampCustomValeurServeur.cs" />
+    <Compile Include="interventions\CRelationContrat_ChampCustomServeur.cs" />
+    <Compile Include="interventions\CContrat_SiteServeur.cs" />
+    <Compile Include="interventions\CRelationTypeIntervention_ChampCustomValeurServeur.cs" />
+    <Compile Include="interventions\CTypeContratServeur.cs" />
+    <Compile Include="polling\CSnmpPollingFieldServeur.cs" />
+    <Compile Include="polling\CSnmpPollingHotelServer.cs" />
+    <Compile Include="projet\besoin\CBesoinServeur.cs" />
+    <Compile Include="projet\besoin\CBesoinQuantiteServeur.cs" />
+    <Compile Include="projet\besoin\CBesoinDependance.cs" />
+    <Compile Include="projet\besoin\CCalculateurCoutsElementsACouts.cs" />
+    <Compile Include="projet\besoin\CRelationBesoinQuantite_ElementServeur.cs" />
+    <Compile Include="projet\besoin\CPhaseSpecificationsServeur.cs" />
+    <Compile Include="projet\besoin\CRelationBesoin_SatisfactionServeur.cs" />
+    <Compile Include="projet\CGestionnaireProjetsAsynchrones.cs" />
+    <Compile Include="projet\CLienDeProjetServeur.cs" />
+    <Compile Include="projet\CAnomalieProjetServeur.cs" />
+    <Compile Include="projet\contraintes\CContrainteDeProjetServeur.cs" />
+    <Compile Include="projet\CMetaProjetServeur.cs" />
+    <Compile Include="projet\CRelationTypeProjet_SousTypeProjetServeur.cs" />
+    <Compile Include="projet\CProjet_SousTypeServeur.cs" />
+    <Compile Include="projet\CTypeMetaProjetServeur.cs" />
+    <Compile Include="projet\CRelationMetaProjet_ChampCustomServeur.cs" />
+    <Compile Include="projet\CRelationTypeMetaProjet_ChampCustomServeur.cs" />
+    <Compile Include="projet\CRelationTypeMetaProjet_FormulaireServeur.cs" />
+    <Compile Include="projet\CRelationMetaProjet_ProjetServeur.cs" />
+    <Compile Include="projet\CRelationTypeProjet_TypeProjetServeur.cs" />
+    <Compile Include="projet\CRelationTypeProjet_ChampCustomValeurServeur.cs" />
+    <Compile Include="projet\gantt\CParametrageDessinGanttServeur.cs" />
+    <Compile Include="projet\CRelationProjet_ChampCustomServeur.cs" />
+    <Compile Include="projet\CRelationTypeProjet_ChampCustomServeur.cs" />
+    <Compile Include="projet\CRelationTypeProjet_FormulaireServeur.cs" />
+    <Compile Include="projet\CTypeProjetServeur.cs" />
+    <Compile Include="reseau\CLienReseauServeur.cs" />
+    <Compile Include="reseau\CElementDeSchemaReseauServeur.cs" />
+    <Compile Include="reseau\CCheminLienReseauServeur.cs" />
+    <Compile Include="reseau\CModeleEtiquetteSchemaServeur.cs" />
+    <Compile Include="reseau\CParametreVueSchemaDynamiqueServeur.cs" />
+    <Compile Include="reseau\CRelationSchemaReseau_ChampCustomServeur.cs" />
+    <Compile Include="reseau\CRelationTypeSchemaReseau_ChampCustomServeur.cs" />
+    <Compile Include="reseau\CRelationTypeSchemaReseau_FormulaireServeur.cs" />
+    <Compile Include="reseau\CSchemaReseauServeur.cs" />
+    <Compile Include="reseau\CRelationLienReseau_ChampCustomserveur.cs" />
+    <Compile Include="reseau\CRelationTypeLienReseau_ChampCustomServeur.cs" />
+    <Compile Include="reseau\CRelationTypeLienReseau_FormulaireServeur.cs" />
+    <Compile Include="reseau\CTypeLienReseauServeur.cs" />
+    <Compile Include="reseau\CTypeLienReseauSupportServeur.cs" />
+    <Compile Include="reseau\CTypeSchemaReseauServeur.cs" />
+    <Compile Include="sites\CExtremiteSiteServeur.cs" />
+    <Compile Include="sites\CRelationRelationEquipement_ChampCustomServeur.cs" />
+    <Compile Include="sites\CRelationTypeSite_ChampCustomValeurServeur.cs" />
+    <Compile Include="sites\CReleveEquipementServeur.cs" />
+    <Compile Include="sites\CReleveSiteServeur.cs" />
+    <Compile Include="sites\CRelationSite_TableParametrableServeur.cs" />
+    <Compile Include="sites\CRelationTypeSite_TypeTableParametrableServeur.cs" />
+    <Compile Include="projet\CProjetServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_StockServeur.cs" />
+    <Compile Include="equipement\CRemplacementEquipementServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_ConstructeurServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypeRemplacementServeur.cs" />
+    <Compile Include="equipement\CStatutEquipementServeur.cs" />
+    <Compile Include="equipement\CTypeStockServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypeStockServeur.cs" />
+    <Compile Include="equipement\CStockServeur.cs" />
+    <Compile Include="equipement\CDonneesPartenaireFournisseurServeur.cs" />
+    <Compile Include="equipement\CEquipementServeur.cs" />
+    <Compile Include="equipement\CFamilleEquipementServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_FournisseurServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_TypesIncluablesServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_ChampCustomValeurServeur.cs" />
+    <Compile Include="equipement\CRelationFamilleEquipement_ChampCustomServeur.cs" />
+    <Compile Include="equipement\CRelationFamilleEquipement_FormulaireServeur.cs" />
+    <Compile Include="equipement\CRelationEquipement_ChampCustomServeur.cs" />
+    <Compile Include="equipement\CTypeEquipementServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_ChampCustomServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_FormulaireServeur.cs" />
+    <Compile Include="equipement\CRelationTypeEquipement_HeritageServeur.cs" />
+    <Compile Include="interventions\CFractionInterventionServeur.cs" />
+    <Compile Include="interventions\CActiviteActeurServeur.cs" />
+    <Compile Include="interventions\CIntervention_ActiviteActeurServeur.cs" />
+    <Compile Include="interventions\CProfilElement_ProfilIncluServeur.cs" />
+    <Compile Include="interventions\CRelationTypeActiviteActeur_FormulaireServeur.cs" />
+    <Compile Include="interventions\CRelationTypeActiviteActeur_ChampCustomServeur.cs" />
+    <Compile Include="interventions\CRelationActiviteActeur_ChampCustomValeurServeur.cs" />
+    <Compile Include="interventions\CTypeActiviteActeurServeur.cs" />
+    <Compile Include="interventions\CProfilElementServeur.cs" />
+    <Compile Include="interventions\CProfilElement_TypeEOServeur.cs" />
+    <Compile Include="interventions\CContratServeur.cs" />
+    <Compile Include="snmp\CEntiteSnmpServeur.cs" />
+    <Compile Include="snmp\CAgentSnmpServeur.cs" />
+    <Compile Include="snmp\CRelationEntiteSnmp_ChampCustomServeur.cs" />
+    <Compile Include="snmp\CRelationTypeAgentSnmp_MibModuleServeur.cs" />
+    <Compile Include="snmp\CRelationTypeEntiteSnmp_FormulaireServeur.cs" />
+    <Compile Include="snmp\CRelationTypeEntiteSnmp_ChampCustomServeur.cs" />
+    <Compile Include="snmp\CTypeAgentSnmpServeur.cs" />
+    <Compile Include="snmp\CSnmpMibModuleServeur.cs" />
+    <Compile Include="snmp\CTypeEntiteSnmpServeur.cs" />
+    <Compile Include="snmp\Proxy\CFournisseurDeConfigurationProxy.cs" />
+    <Compile Include="snmp\Proxy\CLienDeProxyServeur.cs" />
+    <Compile Include="snmp\Proxy\CSnmpConfigurationSynchroniseur.cs" />
+    <Compile Include="snmp\Proxy\CSnmpProxyInDbServeur.cs" />
+    <Compile Include="snmp\synchronisation\CNotifieurMiseAJourProxySnmp.cs" />
+    <Compile Include="snmp\synchronisation\CSynchroniseurBaseProxy.cs" />
+    <Compile Include="supervision\CCategorieMasquageAlarmeServeur.cs" />
+    <Compile Include="supervision\CParametrageFiltrageAlarmesServeur.cs" />
+    <Compile Include="supervision\CParametrageAffichageListeAlarmesServeur.cs" />
+    <Compile Include="supervision\CRelationAlarme_ChampCustomServeur.cs" />
+    <Compile Include="supervision\CRelationTypeAlarme_ChampCustomServeur.cs" />
+    <Compile Include="supervision\CRelationTypeAlarme_FormulaireServeur.cs" />
+    <Compile Include="supervision\CAlarmeServeur.cs" />
+    <Compile Include="supervision\CRelationTypeAlarme_ChampCustomValeurServeur.cs" />
+    <Compile Include="supervision\CSeveriteAlarmeServeur.cs" />
+    <Compile Include="supervision\CTraiteurAlarmesFromMediation.cs" />
+    <Compile Include="supervision\CTypeAlarmeServeur.cs" />
+    <Compile Include="symbole\CFamilleSymboleServeur.cs" />
+    <Compile Include="symbole\CSymboleDeBibliothequeServeur.cs" />
+    <Compile Include="symbole\CSymboleServeur.cs" />
+    <Compile Include="Sécurité\CDroitEditionTypeServeur.cs" />
+    <Compile Include="Sécurité\CExceptionTypePourTypeEOServeur.cs" />
+    <Compile Include="Sécurité\CRelationElement_RestrictionSpecifique_ApplicationServeur.cs" />
+    <Compile Include="Sécurité\CRelationElement_RestrictionSpecifiqueServeur.cs" />
+    <Compile Include="Sécurité\CRelationTypeEO_FormulaireParTypeServeur.cs" />
+    <Compile Include="Sécurité\CRelationElementAEO_ChampCustomServeur.cs" />
+    <Compile Include="tables\CColonneTableParametrableServeur.cs" />
+    <Compile Include="tables\CRelationTableParametrable_ChampCustomServeur.cs" />
+    <Compile Include="tables\CRelationTypeTableParametrable_ChampCustomServeur.cs" />
+    <Compile Include="tables\CRelationTypeTableParametrable_ChampCustomValeurServeur.cs" />
+    <Compile Include="tables\CRelationTypeTableParametrable_FormulaireServeur.cs" />
+    <Compile Include="tables\CTypeTableParametrableServeur.cs" />
+    <Compile Include="tables\CTableParametrableServeur.cs" />
+    <Compile Include="tiag\CServiceClientTiag.cs" />
+    <Compile Include="Tickets\CEtatClotureServeur.cs" />
+    <Compile Include="Tickets\CCauseGelServeur.cs" />
+    <Compile Include="Tickets\CGelServeur.cs" />
+    <Compile Include="Tickets\CLienTypePhaseServeur.cs" />
+    <Compile Include="Tickets\CHistoriqueTicketServeur.cs" />
+    <Compile Include="acteurs\CActeursSelonProfilServeur.cs" />
+    <Compile Include="Tickets\CNotePhaseServeur.cs" />
+    <Compile Include="Tickets\CTypeTicketContrat_Site_PeriodeServeur.cs" />
+    <Compile Include="Tickets\CTypeTicketContrat_SiteServeur.cs" />
+    <Compile Include="Tickets\CRelationTypeTicket_ChampCustomValeurServeur.cs" />
+    <Compile Include="Tickets\CRelationPhase_ChampCustomValeurServeur.cs" />
+    <Compile Include="Tickets\CRelationTicket_EOconcerneesServeur.cs" />
+    <Compile Include="Tickets\CTypePhase_TypeOperationServeur.cs" />
+    <Compile Include="Tickets\CTypeTicket_TypePhaseServeur.cs" />
+    <Compile Include="Tickets\CRelationTypePhaseTicket_TypeTacheServeur.cs" />
+    <Compile Include="Tickets\CTypePhaseServeur.cs" />
+    <Compile Include="Tickets\CTypeTicketContratServeur.cs" />
+    <Compile Include="Tickets\COrigineTicketServeur.cs" />
+    <Compile Include="Tickets\CDependanceTicketServeur.cs" />
+    <Compile Include="Tickets\CRelationTicket_ChampCustomValeurServeur.cs" />
+    <Compile Include="Tickets\CRelationTypeTicket_ChampCustomServeur.cs" />
+    <Compile Include="Tickets\CRelationTypeTicket_FormulaireServeur.cs" />
+    <Compile Include="Tickets\CUrgenceTicketServeur.cs" />
+    <Compile Include="Tickets\CRelationTicket_SiteServeur.cs" />
+    <Compile Include="Tickets\CPhaseTicketServeur.cs" />
+    <Compile Include="Tickets\CTicketServeur.cs" />
+    <Compile Include="Tickets\CTypeTicketServeur.cs" />
+    <Compile Include="Tickets\CQualificationTicketServeur.cs" />
+    <Compile Include="interventions\CIntervention_RessourceServeur.cs" />
+    <Compile Include="interventions\CIntervention_IntervenantServeur.cs" />
+    <Compile Include="interventions\CTypeIntervention_ProfilIntervenantServeur.cs" />
+    <Compile Include="interventions\CInterventionServeur.cs" />
+    <Compile Include="interventions\CRelationIntervention_ChampCustomServeur.cs" />
+    <Compile Include="interventions\CRelationOperation_ChampCustomServeur.cs" />
+    <Compile Include="interventions\CRelationTypeIntervention_ChampCustomServeur.cs" />
+    <Compile Include="interventions\CRelationTypeIntervention_FormulaireServeur.cs" />
+    <Compile Include="interventions\COperationServeur.cs" />
+    <Compile Include="interventions\CTypeIntervention_TypeOperationServeur.cs" />
+    <Compile Include="interventions\CTypeOperationServeur.cs" />
+    <Compile Include="interventions\CTypeInterventionServeur.cs" />
+    <Compile Include="acteurs\CCiviliteServeur.cs" />
+    <Compile Include="acteurs\CDonneeDroitForUserServer.cs" />
+    <Compile Include="acteurs\CDonneesActeurClientServeur.cs" />
+    <Compile Include="acteurs\CDonneesActeurServeur.cs" />
+    <Compile Include="sites\CRelationSite_ChampCustomServeur.cs" />
+    <Compile Include="sites\CRelationTypeSite_ChampCustomServeur.cs" />
+    <Compile Include="sites\CRelationTypeSite_FormulaireServeur.cs" />
+    <Compile Include="sites\CRelationTypeSite_TypeSiteServeur.cs" />
+    <Compile Include="sites\CSiteServeur.cs" />
+    <Compile Include="sites\CTypeSiteServeur.cs" />
+    <Compile Include="Sécurité\CRelationUtilisateur_Profil_EOServeur.cs" />
+    <Compile Include="Sécurité\CDonneesPartenaireUtilisateurServeur.cs" />
+    <Compile Include="acteurs\CGroupeActeurServeur.cs" />
+    <Compile Include="acteurs\CActeurServeur.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeurNecessiteServeur.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeur_ChampCustomServeur.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeur_FormulaireServeur.cs" />
+    <Compile Include="acteurs\CRelationGroupeActeur_GroupeActeurServeur.cs" />
+    <Compile Include="acteurs\CRelationActeurUtilisateur_DroitServeur.cs" />
+    <Compile Include="acteurs\CRelationActeur_ChampCustomServeur.cs" />
+    <Compile Include="acteurs\CRelationActeur_GroupePartenaireServeur.cs" />
+    <Compile Include="acteurs\CRelationRoleActeur_GroupeActeurServeur.cs" />
+    <Compile Include="acteurs\CRestrictionChampCustomServeur.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sécurité\CProfilUtilisateur_InclusionServeur.cs" />
+    <Compile Include="Sécurité\CRelationElement_EOServeur.cs" />
+    <Compile Include="Sécurité\CRelationUtilisateur_ProfilServeur.cs" />
+    <Compile Include="Sécurité\CProfilUtilisateur_RestrictionServeur.cs" />
+    <Compile Include="Sécurité\CProfilUtilisateurServeur.cs" />
+    <Compile Include="Sécurité\CEntiteOrganisationnelleServeur.cs" />
+    <Compile Include="Sécurité\CRelationTypeEO_ChampCustomServeur.cs" />
+    <Compile Include="Sécurité\CRelationEO_ChampCustomServeur.cs" />
+    <Compile Include="Sécurité\CRelationTypeEO_FormulaireServeur.cs" />
+    <Compile Include="Sécurité\CTypeEntiteOrganisationnelleServeur.cs" />
+    <Compile Include="Sécurité\CUtilElementAEOServeur.cs" />
+    <Compile Include="version\CAuditVersionServeur.cs" />
+    <Compile Include="version\CAuditVersionObjetServeur.cs" />
+    <Compile Include="version\CAuditVersionObjetOperationServeur.cs" />
+    <Compile Include="version\CTypeAuditVersionServeur.cs" />
+    <Compile Include="vuephysique\CVuePhysiqueServeur.cs" />
+    <Compile Include="workflow\CCalendrierServeur.cs" />
+    <Compile Include="workflow\CValeurSequenceNumerotationServeur.cs" />
+    <Compile Include="workflow\CSequenceNumerotationServeur.cs" />
+    <Compile Include="workflow\CEOplanifiee_ActeurServeur.cs" />
+    <Compile Include="workflow\ConsultationHierarchique\CConsultationHierarchieServeur.cs" />
+    <Compile Include="workflow\CTypeTableauPlanningServeur.cs" />
+    <Compile Include="workflow\CTypeTableauPlanning_TrancheHoraireServeur.cs" />
+    <Compile Include="workflow\CModeleTexteServeur.cs" />
+    <Compile Include="workflow\CTypeOccupationHoraireServeur.cs" />
+    <Compile Include="workflow\CHoraireJournalier_TrancheServeur.cs" />
+    <Compile Include="workflow\CHoraireJournalierServeur.cs" />
+    <Compile Include="workflow\CDesctivationEntreeAgendaCycliqueServeur.cs" />
+    <Compile Include="workflow\CDossierSuiviServeur.cs" />
+    <Compile Include="workflow\CEntreeAgendaServeur.cs" />
+    <Compile Include="workflow\CEntreeAgenda_SynchroExtServeur.cs" />
+    <Compile Include="workflow\CGrilleGeneriqueServeur.cs" />
+    <Compile Include="Sécurité\CGroupeRestrictionSurTypeServeur.cs" />
+    <Compile Include="workflow\CMenuCustomServeur.cs" />
+    <Compile Include="workflow\CPostItServeur.cs" />
+    <Compile Include="workflow\CCalendrier_JourParticulierServeur.cs" />
+    <Compile Include="workflow\CRelationDossierSuivi_ChampCustomServeur.cs" />
+    <Compile Include="workflow\CRelationDossierSuivi_ElementServeur.cs" />
+    <Compile Include="workflow\CRelationEntreeAgenda_ChampCustomServeur.cs" />
+    <Compile Include="workflow\CRelationEntreeAgenda_ElementAAgendaServeur.cs" />
+    <Compile Include="workflow\CRelationGroupeStructurantGroupeParentServeur.cs" />
+    <Compile Include="workflow\CRelationGroupe_GroupeNecessaireServeur.cs" />
+    <Compile Include="workflow\CRelationObjetDeGroupe_GroupeStructurantServeur.cs" />
+    <Compile Include="workflow\CRelationTachePlanifieeProcessServeur.cs" />
+    <Compile Include="workflow\CRelationTachePlanifieeTypeDonneeCumuleeServeur.cs" />
+    <Compile Include="workflow\CRelationTypeDossierSuivi_ChampCustomServeur.cs" />
+    <Compile Include="workflow\CRelationTypeDossierSuivi_FormulaireServeur.cs" />
+    <Compile Include="workflow\CRelationTypeDossierSuivi_TypeElement.cs" />
+    <Compile Include="workflow\CRelationTypeEntreeAgenda_ChampCustomServeur.cs" />
+    <Compile Include="workflow\CRelationTypeEntreeAgenda_FormulaireServeur.cs" />
+    <Compile Include="workflow\CRelationTypeEntreeAgenda_TypeElementAPlanningServeur.cs" />
+    <Compile Include="workflow\CRoleSurEntreeAgendaServeur.cs" />
+    <Compile Include="workflow\CTachePlanifieeServeur.cs" />
+    <Compile Include="workflow\CTypeDossierSuiviServeur.cs" />
+    <Compile Include="workflow\CTypeEntreeAgendaServeur.cs" />
+    <Compile Include="projet\gantt\CParametrageGanttServeur.cs" />
+    <Compile Include="workflow\sms\CMessageSMSServeur.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\futurocom.snmp\futurocom.snmp.csproj">
+      <Project>{D40EACEE-48DA-4559-86D2-63BC6F89E821}</Project>
+      <Name>futurocom.snmp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\futurocom.supervision\futurocom.supervision.csproj">
+      <Project>{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}</Project>
+      <Name>futurocom.supervision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\timos.client\timos.client.csproj">
+      <Project>{2F14D268-9349-4A75-95D0-3D989859837D}</Project>
+      <Name>timos.client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\timos.data\timos.data.csproj">
+      <Project>{52C5C360-E09E-4AAC-8B90-3AD4A906D20F}</Project>
+      <Name>timos.data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="timos.data.serveur.fr" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="common\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

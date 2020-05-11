@@ -1,0 +1,34 @@
+<!--                                                         -->
+<!-- Dtd pour valider l'export                               -->
+<!--                                                         -->
+<!-- Valerie Bodin 2013-07-17 Qowisio                        -->
+<!--                                                         -->
+<!ELEMENT export (inventory, data, alarms)>
+
+<!-- INVENTORY -->
+<!ELEMENT inventory (hosts)>
+
+<!-- hosts : liste des sites PICKUP + SONDE PASSIVE-->
+<!ELEMENT hosts (host*)>
+<!ELEMENT host (host_id,type,name,FuelProbes)>
+
+<!-- sondes -->
+<!ELEMENT FuelProbes (FuelProbe*)>
+<!ELEMENT FuelProbe (FuelProbe_id,TankShape,TankDimensions,TankCapacity,FuelProbeType)>
+
+<!ELEMENT host_id (#PCDATA)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT FuelProbe_id (#PCDATA)>
+<!ELEMENT TankShape (#PCDATA)>
+<!ELEMENT TankDimensions (#PCDATA)>
+<!ELEMENT TankCapacity (#PCDATA)>
+<!ELEMENT FuelProbeType (#PCDATA)>
+
+<!-- DATA -->
+<!ELEMENT data (hosts_data)>
+<!ELEMENT hosts_data (#PCDATA)>
+
+<!-- ALARMS -->
+<!ELEMENT alarms (alarm*)>
+<!ELEMENT alarm (#PCDATA)>
