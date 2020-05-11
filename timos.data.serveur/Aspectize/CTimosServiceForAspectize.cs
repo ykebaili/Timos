@@ -204,7 +204,7 @@ namespace timos.data.serveur.Aspectize
                                     int nIdElementEdite = -1;
                                     string strElementDescription = "";
                                     CResultAErreur resObjet = GetElementEditePrincipal(todo);
-                                    CObjetDonneeAIdNumerique objEdite = result.Data as CObjetDonneeAIdNumerique;
+                                    CObjetDonneeAIdNumerique objEdite = resObjet.Data as CObjetDonneeAIdNumerique;
                                     if(objEdite != null)
                                     {
                                         strTypeElementEdite = objEdite.TypeString;
@@ -215,7 +215,10 @@ namespace timos.data.serveur.Aspectize
                                     dt.Rows.Add(todo.Id, 
                                                 todo.DateDebut.Value,
                                                 todo.Libelle, 
-                                                strInstrcution);
+                                                strInstrcution,
+                                                strTypeElementEdite,
+                                                nIdElementEdite,
+                                                strElementDescription);
                                 }
 
                                 ds.Tables.Add(dt);
