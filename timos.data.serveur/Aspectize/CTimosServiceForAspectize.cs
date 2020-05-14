@@ -122,9 +122,7 @@ namespace timos.data.serveur.Aspectize
         //------------------------------------------------------------------------------------------------------
         public CResultAErreur OpenSession(string strLogin, string strPassword)
         {
-
             CResultAErreur result = CResultAErreur.True;
-
             CSessionClient session = CSessionClient.CreateInstance();
             // DEBUG result = session.OpenSession(new CAuthentificationSessionSousSession(0), "Aspectize", ETypeApplicationCliente.Service);
             
@@ -198,7 +196,6 @@ namespace timos.data.serveur.Aspectize
         {
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
             CResultAErreur result = CResultAErreur.True;
-
             return result;
         }
 

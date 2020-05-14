@@ -78,22 +78,28 @@ namespace timos.data.Aspectize
         public static CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo)
         {
             CResultAErreur result = CResultAErreur.True;
-
+            DataSet ds = new DataSet(c_dataSetName);
             CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
             if (session != null)
-
             {
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
                     CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
                     if (etapeEnCours.ReadIfExists(nIdTodo))
                     {
+                        DataTable tableTodos = CTodoTimosWebApp.GetStructureTable();
+                        CTodoTimosWebApp todoEnCours = new CTodoTimosWebApp(etapeEnCours, tableTodos.NewRow());
+                        tableTodos.Rows.Add(todoEnCours.Row);
+                        ds.Tables.Add(tableTodos);
+
                         CBlocWorkflowFormulaire blocFormulaire = etapeEnCours.TypeEtape != null ? etapeEnCours.TypeEtape.Bloc as CBlocWorkflowFormulaire : null;
                         if (blocFormulaire == null)
                         {
-                            result.EmpileErreur("Erreur GetTodoDetails : Ce To do ne peut pas être traité dans l'application web Timos");
+                            result.EmpileErreur("Erreur GetTodoDetails : Ce To do n'a pas de formulaire associé dans Timos");
                             return result;
                         }
+
+                        DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
                         // Traite la liste des formulaires associés
                         foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
                         {
@@ -103,17 +109,16 @@ namespace timos.data.Aspectize
                                 C2iWnd fenetre = formulaire.Formulaire;
                                 if (fenetre != null)
                                 {
-                                    DataTable dt = CChampTimosWebApp.GetStructureTable();
                                     ArrayList lst = fenetre.AllChilds();
                                     foreach (object obj in lst)
                                     {
                                         if (obj is C2iWndChampCustom)
                                         {
                                             C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
-                                            CChampTimosWebApp champWeb = new CChampTimosWebApp(fenChamp, dt.NewRow());
-
+                                            CChampTimosWebApp champWeb = new CChampTimosWebApp(fenChamp, tableChampsTimosWeb.NewRow());
+                                            tableChampsTimosWeb.Rows.Add(champWeb.Row);
                                         }
-                                        else if (obj is C2iWndZoneMultiple)
+                                        /*else if (obj is C2iWndZoneMultiple)
                                         {
                                             C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
                                             C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
@@ -126,13 +131,26 @@ namespace timos.data.Aspectize
                                                 object datas = resEval.Data;
 
                                             }
-                                        }
+                                        }*/
+
                                     }
                                 }
                             }
                         }
+                        ds.Tables.Add(tableChampsTimosWeb);
+                        result.Data = ds;
+                    }
+                    else
+                    {
+                        result.EmpileErreur("Le todo N° " + nIdTodo + " nexiste pas");
+                        return result;
                     }
                 }
+            }
+            else
+            {
+                result.EmpileErreur("Session " + nIdSession + " invalide");
+                return result;
             }
 
             return result;
