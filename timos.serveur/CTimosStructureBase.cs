@@ -51,7 +51,7 @@ namespace timos.serveur
 		//---------------------------------------------------------------------------
 		public int GetLastVersion()
 		{
-			return 27;
+			return 28;
 		}
 		//---------------------------------------------------------------------------
 		public C2iDataBaseUpdateOperationList GetListeTypeOfVersion(int nVersion)
@@ -86,7 +86,8 @@ namespace timos.serveur
                 case 25: lstRtr = UpdateVersion25(); break;
                 case 26: lstRtr = UpdateVersion26(); break;
                 case 27: lstRtr = UpdateVersion27(); break;
-				default:
+                case 28: lstRtr = UpdateVersion28(); break;
+                default:
 					break;
 			}
 
@@ -1387,10 +1388,12 @@ namespace timos.serveur
             return lstV27;
         }
 
-                //------------------------------- V 28 ---------------------------------------
+        //------------------------------- V 28 ---------------------------------------
         public C2iDataBaseUpdateOperationList UpdateVersion28()
         {
             C2iDataBaseUpdateOperationList lstV28 = new C2iDataBaseUpdateOperationList();
+
+            lstV28.Add(typeof(CRelationFormulaireChampCustom));
 
             // Pas de passage en V 28
             lstV28.Add(new C2iDataBaseUpdateOperationNoSetVersionBase());

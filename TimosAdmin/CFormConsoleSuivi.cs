@@ -527,6 +527,8 @@ namespace TimosAdmin
 		ArrayList m_listeThreadsEnAttente = new ArrayList();
 		private void m_lnkFermer_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{
+            CResultAErreur result = CResultAErreur.True;
+
 			if ( MessageBox.Show("Fermer toutes les sessions sélectionnées ?", "Confirmation",
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question ) == DialogResult.No )
@@ -539,24 +541,39 @@ namespace TimosAdmin
             {
                 int nIdSession = (int)item.Tag;
                 CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
-				try
-				{
-					CServiceSurClientFermerApplication service = (CServiceSurClientFermerApplication)session.GetServiceSurClient(CServiceSurClientFermerApplication.c_idService);
-					if ( service != null )
-					{
-						lock ( m_listeServicesToLaunch )
-						{
-							m_listeServicesToLaunch.Add ( service );
-						}
-						Thread th = new Thread ( funcStart );
-						th.Start();
-					}
-				}
-				catch
-				{
-				}
+                try
+                {
+                    CServiceSurClientFermerApplication service = (CServiceSurClientFermerApplication)session.GetServiceSurClient(CServiceSurClientFermerApplication.c_idService);
+                    if (service != null)
+                    {
+                        lock (m_listeServicesToLaunch)
+                        {
+                            m_listeServicesToLaunch.Add(service);
+                        }
+                        Thread th = new Thread(funcStart);
+                        th.Start();
+                    }
+                }
+                catch (Exception ex1)
+                {
+                    result.EmpileErreur(ex1.Message);
+                    try
+                    {
+                        if (session != null)
+                        {
+                            session.CloseSession();
+                        }
+                    }
+                    catch (Exception ex2)
+                    {
+                        result.EmpileErreur(ex2.Message);
+                    }
+                }
+
 			}
-		}
+            if(!result)
+                MessageBox.Show(result.MessageErreur);
+        }
 
         private void m_lnkOuvrir_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

@@ -17,6 +17,7 @@ namespace timos.data.Aspectize
         /// <param name="strPassword"></param>
         /// <returns></returns>
         CResultAErreur OpenSession(string strLogin, string strPassword);
+        CResultAErreur GetSession(int nIdSession);
         void CloseSession(int nIdSession);
         CResultAErreur GetTodosForUser(int nIdSession, string keyUtilisateur);
         CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo);
