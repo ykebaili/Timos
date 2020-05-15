@@ -49,6 +49,8 @@ namespace timos.data.Aspectize
             row[c_champLibelleConvivial] = strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champTypeDonne] = nTypeDonneeChamp;
+
+            m_row = row;
         }
 
         public static DataTable GetStructureTable()

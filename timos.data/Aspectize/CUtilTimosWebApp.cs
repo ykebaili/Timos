@@ -104,8 +104,10 @@ namespace timos.data.Aspectize
                         foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
                         {
                             CFormulaire formulaire = new CFormulaire(ctx);
-                            if (formulaire.ReadIfExists(blocFormulaire.DbKeyFormulaireSecondaire))
+                            if (formulaire.ReadIfExists(keyForm))
                             {
+                                string strLibelleFormulaire = formulaire.Libelle;
+
                                 C2iWnd fenetre = formulaire.Formulaire;
                                 if (fenetre != null)
                                 {
