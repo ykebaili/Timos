@@ -17,6 +17,7 @@ namespace timos.data.Aspectize
         public const string c_champLibelleConvivial = "TIMOS_FIELD_WEB_LABEL";
         public const string c_champOrdreAffichage = "TIMOS_FIELD_DISP_ORDER";
         public const string c_champTypeDonne = "TIMOS_FIELD_DATA_TYPE";
+        public const string c_champIsChoixParmis = "TIMOs_FIELD_IS_SELECT";
 
         DataRow m_row = null;
         CChampCustom m_champ;
@@ -28,6 +29,7 @@ namespace timos.data.Aspectize
             string strLibelleWeb = wndChamp.WebLabel;
             int nOrdreWeb = wndChamp.WebNumOrder;
             int nTypeDonneeChamp = 2; // par défaut type string
+            bool bIsChoixParmis = false;
 
             CChampCustom champ = wndChamp.ChampCustom;
             if (champ != null)
@@ -36,6 +38,7 @@ namespace timos.data.Aspectize
                 nIdChampCustom = champ.Id;
                 strNomChamp = champ.Nom;
                 nTypeDonneeChamp = (int)champ.TypeDonneeChamp.TypeDonnee;
+                bIsChoixParmis = champ.IsChoixParmis();
             }
 
             row[c_champId] = nIdChampCustom;
@@ -43,6 +46,7 @@ namespace timos.data.Aspectize
             row[c_champLibelleConvivial] = strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champTypeDonne] = nTypeDonneeChamp;
+            row[c_champIsChoixParmis] = bIsChoixParmis;
 
             m_row = row;
         }
@@ -76,6 +80,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champLibelleConvivial, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
             dt.Columns.Add(c_champTypeDonne, typeof(int));
+            dt.Columns.Add(c_champIsChoixParmis, typeof(bool));
 
             return dt;
         }

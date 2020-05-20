@@ -101,6 +101,7 @@ namespace timos.data.Aspectize
 
                         DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
                         DataTable tableValeursChamps = CTodoValeurChamp.GetStructureTable();
+                        DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
 
                         // Traite la liste des formulaires associés
                         foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
@@ -119,10 +120,44 @@ namespace timos.data.Aspectize
                                         if (obj is C2iWndChampCustom)
                                         {
                                             C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
+                                            CChampCustom cc = fenChamp.ChampCustom;
+
                                             CChampTimosWebApp champWeb = new CChampTimosWebApp(fenChamp, tableChampsTimosWeb.NewRow());
                                             tableChampsTimosWeb.Rows.Add(champWeb.Row);
+
                                             CTodoValeurChamp valeur = new CTodoValeurChamp(todoEnCours.ObjetEditePrincipal, fenChamp, tableValeursChamps.NewRow());
                                             tableValeursChamps.Rows.Add(valeur.Row);
+                                           
+                                            if(cc != null && cc.IsChoixParmis())
+                                            {
+                                                string strStore = "";
+                                                string strDisplay = "";
+                                                int nIndex = 0;
+                                                IList listeValeurs = null;
+                                                listeValeurs = cc.Valeurs;
+                                                if (cc.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto && listeValeurs is CListeObjetsDonnees)
+                                                {
+                                                    CListeObjetsDonnees listeObjets = (CListeObjetsDonnees)listeValeurs;
+                                                    foreach (IObjetDonneeAIdNumerique objetTimos in listeObjets)
+                                                    {
+                                                        strStore = objetTimos.Id.ToString();
+                                                        strDisplay = objetTimos.DescriptionElement;
+                                                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
+                                                        tableValeursPossibles.Rows.Add(valeurPossible.Row);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    foreach (CValeurChampCustom valPossible in cc.Valeurs)
+                                                    {
+                                                        strStore = valPossible.ValueString;
+                                                        strDisplay = valPossible.Display;
+                                                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
+                                                        tableValeursPossibles.Rows.Add(valeurPossible.Row);
+                                                    }
+                                                }
+                                            }
+
                                         }
                                         /*else if (obj is C2iWndZoneMultiple)
                                         {
@@ -145,6 +180,7 @@ namespace timos.data.Aspectize
                         }
                         ds.Tables.Add(tableChampsTimosWeb);
                         ds.Tables.Add(tableValeursChamps);
+                        ds.Tables.Add(tableValeursPossibles);
                         result.Data = ds;
                     }
                     else
