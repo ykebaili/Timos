@@ -163,6 +163,7 @@
     <Compile Include="acteurs\ITypeElementAContacts.cs" />
     <Compile Include="Aspectize\CChampTimosWebApp.cs" />
     <Compile Include="Aspectize\CTodoTimosWebApp.cs" />
+    <Compile Include="Aspectize\CTodoValeurChamp.cs" />
     <Compile Include="Aspectize\CUserTimosWebApp.cs" />
     <Compile Include="Aspectize\CUtilTimosWebApp.cs" />
     <Compile Include="Aspectize\IEntiteTimosWebApp.cs" />

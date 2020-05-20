@@ -1,5 +1,6 @@
 ﻿using sc2i.common;
 using sc2i.data;
+using sc2i.data.dynamic;
 using sc2i.expression;
 using sc2i.process.workflow;
 using sc2i.process.workflow.blocs;
@@ -25,14 +26,9 @@ namespace timos.data.Aspectize
         public const string c_champElementDescription = "TODO_ELEMENT_DESCRIPTION";
 
         DataRow m_row = null;
+        IObjetDonneeAChamps m_objetEdite;
 
-        public DataRow Row
-        {
-            get
-            {
-                return m_row;
-            }
-        }
+
 
         public CTodoTimosWebApp(CEtapeWorkflow etape, DataRow row)
         {
@@ -44,6 +40,7 @@ namespace timos.data.Aspectize
             CObjetDonneeAIdNumerique objEdite = resObjet.Data as CObjetDonneeAIdNumerique;
             if (objEdite != null)
             {
+                m_objetEdite = objEdite as IObjetDonneeAChamps;
                 strTypeElementEdite = objEdite.TypeString;
                 nIdElementEdite = objEdite.Id;
                 strElementDescription = objEdite.DescriptionElement;
@@ -58,6 +55,24 @@ namespace timos.data.Aspectize
             row[c_champElementDescription]=strElementDescription;
 
             m_row = row;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public DataRow Row
+        {
+            get
+            {
+                return m_row;
+            }
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public IObjetDonneeAChamps ObjetEditePrincipal
+        {
+            get
+            {
+                return m_objetEdite;
+            }
         }
 
         //---------------------------------------------------------------------------------------------------------

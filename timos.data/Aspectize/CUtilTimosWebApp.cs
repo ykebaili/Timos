@@ -100,6 +100,8 @@ namespace timos.data.Aspectize
                         }
 
                         DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
+                        DataTable tableValeursChamps = CTodoValeurChamp.GetStructureTable();
+
                         // Traite la liste des formulaires associés
                         foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
                         {
@@ -119,6 +121,8 @@ namespace timos.data.Aspectize
                                             C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
                                             CChampTimosWebApp champWeb = new CChampTimosWebApp(fenChamp, tableChampsTimosWeb.NewRow());
                                             tableChampsTimosWeb.Rows.Add(champWeb.Row);
+                                            CTodoValeurChamp valeur = new CTodoValeurChamp(todoEnCours.ObjetEditePrincipal, fenChamp, tableValeursChamps.NewRow());
+                                            tableValeursChamps.Rows.Add(valeur.Row);
                                         }
                                         /*else if (obj is C2iWndZoneMultiple)
                                         {
@@ -140,6 +144,7 @@ namespace timos.data.Aspectize
                             }
                         }
                         ds.Tables.Add(tableChampsTimosWeb);
+                        ds.Tables.Add(tableValeursChamps);
                         result.Data = ds;
                     }
                     else
@@ -157,6 +162,77 @@ namespace timos.data.Aspectize
 
             return result;
         }
+
+        //------------------------------------------------------------------------------------------------------
+        public static CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+
+                    CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
+                    if (etapeEnCours.ReadIfExists(nIdTodo))
+                    {
+                        Type tp = CActivatorSurChaine.GetType(elementType);
+                        if (tp == null)
+                        {
+                            result.EmpileErreur("Le type " + elementType + " n'existe pas dans Timos");
+                            return result;
+                        }
+                        IObjetDonneeAChamps obj = (IObjetDonneeAChamps)Activator.CreateInstance(tp, new object[] { ctx });
+                        if (obj.ReadIfExists(elementId))
+                        {
+                            DataTable dt = ds.Tables["TodoValeurChamp"];
+                            if(dt != null)
+                            {
+                                CResultAErreur resBoucle = CResultAErreur.True;
+                                foreach (DataRow row in dt.Rows)
+                                {
+                                    int nIdChamp = (int)row[CTodoValeurChamp.c_champId];
+                                    var valeur = row[CTodoValeurChamp.c_champValeur];
+                                    CChampCustom champ = new CChampCustom(ctx);
+                                    if (champ.ReadIfExists(nIdChamp))
+                                    {
+                                        resBoucle = CUtilElementAChamps.SetValeurChamp(obj, nIdChamp, valeur);
+                                        if (!resBoucle)
+                                            result.EmpileErreur(resBoucle.MessageErreur);
+                                        var newValeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+                                        resBoucle = champ.IsCorrectValue(newValeur);
+                                        if (!resBoucle)
+                                            result.EmpileErreur(resBoucle.MessageErreur);
+                                    }
+                                    
+                                }
+                                if(!result)
+                                {
+                                    result.EmpileErreur("Erreur de sauvegarde dans Timos");
+                                    return result;
+                                }
+                                result = ctx.SaveAll(true);
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            result.EmpileErreur("L'objet id " + elementId + " n'existe pas dans Timos");
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        result.EmpileErreur("Le todo id " + nIdTodo + " n'existe pas dans Timos");
+                        return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
 
     }
 

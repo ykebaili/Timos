@@ -19,14 +19,7 @@ namespace timos.data.Aspectize
         public const string c_champTypeDonne = "TIMOS_FIELD_DATA_TYPE";
 
         DataRow m_row = null;
-
-        public DataRow Row
-        {
-            get
-            {
-                return m_row;
-            }
-        }
+        CChampCustom m_champ;
 
         public CChampTimosWebApp(C2iWndChampCustom wndChamp, DataRow row)
         {
@@ -39,6 +32,7 @@ namespace timos.data.Aspectize
             CChampCustom champ = wndChamp.ChampCustom;
             if (champ != null)
             {
+                m_champ = champ;
                 nIdChampCustom = champ.Id;
                 strNomChamp = champ.Nom;
                 nTypeDonneeChamp = (int)champ.TypeDonneeChamp.TypeDonnee;
@@ -53,6 +47,26 @@ namespace timos.data.Aspectize
             m_row = row;
         }
 
+        //---------------------------------------------------------------------------------------
+        public DataRow Row
+        {
+            get
+            {
+                return m_row;
+            }
+        }
+
+        //---------------------------------------------------------------------------------------
+        public CChampCustom Champ
+        {
+            get
+            {
+                return m_champ;
+            }
+        }
+
+
+        //---------------------------------------------------------------------------------------
         public static DataTable GetStructureTable()
         {
             DataTable dt = new DataTable(c_nomTable);

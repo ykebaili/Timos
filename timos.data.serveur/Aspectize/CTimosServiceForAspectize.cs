@@ -192,10 +192,10 @@ namespace timos.data.serveur.Aspectize
 
 
         // Enregistre les données du to do
-        public CResultAErreur SaveTodo(int nIdSession, DataSet ds)
+        public CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId)
         {
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
-            CResultAErreur result = CResultAErreur.True;
+            CResultAErreur result = CUtilTimosWebApp.SaveTodo(nIdSession, ds, nIdTodo, elementType, elementId);
             return result;
         }
 

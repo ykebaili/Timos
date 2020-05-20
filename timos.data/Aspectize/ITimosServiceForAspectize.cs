@@ -21,7 +21,7 @@ namespace timos.data.Aspectize
         void CloseSession(int nIdSession);
         CResultAErreur GetTodosForUser(int nIdSession, string keyUtilisateur);
         CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo);
-        CResultAErreur SaveTodo(int nIdSession, DataSet ds);
+        CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId);
 
 
     }
