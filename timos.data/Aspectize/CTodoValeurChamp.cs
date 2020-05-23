@@ -39,10 +39,19 @@ namespace timos.data.Aspectize
                 row[c_champId] = nIdChamp;
                 row[c_champLibelle] = strLibelleWeb;
                 row[c_champOrdreAffichage] = nOrdreWeb;
+                row[c_champValeur] = "";
+
                 if (m_valeur != null)
-                    row[c_champValeur] = m_valeur.ToString();
-                else
-                    row[c_champValeur] = "";
+                {
+                    if(champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+                    {
+                        IObjetDonneeAIdNumerique objetValeur = m_valeur as IObjetDonneeAIdNumerique;
+                        if (objetValeur != null)
+                            row[c_champValeur] = objetValeur.Id.ToString();
+                    }
+                    else
+                        row[c_champValeur] = m_valeur.ToString();
+                }
             }
             m_row = row;
         }

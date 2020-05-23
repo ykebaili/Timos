@@ -121,59 +121,60 @@ namespace timos.data.Aspectize
                                         {
                                             C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
                                             CChampCustom cc = fenChamp.ChampCustom;
-
-                                            CChampTimosWebApp champWeb = new CChampTimosWebApp(fenChamp, tableChampsTimosWeb.NewRow());
-                                            tableChampsTimosWeb.Rows.Add(champWeb.Row);
-
-                                            CTodoValeurChamp valeur = new CTodoValeurChamp(todoEnCours.ObjetEditePrincipal, fenChamp, tableValeursChamps.NewRow());
-                                            tableValeursChamps.Rows.Add(valeur.Row);
-                                           
-                                            if(cc != null && cc.IsChoixParmis())
+                                            if (cc != null)
                                             {
-                                                string strStore = "";
-                                                string strDisplay = "";
-                                                int nIndex = 0;
-                                                IList listeValeurs = null;
-                                                listeValeurs = cc.Valeurs;
-                                                if (cc.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto && listeValeurs is CListeObjetsDonnees)
-                                                {
-                                                    CListeObjetsDonnees listeObjets = (CListeObjetsDonnees)listeValeurs;
-                                                    foreach (IObjetDonneeAIdNumerique objetTimos in listeObjets)
-                                                    {
-                                                        strStore = objetTimos.Id.ToString();
-                                                        strDisplay = objetTimos.DescriptionElement;
-                                                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
-                                                        tableValeursPossibles.Rows.Add(valeurPossible.Row);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    foreach (CValeurChampCustom valPossible in cc.Valeurs)
-                                                    {
-                                                        strStore = valPossible.ValueString;
-                                                        strDisplay = valPossible.Display;
-                                                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
-                                                        tableValeursPossibles.Rows.Add(valeurPossible.Row);
-                                                    }
-                                                }
-                                            }
+                                                CChampTimosWebApp champWeb = new CChampTimosWebApp(fenChamp, tableChampsTimosWeb.NewRow());
+                                                tableChampsTimosWeb.Rows.Add(champWeb.Row);
 
+                                                CTodoValeurChamp valeur = new CTodoValeurChamp(todoEnCours.ObjetEditePrincipal, fenChamp, tableValeursChamps.NewRow());
+                                                tableValeursChamps.Rows.Add(valeur.Row);
+
+                                                if (cc.IsChoixParmis())
+                                                {
+                                                    string strStore = "";
+                                                    string strDisplay = "";
+                                                    int nIndex = 0;
+                                                    IList listeValeurs = null;
+                                                    listeValeurs = cc.Valeurs;
+                                                    if (cc.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto && listeValeurs is CListeObjetsDonnees)
+                                                    {
+                                                        CListeObjetsDonnees listeObjets = (CListeObjetsDonnees)listeValeurs;
+                                                        foreach (IObjetDonneeAIdNumerique objetTimos in listeObjets)
+                                                        {
+                                                            strStore = objetTimos.Id.ToString();
+                                                            strDisplay = objetTimos.DescriptionElement;
+                                                            CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
+                                                            tableValeursPossibles.Rows.Add(valeurPossible.Row);
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (CValeurChampCustom valPossible in cc.Valeurs)
+                                                        {
+                                                            strStore = valPossible.ValueString;
+                                                            strDisplay = valPossible.Display;
+                                                            CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
+                                                            tableValeursPossibles.Rows.Add(valeurPossible.Row);
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                            /*else if (obj is C2iWndZoneMultiple)
+                                            {
+                                                C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
+                                                C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
+                                                //sousFenetre.AllChilds();
+
+                                                CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(etapeEnCours);
+                                                CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
+                                                if (resEval)
+                                                {
+                                                    object datas = resEval.Data;
+
+                                                }
+                                            }*/
                                         }
-                                        /*else if (obj is C2iWndZoneMultiple)
-                                        {
-                                            C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
-                                            C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
-                                            //sousFenetre.AllChilds();
-
-                                            CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(etapeEnCours);
-                                            CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
-                                            if (resEval)
-                                            {
-                                                object datas = resEval.Data;
-
-                                            }
-                                        }*/
-
                                     }
                                 }
                             }
@@ -233,7 +234,20 @@ namespace timos.data.Aspectize
                                     CChampCustom champ = new CChampCustom(ctx);
                                     if (champ.ReadIfExists(nIdChamp))
                                     {
-                                        resBoucle = CUtilElementAChamps.SetValeurChamp(obj, nIdChamp, valeur);
+                                        if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+                                        {
+                                            try
+                                            {
+                                                resBoucle = CUtilElementAChamps.SetValeurChamp(obj, nIdChamp, Int32.Parse(valeur.ToString()));
+                                            }
+                                            catch(Exception ex)
+                                            {
+                                                resBoucle.EmpileErreur("Erreur SetValeurChamp Id : " + nIdChamp + ". " + ex.Message);
+                                            }
+                                        }
+                                        else
+                                            resBoucle = CUtilElementAChamps.SetValeurChamp(obj, nIdChamp, valeur);
+
                                         if (!resBoucle)
                                             result.EmpileErreur(resBoucle.MessageErreur);
                                         var newValeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);

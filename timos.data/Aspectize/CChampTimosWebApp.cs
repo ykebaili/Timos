@@ -17,7 +17,9 @@ namespace timos.data.Aspectize
         public const string c_champLibelleConvivial = "TIMOS_FIELD_WEB_LABEL";
         public const string c_champOrdreAffichage = "TIMOS_FIELD_DISP_ORDER";
         public const string c_champTypeDonne = "TIMOS_FIELD_DATA_TYPE";
-        public const string c_champIsChoixParmis = "TIMOs_FIELD_IS_SELECT";
+        public const string c_champIsChoixParmis = "TIMOS_FIELD_IS_SELECT";
+        public const string c_champIsMultiline = "TIMOS_FIELD_IS_MULTILINE";
+        public const string c_champIsEditable = "TIMOS_FIELD_IS_EDITABLE";
 
         DataRow m_row = null;
         CChampCustom m_champ;
@@ -30,6 +32,8 @@ namespace timos.data.Aspectize
             int nOrdreWeb = wndChamp.WebNumOrder;
             int nTypeDonneeChamp = 2; // par défaut type string
             bool bIsChoixParmis = false;
+            bool bIsMultiline = wndChamp.MultiLine;
+            bool bIsEditable = false;
 
             CChampCustom champ = wndChamp.ChampCustom;
             if (champ != null)
@@ -39,6 +43,7 @@ namespace timos.data.Aspectize
                 strNomChamp = champ.Nom;
                 nTypeDonneeChamp = (int)champ.TypeDonneeChamp.TypeDonnee;
                 bIsChoixParmis = champ.IsChoixParmis();
+                // bIsEditable = à implémenter
             }
 
             row[c_champId] = nIdChampCustom;
@@ -47,6 +52,8 @@ namespace timos.data.Aspectize
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champTypeDonne] = nTypeDonneeChamp;
             row[c_champIsChoixParmis] = bIsChoixParmis;
+            row[c_champIsMultiline] = bIsMultiline;
+            row[c_champIsEditable] = bIsEditable;
 
             m_row = row;
         }
@@ -81,6 +88,8 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
             dt.Columns.Add(c_champTypeDonne, typeof(int));
             dt.Columns.Add(c_champIsChoixParmis, typeof(bool));
+            dt.Columns.Add(c_champIsMultiline, typeof(bool));
+            dt.Columns.Add(c_champIsEditable, typeof(bool));
 
             return dt;
         }
