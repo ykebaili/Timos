@@ -1,6 +1,7 @@
 ﻿using sc2i.common;
 using sc2i.data;
 using sc2i.data.dynamic;
+using sc2i.data.dynamic.NommageEntite;
 using sc2i.expression;
 using sc2i.process.workflow;
 using sc2i.process.workflow.blocs;
@@ -27,7 +28,6 @@ namespace timos.data.Aspectize
 
         DataRow m_row = null;
         IObjetDonneeAChamps m_objetEdite;
-
 
 
         public CTodoTimosWebApp(CEtapeWorkflow etape, DataRow row)
@@ -133,7 +133,49 @@ namespace timos.data.Aspectize
             return result;
         }
 
+        //------------------------------------------------------------------------------------------------
+        public CDocumentAttendu[] GetDocumentsAttendus(CContexteDonnee ctx)
+        {
+            List<CDocumentAttendu> lstDocumentsAttendus = new List<CDocumentAttendu>();
 
+            if (m_objetEdite == null)
+                return null;
+
+            CObjetDonneeAIdNumerique objet = m_objetEdite as CObjetDonneeAIdNumerique;
+            if (objet != null)
+            {
+
+                CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(ctx);
+                listeNomsForts.Filtre = new CFiltreData(
+                    CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " = @2",
+                    typeof(CTypeCaracteristiqueEntite).ToString(),
+                    CDocumentAttendu.c_nomFortTypeCaracteristiqueDocument);
+
+                string strIDs = "";
+                foreach (CNommageEntite nom in listeNomsForts)
+                    strIDs += nom.CleEntiteString;
+
+                if (strIDs.Length == 0)
+                    return lstDocumentsAttendus.ToArray<CDocumentAttendu>();
+                else
+                    strIDs = strIDs.Substring(0, strIDs.Length - 1);
+
+                CListeObjetsDonnees lst = CCaracteristiqueEntite.GetCaracteristiques(objet);
+                //lst.Filtre = new CFiltreDataAvance( CTypeCaracteristiqueEntite.c_champIdUniversel + " IN (" + strIDs + ")");
+
+                DataTable dtDocumentsAttendus = CDocumentAttendu.GetStructureTable();
+
+                foreach (CCaracteristiqueEntite caracDoc in lst.ToArray<CCaracteristiqueEntite>())
+                {
+                    lstDocumentsAttendus.Add(new CDocumentAttendu(caracDoc, dtDocumentsAttendus.NewRow()));
+                }
+            }
+
+            return lstDocumentsAttendus.ToArray<CDocumentAttendu>();
+        }
+
+
+        //------------------------------------------------------------------------------------------------
         public static DataTable GetStructureTable()
         {
             DataTable dt = new DataTable(c_nomTable);

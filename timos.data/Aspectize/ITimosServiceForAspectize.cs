@@ -22,7 +22,7 @@ namespace timos.data.Aspectize
         CResultAErreur GetTodosForUser(int nIdSession, string keyUtilisateur);
         CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo);
         CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId);
-
+        CResultAErreur AddFile(int nIdSession, int nDocumentAttenduId);
 
     }
 }

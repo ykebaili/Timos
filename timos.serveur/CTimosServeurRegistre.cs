@@ -87,8 +87,6 @@ namespace timos.serveur
             }
         }
 
-
-
         public static CTypeReferenceDocument[] TypeStockageAutorisePourLesUtilisateurs
         {
             get

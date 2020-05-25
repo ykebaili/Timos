@@ -199,6 +199,13 @@ namespace timos.data.serveur.Aspectize
             return result;
         }
 
+        public CResultAErreur AddFile(int nIdSession,  int nDocumentId)
+        {
+            CResultAErreur result = CResultAErreur.True;
 
+
+
+            return result;
+        }
     }
 }

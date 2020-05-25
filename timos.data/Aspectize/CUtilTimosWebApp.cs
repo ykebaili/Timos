@@ -1,6 +1,7 @@
 ﻿using sc2i.common;
 using sc2i.data;
 using sc2i.data.dynamic;
+using sc2i.data.dynamic.NommageEntite;
 using sc2i.expression;
 using sc2i.formulaire;
 using sc2i.multitiers.client;
@@ -24,6 +25,8 @@ namespace timos.data.Aspectize
     public class CUtilTimosWebApp
     {
         private const string c_dataSetName = "TIMOS_DATA";
+
+        private const string c_listeIdsTypesCaracsDocuements = "101, 281";
 
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur GetTodosForUser(int nIdsession, string keyUtilisateur)
@@ -103,7 +106,7 @@ namespace timos.data.Aspectize
                         DataTable tableValeursChamps = CTodoValeurChamp.GetStructureTable();
                         DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
 
-                        // Traite la liste des formulaires associés
+                        // Traite la liste des formulaires associés pour trouver les champs customs
                         foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
                         {
                             CFormulaire formulaire = new CFormulaire(ctx);
@@ -179,6 +182,10 @@ namespace timos.data.Aspectize
                                 }
                             }
                         }
+
+                        // Gestion des documents attendus
+                        CDocumentAttendu[] lstDocumentsSurTodo = todoEnCours.GetDocumentsAttendus(ctx);
+
                         ds.Tables.Add(tableChampsTimosWeb);
                         ds.Tables.Add(tableValeursChamps);
                         ds.Tables.Add(tableValeursPossibles);
