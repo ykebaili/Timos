@@ -184,11 +184,13 @@ namespace timos.data.Aspectize
                         }
 
                         // Gestion des documents attendus
-                        CDocumentAttendu[] lstDocumentsSurTodo = todoEnCours.GetDocumentsAttendus(ctx);
-
+                        DataTable tableDocuementsAttendus = todoEnCours.GetDocumentsAttendus(ctx);
+                        
                         ds.Tables.Add(tableChampsTimosWeb);
                         ds.Tables.Add(tableValeursChamps);
                         ds.Tables.Add(tableValeursPossibles);
+                        ds.Tables.Add(tableDocuementsAttendus);
+
                         result.Data = ds;
                     }
                     else

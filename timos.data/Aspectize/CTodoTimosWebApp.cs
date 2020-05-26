@@ -134,12 +134,12 @@ namespace timos.data.Aspectize
         }
 
         //------------------------------------------------------------------------------------------------
-        public CDocumentAttendu[] GetDocumentsAttendus(CContexteDonnee ctx)
+        public DataTable GetDocumentsAttendus(CContexteDonnee ctx)
         {
-            List<CDocumentAttendu> lstDocumentsAttendus = new List<CDocumentAttendu>();
+            DataTable dtDocumentsAttendus = CDocumentAttendu.GetStructureTable();
 
             if (m_objetEdite == null)
-                return null;
+                return dtDocumentsAttendus;
 
             CObjetDonneeAIdNumerique objet = m_objetEdite as CObjetDonneeAIdNumerique;
             if (objet != null)
@@ -147,31 +147,36 @@ namespace timos.data.Aspectize
 
                 CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(ctx);
                 listeNomsForts.Filtre = new CFiltreData(
-                    CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " = @2",
+                    CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
                     typeof(CTypeCaracteristiqueEntite).ToString(),
-                    CDocumentAttendu.c_nomFortTypeCaracteristiqueDocument);
+                    CDocumentAttendu.c_nomFortTypeCaracteristiqueDocument+"%");
 
                 string strIDs = "";
                 foreach (CNommageEntite nom in listeNomsForts)
-                    strIDs += nom.CleEntiteString;
-
+                {
+                    if (strIDs != "")
+                        strIDs += ",";
+                    strIDs += nom.GetObjetNomme().Id.ToString();
+                }
                 if (strIDs.Length == 0)
-                    return lstDocumentsAttendus.ToArray<CDocumentAttendu>();
-                else
-                    strIDs = strIDs.Substring(0, strIDs.Length - 1);
+                    return dtDocumentsAttendus;
 
-                CListeObjetsDonnees lst = CCaracteristiqueEntite.GetCaracteristiques(objet);
-                //lst.Filtre = new CFiltreDataAvance( CTypeCaracteristiqueEntite.c_champIdUniversel + " IN (" + strIDs + ")");
+                CFiltreData filtre = new CFiltreData(CCaracteristiqueEntite.c_champTypeElement + "=@1 and " +
+                    CCaracteristiqueEntite.c_champIdElementLie + "=@2 and " + CTypeCaracteristiqueEntite.c_champId + " IN (" + strIDs + ")",
+                    objet.GetType().ToString(),
+                    objet.Id);
 
-                DataTable dtDocumentsAttendus = CDocumentAttendu.GetStructureTable();
+                CListeObjetsDonnees lst = new CListeObjetsDonnees(ctx, typeof(CCaracteristiqueEntite), filtre);
+                int combien = lst.Count;
 
                 foreach (CCaracteristiqueEntite caracDoc in lst.ToArray<CCaracteristiqueEntite>())
                 {
-                    lstDocumentsAttendus.Add(new CDocumentAttendu(caracDoc, dtDocumentsAttendus.NewRow()));
+                    CDocumentAttendu doc = new CDocumentAttendu(caracDoc, dtDocumentsAttendus.NewRow());
+                    dtDocumentsAttendus.Rows.Add(doc.Row);
                 }
             }
 
-            return lstDocumentsAttendus.ToArray<CDocumentAttendu>();
+            return dtDocumentsAttendus;
         }
 
 

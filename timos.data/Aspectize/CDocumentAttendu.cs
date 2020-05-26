@@ -32,14 +32,18 @@ namespace timos.data.Aspectize
 
             if(carac != null)
             {
-
-
+                row[c_champId] = carac.Id;
+                row[c_champLibelle] = carac.Libelle;
+                row[c_champCategorieDocument] = carac.Libelle; // A modifier
+                row[c_champNombreMin] = nbMin;
+                if (dateLastUpload == null)
+                    row[c_champDateLastUpload] = DBNull.Value;
+                else
+                    row[c_champDateLastUpload] = dateLastUpload.Value;
             }
-
 
             m_row = row;
         }
-
 
         public DataRow Row
         {
