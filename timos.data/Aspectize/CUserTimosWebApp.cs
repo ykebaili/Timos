@@ -74,5 +74,9 @@ namespace timos.data.Aspectize
             return dt;
         }
 
+        public CResultAErreur FillDataSet(DataSet ds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

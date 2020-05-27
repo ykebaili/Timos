@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,8 @@ namespace timos.data.Aspectize
         CResultAErreur GetTodosForUser(int nIdSession, string keyUtilisateur);
         CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo);
         CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId);
-        CResultAErreur AddFile(int nIdSession, int nDocumentAttenduId);
+        CResultAErreur AddFile(int nIdSession, DataSet ds, Stream stream);
+
 
     }
 }

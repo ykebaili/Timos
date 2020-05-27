@@ -91,107 +91,23 @@ namespace timos.data.Aspectize
                     if (etapeEnCours.ReadIfExists(nIdTodo))
                     {
                         DataTable tableTodos = CTodoTimosWebApp.GetStructureTable();
-                        CTodoTimosWebApp todoEnCours = new CTodoTimosWebApp(etapeEnCours, tableTodos.NewRow());
-                        tableTodos.Rows.Add(todoEnCours.Row);
-                        ds.Tables.Add(tableTodos);
-
-                        CBlocWorkflowFormulaire blocFormulaire = etapeEnCours.TypeEtape != null ? etapeEnCours.TypeEtape.Bloc as CBlocWorkflowFormulaire : null;
-                        if (blocFormulaire == null)
-                        {
-                            result.EmpileErreur("Erreur GetTodoDetails : Ce To do n'a pas de formulaire associé dans Timos");
-                            return result;
-                        }
-
                         DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
                         DataTable tableValeursChamps = CTodoValeurChamp.GetStructureTable();
                         DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
+                        DataTable tableDocuementsAttendus = CDocumentAttendu.GetStructureTable();
+                        DataTable tableFichiersGED = CFichierAttache.GetStructureTable();
 
-                        // Traite la liste des formulaires associés pour trouver les champs customs
-                        foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
-                        {
-                            CFormulaire formulaire = new CFormulaire(ctx);
-                            if (formulaire.ReadIfExists(keyForm))
-                            {
-                                string strLibelleFormulaire = formulaire.Libelle;
-
-                                C2iWnd fenetre = formulaire.Formulaire;
-                                if (fenetre != null)
-                                {
-                                    ArrayList lst = fenetre.AllChilds();
-                                    foreach (object obj in lst)
-                                    {
-                                        if (obj is C2iWndChampCustom)
-                                        {
-                                            C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
-                                            CChampCustom cc = fenChamp.ChampCustom;
-                                            if (cc != null)
-                                            {
-                                                CChampTimosWebApp champWeb = new CChampTimosWebApp(fenChamp, tableChampsTimosWeb.NewRow());
-                                                tableChampsTimosWeb.Rows.Add(champWeb.Row);
-
-                                                CTodoValeurChamp valeur = new CTodoValeurChamp(todoEnCours.ObjetEditePrincipal, fenChamp, tableValeursChamps.NewRow());
-                                                tableValeursChamps.Rows.Add(valeur.Row);
-
-                                                if (cc.IsChoixParmis())
-                                                {
-                                                    string strStore = "";
-                                                    string strDisplay = "";
-                                                    int nIndex = 0;
-                                                    IList listeValeurs = null;
-                                                    listeValeurs = cc.Valeurs;
-                                                    if (cc.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto && listeValeurs is CListeObjetsDonnees)
-                                                    {
-                                                        CListeObjetsDonnees listeObjets = (CListeObjetsDonnees)listeValeurs;
-                                                        foreach (IObjetDonneeAIdNumerique objetTimos in listeObjets)
-                                                        {
-                                                            strStore = objetTimos.Id.ToString();
-                                                            strDisplay = objetTimos.DescriptionElement;
-                                                            CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
-                                                            tableValeursPossibles.Rows.Add(valeurPossible.Row);
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        foreach (CValeurChampCustom valPossible in cc.Valeurs)
-                                                        {
-                                                            strStore = valPossible.ValueString;
-                                                            strDisplay = valPossible.Display;
-                                                            CChampValeursPossibles valeurPossible = new CChampValeursPossibles(cc.Id, strStore, strDisplay, nIndex++, tableValeursPossibles.NewRow());
-                                                            tableValeursPossibles.Rows.Add(valeurPossible.Row);
-                                                        }
-                                                    }
-                                                }
-
-                                            }
-                                            /*else if (obj is C2iWndZoneMultiple)
-                                            {
-                                                C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
-                                                C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
-                                                //sousFenetre.AllChilds();
-
-                                                CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(etapeEnCours);
-                                                CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
-                                                if (resEval)
-                                                {
-                                                    object datas = resEval.Data;
-
-                                                }
-                                            }*/
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        // Gestion des documents attendus
-                        DataTable tableDocuementsAttendus = todoEnCours.GetDocumentsAttendus(ctx);
-                        
+                        ds.Tables.Add(tableTodos);
                         ds.Tables.Add(tableChampsTimosWeb);
                         ds.Tables.Add(tableValeursChamps);
                         ds.Tables.Add(tableValeursPossibles);
                         ds.Tables.Add(tableDocuementsAttendus);
+                        ds.Tables.Add(tableFichiersGED);
 
-                        result.Data = ds;
+                        result = FillDataSet(etapeEnCours, ds);
+
+                        if (result)
+                            result.Data = ds;
                     }
                     else
                     {
@@ -209,6 +125,18 @@ namespace timos.data.Aspectize
             return result;
         }
 
+        //------------------------------------------------------------------------------------------------------
+        private static CResultAErreur FillDataSet(CEtapeWorkflow etape, DataSet ds)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CTodoTimosWebApp todo = new CTodoTimosWebApp(ds, etape);
+            result = todo.FillDataSet(ds);
+
+            return result;
+        }
+            
+            
         //------------------------------------------------------------------------------------------------------
         public static CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId)
         {

@@ -3,9 +3,11 @@ using sc2i.data;
 using sc2i.data.dynamic;
 using sc2i.data.dynamic.NommageEntite;
 using sc2i.expression;
+using sc2i.formulaire;
 using sc2i.process.workflow;
 using sc2i.process.workflow.blocs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -28,7 +30,42 @@ namespace timos.data.Aspectize
 
         DataRow m_row = null;
         IObjetDonneeAChamps m_objetEdite;
+        CEtapeWorkflow m_etape;
 
+        public CTodoTimosWebApp(DataSet ds, CEtapeWorkflow etape)
+        {
+            m_etape = etape;
+            DataTable dt = ds.Tables[c_nomTable];
+            if(dt != null)
+            {
+                DataRow row = dt.NewRow();
+
+                string strInstrcution = GetInstructionsForTodo(etape);
+                string strTypeElementEdite = "";
+                int nIdElementEdite = -1;
+                string strElementDescription = "";
+                CResultAErreur resObjet = GetElementEditePrincipal(etape);
+                CObjetDonneeAIdNumerique objEdite = resObjet.Data as CObjetDonneeAIdNumerique;
+                if (objEdite != null)
+                {
+                    m_objetEdite = objEdite as IObjetDonneeAChamps;
+                    strTypeElementEdite = objEdite.TypeString;
+                    nIdElementEdite = objEdite.Id;
+                    strElementDescription = objEdite.DescriptionElement;
+                }
+
+                row[c_champId] = etape.Id;
+                row[c_champDateDebut] = etape.DateDebut.Value;
+                row[c_champLibelle] = etape.Libelle;
+                row[c_champInstructions] = strInstrcution;
+                row[c_champTypeElementEdite] = strTypeElementEdite;
+                row[c_champIdElementEdite] = nIdElementEdite;
+                row[c_champElementDescription] = strElementDescription;
+
+                m_row = row;
+                dt.Rows.Add(row);
+            }
+        }
 
         public CTodoTimosWebApp(CEtapeWorkflow etape, DataRow row)
         {
@@ -134,18 +171,18 @@ namespace timos.data.Aspectize
         }
 
         //------------------------------------------------------------------------------------------------
-        public DataTable GetDocumentsAttendus(CContexteDonnee ctx)
+        public CCaracteristiqueEntite[] GetDocumentsAttendus()
         {
             DataTable dtDocumentsAttendus = CDocumentAttendu.GetStructureTable();
 
             if (m_objetEdite == null)
-                return dtDocumentsAttendus;
+                return null;
 
             CObjetDonneeAIdNumerique objet = m_objetEdite as CObjetDonneeAIdNumerique;
             if (objet != null)
             {
 
-                CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(ctx);
+                CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(objet.ContexteDonnee);
                 listeNomsForts.Filtre = new CFiltreData(
                     CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
                     typeof(CTypeCaracteristiqueEntite).ToString(),
@@ -158,27 +195,93 @@ namespace timos.data.Aspectize
                         strIDs += ",";
                     strIDs += nom.GetObjetNomme().Id.ToString();
                 }
+
+                CFiltreData filtre;
                 if (strIDs.Length == 0)
-                    return dtDocumentsAttendus;
-
-                CFiltreData filtre = new CFiltreData(CCaracteristiqueEntite.c_champTypeElement + "=@1 and " +
-                    CCaracteristiqueEntite.c_champIdElementLie + "=@2 and " + CTypeCaracteristiqueEntite.c_champId + " IN (" + strIDs + ")",
-                    objet.GetType().ToString(),
-                    objet.Id);
-
-                CListeObjetsDonnees lst = new CListeObjetsDonnees(ctx, typeof(CCaracteristiqueEntite), filtre);
-                int combien = lst.Count;
-
-                foreach (CCaracteristiqueEntite caracDoc in lst.ToArray<CCaracteristiqueEntite>())
+                    filtre = new CFiltreDataImpossible();
+                else
                 {
-                    CDocumentAttendu doc = new CDocumentAttendu(caracDoc, dtDocumentsAttendus.NewRow());
-                    dtDocumentsAttendus.Rows.Add(doc.Row);
+                    filtre = new CFiltreData(CCaracteristiqueEntite.c_champTypeElement + "=@1 and " +
+                       CCaracteristiqueEntite.c_champIdElementLie + "=@2 and " + CTypeCaracteristiqueEntite.c_champId + " IN (" + strIDs + ")",
+                        objet.GetType().ToString(),
+                        objet.Id);
+                }
+                CListeObjetsDonnees lst = new CListeObjetsDonnees(objet.ContexteDonnee, typeof(CCaracteristiqueEntite), filtre);
+                int combien = lst.Count;
+                return lst.ToArray<CCaracteristiqueEntite>();
+            }
+
+            return null;
+        }
+
+
+        //------------------------------------------------------------------------------------------------
+        public CResultAErreur FillDataSet(DataSet ds)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CBlocWorkflowFormulaire blocFormulaire = m_etape.TypeEtape != null ? m_etape.TypeEtape.Bloc as CBlocWorkflowFormulaire : null;
+            if (blocFormulaire == null)
+            {
+                result.EmpileErreur("Erreur GetTodoDetails : Ce To do n'a pas de formulaire associé dans Timos");
+                return result;
+            }
+
+            // Traite la liste des formulaires associés pour trouver les champs customs
+            foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
+            {
+                CFormulaire formulaire = new CFormulaire(m_etape.ContexteDonnee);
+                if (formulaire.ReadIfExists(keyForm))
+                {
+                    string strLibelleFormulaire = formulaire.Libelle;
+
+                    C2iWnd fenetre = formulaire.Formulaire;
+                    if (fenetre != null)
+                    {
+                        ArrayList lst = fenetre.AllChilds();
+                        foreach (object obj in lst)
+                        {
+                            if (obj is C2iWndChampCustom)
+                            {
+                                C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
+                                CChampCustom cc = fenChamp.ChampCustom;
+                                if (cc != null)
+                                {
+                                    CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, fenChamp);
+                                    result = champWeb.FillDataSet(ds);
+
+                                    CTodoValeurChamp valeur = new CTodoValeurChamp(ds, ObjetEditePrincipal, fenChamp);
+                                }
+                                /*else if (obj is C2iWndZoneMultiple)
+                                {
+                                    C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
+                                    C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
+                                    //sousFenetre.AllChilds();
+
+                                    CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(etapeEnCours);
+                                    CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
+                                    if (resEval)
+                                    {
+                                        object datas = resEval.Data;
+
+                                    }
+                                }*/
+                            }
+                        }
+                    }
                 }
             }
 
-            return dtDocumentsAttendus;
-        }
+            // Gestion des documents attendus
+            CCaracteristiqueEntite[] liste = GetDocumentsAttendus();
+            foreach (CCaracteristiqueEntite caracDoc in liste)
+            {
+                CDocumentAttendu doc = new CDocumentAttendu(ds, caracDoc);
+                result = doc.FillDataSet(ds);
+            }
 
+            return result;
+        }
 
         //------------------------------------------------------------------------------------------------
         public static DataTable GetStructureTable()
@@ -193,9 +296,9 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champIdElementEdite, typeof(int));
             dt.Columns.Add(c_champElementDescription, typeof(string));
 
-
             return dt;
         }
+
 
     }
 }

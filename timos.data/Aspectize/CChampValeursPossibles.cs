@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using sc2i.common;
 
 namespace timos.data.Aspectize
 {
@@ -18,6 +19,23 @@ namespace timos.data.Aspectize
 
 
         private DataRow m_row;
+
+        public CChampValeursPossibles(DataSet ds, int nIdChamp, string strStore, string strDisplay, int nIndex)
+        {
+            DataTable dt = ds.Tables[c_nomTable];
+            if (dt == null)
+                return;
+
+            DataRow row = dt.NewRow();
+
+            row[c_champId] = nIdChamp;
+            row[c_champValue] = strStore;
+            row[c_champDisplay] = strDisplay;
+            row[c_champIndex] = nIndex;
+
+            m_row = row;
+            dt.Rows.Add(row);
+        }
 
         public CChampValeursPossibles(int nIdChamp, string strStore, string strDisplay, int nIndex, DataRow row)
         {
@@ -51,6 +69,11 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champIndex, typeof(int));
 
             return dt;
+        }
+
+        public CResultAErreur FillDataSet(DataSet ds)
+        {
+            throw new NotImplementedException();
         }
     }
 }

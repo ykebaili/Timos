@@ -22,10 +22,57 @@ namespace timos.data.Aspectize
         DataRow m_row;
         object m_valeur;
 
+        public CTodoValeurChamp(DataSet ds, IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp)
+        {
+            DataTable dt = ds.Tables[c_nomTable];
+            if (dt == null)
+                return;
+
+            DataRow row = dt.NewRow();
+
+            int nIdChamp = -1;
+            string strLibelleWeb = wndChamp.WebLabel;
+            int nOrdreWeb = wndChamp.WebNumOrder;
+
+            CChampCustom champ = wndChamp.ChampCustom;
+            if (champ != null)
+            {
+                nIdChamp = champ.Id;
+                m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+
+                row[c_champId] = nIdChamp;
+                row[c_champLibelle] = strLibelleWeb;
+                row[c_champOrdreAffichage] = nOrdreWeb;
+                row[c_champValeur] = "";
+
+                if (m_valeur != null)
+                {
+                    if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+                    {
+                        IObjetDonneeAIdNumerique objetValeur = m_valeur as IObjetDonneeAIdNumerique;
+                        if (objetValeur != null)
+                            row[c_champValeur] = objetValeur.Id.ToString();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            row[c_champValeur] = m_valeur.ToString();
+                        }
+                        catch
+                        {
+                            row[c_champValeur] = "";
+                        }
+                    }
+                }
+            }
+            m_row = row;
+            dt.Rows.Add(row);
+
+        }
+
         public CTodoValeurChamp(IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, DataRow row)
         {
-            CResultAErreur result = CResultAErreur.True;
-
             int nIdChamp = -1;
             string strLibelleWeb = wndChamp.WebLabel;
             int nOrdreWeb = wndChamp.WebNumOrder;
@@ -50,7 +97,16 @@ namespace timos.data.Aspectize
                             row[c_champValeur] = objetValeur.Id.ToString();
                     }
                     else
-                        row[c_champValeur] = m_valeur.ToString();
+                    {
+                        try
+                        {
+                            row[c_champValeur] = m_valeur.ToString();
+                        }
+                        catch
+                        {
+                            row[c_champValeur] = "";
+                        }
+                    }
                 }
             }
             m_row = row;
@@ -87,5 +143,10 @@ namespace timos.data.Aspectize
             return dt;
         }
 
+        //---------------------------------------------------------------------------------------
+        public CResultAErreur FillDataSet(DataSet ds)
+        {
+            return CResultAErreur.True;
+        }
     }
 }

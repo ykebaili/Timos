@@ -18,6 +18,7 @@ using sc2i.process.workflow.blocs;
 using sc2i.expression;
 using sc2i.data.dynamic;
 using sc2i.formulaire;
+using System.IO;
 
 namespace timos.data.serveur.Aspectize
 {
@@ -169,7 +170,17 @@ namespace timos.data.serveur.Aspectize
                 return result;
             }
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
-            result.Data = session.GetInfoUtilisateur().KeyUtilisateur.StringValue;
+
+            try
+            {
+                result.Data = session.GetInfoUtilisateur().KeyUtilisateur.StringValue;
+            }
+            catch (Exception)
+            {
+                result.EmpileErreur("La session Timos N° " + nIdSession + " a expiré");
+                return result;
+            }      
+
             return result;
         }
 
@@ -199,10 +210,13 @@ namespace timos.data.serveur.Aspectize
             return result;
         }
 
-        public CResultAErreur AddFile(int nIdSession,  int nDocumentId)
+        public CResultAErreur AddFile(int nIdSession,  DataSet ds, Stream stream)
         {
             CResultAErreur result = CResultAErreur.True;
 
+            FileStream fs = new FileStream(@"c:\temp\fichier.pdf", FileMode.Create);
+
+            CStreamCopieur.CopyStream(stream, fs, 32000);
 
 
             return result;

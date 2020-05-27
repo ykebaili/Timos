@@ -1,9 +1,11 @@
-﻿using System;
+﻿using sc2i.documents;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using sc2i.common;
 
 namespace timos.data.Aspectize
 {
@@ -16,12 +18,28 @@ namespace timos.data.Aspectize
         public const string c_champDateUpload = "DateUpload";
         public const string c_champDateDocument = "DateDocument";
         public const string c_champCommentaire = "Commentaire";
+        public const string c_champIdDocumentAttendu = "DocumentId";
 
         DataRow m_row;
+        CDocumentGED m_doc_GED;
 
-        public CFichierAttache()
+        public CFichierAttache(DataSet ds, CDocumentGED docGED)
         {
+            m_doc_GED = docGED;
+            DataTable dt = ds.Tables[c_nomTable];
+            if (dt == null)
+                return;
 
+            DataRow row = dt.NewRow();
+
+            row[c_champKey] = docGED.Cle;
+            row[c_champNomFichier] = docGED.Libelle;
+            row[c_champDateUpload] = docGED.DateCreation;
+            row[c_champDateDocument] = docGED.DateMAJ;
+            row[c_champCommentaire] = docGED.Descriptif;
+
+            m_row = row;
+            dt.Rows.Add(row);
         }
 
         public DataRow Row
@@ -29,6 +47,18 @@ namespace timos.data.Aspectize
             get
             {
                 return m_row;
+            }
+        }
+
+        public int DocumentId
+        {
+            get
+            {
+                return (int)m_row[c_champIdDocumentAttendu];
+            }
+            set
+            {
+                m_row[c_champIdDocumentAttendu] = value;
             }
         }
 
@@ -42,8 +72,14 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champDateUpload, typeof(DateTime));
             dt.Columns.Add(c_champDateDocument, typeof(DateTime));
             dt.Columns.Add(c_champCommentaire, typeof(string));
+            dt.Columns.Add(c_champIdDocumentAttendu, typeof(int));
 
             return dt;
+        }
+
+        public CResultAErreur FillDataSet(DataSet ds)
+        {
+            throw new NotImplementedException();
         }
     }
 }
