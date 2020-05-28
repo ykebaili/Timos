@@ -2,6 +2,7 @@
 using sc2i.data;
 using sc2i.data.dynamic;
 using sc2i.data.dynamic.NommageEntite;
+using sc2i.documents;
 using sc2i.expression;
 using sc2i.formulaire;
 using sc2i.multitiers.client;
@@ -12,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -212,6 +214,100 @@ namespace timos.data.Aspectize
                     else
                     {
                         result.EmpileErreur("Le todo id " + nIdTodo + " n'existe pas dans Timos");
+                        return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur AddFile(string strNompFichier, byte[] octets)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            string strExt = "dat";
+            int nPosPoint = strNompFichier.LastIndexOf(".");
+            if (nPosPoint >= 0)
+                strExt = strNompFichier.Substring(nPosPoint + 1);
+            CFichierLocalTemporaire fichierTemporaire = new CFichierLocalTemporaire(strExt);
+            FileStream fs = new FileStream(fichierTemporaire.NomFichier, FileMode.CreateNew);
+            BinaryWriter writer = new BinaryWriter(fs);
+            try
+            {
+                writer.Write(octets);
+            }
+            catch (Exception ex)
+            {
+                result.EmpileErreur(ex.Message);
+            }
+            finally
+            {
+                writer.Close();
+            }
+
+            result.Data = fichierTemporaire.NomFichier;
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur SaveDocument(int nIdSession, DataSet ds, int nIdDocument, int nIdCategorie)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    CCaracteristiqueEntite caracDocuement = new CCaracteristiqueEntite(ctx);
+                    if (caracDocuement.ReadIfExists(nIdDocument))
+                    {
+                        CCategorieGED categorie = new CCategorieGED(ctx);
+                        if (categorie.ReadIfExists(nIdCategorie))
+                        {
+                            DataTable dtFichiers = ds.Tables[CFichierAttache.c_nomTable];
+
+                            if (dtFichiers != null)
+                            {
+                                foreach (DataRow rowFichier in dtFichiers.Rows)
+                                {
+                                    string strCle = (string)rowFichier[CFichierAttache.c_champKey];
+                                    string strNomFichier = (string)rowFichier[CFichierAttache.c_champNomFichier];
+                                    string strCheminTemp = (string)rowFichier[CFichierAttache.c_champCheminTemporaire];
+
+                                    CDocumentGED doc = new CDocumentGED(ctx);
+                                    if (!doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                                    {
+                                        doc.CreateNewInCurrentContexte();
+                                        doc.AssocieA(caracDocuement);
+                                    }
+                                    doc.Libelle = Path.GetFileName(strNomFichier);
+                                    doc.AddCategory(categorie);
+
+                                    CProxyGED proxy = new CProxyGED(nIdSession, CTypeReferenceDocument.TypesReference.Fichier);
+                                    proxy.AttacheToLocal(strCheminTemp);
+                                    CResultAErreur resFichier = proxy.UpdateGed(true);
+                                    if (!resFichier)
+                                        return resFichier;
+                                    CReferenceDocument refDoc = result.Data as CReferenceDocument;
+                                    doc.ReferenceDoc = refDoc;
+                                }
+
+                                result = ctx.SaveAll(true);
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            result.EmpileErreur("La catégorie de document id " + nIdCategorie + " n'existe pas dans Timos");
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        result.EmpileErreur("Le document attendu id " + nIdDocument + " n'existe pas dans Timos");
                         return result;
                     }
                 }

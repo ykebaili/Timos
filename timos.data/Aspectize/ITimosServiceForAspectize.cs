@@ -23,8 +23,8 @@ namespace timos.data.Aspectize
         CResultAErreur GetTodosForUser(int nIdSession, string keyUtilisateur);
         CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo);
         CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId);
-        CResultAErreur AddFile(int nIdSession, DataSet ds, Stream stream);
-
+        CResultAErreur AddFile(int nIdSession, string strNomfichier, byte[] octets);
+        CResultAErreur SaveDocument(int nIdSession, DataSet ds, int nIdDocument, int nIdCategorie);
 
     }
 }

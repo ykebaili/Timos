@@ -202,6 +202,7 @@ namespace timos.data.serveur.Aspectize
         }
 
 
+        //---------------------------------------------------------------------------------------------------------
         // Enregistre les données du to do
         public CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId)
         {
@@ -210,15 +211,18 @@ namespace timos.data.serveur.Aspectize
             return result;
         }
 
-        public CResultAErreur AddFile(int nIdSession,  DataSet ds, Stream stream)
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur AddFile(int nIdSession, string strNompFichier, byte[] octets)
         {
-            CResultAErreur result = CResultAErreur.True;
+            CResultAErreur result = CUtilTimosWebApp.AddFile(strNompFichier, octets);
+            return result;
+        }
 
-            FileStream fs = new FileStream(@"c:\temp\fichier.pdf", FileMode.Create);
-
-            CStreamCopieur.CopyStream(stream, fs, 32000);
-
-
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur SaveDocument(int nIdSession, DataSet ds, int nIdDocument, int nIdCategorie)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.SaveDocument(nIdSession, ds, nIdDocument, nIdCategorie);
             return result;
         }
     }

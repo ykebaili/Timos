@@ -19,6 +19,7 @@ namespace timos.data.Aspectize
         public const string c_champDateDocument = "DateDocument";
         public const string c_champCommentaire = "Commentaire";
         public const string c_champIdDocumentAttendu = "DocumentId";
+        public const string c_champCheminTemporaire = "CheminTemporaire";
 
         DataRow m_row;
         CDocumentGED m_doc_GED;
@@ -37,6 +38,7 @@ namespace timos.data.Aspectize
             row[c_champDateUpload] = docGED.DateCreation;
             row[c_champDateDocument] = docGED.DateMAJ;
             row[c_champCommentaire] = docGED.Descriptif;
+            row[c_champCheminTemporaire] = "";
 
             m_row = row;
             dt.Rows.Add(row);
@@ -73,6 +75,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champDateDocument, typeof(DateTime));
             dt.Columns.Add(c_champCommentaire, typeof(string));
             dt.Columns.Add(c_champIdDocumentAttendu, typeof(int));
+            dt.Columns.Add(c_champCheminTemporaire, typeof(string));
 
             return dt;
         }

@@ -16,7 +16,7 @@ namespace timos.data.Aspectize
 
         public const string c_champId = "TimosId";
         public const string c_champLibelle = "Libelle";
-        public const string c_champCategorieDocument = "CategorieDocument";
+        public const string c_champIdCategorie = "IdCategorie";
         public const string c_champNombreMin = "NombreMin";
         public const string c_champDateLastUpload = "DateLastUpload";
 
@@ -44,7 +44,7 @@ namespace timos.data.Aspectize
             {
                 row[c_champId] = carac.Id;
                 row[c_champLibelle] = carac.Libelle;
-                row[c_champCategorieDocument] = carac.Libelle; // A modifier
+                row[c_champIdCategorie] = carac.Id;
                 row[c_champNombreMin] = nbMin;
                 if (dateLastUpload == null)
                     row[c_champDateLastUpload] = DBNull.Value;
@@ -68,7 +68,7 @@ namespace timos.data.Aspectize
             {
                 row[c_champId] = carac.Id;
                 row[c_champLibelle] = carac.Libelle;
-                row[c_champCategorieDocument] = carac.Libelle; // A modifier
+                row[c_champIdCategorie] = -1; // A implémenter
                 row[c_champNombreMin] = nbMin;
                 if (dateLastUpload == null)
                     row[c_champDateLastUpload] = DBNull.Value;
@@ -94,7 +94,7 @@ namespace timos.data.Aspectize
 
             dt.Columns.Add(c_champId, typeof(int));
             dt.Columns.Add(c_champLibelle, typeof(string));
-            dt.Columns.Add(c_champCategorieDocument, typeof(string));
+            dt.Columns.Add(c_champIdCategorie, typeof(int));
             dt.Columns.Add(c_champNombreMin, typeof(int));
             dt.Columns.Add(c_champDateLastUpload, typeof(DateTime));
 
