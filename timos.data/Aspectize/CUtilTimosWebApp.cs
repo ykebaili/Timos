@@ -247,7 +247,9 @@ namespace timos.data.Aspectize
                 writer.Close();
             }
 
-            result.Data = fichierTemporaire.NomFichier;
+            if(result)
+                result.Data = fichierTemporaire.NomFichier;
+
             return result;
         }
 
@@ -261,8 +263,8 @@ namespace timos.data.Aspectize
             {
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
-                    CCaracteristiqueEntite caracDocuement = new CCaracteristiqueEntite(ctx);
-                    if (caracDocuement.ReadIfExists(nIdDocument))
+                    CCaracteristiqueEntite caracDocument = new CCaracteristiqueEntite(ctx);
+                    if (caracDocument.ReadIfExists(nIdDocument))
                     {
                         CCategorieGED categorie = new CCategorieGED(ctx);
                         if (categorie.ReadIfExists(nIdCategorie))
@@ -281,17 +283,19 @@ namespace timos.data.Aspectize
                                     if (!doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
                                     {
                                         doc.CreateNewInCurrentContexte();
-                                        doc.AssocieA(caracDocuement);
                                     }
                                     doc.Libelle = Path.GetFileName(strNomFichier);
+                                    doc.AssocieA(caracDocument);
+                                    doc.AssocieA(caracDocument.ElementSuivi);
                                     doc.AddCategory(categorie);
+                                    doc.Cle = strCle;
 
                                     CProxyGED proxy = new CProxyGED(nIdSession, CTypeReferenceDocument.TypesReference.Fichier);
                                     proxy.AttacheToLocal(strCheminTemp);
-                                    CResultAErreur resFichier = proxy.UpdateGed(true);
+                                    CResultAErreur resFichier = proxy.UpdateGed();
                                     if (!resFichier)
                                         return resFichier;
-                                    CReferenceDocument refDoc = result.Data as CReferenceDocument;
+                                    CReferenceDocument refDoc = resFichier.Data as CReferenceDocument;
                                     doc.ReferenceDoc = refDoc;
                                 }
 

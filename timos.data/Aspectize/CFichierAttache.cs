@@ -33,7 +33,7 @@ namespace timos.data.Aspectize
 
             DataRow row = dt.NewRow();
 
-            row[c_champKey] = docGED.Cle;
+            row[c_champKey] = docGED.Cle == "" ? docGED.Libelle : docGED.Cle;
             row[c_champNomFichier] = docGED.Libelle;
             row[c_champDateUpload] = docGED.DateCreation;
             row[c_champDateDocument] = docGED.DateMAJ;

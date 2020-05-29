@@ -171,10 +171,8 @@ namespace timos.data.Aspectize
         }
 
         //------------------------------------------------------------------------------------------------
-        public CCaracteristiqueEntite[] GetDocumentsAttendus()
+        private CCaracteristiqueEntite[] GetDocumentsAttendus()
         {
-            DataTable dtDocumentsAttendus = CDocumentAttendu.GetStructureTable();
-
             if (m_objetEdite == null)
                 return null;
 

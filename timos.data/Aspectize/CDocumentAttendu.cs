@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using sc2i.common;
 using sc2i.documents;
+using sc2i.data;
+using sc2i.data.dynamic.NommageEntite;
 
 namespace timos.data.Aspectize
 {
@@ -21,7 +23,7 @@ namespace timos.data.Aspectize
         public const string c_champDateLastUpload = "DateLastUpload";
 
         public const string c_nomFortTypeCaracteristiqueDocument = "WEB_DOCUMENT_ATTENDU";
-        public const string c_nomFortChampCategorie = "WEB_CC_DOCUMENT_CATEGORIE";
+        public const string c_nomFortChampCategorie = "WEB_CC_CATEGORIE_DOC";
 
         DataRow m_row;
         CCaracteristiqueEntite m_caracteristic;
@@ -36,15 +38,24 @@ namespace timos.data.Aspectize
             DataRow row = dt.NewRow();
             int nIdCarac = -1;
             string strLibelle = "";
-            string strCategorie = "";
+            int nIdCategorie = -1;
             int nbMin = 0;
             DateTime? dateLastUpload = null;
 
             if (carac != null)
             {
                 row[c_champId] = carac.Id;
-                row[c_champLibelle] = carac.Libelle;
-                row[c_champIdCategorie] = carac.Id;
+                CCategorieGED categorie = CategorieGED;
+                if (categorie != null)
+                {
+                    row[c_champLibelle] = carac.Libelle == "" ? categorie.Libelle : carac.Libelle;
+                    row[c_champIdCategorie] = categorie.Id;
+                }
+                else
+                {
+                    row[c_champLibelle] = carac.Libelle;
+                    row[c_champIdCategorie] = -1;
+                }
                 row[c_champNombreMin] = nbMin;
                 if (dateLastUpload == null)
                     row[c_champDateLastUpload] = DBNull.Value;
@@ -101,18 +112,65 @@ namespace timos.data.Aspectize
             return dt;
         }
 
+        //----------------------------------------------------------------------------------------------------
         public CResultAErreur FillDataSet(DataSet ds)
         {
             CResultAErreur result = CResultAErreur.True;
+            if (CategorieGED == null)
+                return result;
 
             CDocumentGED[] listeGED = CDocumentGED.GetListeDocumentsForElement(m_caracteristic).ToArray<CDocumentGED>();
             foreach (CDocumentGED ged in listeGED)
             {
-                CFichierAttache fichier = new CFichierAttache(ds, ged);
-                fichier.DocumentId = m_caracteristic.Id;
+                bool bOK = false;
+                foreach (CRelationDocumentGED_Categorie relCat in ged.RelationsCategories)
+                {
+                    if (relCat.Categorie.Id == CategorieGED.Id)
+                    {
+                        bOK = true;
+                        break;
+                    }
+                }
+                if (bOK)
+                {
+                    CFichierAttache fichier = new CFichierAttache(ds, ged);
+                    fichier.DocumentId = m_caracteristic.Id;
+
+                }
             }
 
             return result;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        private CCategorieGED CategorieGED
+        {
+            get
+            {
+                if (m_caracteristic == null)
+                    return null;
+
+                try
+                {
+                    CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(m_caracteristic.ContexteDonnee);
+                    listeNomsForts.Filtre = new CFiltreData(
+                        CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
+                        typeof(CChampCustom).ToString(),
+                        CDocumentAttendu.c_nomFortChampCategorie + "%");
+
+                    if (listeNomsForts.Count > 0)
+                    {
+                        int nIdChamp = listeNomsForts[0].GetObjetNomme().Id;
+                        var valeurChamp = m_caracteristic.GetValeurChamp(nIdChamp);
+                        if (valeurChamp is CCategorieGED)
+                            return valeurChamp as CCategorieGED;
+                    }
+                }
+                catch
+                { }
+
+                return null;
+            }
         }
     }
 }
