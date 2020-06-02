@@ -93,6 +93,7 @@ namespace timos.data.Aspectize
                     if (etapeEnCours.ReadIfExists(nIdTodo))
                     {
                         DataTable tableTodos = CTodoTimosWebApp.GetStructureTable();
+                        DataTable tableGroupesChamps = CGroupeChamps.GetStructureTable();
                         DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
                         DataTable tableValeursChamps = CTodoValeurChamp.GetStructureTable();
                         DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
@@ -100,6 +101,7 @@ namespace timos.data.Aspectize
                         DataTable tableFichiersGED = CFichierAttache.GetStructureTable();
 
                         ds.Tables.Add(tableTodos);
+                        ds.Tables.Add(tableGroupesChamps);
                         ds.Tables.Add(tableChampsTimosWeb);
                         ds.Tables.Add(tableValeursChamps);
                         ds.Tables.Add(tableValeursPossibles);

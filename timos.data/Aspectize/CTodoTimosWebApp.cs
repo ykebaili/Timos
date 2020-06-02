@@ -231,42 +231,8 @@ namespace timos.data.Aspectize
                 CFormulaire formulaire = new CFormulaire(m_etape.ContexteDonnee);
                 if (formulaire.ReadIfExists(keyForm))
                 {
-                    string strLibelleFormulaire = formulaire.Libelle;
-
-                    C2iWnd fenetre = formulaire.Formulaire;
-                    if (fenetre != null)
-                    {
-                        ArrayList lst = fenetre.AllChilds();
-                        foreach (object obj in lst)
-                        {
-                            if (obj is C2iWndChampCustom)
-                            {
-                                C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
-                                CChampCustom cc = fenChamp.ChampCustom;
-                                if (cc != null)
-                                {
-                                    CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, fenChamp);
-                                    result = champWeb.FillDataSet(ds);
-
-                                    CTodoValeurChamp valeur = new CTodoValeurChamp(ds, ObjetEditePrincipal, fenChamp);
-                                }
-                                /*else if (obj is C2iWndZoneMultiple)
-                                {
-                                    C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
-                                    C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
-                                    //sousFenetre.AllChilds();
-
-                                    CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(etapeEnCours);
-                                    CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
-                                    if (resEval)
-                                    {
-                                        object datas = resEval.Data;
-
-                                    }
-                                }*/
-                            }
-                        }
-                    }
+                    CGroupeChamps groupe = new CGroupeChamps(ds, formulaire, this);
+                    result = groupe.FillDataSet(ds);
                 }
             }
 

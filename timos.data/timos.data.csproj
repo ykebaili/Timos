@@ -165,6 +165,7 @@
     <Compile Include="Aspectize\CChampValeursPossibles.cs" />
     <Compile Include="Aspectize\CDocumentAttendu.cs" />
     <Compile Include="Aspectize\CFichierAttache.cs" />
+    <Compile Include="Aspectize\CGroupeChamps.cs" />
     <Compile Include="Aspectize\CTodoTimosWebApp.cs" />
     <Compile Include="Aspectize\CTodoValeurChamp.cs" />
     <Compile Include="Aspectize\CUserTimosWebApp.cs" />

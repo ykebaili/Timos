@@ -23,11 +23,13 @@ namespace timos.data.Aspectize
         public const string c_champIsChoixParmis = "TIMOS_FIELD_IS_SELECT";
         public const string c_champIsMultiline = "TIMOS_FIELD_IS_MULTILINE";
         public const string c_champIsEditable = "TIMOS_FIELD_IS_EDITABLE";
+        public const string c_champIdGroupeChamps = "TIMOS_FIELD_ID_GROUPE";
+        
 
         DataRow m_row = null;
         CChampCustom m_champ;
 
-        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp)
+        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -63,6 +65,7 @@ namespace timos.data.Aspectize
             row[c_champIsChoixParmis] = bIsChoixParmis;
             row[c_champIsMultiline] = bIsMultiline;
             row[c_champIsEditable] = bIsEditable;
+            row[c_champIdGroupeChamps] = nIdGroupe;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -134,6 +137,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champIsChoixParmis, typeof(bool));
             dt.Columns.Add(c_champIsMultiline, typeof(bool));
             dt.Columns.Add(c_champIsEditable, typeof(bool));
+            dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
 
             return dt;
         }
