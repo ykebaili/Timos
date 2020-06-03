@@ -28,7 +28,11 @@ namespace timos.data.Aspectize
     {
         private const string c_dataSetName = "TIMOS_DATA";
 
-        private const string c_listeIdsTypesCaracsDocuements = "101, 281";
+        public const string c_nomFortTypeCaracteristiqueDocument = "WEB_DOCUMENT_ATTENDU";
+        public const string c_nomFortChampCategorie = "WEB_CC_CATEGORIE_DOC";
+        public const string c_nomFortChampDureeStandardTodo = "WEB_CC_DUREE_STANDARD_TODO";
+
+
 
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur GetTodosForUser(int nIdsession, string keyUtilisateur)
@@ -217,6 +221,34 @@ namespace timos.data.Aspectize
                     {
                         result.EmpileErreur("Le todo id " + nIdTodo + " n'existe pas dans Timos");
                         return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur EndTodo(int nIdSession, int nIdTodo)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
+                    if (etapeEnCours.ReadIfExists(nIdTodo))
+                    {
+                        if (etapeEnCours.EtatCode == (int)EEtatEtapeWorkflow.Démarrée)
+                        {
+                            result = etapeEnCours.EndEtapeAndSaveIfOk();
+                        }
+                        else
+                        {
+                            result.EmpileErreur("L'étape id : " + nIdTodo + " n'est pas démarrée");
+                        }
                     }
                 }
             }

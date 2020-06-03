@@ -59,7 +59,7 @@ namespace timos.data.Aspectize
 
             row[c_champId] = nIdChampCustom;
             row[c_champNom] = strNomChamp;
-            row[c_champLibelleConvivial] = strLibelleWeb;
+            row[c_champLibelleConvivial] = strLibelleWeb == "" ? strNomChamp : strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champTypeDonne] = nTypeDonneeChamp;
             row[c_champIsChoixParmis] = bIsChoixParmis;

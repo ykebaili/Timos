@@ -20,13 +20,16 @@ namespace timos.data.Aspectize
     {
         public const string c_nomTable = "TIMOS_TODOS";
 
-        public const string c_champId = "TODO_ID";
-        public const string c_champDateDebut = "TODO_START_DATE";
-        public const string c_champLibelle = "TODO_LABEL";
-        public const string c_champInstructions = "TODO_INSTRUCTIONS";
-        public const string c_champTypeElementEdite = "TODO_ELEMENT_TYPE";
-        public const string c_champIdElementEdite = "TODO_ELEMENT_ID";
-        public const string c_champElementDescription = "TODO_ELEMENT_DESCRIPTION";
+        public const string c_champId = "TimosId";
+        public const string c_champDateDebut = "StartDate";
+        public const string c_champLibelle = "Label";
+        public const string c_champInstructions = "Instructions";
+        public const string c_champTypeElementEdite = "ElementType";
+        public const string c_champIdElementEdite = "ElementId";
+        public const string c_champElementDescription = "ElementDescription";
+        public const string c_champEtatTodo = "EtatTodo";
+        public const string c_champDateFin = "EndDate";
+        public const string c_champDureeStandard = "DureeStandard";
 
         DataRow m_row = null;
         IObjetDonneeAChamps m_objetEdite;
@@ -73,6 +76,7 @@ namespace timos.data.Aspectize
             string strTypeElementEdite = "";
             int nIdElementEdite = -1;
             string strElementDescription = "";
+            int nEtatTodo = etape.EtatCode;
             CResultAErreur resObjet = GetElementEditePrincipal(etape);
             CObjetDonneeAIdNumerique objEdite = resObjet.Data as CObjetDonneeAIdNumerique;
             if (objEdite != null)
@@ -89,7 +93,13 @@ namespace timos.data.Aspectize
             row[c_champInstructions] = strInstrcution;
             row[c_champTypeElementEdite] = strTypeElementEdite;
             row[c_champIdElementEdite] = nIdElementEdite;
-            row[c_champElementDescription]=strElementDescription;
+            row[c_champElementDescription] = strElementDescription;
+            row[c_champEtatTodo] = nEtatTodo;
+            row[c_champDureeStandard] = DureeStandardTodo;
+            if (etape.DateFin == null)
+                row[c_champDateFin] = DBNull.Value;
+            else
+                row[c_champDateFin] = etape.DateFin.Value;
 
             m_row = row;
         }
@@ -109,6 +119,34 @@ namespace timos.data.Aspectize
             get
             {
                 return m_objetEdite;
+            }
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public int DureeStandardTodo
+        {
+            get
+            {
+                try
+                {
+                    CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(m_etape.ContexteDonnee);
+                    listeNomsForts.Filtre = new CFiltreData(
+                        CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
+                        typeof(CChampCustom).ToString(),
+                        CUtilTimosWebApp.c_nomFortChampDureeStandardTodo + "%");
+
+                    if (listeNomsForts.Count > 0)
+                    {
+                        int nIdChamp = listeNomsForts[0].GetObjetNomme().Id;
+                        var valeurChamp = m_etape.TypeEtape.GetValeurChamp(nIdChamp);
+                        if (valeurChamp is int)
+                            return (int)valeurChamp;
+                    }
+                }
+                catch
+                { }
+
+                return 0;
             }
         }
 
@@ -184,7 +222,7 @@ namespace timos.data.Aspectize
                 listeNomsForts.Filtre = new CFiltreData(
                     CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
                     typeof(CTypeCaracteristiqueEntite).ToString(),
-                    CDocumentAttendu.c_nomFortTypeCaracteristiqueDocument+"%");
+                    CUtilTimosWebApp.c_nomFortTypeCaracteristiqueDocument+"%");
 
                 string strIDs = "";
                 foreach (CNommageEntite nom in listeNomsForts)
@@ -259,6 +297,9 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champTypeElementEdite, typeof(string));
             dt.Columns.Add(c_champIdElementEdite, typeof(int));
             dt.Columns.Add(c_champElementDescription, typeof(string));
+            dt.Columns.Add(c_champEtatTodo, typeof(int));
+            dt.Columns.Add(c_champDateFin, typeof(DateTime));
+            dt.Columns.Add(c_champDureeStandard, typeof(int));
 
             return dt;
         }

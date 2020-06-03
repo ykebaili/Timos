@@ -22,8 +22,6 @@ namespace timos.data.Aspectize
         public const string c_champNombreMin = "NombreMin";
         public const string c_champDateLastUpload = "DateLastUpload";
 
-        public const string c_nomFortTypeCaracteristiqueDocument = "WEB_DOCUMENT_ATTENDU";
-        public const string c_nomFortChampCategorie = "WEB_CC_CATEGORIE_DOC";
 
         DataRow m_row;
         CCaracteristiqueEntite m_caracteristic;
@@ -156,7 +154,7 @@ namespace timos.data.Aspectize
                     listeNomsForts.Filtre = new CFiltreData(
                         CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
                         typeof(CChampCustom).ToString(),
-                        CDocumentAttendu.c_nomFortChampCategorie + "%");
+                        CUtilTimosWebApp.c_nomFortChampCategorie + "%");
 
                     if (listeNomsForts.Count > 0)
                     {

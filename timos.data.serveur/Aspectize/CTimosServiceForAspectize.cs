@@ -225,5 +225,13 @@ namespace timos.data.serveur.Aspectize
             CResultAErreur result = CUtilTimosWebApp.SaveDocument(nIdSession, ds, nIdDocument, nIdCategorie);
             return result;
         }
+
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur EndTodo(int nIdSession, int nIdTodo)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.EndTodo(nIdSession, nIdTodo);
+            return result;
+        }
     }
 }
