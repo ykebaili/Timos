@@ -238,12 +238,19 @@ namespace timos.data.Aspectize
             {
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
-                    CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
-                    if (etapeEnCours.ReadIfExists(nIdTodo))
+                    CEtapeWorkflow etapeATerminer = new CEtapeWorkflow(ctx);
+                    if (etapeATerminer.ReadIfExists(nIdTodo))
                     {
-                        if (etapeEnCours.EtatCode == (int)EEtatEtapeWorkflow.Démarrée)
+                        if (etapeATerminer.EtatCode == (int)EEtatEtapeWorkflow.Démarrée)
                         {
-                            result = etapeEnCours.EndEtapeAndSaveIfOk();
+                            result = etapeATerminer.EndEtapeAndSaveIfOk();
+
+                            DataSet ds = new DataSet(c_dataSetName);
+                            DataTable dt = CTodoTimosWebApp.GetStructureTable();
+                            ds.Tables.Add(dt);
+                            CTodoTimosWebApp todoTermine = new CTodoTimosWebApp(ds, etapeATerminer);
+
+                            result.Data = ds;
                         }
                         else
                         {

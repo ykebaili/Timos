@@ -47,6 +47,7 @@ namespace timos.data.Aspectize
                 string strTypeElementEdite = "";
                 int nIdElementEdite = -1;
                 string strElementDescription = "";
+                int nEtatTodo = etape.EtatCode;
                 CResultAErreur resObjet = GetElementEditePrincipal(etape);
                 CObjetDonneeAIdNumerique objEdite = resObjet.Data as CObjetDonneeAIdNumerique;
                 if (objEdite != null)
@@ -64,6 +65,13 @@ namespace timos.data.Aspectize
                 row[c_champTypeElementEdite] = strTypeElementEdite;
                 row[c_champIdElementEdite] = nIdElementEdite;
                 row[c_champElementDescription] = strElementDescription;
+                row[c_champEtatTodo] = nEtatTodo;
+                row[c_champDureeStandard] = DureeStandardTodo;
+                if (etape.DateFin == null)
+                    row[c_champDateFin] = DBNull.Value;
+                else
+                    row[c_champDateFin] = etape.DateFin.Value;
+
 
                 m_row = row;
                 dt.Rows.Add(row);
