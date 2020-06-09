@@ -70,6 +70,7 @@ namespace timos.data.Aspectize
             if (fenetre != null)
             {
                 ArrayList lst = fenetre.AllChilds();
+                bool bConserverCeGroupe = false;
                 foreach (object obj in lst)
                 {
                     if (obj is C2iWndChampCustom)
@@ -80,9 +81,9 @@ namespace timos.data.Aspectize
                         {
                             CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, fenChamp, m_formulaire.Id);
                             result = champWeb.FillDataSet(ds);
-
                             CTodoValeurChamp valeur = new CTodoValeurChamp(ds, m_todo.ObjetEditePrincipal, fenChamp);
                             result = valeur.FillDataSet(ds);
+                            bConserverCeGroupe = true;
                         }
                         /*else if (obj is C2iWndZoneMultiple)
                         {
@@ -100,6 +101,13 @@ namespace timos.data.Aspectize
                         }*/
                     }
                 }
+                if(!bConserverCeGroupe)
+                {
+                    DataTable dt = ds.Tables[c_nomTable];
+                    if (dt != null)
+                        dt.Rows.Remove(m_row);
+                }
+
             }
 
             return result;
