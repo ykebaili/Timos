@@ -25,6 +25,8 @@ namespace timos.data.Aspectize
         CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId);
         CResultAErreur EndTodo(int nIdSession, int nIdTodo);
         CResultAErreur AddFile(int nIdSession, string strNomfichier, byte[] octets);
+        CResultAErreur DeleteFile(int nIdSession, string strKeyFile);
+        CResultAErreur DownloadFile(int nIdSession, string strKeyFile);
         CResultAErreur SaveDocument(int nIdSession, DataSet ds, int nIdDocument, int nIdCategorie);
 
     }

@@ -214,7 +214,24 @@ namespace timos.data.serveur.Aspectize
         //---------------------------------------------------------------------------------------------------------
         public CResultAErreur AddFile(int nIdSession, string strNompFichier, byte[] octets)
         {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
             CResultAErreur result = CUtilTimosWebApp.AddFile(strNompFichier, octets);
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur DeleteFile(int nIdSession, string strKeyFile)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.DownloadFile(nIdSession, strKeyFile);
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur DownloadFile(int nIdSession, string strKeyFile)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.DownloadFile(nIdSession, strKeyFile);
             return result;
         }
 

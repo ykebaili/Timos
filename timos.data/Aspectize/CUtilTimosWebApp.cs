@@ -228,6 +228,7 @@ namespace timos.data.Aspectize
             return result;
         }
 
+
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur EndTodo(int nIdSession, int nIdTodo)
         {
@@ -286,6 +287,7 @@ namespace timos.data.Aspectize
             finally
             {
                 writer.Close();
+                fs.Close();
             }
 
             if(result)
@@ -293,6 +295,84 @@ namespace timos.data.Aspectize
 
             return result;
         }
+
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur DeleteFile(int nIdSession, string strCle)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    CDocumentGED doc = new CDocumentGED(ctx);
+                    if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                    {
+                        result = doc.Delete(true);
+                    }
+                    if(result)
+                    {
+                        result = ctx.SaveAll(true);
+                        return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur DownloadFile(int nIdSession, string strCle)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    CDocumentGED doc = new CDocumentGED(ctx);
+                    if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                    {
+                        CProxyGED proxyDownload = new CProxyGED(nIdSession, doc.ReferenceDoc);
+                        result = proxyDownload.CopieFichierEnLocal();
+                        if (!result)
+                        {
+                            return result;
+                        }
+                        else
+                        {
+                            FileStream fs = new FileStream(proxyDownload.NomFichierLocal, FileMode.Open, FileAccess.Read);
+                            BinaryReader reader = new BinaryReader(fs);
+                            try
+                            {
+                                byte[] octets = reader.ReadBytes((int)fs.Length);
+                                result.Data = octets;
+                                
+                            }
+                            catch(Exception ex)
+                            {
+                                result.EmpileErreur(ex.Message);
+                            }
+                            finally
+                            {
+                                reader.Close();
+                                fs.Close();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result.EmpileErreur("Le fichier id : " + strCle + " n'existe pas dans Timos");
+                        return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
 
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur SaveDocument(int nIdSession, DataSet ds, int nIdDocument, int nIdCategorie)
