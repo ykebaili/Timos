@@ -28,11 +28,6 @@ namespace timos.data.Aspectize
     {
         private const string c_dataSetName = "TIMOS_DATA";
 
-        public const string c_nomFortTypeCaracteristiqueDocument = "WEB_DOCUMENT_ATTENDU";
-        public const string c_nomFortChampCategorie = "WEB_CC_CATEGORIE_DOC";
-        public const string c_nomFortChampDureeStandardTodo = "WEB_CC_DUREE_STANDARD_TODO";
-
-
 
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur GetTodosForUser(int nIdsession, string keyUtilisateur)
@@ -56,8 +51,7 @@ namespace timos.data.Aspectize
                                 DataTable dt = CTodoTimosWebApp.GetStructureTable();
                                 foreach (CEtapeWorkflow etape in lstEtapesPourActeur)
                                 {
-                                    CTodoTimosWebApp todo = new CTodoTimosWebApp(etape, dt.NewRow());
-                                    dt.Rows.Add(todo.Row);
+                                    CTodoTimosWebApp todo = new CTodoTimosWebApp(ds, etape);
                                 }
                                 ds.Tables.Add(dt);
                                 result.Data = ds;

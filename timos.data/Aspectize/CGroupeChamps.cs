@@ -18,12 +18,14 @@ namespace timos.data.Aspectize
         public const string c_champId = "TimosId";
         public const string c_champTitre = "Titre";
         public const string c_champOrdreAffichage = "OrdreAffichage";
+        public const string c_champIsInfosSecondaires = "InfosSecondaires";
 
         DataRow m_row;
         CFormulaire m_formulaire;
         CTodoTimosWebApp m_todo;
+        bool m_bIsInfosSecondaires = false;
 
-        public CGroupeChamps(DataSet ds, CFormulaire formulaire, CTodoTimosWebApp todo)
+        public CGroupeChamps(DataSet ds, CFormulaire formulaire, CTodoTimosWebApp todo, bool bIsInfosSecondaires)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -48,10 +50,12 @@ namespace timos.data.Aspectize
             row[c_champId] = nIdFormulaire;
             row[c_champTitre] = strTitreFormulaire;
             row[c_champOrdreAffichage] = nOrdreAffichage;
+            row[c_champIsInfosSecondaires] = bIsInfosSecondaires;
 
             m_row = row;
             dt.Rows.Add(row);
             m_todo = todo;
+            m_bIsInfosSecondaires = bIsInfosSecondaires;
         }
 
         public DataRow Row
@@ -81,7 +85,11 @@ namespace timos.data.Aspectize
                         {
                             CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, fenChamp, m_formulaire.Id);
                             result = champWeb.FillDataSet(ds);
-                            CTodoValeurChamp valeur = new CTodoValeurChamp(ds, m_todo.ObjetEditePrincipal, fenChamp);
+                            CTodoValeurChamp valeur;
+                            if (m_bIsInfosSecondaires)
+                                valeur = new CTodoValeurChamp(ds, m_todo.ObjetEditeSecondaire, fenChamp);
+                            else
+                                valeur = new CTodoValeurChamp(ds, m_todo.ObjetEditePrincipal, fenChamp);
                             result = valeur.FillDataSet(ds);
                             bConserverCeGroupe = true;
                         }
@@ -122,6 +130,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champId, typeof(int));
             dt.Columns.Add(c_champTitre, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
+            dt.Columns.Add(c_champIsInfosSecondaires, typeof(bool));
 
             return dt;
         }

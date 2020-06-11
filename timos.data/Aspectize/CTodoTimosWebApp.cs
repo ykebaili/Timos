@@ -33,6 +33,7 @@ namespace timos.data.Aspectize
 
         DataRow m_row = null;
         IObjetDonneeAChamps m_objetEdite;
+        IObjetDonneeAChamps m_objetEditeSecondaire;
         CEtapeWorkflow m_etape;
 
         public CTodoTimosWebApp(DataSet ds, CEtapeWorkflow etape)
@@ -57,8 +58,14 @@ namespace timos.data.Aspectize
                     nIdElementEdite = objEdite.Id;
                     strElementDescription = objEdite.DescriptionElement;
                 }
+                resObjet = GetElementEditeSecondaire(etape);
+                objEdite = resObjet.Data as CObjetDonneeAIdNumerique;
+                if (objEdite != null)
+                {
+                    m_objetEditeSecondaire = objEdite as IObjetDonneeAChamps;
+                }
 
-                row[c_champId] = etape.Id;
+                    row[c_champId] = etape.Id;
                 row[c_champDateDebut] = etape.DateDebut.Value;
                 row[c_champLibelle] = etape.Libelle;
                 row[c_champInstructions] = strInstrcution;
@@ -76,40 +83,6 @@ namespace timos.data.Aspectize
                 m_row = row;
                 dt.Rows.Add(row);
             }
-        }
-
-        public CTodoTimosWebApp(CEtapeWorkflow etape, DataRow row)
-        {
-            string strInstrcution = GetInstructionsForTodo(etape);
-            string strTypeElementEdite = "";
-            int nIdElementEdite = -1;
-            string strElementDescription = "";
-            int nEtatTodo = etape.EtatCode;
-            CResultAErreur resObjet = GetElementEditePrincipal(etape);
-            CObjetDonneeAIdNumerique objEdite = resObjet.Data as CObjetDonneeAIdNumerique;
-            if (objEdite != null)
-            {
-                m_objetEdite = objEdite as IObjetDonneeAChamps;
-                strTypeElementEdite = objEdite.TypeString;
-                nIdElementEdite = objEdite.Id;
-                strElementDescription = objEdite.DescriptionElement;
-            }
-
-            row[c_champId] = etape.Id;
-            row[c_champDateDebut] = etape.DateDebut.Value;
-            row[c_champLibelle] = etape.Libelle;
-            row[c_champInstructions] = strInstrcution;
-            row[c_champTypeElementEdite] = strTypeElementEdite;
-            row[c_champIdElementEdite] = nIdElementEdite;
-            row[c_champElementDescription] = strElementDescription;
-            row[c_champEtatTodo] = nEtatTodo;
-            row[c_champDureeStandard] = DureeStandardTodo;
-            if (etape.DateFin == null)
-                row[c_champDateFin] = DBNull.Value;
-            else
-                row[c_champDateFin] = etape.DateFin.Value;
-
-            m_row = row;
         }
 
         //---------------------------------------------------------------------------------------------------------
@@ -131,22 +104,26 @@ namespace timos.data.Aspectize
         }
 
         //---------------------------------------------------------------------------------------------------------
+        public IObjetDonneeAChamps ObjetEditeSecondaire
+        {
+            get
+            {
+                return m_objetEditeSecondaire;
+            }
+        }
+
+        //---------------------------------------------------------------------------------------------------------
         public int DureeStandardTodo
         {
             get
             {
                 try
                 {
-                    CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(m_etape.ContexteDonnee);
-                    listeNomsForts.Filtre = new CFiltreData(
-                        CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
-                        typeof(CChampCustom).ToString(),
-                        CUtilTimosWebApp.c_nomFortChampDureeStandardTodo + "%");
+                    int nIdChampDureeStandard = CTimosWebAppRegistre.IdChampDureeStandardTodo;
 
-                    if (listeNomsForts.Count > 0)
+                    if (nIdChampDureeStandard > 0)
                     {
-                        int nIdChamp = listeNomsForts[0].GetObjetNomme().Id;
-                        var valeurChamp = m_etape.TypeEtape.GetValeurChamp(nIdChamp);
+                        var valeurChamp = m_etape.TypeEtape.GetValeurChamp(nIdChampDureeStandard);
                         if (valeurChamp is int)
                             return (int)valeurChamp;
                     }
@@ -216,6 +193,33 @@ namespace timos.data.Aspectize
             return result;
         }
 
+        //---------------------------------------------------------------------------------------------------------
+        private CResultAErreur GetElementEditeSecondaire(CEtapeWorkflow etapeEnCours)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            if (etapeEnCours != null)
+            {
+                CBlocWorkflowFormulaire blocFormulaire = etapeEnCours.TypeEtape != null ? etapeEnCours.TypeEtape.Bloc as CBlocWorkflowFormulaire : null;
+                if (blocFormulaire == null)
+                {
+                    result.EmpileErreur("Ce To do ne peut pas être traité dans l'application web Timos");
+                    return result;
+                }
+                if (blocFormulaire.FormuleElementEditeSecondaire != null)
+                {
+                    C2iExpression expElementEditePrincipal = blocFormulaire.FormuleElementEditeSecondaire;
+                    CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(etapeEnCours);
+                    result = expElementEditePrincipal.Eval(ctxEval);
+                    if (!result)
+                        result.EmpileErreur("Erreur dans l'évaluation de l'élément édité principal du to do " + etapeEnCours.Id);
+                }
+            }
+
+            return result;
+        }
+
+
         //------------------------------------------------------------------------------------------------
         private CCaracteristiqueEntite[] GetDocumentsAttendus()
         {
@@ -225,28 +229,15 @@ namespace timos.data.Aspectize
             CObjetDonneeAIdNumerique objet = m_objetEdite as CObjetDonneeAIdNumerique;
             if (objet != null)
             {
-
-                CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(objet.ContexteDonnee);
-                listeNomsForts.Filtre = new CFiltreData(
-                    CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
-                    typeof(CTypeCaracteristiqueEntite).ToString(),
-                    CUtilTimosWebApp.c_nomFortTypeCaracteristiqueDocument+"%");
-
-                string strIDs = "";
-                foreach (CNommageEntite nom in listeNomsForts)
-                {
-                    if (strIDs != "")
-                        strIDs += ",";
-                    strIDs += nom.GetObjetNomme().Id.ToString();
-                }
-
+                string strIdsDocumentsAttendus = CTimosWebAppRegistre.IdsTypesCaracteristiquesDocumentsAttendus;
+            
                 CFiltreData filtre;
-                if (strIDs.Length == 0)
+                if (strIdsDocumentsAttendus.Length == 0)
                     filtre = new CFiltreDataImpossible();
                 else
                 {
                     filtre = new CFiltreData(CCaracteristiqueEntite.c_champTypeElement + "=@1 and " +
-                       CCaracteristiqueEntite.c_champIdElementLie + "=@2 and " + CTypeCaracteristiqueEntite.c_champId + " IN (" + strIDs + ")",
+                       CCaracteristiqueEntite.c_champIdElementLie + "=@2 and " + CTypeCaracteristiqueEntite.c_champId + " IN (" + strIdsDocumentsAttendus + ")",
                         objet.GetType().ToString(),
                         objet.Id);
                 }
@@ -277,7 +268,18 @@ namespace timos.data.Aspectize
                 CFormulaire formulaire = new CFormulaire(m_etape.ContexteDonnee);
                 if (formulaire.ReadIfExists(keyForm))
                 {
-                    CGroupeChamps groupe = new CGroupeChamps(ds, formulaire, this);
+                    CGroupeChamps groupe = new CGroupeChamps(ds, formulaire, this, false);
+                    result = groupe.FillDataSet(ds);
+                }
+            }
+            // Formulaire d'informations secondaires
+            CDbKey keyFormSecondaire = blocFormulaire.DbKeyFormulaireSecondaire;
+            if(keyFormSecondaire != null)
+            {
+                CFormulaire formulaireSecondaire = new CFormulaire(m_etape.ContexteDonnee);
+                if (formulaireSecondaire.ReadIfExists(keyFormSecondaire))
+                {
+                    CGroupeChamps groupe = new CGroupeChamps(ds, formulaireSecondaire, this, true);
                     result = groupe.FillDataSet(ds);
                 }
             }

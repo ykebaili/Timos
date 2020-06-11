@@ -150,16 +150,11 @@ namespace timos.data.Aspectize
 
                 try
                 {
-                    CListeObjetDonneeGenerique<CNommageEntite> listeNomsForts = new CListeObjetDonneeGenerique<CNommageEntite>(m_caracteristic.ContexteDonnee);
-                    listeNomsForts.Filtre = new CFiltreData(
-                        CNommageEntite.c_champTypeEntite + " = @1 AND " + CNommageEntite.c_champNomFort + " LIKE @2",
-                        typeof(CChampCustom).ToString(),
-                        CUtilTimosWebApp.c_nomFortChampCategorie + "%");
-
-                    if (listeNomsForts.Count > 0)
+                    int nIdChampCategorieDocument = CTimosWebAppRegistre.IdChampCategorieDocuement; 
+                   
+                    if (nIdChampCategorieDocument > 0)
                     {
-                        int nIdChamp = listeNomsForts[0].GetObjetNomme().Id;
-                        var valeurChamp = m_caracteristic.GetValeurChamp(nIdChamp);
+                        var valeurChamp = m_caracteristic.GetValeurChamp(nIdChampCategorieDocument);
                         if (valeurChamp is CCategorieGED)
                             return valeurChamp as CCategorieGED;
                     }
