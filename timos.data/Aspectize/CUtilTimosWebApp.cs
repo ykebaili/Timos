@@ -49,11 +49,11 @@ namespace timos.data.Aspectize
                             try
                             {
                                 DataTable dt = CTodoTimosWebApp.GetStructureTable();
+                                ds.Tables.Add(dt);
                                 foreach (CEtapeWorkflow etape in lstEtapesPourActeur)
                                 {
                                     CTodoTimosWebApp todo = new CTodoTimosWebApp(ds, etape);
                                 }
-                                ds.Tables.Add(dt);
                                 result.Data = ds;
                             }
                             catch (Exception ex)
