@@ -223,7 +223,7 @@ namespace timos.data.serveur.Aspectize
         public CResultAErreur DeleteFile(int nIdSession, string strKeyFile)
         {
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
-            CResultAErreur result = CUtilTimosWebApp.DownloadFile(nIdSession, strKeyFile);
+            CResultAErreur result = CUtilTimosWebApp.DeleteFile(nIdSession, strKeyFile);
             return result;
         }
 

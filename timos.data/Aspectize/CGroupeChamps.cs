@@ -8,6 +8,7 @@ using sc2i.common;
 using sc2i.data.dynamic;
 using sc2i.formulaire;
 using System.Collections;
+using sc2i.expression;
 
 namespace timos.data.Aspectize
 {
@@ -93,23 +94,38 @@ namespace timos.data.Aspectize
                             result = valeur.FillDataSet(ds);
                             bConserverCeGroupe = true;
                         }
-                        /*else if (obj is C2iWndZoneMultiple)
-                        {
-                            C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
-                            C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
-                            //sousFenetre.AllChilds();
 
-                            CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(etapeEnCours);
-                            CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
-                            if (resEval)
-                            {
-                                object datas = resEval.Data;
-
-                            }
-                        }*/
                     }
+                    else if(obj is C2iWndConteneurSousFormulaire)
+                    {
+                        C2iWndConteneurSousFormulaire conteneur = (C2iWndConteneurSousFormulaire)obj;
+                        if (conteneur != null && conteneur.SubFormReference != null)
+                        {
+                            C2iWnd frm = sc2i.formulaire.subform.C2iWndProvider.GetForm(conteneur.SubFormReference);
+                            if (frm != null)
+                            {
+                                frm.GetAllChilds();
+                            }
+                        }
+
+
+                    }
+                    /*else if (obj is C2iWndZoneMultiple)
+                    {
+                        C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
+                        C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
+                        //sousFenetre.AllChilds();
+
+                        CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(m_todo.ObjetEditePrincipal);
+                        CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
+                        if (resEval)
+                        {
+                            object datas = resEval.Data;
+
+                        }
+                    }*/
                 }
-                if(!bConserverCeGroupe)
+                if (!bConserverCeGroupe)
                 {
                     DataTable dt = ds.Tables[c_nomTable];
                     if (dt != null)

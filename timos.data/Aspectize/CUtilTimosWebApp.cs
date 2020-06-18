@@ -300,14 +300,22 @@ namespace timos.data.Aspectize
             {
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
-                    CDocumentGED doc = new CDocumentGED(ctx);
-                    if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                    try
                     {
-                        result = doc.Delete(true);
+                        CDocumentGED doc = new CDocumentGED(ctx);
+                        if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                        {
+                            result = doc.Delete(true);
+                        }
+                        if (result)
+                        {
+                            result = ctx.SaveAll(true);
+                            return result;
+                        }
                     }
-                    if(result)
+                    catch(Exception ex)
                     {
-                        result = ctx.SaveAll(true);
+                        result.EmpileErreur("Erreur de suppression du document GED : " + ex.Message);
                         return result;
                     }
                 }
