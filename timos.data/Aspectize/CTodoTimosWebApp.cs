@@ -269,7 +269,7 @@ namespace timos.data.Aspectize
                 if (formulaire.ReadIfExists(keyForm))
                 {
                     CGroupeChamps groupe = new CGroupeChamps(ds, formulaire, this, false);
-                    result = groupe.FillDataSet(ds);
+                    result = groupe.FillDataSet(ds, formulaire.Formulaire, ObjetEditePrincipal);
                 }
             }
             // Formulaire d'informations secondaires
@@ -280,7 +280,7 @@ namespace timos.data.Aspectize
                 if (formulaireSecondaire.ReadIfExists(keyFormSecondaire))
                 {
                     CGroupeChamps groupe = new CGroupeChamps(ds, formulaireSecondaire, this, true);
-                    result = groupe.FillDataSet(ds);
+                    result = groupe.FillDataSet(ds, formulaireSecondaire.Formulaire, ObjetEditeSecondaire);
                 }
             }
 

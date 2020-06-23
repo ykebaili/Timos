@@ -9,6 +9,7 @@ using sc2i.data.dynamic;
 using sc2i.formulaire;
 using System.Collections;
 using sc2i.expression;
+using sc2i.data;
 
 namespace timos.data.Aspectize
 {
@@ -69,9 +70,14 @@ namespace timos.data.Aspectize
 
         public CResultAErreur FillDataSet(DataSet ds)
         {
+            return FillDataSet(ds, m_formulaire.Formulaire, m_todo.ObjetEditePrincipal);
+        }
+
+
+        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre, IObjetDonneeAChamps objetEdite)
+        {
             CResultAErreur result = CResultAErreur.True;
 
-            C2iWndFenetre fenetre = m_formulaire.Formulaire;
             if (fenetre != null)
             {
                 ArrayList lst = fenetre.AllChilds();
@@ -80,17 +86,14 @@ namespace timos.data.Aspectize
                 {
                     if (obj is C2iWndChampCustom)
                     {
-                        C2iWndChampCustom fenChamp = (C2iWndChampCustom)obj;
-                        CChampCustom cc = fenChamp.ChampCustom;
+                        C2iWndChampCustom wndChamp = (C2iWndChampCustom)obj;
+                        CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, fenChamp, m_formulaire.Id);
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id);
                             result = champWeb.FillDataSet(ds);
                             CTodoValeurChamp valeur;
-                            if (m_bIsInfosSecondaires)
-                                valeur = new CTodoValeurChamp(ds, m_todo.ObjetEditeSecondaire, fenChamp);
-                            else
-                                valeur = new CTodoValeurChamp(ds, m_todo.ObjetEditePrincipal, fenChamp);
+                            valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp);
                             result = valeur.FillDataSet(ds);
                             bConserverCeGroupe = true;
                         }
@@ -98,13 +101,30 @@ namespace timos.data.Aspectize
                     }
                     else if(obj is C2iWndConteneurSousFormulaire)
                     {
-                        C2iWndConteneurSousFormulaire conteneur = (C2iWndConteneurSousFormulaire)obj;
-                        if (conteneur != null && conteneur.SubFormReference != null)
+                        C2iWndConteneurSousFormulaire subForm = (C2iWndConteneurSousFormulaire)obj;
+                        if (subForm != null && subForm.SubFormReference != null)
                         {
-                            C2iWnd frm = sc2i.formulaire.subform.C2iWndProvider.GetForm(conteneur.SubFormReference);
+                            C2iWnd frm = sc2i.formulaire.subform.C2iWndProvider.GetForm(subForm.SubFormReference);
                             if (frm != null)
                             {
-                                frm.GetAllChilds();
+                                if(subForm.EditedElement   != null)
+                                {
+                                    C2iExpression expression = subForm.EditedElement;
+                                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(m_todo.ObjetEditePrincipal);
+                                    CResultAErreur resEval = expression.Eval(ctx);
+                                    if(!resEval)
+                                    {
+                                        result += resEval;
+                                        return result;
+                                    }
+                                    IObjetDonneeAChamps objEdite = resEval.Data as IObjetDonneeAChamps;
+                                    if(objEdite != null)
+                                    {
+                                        bConserverCeGroupe = true;
+                                        FillDataSet(ds, frm, objEdite);
+                                    }
+
+                                }
                             }
                         }
 

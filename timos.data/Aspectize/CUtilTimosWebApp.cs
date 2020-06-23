@@ -140,7 +140,7 @@ namespace timos.data.Aspectize
             
             
         //------------------------------------------------------------------------------------------------------
-        public static CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementType, int elementId)
+        public static CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementPrincipalType, int elementPrincipalId)
         {
             CResultAErreur result = CResultAErreur.True;
 
@@ -153,46 +153,54 @@ namespace timos.data.Aspectize
                     CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
                     if (etapeEnCours.ReadIfExists(nIdTodo))
                     {
-                        Type tp = CActivatorSurChaine.GetType(elementType);
+                        Type tp = CActivatorSurChaine.GetType(elementPrincipalType);
                         if (tp == null)
                         {
-                            result.EmpileErreur("Le type " + elementType + " n'existe pas dans Timos");
+                            result.EmpileErreur("Le type " + elementPrincipalType + " n'existe pas dans Timos");
                             return result;
                         }
                         IObjetDonneeAChamps obj = (IObjetDonneeAChamps)Activator.CreateInstance(tp, new object[] { ctx });
-                        if (obj.ReadIfExists(elementId))
+                        if (obj.ReadIfExists(elementPrincipalId))
                         {
-                            DataTable dt = ds.Tables["TodoValeurChamp"];
+                            DataTable dt = ds.Tables[CTodoValeurChamp.c_nomTable];
                             if(dt != null)
                             {
                                 CResultAErreur resBoucle = CResultAErreur.True;
                                 foreach (DataRow row in dt.Rows)
                                 {
                                     int nIdChamp = (int)row[CTodoValeurChamp.c_champId];
+                                    string strElementType = (string)row[CTodoValeurChamp.c_champElementType];
+                                    int nElementId = (int)row[CTodoValeurChamp.c_champElementId];
                                     var valeur = row[CTodoValeurChamp.c_champValeur];
+
                                     CChampCustom champ = new CChampCustom(ctx);
                                     if (champ.ReadIfExists(nIdChamp))
                                     {
-                                        if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+                                        Type tpElementEdite = CActivatorSurChaine.GetType(strElementType);
+                                        IObjetDonneeAChamps elementEdite = (IObjetDonneeAChamps)Activator.CreateInstance(tpElementEdite, new object[] { ctx });
+                                        if (elementEdite.ReadIfExists(nElementId))
                                         {
-                                            try
+                                            if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
                                             {
-                                                resBoucle = CUtilElementAChamps.SetValeurChamp(obj, nIdChamp, Int32.Parse(valeur.ToString()));
+                                                try
+                                                {
+                                                    resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, Int32.Parse(valeur.ToString()));
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    resBoucle.EmpileErreur("Erreur SetValeurChamp Id : " + nIdChamp + ". " + ex.Message);
+                                                }
                                             }
-                                            catch(Exception ex)
-                                            {
-                                                resBoucle.EmpileErreur("Erreur SetValeurChamp Id : " + nIdChamp + ". " + ex.Message);
-                                            }
-                                        }
-                                        else
-                                            resBoucle = CUtilElementAChamps.SetValeurChamp(obj, nIdChamp, valeur);
+                                            else
+                                                resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, valeur);
 
-                                        if (!resBoucle)
-                                            result.EmpileErreur(resBoucle.MessageErreur);
-                                        var newValeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
-                                        resBoucle = champ.IsCorrectValue(newValeur);
-                                        if (!resBoucle)
-                                            result.EmpileErreur(resBoucle.MessageErreur);
+                                            if (!resBoucle)
+                                                result.EmpileErreur(resBoucle.MessageErreur);
+                                            var newValeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+                                            resBoucle = champ.IsCorrectValue(newValeur);
+                                            if (!resBoucle)
+                                                result.EmpileErreur(resBoucle.MessageErreur);
+                                        }
                                     }
                                     
                                 }
@@ -207,7 +215,7 @@ namespace timos.data.Aspectize
                         }
                         else
                         {
-                            result.EmpileErreur("L'objet id " + elementId + " n'existe pas dans Timos");
+                            result.EmpileErreur("L'objet id " + elementPrincipalId + " n'existe pas dans Timos");
                             return result;
                         }
                     }

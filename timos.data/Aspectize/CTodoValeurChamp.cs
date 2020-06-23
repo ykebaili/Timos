@@ -18,6 +18,9 @@ namespace timos.data.Aspectize
         public const string c_champLibelle = "LibelleChamp";
         public const string c_champOrdreAffichage = "OrdreChamp";
         public const string c_champValeur = "ValeurChamp";
+        public const string c_champElementType = "ElementType";
+        public const string c_champElementId = "ElementId";
+
 
         DataRow m_row;
         object m_valeur;
@@ -44,6 +47,8 @@ namespace timos.data.Aspectize
                 row[c_champLibelle] = strLibelleWeb;
                 row[c_champOrdreAffichage] = nOrdreWeb;
                 row[c_champValeur] = "";
+                row[c_champElementType] = obj.GetType().ToString();
+                row[c_champElementId] = ((IObjetDonneeAIdNumerique)obj).Id;
 
                 if (m_valeur != null)
                 {
@@ -70,48 +75,7 @@ namespace timos.data.Aspectize
             dt.Rows.Add(row);
 
         }
-
-        public CTodoValeurChamp(IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, DataRow row)
-        {
-            int nIdChamp = -1;
-            string strLibelleWeb = wndChamp.WebLabel;
-            int nOrdreWeb = wndChamp.WebNumOrder;
-
-            CChampCustom champ = wndChamp.ChampCustom;
-            if (champ != null)
-            {
-                nIdChamp = champ.Id;
-                m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
-
-                row[c_champId] = nIdChamp;
-                row[c_champLibelle] = strLibelleWeb;
-                row[c_champOrdreAffichage] = nOrdreWeb;
-                row[c_champValeur] = "";
-
-                if (m_valeur != null)
-                {
-                    if(champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
-                    {
-                        IObjetDonneeAIdNumerique objetValeur = m_valeur as IObjetDonneeAIdNumerique;
-                        if (objetValeur != null)
-                            row[c_champValeur] = objetValeur.Id.ToString();
-                    }
-                    else
-                    {
-                        try
-                        {
-                            row[c_champValeur] = m_valeur.ToString();
-                        }
-                        catch
-                        {
-                            row[c_champValeur] = "";
-                        }
-                    }
-                }
-            }
-            m_row = row;
-        }
-
+     
         //---------------------------------------------------------------------------------------
         public DataRow Row
         {
@@ -139,6 +103,8 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champLibelle, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
             dt.Columns.Add(c_champValeur, typeof(string));
+            dt.Columns.Add(c_champElementType, typeof(string));
+            dt.Columns.Add(c_champElementId, typeof(int));
 
             return dt;
         }
