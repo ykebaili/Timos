@@ -25,6 +25,24 @@ namespace timos.data.Aspectize
             return true;
         }
 
+        public static int WebSessionDelay
+        {
+            get
+            {
+                return new CTimosWebAppRegistre().GetIntValue("General", "WebSessionDelay", 10);
+            }
+        }
+        public static CDbKey WebAdminGroupKey
+        {
+            get
+            {
+                string strKeyGroupe = new CTimosWebAppRegistre().GetValue("General", "WebAdminGroupKey", "");
+                if(strKeyGroupe != "")
+                    return CDbKey.CreateFromStringValue(strKeyGroupe);
+                return null;
+            }
+        }
+
         //---------------------------------------------------------------------------------------------
         // Doit retourner une liste d'Ids de CTypeCaracteristiqueEntite séparés par une virgule ","
         public static string IdsTypesCaracteristiquesDocumentsAttendus
