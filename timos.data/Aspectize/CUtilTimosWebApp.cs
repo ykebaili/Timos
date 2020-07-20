@@ -311,7 +311,7 @@ namespace timos.data.Aspectize
                     try
                     {
                         CDocumentGED doc = new CDocumentGED(ctx);
-                        if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                        if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1 OR " + CDocumentGED.c_champIdUniversel + " = @1", strCle)))
                         {
                             result = doc.Delete(true);
                         }
@@ -343,7 +343,7 @@ namespace timos.data.Aspectize
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
                     CDocumentGED doc = new CDocumentGED(ctx);
-                    if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                    if (doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1 OR " + CDocumentGED.c_champIdUniversel + " = @1", strCle)))
                     {
                         CProxyGED proxyDownload = new CProxyGED(nIdSession, doc.ReferenceDoc);
                         result = proxyDownload.CopieFichierEnLocal();
@@ -411,7 +411,7 @@ namespace timos.data.Aspectize
                                     string strCheminTemp = (string)rowFichier[CFichierAttache.c_champCheminTemporaire];
 
                                     CDocumentGED doc = new CDocumentGED(ctx);
-                                    if (!doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1", strCle)))
+                                    if (!doc.ReadIfExists(new CFiltreData(CDocumentGED.c_champCle + " = @1 OR " + CDocumentGED.c_champIdUniversel + " = @1", strCle)))
                                     {
                                         doc.CreateNewInCurrentContexte();
                                     }
