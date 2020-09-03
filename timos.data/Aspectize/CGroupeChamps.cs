@@ -99,7 +99,8 @@ namespace timos.data.Aspectize
                         }
 
                     }
-                    else if(obj is C2iWndConteneurSousFormulaire)
+                    // Traitement dans le cas d'un sous-formulaire
+                    else if (obj is C2iWndConteneurSousFormulaire)
                     {
                         C2iWndConteneurSousFormulaire subForm = (C2iWndConteneurSousFormulaire)obj;
                         if (subForm != null && subForm.SubFormReference != null)
@@ -107,18 +108,18 @@ namespace timos.data.Aspectize
                             C2iWnd frm = sc2i.formulaire.subform.C2iWndProvider.GetForm(subForm.SubFormReference);
                             if (frm != null)
                             {
-                                if(subForm.EditedElement   != null)
+                                if (subForm.EditedElement != null)
                                 {
                                     C2iExpression expression = subForm.EditedElement;
                                     CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(m_todo.ObjetEditePrincipal);
                                     CResultAErreur resEval = expression.Eval(ctx);
-                                    if(!resEval)
+                                    if (!resEval)
                                     {
                                         result += resEval;
                                         return result;
                                     }
                                     IObjetDonneeAChamps objEdite = resEval.Data as IObjetDonneeAChamps;
-                                    if(objEdite != null)
+                                    if (objEdite != null)
                                     {
                                         bConserverCeGroupe = true;
                                         FillDataSet(ds, frm, objEdite);
@@ -127,10 +128,9 @@ namespace timos.data.Aspectize
                                 }
                             }
                         }
-
-
                     }
-                    /*else if (obj is C2iWndZoneMultiple)
+                    // Traitement dans le cas d'une Child Zone
+                    else if (obj is C2iWndZoneMultiple)
                     {
                         C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
                         C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
@@ -138,12 +138,31 @@ namespace timos.data.Aspectize
 
                         CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(m_todo.ObjetEditePrincipal);
                         CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
-                        if (resEval)
+                        if (!resEval)
                         {
-                            object datas = resEval.Data;
-
+                            result += resEval;
+                            return result;
                         }
-                    }*/
+                        object datas = resEval.Data;
+                        if (datas != null)
+                        {
+                            IEnumerable collection = datas as IEnumerable;
+                            if (collection != null)
+                            {
+                                // La source de données est une collection
+                            }
+                            else
+                            {
+                                // La source de donnée est un objet unique
+                                IObjetDonneeAChamps objEdite = datas as IObjetDonneeAChamps;
+                                if (objEdite != null)
+                                {
+                                    bConserverCeGroupe = true;
+                                    FillDataSet(ds, sousFenetre, objEdite);
+                                }
+                            }
+                        }
+                    }
                 }
                 if (!bConserverCeGroupe)
                 {

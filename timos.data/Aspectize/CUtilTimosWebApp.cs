@@ -196,7 +196,7 @@ namespace timos.data.Aspectize
 
                                             if (!resBoucle)
                                                 result.EmpileErreur(resBoucle.MessageErreur);
-                                            var newValeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+                                            var newValeur = CUtilElementAChamps.GetValeurChamp(elementEdite, nIdChamp);
                                             resBoucle = champ.IsCorrectValue(newValeur);
                                             if (!resBoucle)
                                                 result.EmpileErreur(resBoucle.MessageErreur);
