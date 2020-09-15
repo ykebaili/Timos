@@ -149,7 +149,8 @@ namespace timos.data.Aspectize
                             IEnumerable collection = datas as IEnumerable;
                             if (collection != null)
                             {
-                                // La source de données est une collection
+                                // La source de données est une collection, il faut traiter les Caractéristiques
+
                             }
                             else
                             {
@@ -164,12 +165,12 @@ namespace timos.data.Aspectize
                         }
                     }
                 }
-                if (!bConserverCeGroupe)
+                /*if (!bConserverCeGroupe)
                 {
                     DataTable dt = ds.Tables[c_nomTable];
                     if (dt != null)
                         dt.Rows.Remove(m_row);
-                }
+                }*/
 
             }
 
