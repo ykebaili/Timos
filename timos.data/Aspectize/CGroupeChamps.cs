@@ -150,6 +150,16 @@ namespace timos.data.Aspectize
                             if (collection != null)
                             {
                                 // La source de données est une collection, il faut traiter les Caractéristiques
+                                bConserverCeGroupe = true;
+                                foreach (var data in collection)
+                                {
+                                    IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
+                                    if (objEdite != null)
+                                    {
+
+                                        FillDataSet(ds, sousFenetre, objEdite);
+                                    }
+                                }
 
                             }
                             else

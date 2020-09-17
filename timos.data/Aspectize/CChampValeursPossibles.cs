@@ -37,16 +37,6 @@ namespace timos.data.Aspectize
             dt.Rows.Add(row);
         }
 
-        public CChampValeursPossibles(int nIdChamp, string strStore, string strDisplay, int nIndex, DataRow row)
-        {
-
-            row[c_champId] = nIdChamp;
-            row[c_champValue] = strStore;
-            row[c_champDisplay] = strDisplay;
-            row[c_champIndex] = nIndex;
-
-            m_row = row;
-        }
 
         //---------------------------------------------------------------------------------
         public DataRow Row

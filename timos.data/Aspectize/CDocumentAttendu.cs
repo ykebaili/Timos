@@ -65,29 +65,6 @@ namespace timos.data.Aspectize
             dt.Rows.Add(row);
         }
 
-        public CDocumentAttendu(CCaracteristiqueEntite carac, DataRow row)
-        {
-            int nIdCarac = -1;
-            string strLibelle = "";
-            string strCategorie = "";
-            int nbMin = 0;
-            DateTime? dateLastUpload = null;
-
-            if(carac != null)
-            {
-                row[c_champId] = carac.Id;
-                row[c_champLibelle] = carac.Libelle;
-                row[c_champIdCategorie] = -1; // A implémenter
-                row[c_champNombreMin] = nbMin;
-                if (dateLastUpload == null)
-                    row[c_champDateLastUpload] = DBNull.Value;
-                else
-                    row[c_champDateLastUpload] = dateLastUpload.Value;
-            }
-
-            m_row = row;
-        }
-
         public DataRow Row
         {
             get
