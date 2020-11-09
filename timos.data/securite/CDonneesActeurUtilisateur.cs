@@ -253,7 +253,7 @@ namespace timos.securite
 			}
 		}
 
-        [DynamicField("PasswordClear")]
+        [DynamicField("InternalField")]
         public string PasswordClear
         {
             get { return C2iCrypto.Decrypte(Password); }
