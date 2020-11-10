@@ -92,8 +92,7 @@ namespace timos.data.Aspectize
                         {
                             CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id);
                             result = champWeb.FillDataSet(ds);
-                            CTodoValeurChamp valeur;
-                            valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp);
+                            CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp);
                             result = valeur.FillDataSet(ds);
                             bConserverCeGroupe = true;
                         }
@@ -134,7 +133,6 @@ namespace timos.data.Aspectize
                     {
                         C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
                         C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
-                        //sousFenetre.AllChilds();
 
                         CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(m_todo.ObjetEditePrincipal);
                         CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
@@ -146,21 +144,25 @@ namespace timos.data.Aspectize
                         object datas = resEval.Data;
                         if (datas != null)
                         {
+                            bConserverCeGroupe = true;
+
                             IEnumerable collection = datas as IEnumerable;
                             if (collection != null)
                             {
                                 // La source de données est une collection, il faut traiter les Caractéristiques
-                                bConserverCeGroupe = true;
                                 foreach (var data in collection)
                                 {
                                     IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
                                     if (objEdite != null)
                                     {
-
-                                        FillDataSet(ds, sousFenetre, objEdite);
+                                        CCaracteristiqueEntite caracTimos = objEdite as CCaracteristiqueEntite;
+                                        if (caracTimos != null)
+                                        {
+                                            CCaracteristique caracWeb = new CCaracteristique(ds, caracTimos);
+                                            caracWeb.FillDataSet(ds, sousFenetre);
+                                        }
                                     }
                                 }
-
                             }
                             else
                             {
@@ -168,7 +170,6 @@ namespace timos.data.Aspectize
                                 IObjetDonneeAChamps objEdite = datas as IObjetDonneeAChamps;
                                 if (objEdite != null)
                                 {
-                                    bConserverCeGroupe = true;
                                     FillDataSet(ds, sousFenetre, objEdite);
                                 }
                             }

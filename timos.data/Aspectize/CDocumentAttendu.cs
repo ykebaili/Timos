@@ -94,13 +94,14 @@ namespace timos.data.Aspectize
             if (CategorieGED == null)
                 return result;
 
+            int nIdCategorie = CategorieGED.Id;
             CDocumentGED[] listeGED = CDocumentGED.GetListeDocumentsForElement(m_caracteristic).ToArray<CDocumentGED>();
             foreach (CDocumentGED ged in listeGED)
             {
                 bool bOK = false;
                 foreach (CRelationDocumentGED_Categorie relCat in ged.RelationsCategories)
                 {
-                    if (relCat.Categorie.Id == CategorieGED.Id)
+                    if (relCat.Categorie.Id == nIdCategorie)
                     {
                         bOK = true;
                         break;

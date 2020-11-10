@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using sc2i.common;
 using sc2i.data.dynamic;
+using sc2i.formulaire;
 
 namespace timos.data.Aspectize
 {
@@ -41,6 +42,7 @@ namespace timos.data.Aspectize
             
         }
 
+        //------------------------------------------------------------------------------------------------
         public DataRow Row
         {
             get
@@ -49,9 +51,14 @@ namespace timos.data.Aspectize
             }
         }
 
-        public CResultAErreur FillDataSet(DataSet ds)
+        //------------------------------------------------------------------------------------------------
+        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre)
         {
-            throw new NotImplementedException();
+            CResultAErreur result = CResultAErreur.True;
+
+
+
+            return result;
         }
 
         //------------------------------------------------------------------------------------------------
