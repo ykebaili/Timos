@@ -24,12 +24,13 @@ namespace timos.data.Aspectize
         public const string c_champIsMultiline = "TIMOS_FIELD_IS_MULTILINE";
         public const string c_champIsEditable = "TIMOS_FIELD_IS_EDITABLE";
         public const string c_champIdGroupeChamps = "TIMOS_FIELD_ID_GROUPE";
-        
+        public const string c_champIdCaracteristique = "TIMOS_FIELD_ID_CARAC";
+
 
         DataRow m_row = null;
         CChampCustom m_champ;
 
-        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe)
+        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe, int nIdCarac)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -66,44 +67,12 @@ namespace timos.data.Aspectize
             row[c_champIsMultiline] = bIsMultiline;
             row[c_champIsEditable] = bIsEditable;
             row[c_champIdGroupeChamps] = nIdGroupe;
+            row[c_champIdCaracteristique] = nIdCarac;
 
             m_row = row;
             dt.Rows.Add(row);
         }
-
-        public CChampTimosWebApp(C2iWndChampCustom wndChamp, DataRow row)
-        {
-            int nIdChampCustom = -1;
-            string strNomChamp = "";
-            string strLibelleWeb = wndChamp.WebLabel;
-            int nOrdreWeb = wndChamp.WebNumOrder;
-            int nTypeDonneeChamp = 2; // par défaut type string
-            bool bIsChoixParmis = false;
-            bool bIsMultiline = wndChamp.MultiLine;
-            bool bIsEditable = false;
-
-            CChampCustom champ = wndChamp.ChampCustom;
-            if (champ != null)
-            {
-                m_champ = champ;
-                nIdChampCustom = champ.Id;
-                strNomChamp = champ.Nom;
-                nTypeDonneeChamp = (int)champ.TypeDonneeChamp.TypeDonnee;
-                bIsChoixParmis = champ.IsChoixParmis();
-                // bIsEditable = à implémenter
-            }
-
-            row[c_champId] = nIdChampCustom;
-            row[c_champNom] = strNomChamp;
-            row[c_champLibelleConvivial] = strLibelleWeb;
-            row[c_champOrdreAffichage] = nOrdreWeb;
-            row[c_champTypeDonne] = nTypeDonneeChamp;
-            row[c_champIsChoixParmis] = bIsChoixParmis;
-            row[c_champIsMultiline] = bIsMultiline;
-            row[c_champIsEditable] = bIsEditable;
-
-            m_row = row;
-        }
+         
 
         //---------------------------------------------------------------------------------------
         public DataRow Row
@@ -138,6 +107,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champIsMultiline, typeof(bool));
             dt.Columns.Add(c_champIsEditable, typeof(bool));
             dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
+            dt.Columns.Add(c_champIdCaracteristique, typeof(int));
 
             return dt;
         }

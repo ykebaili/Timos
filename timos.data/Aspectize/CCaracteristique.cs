@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using sc2i.common;
 using sc2i.data.dynamic;
 using sc2i.formulaire;
+using System.Collections;
+using sc2i.expression;
 
 namespace timos.data.Aspectize
 {
     public class CCaracteristique : IEntiteTimosWebApp
     {
-        public const string c_nomTable = "DocumentsAttendus";
+        public const string c_nomTable = "Caracteristiques";
 
         public const string c_champTimosId = "TimosId";
         public const string c_champTitre = "Titre";
@@ -23,7 +25,7 @@ namespace timos.data.Aspectize
         DataRow m_row;
         CCaracteristiqueEntite m_caracteristic;
 
-        public CCaracteristique(DataSet ds, CCaracteristiqueEntite carac)
+        public CCaracteristique(DataSet ds, CCaracteristiqueEntite carac, int nOrdre)
         {
             m_caracteristic = carac;
             DataTable dt = ds.Tables[c_nomTable];
@@ -31,15 +33,22 @@ namespace timos.data.Aspectize
                 return;
 
             DataRow row = dt.NewRow();
+            string strLibelle = "";
+            int nId = -1;
 
-            if(carac != null)
+            if (carac != null)
             {
-                row[c_champTimosId] = carac.Id;
-                row[c_champTitre] = carac.Libelle;
-                //row[c_champOrdreAffichage] = carac.
-
+                nId = carac.Id;
+                strLibelle = carac.Libelle;
+                if (strLibelle == "")
+                    strLibelle = carac.TypeCaracteristique.Libelle;
             }
-            
+            row[c_champTimosId] = nId;
+            row[c_champTitre] = strLibelle;
+            row[c_champOrdreAffichage] = nOrdre;
+            m_row = row;
+            dt.Rows.Add(row);
+
         }
 
         //------------------------------------------------------------------------------------------------
@@ -52,10 +61,71 @@ namespace timos.data.Aspectize
         }
 
         //------------------------------------------------------------------------------------------------
-        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre)
+        public CResultAErreur FillDataSet(DataSet ds)
+        {
+            return CResultAErreur.True;
+        }
+
+        //------------------------------------------------------------------------------------------------
+        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre, IObjetDonneeAChamps objetEdite)
         {
             CResultAErreur result = CResultAErreur.True;
 
+            if (fenetre != null)
+            {
+                ArrayList lst = fenetre.AllChilds();
+                bool bConserverCeGroupe = false;
+                foreach (object obj in lst)
+                {
+                    if (obj is C2iWndChampCustom)
+                    {
+                        C2iWndChampCustom wndChamp = (C2iWndChampCustom)obj;
+                        CChampCustom cc = wndChamp.ChampCustom;
+                        if (cc != null)
+                        {
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, m_caracteristic.Id);
+                            result = champWeb.FillDataSet(ds);
+                            CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp);
+                            result = valeur.FillDataSet(ds);
+                            bConserverCeGroupe = true;
+                        }
+
+                    }
+                    // Traitement dans le cas d'un sous-formulaire
+                    else if (obj is C2iWndConteneurSousFormulaire)
+                    {
+                        C2iWndConteneurSousFormulaire subForm = (C2iWndConteneurSousFormulaire)obj;
+                        if (subForm != null && subForm.SubFormReference != null)
+                        {
+                            C2iWnd frm = sc2i.formulaire.subform.C2iWndProvider.GetForm(subForm.SubFormReference);
+                            if (frm != null)
+                            {
+                                if (subForm.EditedElement != null)
+                                {
+                                    C2iExpression expression = subForm.EditedElement;
+                                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
+                                    CResultAErreur resEval = expression.Eval(ctx);
+                                    if (!resEval)
+                                    {
+                                        result += resEval;
+                                        return result;
+                                    }
+                                    IObjetDonneeAChamps objEdite = resEval.Data as IObjetDonneeAChamps;
+                                    if (objEdite != null)
+                                    {
+                                        bConserverCeGroupe = true;
+                                        FillDataSet(ds, frm, objEdite);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+                  
+                }
+ 
+            }
 
 
             return result;

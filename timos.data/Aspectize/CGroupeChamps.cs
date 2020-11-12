@@ -90,7 +90,7 @@ namespace timos.data.Aspectize
                         CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id);
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, -1);
                             result = champWeb.FillDataSet(ds);
                             CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp);
                             result = valeur.FillDataSet(ds);
@@ -110,7 +110,7 @@ namespace timos.data.Aspectize
                                 if (subForm.EditedElement != null)
                                 {
                                     C2iExpression expression = subForm.EditedElement;
-                                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(m_todo.ObjetEditePrincipal);
+                                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
                                     CResultAErreur resEval = expression.Eval(ctx);
                                     if (!resEval)
                                     {
@@ -134,7 +134,7 @@ namespace timos.data.Aspectize
                         C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
                         C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
 
-                        CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(m_todo.ObjetEditePrincipal);
+                        CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
                         CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
                         if (!resEval)
                         {
@@ -150,6 +150,7 @@ namespace timos.data.Aspectize
                             if (collection != null)
                             {
                                 // La source de données est une collection, il faut traiter les Caractéristiques
+                                int nOrdre = 0;
                                 foreach (var data in collection)
                                 {
                                     IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
@@ -158,8 +159,8 @@ namespace timos.data.Aspectize
                                         CCaracteristiqueEntite caracTimos = objEdite as CCaracteristiqueEntite;
                                         if (caracTimos != null)
                                         {
-                                            CCaracteristique caracWeb = new CCaracteristique(ds, caracTimos);
-                                            caracWeb.FillDataSet(ds, sousFenetre);
+                                            CCaracteristique caracWeb = new CCaracteristique(ds, caracTimos, nOrdre++);
+                                            caracWeb.FillDataSet(ds, sousFenetre, objEdite);
                                         }
                                     }
                                 }

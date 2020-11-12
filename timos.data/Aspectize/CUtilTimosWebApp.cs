@@ -92,6 +92,7 @@ namespace timos.data.Aspectize
                     {
                         DataTable tableTodos = CTodoTimosWebApp.GetStructureTable();
                         DataTable tableGroupesChamps = CGroupeChamps.GetStructureTable();
+                        DataTable tableCaracteristiques = CCaracteristique.GetStructureTable();
                         DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
                         DataTable tableValeursChamps = CTodoValeurChamp.GetStructureTable();
                         DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
@@ -100,6 +101,7 @@ namespace timos.data.Aspectize
 
                         ds.Tables.Add(tableTodos);
                         ds.Tables.Add(tableGroupesChamps);
+                        ds.Tables.Add(tableCaracteristiques);
                         ds.Tables.Add(tableChampsTimosWeb);
                         ds.Tables.Add(tableValeursChamps);
                         ds.Tables.Add(tableValeursPossibles);
