@@ -167,6 +167,7 @@
     <Compile Include="Aspectize\CDocumentAttendu.cs" />
     <Compile Include="Aspectize\CFichierAttache.cs" />
     <Compile Include="Aspectize\CGroupeChamps.cs" />
+    <Compile Include="Aspectize\CCaracValeurChamp.cs" />
     <Compile Include="Aspectize\CTimosWebAppRegistre.cs" />
     <Compile Include="Aspectize\CTodoTimosWebApp.cs" />
     <Compile Include="Aspectize\CTodoValeurChamp.cs" />

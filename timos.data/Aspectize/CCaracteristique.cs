@@ -20,12 +20,13 @@ namespace timos.data.Aspectize
         public const string c_champTitre = "Titre";
         public const string c_champOrdreAffichage = "OrdreAffichage";
         public const string c_champExpand = "Expand";
+        public const string c_champIdGroupeChamps = "IdGroupeChamps";
 
 
         DataRow m_row;
         CCaracteristiqueEntite m_caracteristic;
 
-        public CCaracteristique(DataSet ds, CCaracteristiqueEntite carac, int nOrdre)
+        public CCaracteristique(DataSet ds, CCaracteristiqueEntite carac, int nOrdre, int nIdGroupe)
         {
             m_caracteristic = carac;
             DataTable dt = ds.Tables[c_nomTable];
@@ -46,6 +47,7 @@ namespace timos.data.Aspectize
             row[c_champTimosId] = nId;
             row[c_champTitre] = strLibelle;
             row[c_champOrdreAffichage] = nOrdre;
+            row[c_champIdGroupeChamps] = nIdGroupe;
             m_row = row;
             dt.Rows.Add(row);
 
@@ -56,7 +58,7 @@ namespace timos.data.Aspectize
         {
             get
             {
-                throw new NotImplementedException();
+                return m_row;
             }
         }
 
@@ -74,7 +76,6 @@ namespace timos.data.Aspectize
             if (fenetre != null)
             {
                 ArrayList lst = fenetre.AllChilds();
-                bool bConserverCeGroupe = false;
                 foreach (object obj in lst)
                 {
                     if (obj is C2iWndChampCustom)
@@ -85,9 +86,8 @@ namespace timos.data.Aspectize
                         {
                             CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, m_caracteristic.Id);
                             result = champWeb.FillDataSet(ds);
-                            CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp);
+                            CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, wndChamp, m_caracteristic.Id);
                             result = valeur.FillDataSet(ds);
-                            bConserverCeGroupe = true;
                         }
 
                     }
@@ -113,7 +113,6 @@ namespace timos.data.Aspectize
                                     IObjetDonneeAChamps objEdite = resEval.Data as IObjetDonneeAChamps;
                                     if (objEdite != null)
                                     {
-                                        bConserverCeGroupe = true;
                                         FillDataSet(ds, frm, objEdite);
                                     }
 
@@ -139,6 +138,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champTimosId, typeof(int));
             dt.Columns.Add(c_champTitre, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
+            dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
 
             return dt;
         }

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace timos.data.Aspectize
 {
-    public class CTodoValeurChamp : IEntiteTimosWebApp
+    public class CCaracValeurChamp : IEntiteTimosWebApp
     {
-        public const string c_nomTable = "TodoValeurChamp";
+        public const string c_nomTable = "CaracValeurChamp";
 
         public const string c_champId = "ChampTimosId";
         public const string c_champLibelle = "LibelleChamp";
@@ -20,13 +20,13 @@ namespace timos.data.Aspectize
         public const string c_champValeur = "ValeurChamp";
         public const string c_champElementType = "ElementType";
         public const string c_champElementId = "ElementId";
-        public const string c_champIdGroupeChamps = "TIMOS_FIELD_ID_GROUPE";
+        public const string c_champIdCaracteristique = "TIMOS_FIELD_ID_CARAC";
 
 
         DataRow m_row;
         object m_valeur;
 
-        public CTodoValeurChamp(DataSet ds, IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, int nIdGroupeAssocie)
+        public CCaracValeurChamp(DataSet ds, IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, int nIdCaracAssociee)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -50,7 +50,7 @@ namespace timos.data.Aspectize
                 row[c_champValeur] = "";
                 row[c_champElementType] = obj.GetType().ToString();
                 row[c_champElementId] = ((IObjetDonneeAIdNumerique)obj).Id;
-                row[c_champIdGroupeChamps] = nIdGroupeAssocie;
+                row[c_champIdCaracteristique] = nIdCaracAssociee;
 
                 if (m_valeur != null)
                 {
@@ -77,7 +77,7 @@ namespace timos.data.Aspectize
             dt.Rows.Add(row);
 
         }
-     
+
         //---------------------------------------------------------------------------------------
         public DataRow Row
         {
@@ -107,7 +107,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champValeur, typeof(string));
             dt.Columns.Add(c_champElementType, typeof(string));
             dt.Columns.Add(c_champElementId, typeof(int));
-            dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
+            dt.Columns.Add(c_champIdCaracteristique, typeof(int));
 
             return dt;
         }

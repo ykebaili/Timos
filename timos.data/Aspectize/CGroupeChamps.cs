@@ -92,7 +92,7 @@ namespace timos.data.Aspectize
                         {
                             CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, -1);
                             result = champWeb.FillDataSet(ds);
-                            CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp);
+                            CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp, m_formulaire.Id);
                             result = valeur.FillDataSet(ds);
                             bConserverCeGroupe = true;
                         }
@@ -149,7 +149,8 @@ namespace timos.data.Aspectize
                             IEnumerable collection = datas as IEnumerable;
                             if (collection != null)
                             {
-                                // La source de données est une collection, il faut traiter les Caractéristiques
+                                // La source de données est une collection, il s'agit certainement de caractéristiques
+                                // il suffit de traiter la première Caractéristique
                                 int nOrdre = 0;
                                 foreach (var data in collection)
                                 {
@@ -159,7 +160,7 @@ namespace timos.data.Aspectize
                                         CCaracteristiqueEntite caracTimos = objEdite as CCaracteristiqueEntite;
                                         if (caracTimos != null)
                                         {
-                                            CCaracteristique caracWeb = new CCaracteristique(ds, caracTimos, nOrdre++);
+                                            CCaracteristique caracWeb = new CCaracteristique(ds, caracTimos, nOrdre++, m_formulaire.Id);
                                             caracWeb.FillDataSet(ds, sousFenetre, objEdite);
                                         }
                                     }

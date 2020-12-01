@@ -94,7 +94,8 @@ namespace timos.data.Aspectize
                         DataTable tableGroupesChamps = CGroupeChamps.GetStructureTable();
                         DataTable tableCaracteristiques = CCaracteristique.GetStructureTable();
                         DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
-                        DataTable tableValeursChamps = CTodoValeurChamp.GetStructureTable();
+                        DataTable tableTodoValeursChamps = CTodoValeurChamp.GetStructureTable();
+                        DataTable tableCaracValeursChamps = CCaracValeurChamp.GetStructureTable();
                         DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
                         DataTable tableDocuementsAttendus = CDocumentAttendu.GetStructureTable();
                         DataTable tableFichiersGED = CFichierAttache.GetStructureTable();
@@ -103,7 +104,8 @@ namespace timos.data.Aspectize
                         ds.Tables.Add(tableGroupesChamps);
                         ds.Tables.Add(tableCaracteristiques);
                         ds.Tables.Add(tableChampsTimosWeb);
-                        ds.Tables.Add(tableValeursChamps);
+                        ds.Tables.Add(tableTodoValeursChamps);
+                        ds.Tables.Add(tableCaracValeursChamps);
                         ds.Tables.Add(tableValeursPossibles);
                         ds.Tables.Add(tableDocuementsAttendus);
                         ds.Tables.Add(tableFichiersGED);
