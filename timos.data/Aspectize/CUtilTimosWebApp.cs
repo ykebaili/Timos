@@ -271,6 +271,26 @@ namespace timos.data.Aspectize
         }
 
         //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur GetNewCaracteristique(int nIdSession, int nIdTodo, string elementPrincipalType, int elementPrincipalId)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+
+
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur SaveCaracteristique(int nIdSession, DataSet ds, int nIdTodo, string elementPrincipalType, int elementPrincipalId)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+
+
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur AddFile(string strNompFichier, byte[] octets)
         {
             CResultAErreur result = CResultAErreur.True;

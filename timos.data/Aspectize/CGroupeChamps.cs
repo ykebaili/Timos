@@ -150,19 +150,16 @@ namespace timos.data.Aspectize
                             if (collection != null)
                             {
                                 // La source de données est une collection, il s'agit certainement de caractéristiques
-                                // il suffit de traiter la première Caractéristique
+                                // Mais c'est peut-être aussi un Workbook, un Site, un Projet... on ne sait pas car ça dépend du paramétrage
                                 int nOrdre = 0;
                                 foreach (var data in collection)
                                 {
                                     IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
                                     if (objEdite != null)
                                     {
-                                        CCaracteristiqueEntite caracTimos = objEdite as CCaracteristiqueEntite;
-                                        if (caracTimos != null)
-                                        {
-                                            CCaracteristique caracWeb = new CCaracteristique(ds, caracTimos, nOrdre++, m_formulaire.Id);
-                                            caracWeb.FillDataSet(ds, sousFenetre, objEdite);
-                                        }
+                                        CCaracteristique caracWeb = new CCaracteristique(ds, objEdite as IObjetDonneeAIdNumeriqueAuto, nOrdre++, m_formulaire.Id);
+                                        caracWeb.FillDataSet(ds, sousFenetre, objEdite);
+
                                     }
                                 }
                             }

@@ -9,6 +9,8 @@ using sc2i.data.dynamic;
 using sc2i.formulaire;
 using System.Collections;
 using sc2i.expression;
+using sc2i.data;
+using sc2i.workflow;
 
 namespace timos.data.Aspectize
 {
@@ -17,6 +19,7 @@ namespace timos.data.Aspectize
         public const string c_nomTable = "Caracteristiques";
 
         public const string c_champTimosId = "TimosId";
+        public const string c_champElementType = "ElementType"; // Ce n'est par forcément une Caractéristique, donc il faut le type d'objet Timos
         public const string c_champTitre = "Titre";
         public const string c_champOrdreAffichage = "OrdreAffichage";
         public const string c_champExpand = "Expand";
@@ -24,11 +27,11 @@ namespace timos.data.Aspectize
 
 
         DataRow m_row;
-        CCaracteristiqueEntite m_caracteristic;
+        IObjetDonneeAIdNumeriqueAuto m_objetEdite;
 
-        public CCaracteristique(DataSet ds, CCaracteristiqueEntite carac, int nOrdre, int nIdGroupe)
+        public CCaracteristique(DataSet ds, IObjetDonneeAIdNumeriqueAuto objetEdite, int nOrdre, int nIdGroupe)
         {
-            m_caracteristic = carac;
+            m_objetEdite = objetEdite; // Cela peut être une caractéristique, mais pas frocément
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
                 return;
@@ -36,13 +39,33 @@ namespace timos.data.Aspectize
             DataRow row = dt.NewRow();
             string strLibelle = "";
             int nId = -1;
+            string strTypeElement = "";
 
-            if (carac != null)
+            if (objetEdite != null)
             {
-                nId = carac.Id;
-                strLibelle = carac.Libelle;
-                if (strLibelle == "")
-                    strLibelle = carac.TypeCaracteristique.Libelle;
+                nId = objetEdite.Id;
+                strTypeElement = objetEdite.GetType().ToString();
+
+                strLibelle = objetEdite.DescriptionElement;
+
+                if (objetEdite is CCaracteristiqueEntite)
+                {
+                    CCaracteristiqueEntite carac = objetEdite as CCaracteristiqueEntite;
+                    strLibelle = carac.Libelle;
+                    if (strLibelle == "")
+                        strLibelle = carac.TypeCaracteristique.Libelle;
+                }
+                else if (objetEdite is CDossierSuivi)
+                {
+                    CDossierSuivi workbook = objetEdite as CDossierSuivi;
+                    strLibelle = workbook.Libelle;
+                }
+                else if (objetEdite is CSite)
+                {
+                    CSite site = objetEdite as CSite;
+                    strLibelle = site.Libelle;
+                }
+
             }
             row[c_champTimosId] = nId;
             row[c_champTitre] = strLibelle;
@@ -84,9 +107,9 @@ namespace timos.data.Aspectize
                         CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, m_caracteristic.Id);
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, m_objetEdite.Id);
                             result = champWeb.FillDataSet(ds);
-                            CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, wndChamp, m_caracteristic.Id);
+                            CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, wndChamp, m_objetEdite.Id);
                             result = valeur.FillDataSet(ds);
                         }
 
@@ -136,6 +159,7 @@ namespace timos.data.Aspectize
             DataTable dt = new DataTable(c_nomTable);
 
             dt.Columns.Add(c_champTimosId, typeof(int));
+            dt.Columns.Add(c_champElementType, typeof(string));
             dt.Columns.Add(c_champTitre, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
             dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
