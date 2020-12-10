@@ -24,9 +24,9 @@ namespace timos.data.Aspectize
 
 
         DataRow m_row;
-        object m_valeur;
+        object m_valeur = null;
 
-        public CCaracValeurChamp(DataSet ds, IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, int nIdCaracAssociee)
+        public CCaracValeurChamp(DataSet ds, IObjetDonneeAChamps obj, string strTypeElement, C2iWndChampCustom wndChamp, int nIdCaracAssociee)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -37,42 +37,51 @@ namespace timos.data.Aspectize
             int nIdChamp = -1;
             string strLibelleWeb = wndChamp.WebLabel;
             int nOrdreWeb = wndChamp.WebNumOrder;
+            string strValeur = "";
+            int nElementId = -1;
+            string strElementType = strTypeElement;
 
             CChampCustom champ = wndChamp.ChampCustom;
             if (champ != null)
             {
                 nIdChamp = champ.Id;
-                m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
 
-                row[c_champId] = nIdChamp;
-                row[c_champLibelle] = strLibelleWeb;
-                row[c_champOrdreAffichage] = nOrdreWeb;
-                row[c_champValeur] = "";
-                row[c_champElementType] = obj.GetType().ToString();
-                row[c_champElementId] = ((IObjetDonneeAIdNumerique)obj).Id;
-                row[c_champIdCaracteristique] = nIdCaracAssociee;
-
+                if (obj != null)
+                {
+                    m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+                    strElementType = obj.GetType().ToString();
+                    nElementId = ((IObjetDonneeAIdNumerique)obj).Id;
+                }
                 if (m_valeur != null)
                 {
                     if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
                     {
                         IObjetDonneeAIdNumerique objetValeur = m_valeur as IObjetDonneeAIdNumerique;
                         if (objetValeur != null)
-                            row[c_champValeur] = objetValeur.Id.ToString();
+                            strValeur = objetValeur.Id.ToString();
                     }
                     else
                     {
                         try
                         {
-                            row[c_champValeur] = m_valeur.ToString();
+                            strValeur = m_valeur.ToString();
                         }
                         catch
                         {
-                            row[c_champValeur] = "";
+                            strValeur = "";
                         }
                     }
                 }
             }
+
+            row[c_champId] = nIdChamp;
+            row[c_champLibelle] = strLibelleWeb;
+            row[c_champOrdreAffichage] = nOrdreWeb;
+            row[c_champValeur] = strValeur;
+            row[c_champElementType] = strElementType;
+            row[c_champElementId] = nElementId;
+            row[c_champIdCaracteristique] = nIdCaracAssociee;
+
             m_row = row;
             dt.Rows.Add(row);
 

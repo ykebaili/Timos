@@ -36,13 +36,13 @@ namespace timos.data.serveur.Aspectize
 
             private static Timer m_timer = null;
 
-            private const int c_delaiSessionEnMinutes = 10;
+            private const int c_delaiSessionEnMinutes = 60;
 
             //---------------------------------------------------
             protected CInfoSessionAspectize(CSessionClient session)
             {
-                // On garde la session ouverte 10 minutes...
-                m_dateTimeSuppression = DateTime.Now.AddMinutes(1); // 1 minutes pour tester
+                // On garde la session ouverte 10 minutes...ou plus
+                m_dateTimeSuppression = DateTime.Now.AddMinutes(c_delaiSessionEnMinutes); // 1 minutes pour tester
                 m_listeSessions[session.IdSession] = this;
                 m_nIdSession = session.IdSession;
                 m_sessionClient = session;

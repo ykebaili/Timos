@@ -24,12 +24,13 @@ namespace timos.data.Aspectize
         public const string c_champOrdreAffichage = "OrdreAffichage";
         public const string c_champExpand = "Expand";
         public const string c_champIdGroupeChamps = "IdGroupeChamps";
-
+        public const string c_champIsTemplate = "IsTemplate";
 
         DataRow m_row;
         IObjetDonneeAIdNumeriqueAuto m_objetEdite;
+        static int s_nIdNegatif = -1; // Utile pour les carac template vides
 
-        public CCaracteristique(DataSet ds, IObjetDonneeAIdNumeriqueAuto objetEdite, int nOrdre, int nIdGroupe)
+        public CCaracteristique(DataSet ds, IObjetDonneeAIdNumeriqueAuto objetEdite, Type typeObjetEdite, int nOrdre, int nIdGroupe, bool isTemplate)
         {
             m_objetEdite = objetEdite; // Cela peut être une caractéristique, mais pas frocément
             DataTable dt = ds.Tables[c_nomTable];
@@ -37,9 +38,11 @@ namespace timos.data.Aspectize
                 return;
 
             DataRow row = dt.NewRow();
-            string strLibelle = "";
-            int nId = -1;
+            string strLibelle = "Nouvel élément";
+            int nId = s_nIdNegatif--;
             string strTypeElement = "";
+            if (typeObjetEdite != null)
+                strTypeElement = typeObjetEdite.ToString();
 
             if (objetEdite != null)
             {
@@ -68,9 +71,12 @@ namespace timos.data.Aspectize
 
             }
             row[c_champTimosId] = nId;
+            row[c_champElementType] = strTypeElement;
             row[c_champTitre] = strLibelle;
             row[c_champOrdreAffichage] = nOrdre;
             row[c_champIdGroupeChamps] = nIdGroupe;
+            row[c_champIsTemplate] = isTemplate;
+
             m_row = row;
             dt.Rows.Add(row);
 
@@ -96,6 +102,11 @@ namespace timos.data.Aspectize
         {
             CResultAErreur result = CResultAErreur.True;
 
+            int nIdCarac = (int)m_row[c_champTimosId];
+            string strTypeElement = (string)m_row[c_champElementType];
+            if (m_objetEdite != null)
+                nIdCarac = m_objetEdite.Id;
+
             if (fenetre != null)
             {
                 ArrayList lst = fenetre.AllChilds();
@@ -107,14 +118,14 @@ namespace timos.data.Aspectize
                         CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, m_objetEdite.Id);
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, nIdCarac);
                             result = champWeb.FillDataSet(ds);
-                            CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, wndChamp, m_objetEdite.Id);
+                            CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, strTypeElement, wndChamp, nIdCarac);
                             result = valeur.FillDataSet(ds);
                         }
 
                     }
-                    // Traitement dans le cas d'un sous-formulaire
+                    /*/ Traitement dans le cas d'un sous-formulaire
                     else if (obj is C2iWndConteneurSousFormulaire)
                     {
                         C2iWndConteneurSousFormulaire subForm = (C2iWndConteneurSousFormulaire)obj;
@@ -142,7 +153,7 @@ namespace timos.data.Aspectize
                                 }
                             }
                         }
-                    }
+                    }//*/
 
                   
                 }
@@ -163,6 +174,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champTitre, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
             dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
+            dt.Columns.Add(c_champIsTemplate, typeof(bool));
 
             return dt;
         }

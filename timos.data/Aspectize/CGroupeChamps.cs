@@ -135,7 +135,9 @@ namespace timos.data.Aspectize
                         C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
 
                         CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
-                        CResultAErreur resEval = childZone.SourceFormula.Eval(ctxEval);
+                        C2iExpression source = childZone.SourceFormula;
+                        Type tp = source.TypeDonnee.TypeDotNetNatif;
+                        CResultAErreur resEval = source.Eval(ctxEval);
                         if (!resEval)
                         {
                             result += resEval;
@@ -157,11 +159,12 @@ namespace timos.data.Aspectize
                                     IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
                                     if (objEdite != null)
                                     {
-                                        CCaracteristique caracWeb = new CCaracteristique(ds, objEdite as IObjetDonneeAIdNumeriqueAuto, nOrdre++, m_formulaire.Id);
+                                        CCaracteristique caracWeb = new CCaracteristique(ds, objEdite as IObjetDonneeAIdNumeriqueAuto, tp, nOrdre++, m_formulaire.Id, false);
                                         caracWeb.FillDataSet(ds, sousFenetre, objEdite);
-
                                     }
                                 }
+                                CCaracteristique caracTemplate = new CCaracteristique(ds, null, tp, nOrdre++, m_formulaire.Id, true);
+                                caracTemplate.FillDataSet(ds, sousFenetre, null);
                             }
                             else
                             {
