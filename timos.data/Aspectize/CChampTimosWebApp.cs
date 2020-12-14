@@ -123,7 +123,9 @@ namespace timos.data.Aspectize
                 int nIndex = 0;
                 IList listeValeurs = null;
                 listeValeurs = m_champ.Valeurs;
+                int nIdGroupeAssocie = (int)m_row[c_champIdGroupeChamps];
                 int nIdCaracAssociee = (int)m_row[c_champIdCaracteristique];
+
                 if (m_champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto && listeValeurs is CListeObjetsDonnees)
                 {
                     CListeObjetsDonnees listeObjets = (CListeObjetsDonnees)listeValeurs;
@@ -131,7 +133,7 @@ namespace timos.data.Aspectize
                     {
                         strStore = objetTimos.Id.ToString();
                         strDisplay = objetTimos.DescriptionElement;
-                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdCaracAssociee);
+                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, nIdCaracAssociee);
                     }
                 }
                 else
@@ -140,7 +142,7 @@ namespace timos.data.Aspectize
                     {
                         strStore = valPossible.ValueString;
                         strDisplay = valPossible.Display;
-                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdCaracAssociee);
+                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, nIdCaracAssociee);
                     }
                 }
             }
