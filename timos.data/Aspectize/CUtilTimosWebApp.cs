@@ -285,90 +285,108 @@ namespace timos.data.Aspectize
                     CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
                     if (etapeEnCours.ReadIfExists(nIdTodo))
                     {
-                        Type typeElement = CActivatorSurChaine.GetType(strTypeElement);
-                        if (typeElement == null)
+                        Type tp = CActivatorSurChaine.GetType(strTypeElmentParent);
+                        if (tp == null)
                         {
-                            result.EmpileErreur("Le type " + strTypeElement + " n'existe pas dans Timos");
+                            result.EmpileErreur("Le type " + strTypeElmentParent + " n'existe pas dans Timos");
                             return result;
                         }
-                        IObjetDonneeAChamps objCarac = (IObjetDonneeAChamps)Activator.CreateInstance(typeElement, new object[] { ctx });
-                        if (!objCarac.ReadIfExists(nIdCarac))
+                        IObjetDonneeAChamps objParent = (IObjetDonneeAChamps)Activator.CreateInstance(tp, new object[] { ctx });
+                        if (objParent.ReadIfExists(nIdElementParent)) // Element parent trouvé
                         {
-                            // Création d'un nouvel objet : Caractéristique, Dossier,...on ne sait pas ce que c'est ici
-                            objCarac.CreateNewInCurrentContexte();
 
-                            // Initialisation des champs de l'objet en fonciton de son type, et on l'associe à l'élément parent édité par le Todo en cours
-                            if(objCarac is CCaracteristiqueEntite)
+                            Type typeElement = CActivatorSurChaine.GetType(strTypeElement);
+                            if (typeElement == null)
                             {
-
-                            }
-                            else if (objCarac is CDossierSuivi)
-                            {
-
-                            }
-                            else if(objCarac is CSite)
-                            {
-
-                            }
-
-                            DataTable dtCaracTeristiques = dataSet.Tables[CCaracteristique.c_nomTable];
-                            if (dtCaracTeristiques != null)
-                            {
-
-                            }
-                        }
-                        DataTable dtValeurs = dataSet.Tables[CCaracValeurChamp.c_nomTable];
-                        if (dtValeurs != null)
-                        {
-                            CResultAErreur resBoucle = CResultAErreur.True;
-                            foreach (DataRow row in dtValeurs.Rows)
-                            {
-                                int nIdChamp = (int)row[CCaracValeurChamp.c_champId];
-                                string strElementType = (string)row[CCaracValeurChamp.c_champElementType];
-                                int nElementId = (int)row[CCaracValeurChamp.c_champElementId];
-                                var valeur = row[CCaracValeurChamp.c_champValeur];
-
-                                CChampCustom champ = new CChampCustom(ctx);
-                                if (champ.ReadIfExists(nIdChamp))
-                                {
-                                    Type tpElementEdite = CActivatorSurChaine.GetType(strElementType);
-                                    IObjetDonneeAChamps elementEdite = (IObjetDonneeAChamps)Activator.CreateInstance(tpElementEdite, new object[] { ctx });
-                                    if (elementEdite.ReadIfExists(nElementId))
-                                    {
-                                        if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
-                                        {
-                                            try
-                                            {
-                                                resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, Int32.Parse(valeur.ToString()));
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                resBoucle.EmpileErreur("Erreur SetValeurChamp Id : " + nIdChamp + ". " + ex.Message);
-                                            }
-                                        }
-                                        else
-                                            resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, valeur);
-
-                                        if (!resBoucle)
-                                            result.EmpileErreur(resBoucle.MessageErreur);
-                                        var newValeur = CUtilElementAChamps.GetValeurChamp(elementEdite, nIdChamp);
-                                        resBoucle = champ.IsCorrectValue(newValeur);
-                                        if (!resBoucle)
-                                            result.EmpileErreur(resBoucle.MessageErreur);
-                                    }
-                                }
-
-                            }
-                            if (!result)
-                            {
-                                result.EmpileErreur("Erreur de sauvegarde dans Timos");
+                                result.EmpileErreur("Le type " + strTypeElement + " n'existe pas dans Timos");
                                 return result;
                             }
-                            result = ctx.SaveAll(true);
+                            IObjetDonneeAChamps objCarac = (IObjetDonneeAChamps)Activator.CreateInstance(typeElement, new object[] { ctx });
+                            if (!objCarac.ReadIfExists(nIdCarac))
+                            {
+                                // Création d'un nouvel objet : Caractéristique, Dossier,...on ne sait pas ce que c'est ici
+                                //objCarac.CreateNewInCurrentContexte();
+
+                                DataTable dtCaracTeristiques = dataSet.Tables[CCaracteristique.c_nomTable];
+                                if (dtCaracTeristiques != null)
+                                {
+
+                                }
+
+                                // Initialisation des champs de l'objet en fonciton de son type, et on l'associe à l'élément parent édité par le Todo en cours
+                                if (objCarac is CCaracteristiqueEntite)
+                                {
+
+                                }
+                                else if (objCarac is CDossierSuivi)
+                                {
+
+                                }
+                                else if (objCarac is CSite)
+                                {
+
+                                }
+                               
+                            }
+                            DataTable dtValeurs = dataSet.Tables[CCaracValeurChamp.c_nomTable];
+                            if (dtValeurs != null)
+                            {
+                                CResultAErreur resBoucle = CResultAErreur.True;
+                                foreach (DataRow row in dtValeurs.Rows)
+                                {
+                                    int nIdChamp = (int)row[CCaracValeurChamp.c_champId];
+                                    string strElementType = (string)row[CCaracValeurChamp.c_champElementType];
+                                    int nElementId = (int)row[CCaracValeurChamp.c_champElementId];
+                                    var valeur = row[CCaracValeurChamp.c_champValeur];
+
+                                    CChampCustom champ = new CChampCustom(ctx);
+                                    if (champ.ReadIfExists(nIdChamp))
+                                    {
+                                        Type tpElementEdite = CActivatorSurChaine.GetType(strElementType);
+                                        IObjetDonneeAChamps elementEdite = (IObjetDonneeAChamps)Activator.CreateInstance(tpElementEdite, new object[] { ctx });
+                                        if (elementEdite.ReadIfExists(nElementId))
+                                        {
+                                            DataRow rowEspion = elementEdite.Row;
+
+                                            if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+                                            {
+                                                try
+                                                {
+                                                    resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, Int32.Parse(valeur.ToString()));
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    resBoucle.EmpileErreur("Erreur SetValeurChamp Id : " + nIdChamp + ". " + ex.Message);
+                                                }
+                                            }
+                                            else
+                                                resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, valeur);
+
+                                            if (!resBoucle)
+                                                result.EmpileErreur(resBoucle.MessageErreur);
+                                            var newValeur = CUtilElementAChamps.GetValeurChamp(elementEdite, nIdChamp);
+                                            resBoucle = champ.IsCorrectValue(newValeur);
+                                            if (!resBoucle)
+                                                result.EmpileErreur(resBoucle.MessageErreur);
+                                        }
+                                    }
+
+                                }
+                                if (!result)
+                                {
+                                    result.EmpileErreur("Erreur de sauvegarde dans Timos");
+                                    return result;
+                                }
+                                result = ctx.SaveAll(true);
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            result.EmpileErreur("L'élément parent id " + nIdElementParent + " n'existe pas dans Timos");
                             return result;
                         }
                     }
-
 
                     else
                     {
