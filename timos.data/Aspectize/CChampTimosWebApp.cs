@@ -30,7 +30,7 @@ namespace timos.data.Aspectize
         DataRow m_row = null;
         CChampCustom m_champ;
 
-        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe, int nIdCarac)
+        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe, string strIdCarac)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -67,7 +67,7 @@ namespace timos.data.Aspectize
             row[c_champIsMultiline] = bIsMultiline;
             row[c_champIsEditable] = bIsEditable;
             row[c_champIdGroupeChamps] = nIdGroupe;
-            row[c_champIdCaracteristique] = nIdCarac;
+            row[c_champIdCaracteristique] = strIdCarac;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -107,7 +107,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champIsMultiline, typeof(bool));
             dt.Columns.Add(c_champIsEditable, typeof(bool));
             dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
-            dt.Columns.Add(c_champIdCaracteristique, typeof(int));
+            dt.Columns.Add(c_champIdCaracteristique, typeof(string));
 
             return dt;
         }
@@ -124,7 +124,7 @@ namespace timos.data.Aspectize
                 IList listeValeurs = null;
                 listeValeurs = m_champ.Valeurs;
                 int nIdGroupeAssocie = (int)m_row[c_champIdGroupeChamps];
-                int nIdCaracAssociee = (int)m_row[c_champIdCaracteristique];
+                string strIdCaracAssociee = (string)m_row[c_champIdCaracteristique];
 
                 if (m_champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto && listeValeurs is CListeObjetsDonnees)
                 {
@@ -133,7 +133,7 @@ namespace timos.data.Aspectize
                     {
                         strStore = objetTimos.Id.ToString();
                         strDisplay = objetTimos.DescriptionElement;
-                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, nIdCaracAssociee);
+                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, strIdCaracAssociee);
                     }
                 }
                 else
@@ -142,7 +142,7 @@ namespace timos.data.Aspectize
                     {
                         strStore = valPossible.ValueString;
                         strDisplay = valPossible.Display;
-                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, nIdCaracAssociee);
+                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, strIdCaracAssociee);
                     }
                 }
             }

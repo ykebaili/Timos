@@ -26,7 +26,7 @@ namespace timos.data.Aspectize
         DataRow m_row;
         object m_valeur = null;
 
-        public CCaracValeurChamp(DataSet ds, IObjetDonneeAChamps obj, string strTypeElement, C2iWndChampCustom wndChamp, int nIdCaracAssociee)
+        public CCaracValeurChamp(DataSet ds, IObjetDonneeAChamps obj, string strTypeElement, C2iWndChampCustom wndChamp, string strIdCaracAssociee)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -80,7 +80,7 @@ namespace timos.data.Aspectize
             row[c_champValeur] = strValeur;
             row[c_champElementType] = strElementType;
             row[c_champElementId] = nElementId;
-            row[c_champIdCaracteristique] = nIdCaracAssociee;
+            row[c_champIdCaracteristique] = strIdCaracAssociee;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -116,7 +116,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champValeur, typeof(string));
             dt.Columns.Add(c_champElementType, typeof(string));
             dt.Columns.Add(c_champElementId, typeof(int));
-            dt.Columns.Add(c_champIdCaracteristique, typeof(int));
+            dt.Columns.Add(c_champIdCaracteristique, typeof(string));
 
             return dt;
         }

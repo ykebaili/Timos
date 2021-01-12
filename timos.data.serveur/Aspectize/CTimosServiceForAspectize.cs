@@ -213,7 +213,7 @@ namespace timos.data.serveur.Aspectize
 
         //---------------------------------------------------------------------------------------------------------
         // Enregistre les données d'une Carateristique
-        public CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdTodo, int nIdElementParent, string strTypeElmentParent)
+        public CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdMetaType, int nIdTodo, int nIdElementParent, string strTypeElmentParent)
         {
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
             CResultAErreur result = CUtilTimosWebApp.SaveCaracteristique(
@@ -221,6 +221,7 @@ namespace timos.data.serveur.Aspectize
                 dataSet,
                 nIdCarac,
                 strTypeElement,
+                nIdMetaType,
                 nIdTodo,
                 nIdElementParent,
                 strTypeElmentParent);

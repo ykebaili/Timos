@@ -90,7 +90,7 @@ namespace timos.data.Aspectize
                         CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, -1);
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, "-1");
                             result = champWeb.FillDataSet(ds);
                             CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp, m_formulaire.Id);
                             result = valeur.FillDataSet(ds);
@@ -135,44 +135,81 @@ namespace timos.data.Aspectize
                         C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
 
                         CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
-                        C2iExpression source = childZone.SourceFormula;
-                        Type tp = source.TypeDonnee.TypeDotNetNatif;
-                        CResultAErreur resEval = source.Eval(ctxEval);
-                        if (!resEval)
+                        if (childZone.SourceFormula != null)
                         {
-                            result += resEval;
-                            return result;
-                        }
-                        object datas = resEval.Data;
-                        if (datas != null)
-                        {
-                            bConserverCeGroupe = true;
-
-                            IEnumerable collection = datas as IEnumerable;
-                            if (collection != null)
+                            C2iExpression source = childZone.SourceFormula;
+                            Type tp = source.TypeDonnee.TypeDotNetNatif;
+                            CResultAErreur resEval = source.Eval(ctxEval);
+                            if (!resEval)
                             {
-                                // La source de données est une collection, il s'agit certainement de caractéristiques
-                                // Mais c'est peut-être aussi un Workbook, un Site, un Projet... on ne sait pas car ça dépend du paramétrage
-                                int nOrdre = 0;
-                                foreach (var data in collection)
+                                result += resEval;
+                                return result;
+                            }
+                            object datas = resEval.Data;
+                            if (datas != null)
+                            {
+                                bConserverCeGroupe = true;
+
+                                IEnumerable collection = datas as IEnumerable;
+                                if (collection != null)
                                 {
-                                    IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
-                                    if (objEdite != null)
+                                    // La source de données est une collection, il s'agit certainement de caractéristiques
+                                    // Mais c'est peut-être aussi un Workbook, un Site, un Projet... on ne sait pas car ça dépend du paramétrage
+                                    int nOrdre = 0;
+                                    foreach (var data in collection)
                                     {
-                                        CCaracteristique caracWeb = new CCaracteristique(ds, objEdite as IObjetDonneeAIdNumeriqueAuto, tp, nOrdre++, m_formulaire.Id, false);
-                                        caracWeb.FillDataSet(ds, sousFenetre, objEdite);
+                                        IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
+                                        if (objEdite != null)
+                                        {
+                                            CCaracteristique caracWeb = new CCaracteristique(ds, objEdite as IObjetDonneeAIdNumeriqueAuto, tp, nOrdre++, m_formulaire.Id, false);
+                                            caracWeb.FillDataSet(ds, sousFenetre, objEdite);
+                                        }
+                                    }
+                                    // Création d'un template
+                                    if (childZone.Affectations.Count > 0)
+                                    {
+                                        CAffectationsProprietes affectation = childZone.Affectations[0];
+                                        if (tp != null && affectation != null)
+                                        {
+                                            IAllocateurSupprimeurElements allocateur = objetEdite as IAllocateurSupprimeurElements;
+                                            object newObj = null;
+                                            try
+                                            {
+                                                if (allocateur != null)
+                                                {
+                                                    result = allocateur.AlloueElement(tp);
+                                                    if (result)
+                                                        newObj = result.Data;
+                                                }
+                                                else
+                                                    newObj = Activator.CreateInstance(tp);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                result.EmpileErreur(new CErreurException(ex));
+                                            }
+                                            if (newObj == null | !result)
+                                            {
+                                                result.EmpileErreur(I.T("Error while allocating element|20003"));
+                                            }
+                                            result = affectation.AffecteProprietes(newObj, objetEdite, new CFournisseurPropDynStd(true));
+                                            if (!result)
+                                            {
+                                                result.EmpileErreur(I.T("Some values cannot be assigned|20004"));
+                                            }
+                                            CCaracteristique caracTemplate = new CCaracteristique(ds, newObj as IObjetDonneeAIdNumeriqueAuto, tp, nOrdre++, m_formulaire.Id, true);
+                                            caracTemplate.FillDataSet(ds, sousFenetre, newObj as IObjetDonneeAChamps);
+                                        }
                                     }
                                 }
-                                CCaracteristique caracTemplate = new CCaracteristique(ds, null, tp, nOrdre++, m_formulaire.Id, true);
-                                caracTemplate.FillDataSet(ds, sousFenetre, null);
-                            }
-                            else
-                            {
-                                // La source de donnée est un objet unique
-                                IObjetDonneeAChamps objEdite = datas as IObjetDonneeAChamps;
-                                if (objEdite != null)
+                                else
                                 {
-                                    FillDataSet(ds, sousFenetre, objEdite);
+                                    // La source de donnée est un objet unique
+                                    IObjetDonneeAChamps objEdite = datas as IObjetDonneeAChamps;
+                                    if (objEdite != null)
+                                    {
+                                        FillDataSet(ds, sousFenetre, objEdite);
+                                    }
                                 }
                             }
                         }
@@ -189,7 +226,6 @@ namespace timos.data.Aspectize
 
             return result;
         }
-
 
         //------------------------------------------------------------------------------------------------
         public static DataTable GetStructureTable()

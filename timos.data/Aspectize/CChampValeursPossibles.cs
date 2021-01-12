@@ -22,7 +22,7 @@ namespace timos.data.Aspectize
 
         private DataRow m_row;
 
-        public CChampValeursPossibles(DataSet ds, int nIdChamp, string strStore, string strDisplay, int nIndex, int nIdGroupeAssocie, int nIdCaracAssociee)
+        public CChampValeursPossibles(DataSet ds, int nIdChamp, string strStore, string strDisplay, int nIndex, int nIdGroupeAssocie, string strIdCaracAssociee)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -35,7 +35,7 @@ namespace timos.data.Aspectize
             row[c_champDisplay] = strDisplay;
             row[c_champIndex] = nIndex;
             row[c_champIdGroupe] = nIdGroupeAssocie;
-            row[c_champIdCaracteristique] = nIdCaracAssociee;
+            row[c_champIdCaracteristique] = strIdCaracAssociee;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -62,7 +62,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champDisplay, typeof(string));
             dt.Columns.Add(c_champIndex, typeof(int));
             dt.Columns.Add(c_champIdGroupe, typeof(int));
-            dt.Columns.Add(c_champIdCaracteristique, typeof(int));
+            dt.Columns.Add(c_champIdCaracteristique, typeof(string));
 
             return dt;
         }

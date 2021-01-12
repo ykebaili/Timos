@@ -272,7 +272,7 @@ namespace timos.data.Aspectize
 
 
         //---------------------------------------------------------------------------------------------------------
-        public static CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdTodo, int nIdElementParent, string strTypeElmentParent)
+        public static CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdMetaType, int nIdTodo, int nIdElementParent, string strTypeElmentParent)
         {
             CResultAErreur result = CResultAErreur.True;
 
@@ -305,29 +305,35 @@ namespace timos.data.Aspectize
                             if (!objCarac.ReadIfExists(nIdCarac))
                             {
                                 // Création d'un nouvel objet : Caractéristique, Dossier,...on ne sait pas ce que c'est ici
-                                //objCarac.CreateNewInCurrentContexte();
-
-                                DataTable dtCaracTeristiques = dataSet.Tables[CCaracteristique.c_nomTable];
-                                if (dtCaracTeristiques != null)
-                                {
-
-                                }
 
                                 // Initialisation des champs de l'objet en fonciton de son type, et on l'associe à l'élément parent édité par le Todo en cours
                                 if (objCarac is CCaracteristiqueEntite)
                                 {
-
+                                    CCaracteristiqueEntite caracTimos = new CCaracteristiqueEntite(ctx);
+                                    caracTimos.CreateNewInCurrentContexte();
+                                    caracTimos.Libelle = "";
+                                    CTypeCaracteristiqueEntite typeCarac = new CTypeCaracteristiqueEntite(ctx);
+                                    if (typeCarac.ReadIfExists(nIdMetaType))
+                                        caracTimos.TypeCaracteristique = typeCarac;
                                 }
                                 else if (objCarac is CDossierSuivi)
                                 {
-
+                                    CDossierSuivi dossierTimos = new CDossierSuivi(ctx);
+                                    dossierTimos.CreateNewInCurrentContexte();
+                                    CTypeDossierSuivi typeDossier = new CTypeDossierSuivi(ctx);
+                                    if (typeDossier.ReadIfExists(nIdMetaType))
+                                        dossierTimos.TypeDossier = typeDossier;
                                 }
                                 else if (objCarac is CSite)
                                 {
-
+                                    CSite siteTimos = new CSite(ctx);
+                                    siteTimos.CreateNewInCurrentContexte();
+                                    CTypeSite typeSite = new CTypeSite(ctx);
+                                    if (typeSite.ReadIfExists(nIdMetaType))
+                                        siteTimos.TypeSite = typeSite;
                                 }
-                               
                             }
+
                             DataTable dtValeurs = dataSet.Tables[CCaracValeurChamp.c_nomTable];
                             if (dtValeurs != null)
                             {

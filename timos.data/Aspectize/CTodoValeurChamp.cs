@@ -50,8 +50,8 @@ namespace timos.data.Aspectize
                     strElementType = obj.GetType().ToString();
                     nElementId = ((IObjetDonneeAIdNumerique)obj).Id;
 
-                    object valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
-                    if (valeur != null)
+                    m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+                    if (m_valeur != null)
                     {
                         if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
                         {
