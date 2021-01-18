@@ -28,7 +28,6 @@ namespace timos.data.Aspectize
 
         public CDocumentAttendu(DataSet ds, CCaracteristiqueEntite carac)
         {
-            m_caracteristic = carac;
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
                 return;
@@ -42,6 +41,7 @@ namespace timos.data.Aspectize
 
             if (carac != null)
             {
+                m_caracteristic = carac;
                 row[c_champId] = carac.Id;
                 CCategorieGED categorie = CategorieGED;
                 if (categorie != null)
@@ -91,7 +91,7 @@ namespace timos.data.Aspectize
         public CResultAErreur FillDataSet(DataSet ds)
         {
             CResultAErreur result = CResultAErreur.True;
-            if (CategorieGED == null)
+            if (m_caracteristic == null || CategorieGED == null)
                 return result;
 
             int nIdCategorie = CategorieGED.Id;

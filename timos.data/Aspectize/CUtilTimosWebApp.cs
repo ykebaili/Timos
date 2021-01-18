@@ -272,7 +272,7 @@ namespace timos.data.Aspectize
 
 
         //---------------------------------------------------------------------------------------------------------
-        public static CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdMetaType, int nIdTodo, int nIdElementParent, string strTypeElmentParent)
+        public static CResultAErreur DeleteCaracteristique(int nIdSession, int nIdCarac, string strTypeElement)
         {
             CResultAErreur result = CResultAErreur.True;
 
@@ -281,119 +281,174 @@ namespace timos.data.Aspectize
             {
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
+                    Type typeElement = CActivatorSurChaine.GetType(strTypeElement);
+                    if (typeElement == null)
+                    {
+                        result.EmpileErreur("Le type " + strTypeElement + " n'existe pas dans Timos");
+                        return result;
+                    }
+                    IObjetDonneeAChamps objCarac = (IObjetDonneeAChamps)Activator.CreateInstance(typeElement, new object[] { ctx });
+                    if (objCarac.ReadIfExists(nIdCarac))
+                    {
+                        result = objCarac.Delete();
+                    }
+                }
+            }
+            return result;
+        }
 
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdTodo)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
                     CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
                     if (etapeEnCours.ReadIfExists(nIdTodo))
                     {
-                        Type tp = CActivatorSurChaine.GetType(strTypeElmentParent);
-                        if (tp == null)
+                        Type typeElement = CActivatorSurChaine.GetType(strTypeElement);
+                        if (typeElement == null)
                         {
-                            result.EmpileErreur("Le type " + strTypeElmentParent + " n'existe pas dans Timos");
+                            result.EmpileErreur("Le type " + strTypeElement + " n'existe pas dans Timos");
                             return result;
                         }
-                        IObjetDonneeAChamps objParent = (IObjetDonneeAChamps)Activator.CreateInstance(tp, new object[] { ctx });
-                        if (objParent.ReadIfExists(nIdElementParent)) // Element parent trouvé
+                        IObjetDonneeAChamps objCarac = (IObjetDonneeAChamps)Activator.CreateInstance(typeElement, new object[] { ctx });
+                        if (!objCarac.ReadIfExists(nIdCarac))
                         {
-
-                            Type typeElement = CActivatorSurChaine.GetType(strTypeElement);
-                            if (typeElement == null)
+                            // Création d'un nouvel objet : Caractéristique, Dossier,...on ne sait pas ce que c'est ici
+                            DataTable dtCaracteristique = dataSet.Tables[CCaracteristique.c_nomTable];
+                            if (dtCaracteristique != null)
                             {
-                                result.EmpileErreur("Le type " + strTypeElement + " n'existe pas dans Timos");
-                                return result;
-                            }
-                            IObjetDonneeAChamps objCarac = (IObjetDonneeAChamps)Activator.CreateInstance(typeElement, new object[] { ctx });
-                            if (!objCarac.ReadIfExists(nIdCarac))
-                            {
-                                // Création d'un nouvel objet : Caractéristique, Dossier,...on ne sait pas ce que c'est ici
-
                                 // Initialisation des champs de l'objet en fonciton de son type, et on l'associe à l'élément parent édité par le Todo en cours
-                                if (objCarac is CCaracteristiqueEntite)
+                                foreach (DataRow rowCarac in dtCaracteristique.Rows)
                                 {
-                                    CCaracteristiqueEntite caracTimos = new CCaracteristiqueEntite(ctx);
-                                    caracTimos.CreateNewInCurrentContexte();
-                                    caracTimos.Libelle = "";
-                                    CTypeCaracteristiqueEntite typeCarac = new CTypeCaracteristiqueEntite(ctx);
-                                    if (typeCarac.ReadIfExists(nIdMetaType))
-                                        caracTimos.TypeCaracteristique = typeCarac;
-                                }
-                                else if (objCarac is CDossierSuivi)
-                                {
-                                    CDossierSuivi dossierTimos = new CDossierSuivi(ctx);
-                                    dossierTimos.CreateNewInCurrentContexte();
-                                    CTypeDossierSuivi typeDossier = new CTypeDossierSuivi(ctx);
-                                    if (typeDossier.ReadIfExists(nIdMetaType))
-                                        dossierTimos.TypeDossier = typeDossier;
-                                }
-                                else if (objCarac is CSite)
-                                {
-                                    CSite siteTimos = new CSite(ctx);
-                                    siteTimos.CreateNewInCurrentContexte();
-                                    CTypeSite typeSite = new CTypeSite(ctx);
-                                    if (typeSite.ReadIfExists(nIdMetaType))
-                                        siteTimos.TypeSite = typeSite;
-                                }
-                            }
+                                    string strLibelle = (string)rowCarac[CCaracteristique.c_champTitre];
+                                    int nIdMetaType = (int)rowCarac[CCaracteristique.c_champIdMetaType];
+                                    string strTypeElmentParent = (string)rowCarac[CCaracteristique.c_champParentElementType];
+                                    int nIdElementParent = (int)rowCarac[CCaracteristique.c_champParentElementId];
 
-                            DataTable dtValeurs = dataSet.Tables[CCaracValeurChamp.c_nomTable];
-                            if (dtValeurs != null)
-                            {
-                                CResultAErreur resBoucle = CResultAErreur.True;
-                                foreach (DataRow row in dtValeurs.Rows)
-                                {
-                                    int nIdChamp = (int)row[CCaracValeurChamp.c_champId];
-                                    string strElementType = (string)row[CCaracValeurChamp.c_champElementType];
-                                    int nElementId = (int)row[CCaracValeurChamp.c_champElementId];
-                                    var valeur = row[CCaracValeurChamp.c_champValeur];
-
-                                    CChampCustom champ = new CChampCustom(ctx);
-                                    if (champ.ReadIfExists(nIdChamp))
+                                    Type tpParent = CActivatorSurChaine.GetType(strTypeElmentParent);
+                                    if (tpParent == null)
                                     {
-                                        Type tpElementEdite = CActivatorSurChaine.GetType(strElementType);
-                                        IObjetDonneeAChamps elementEdite = (IObjetDonneeAChamps)Activator.CreateInstance(tpElementEdite, new object[] { ctx });
-                                        if (elementEdite.ReadIfExists(nElementId))
+                                        result.EmpileErreur("Le type " + strTypeElmentParent + " n'existe pas dans Timos");
+                                        return result;
+                                    }
+                                    IObjetDonneeAChamps objParent = (IObjetDonneeAChamps)Activator.CreateInstance(tpParent, new object[] { ctx });
+                                    if (objParent.ReadIfExists(nIdElementParent)) // Element parent trouvé
+                                    {
+
+                                        if (objCarac is CCaracteristiqueEntite)
                                         {
-                                            DataRow rowEspion = elementEdite.Row;
-
-                                            if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
-                                            {
-                                                try
-                                                {
-                                                    resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, Int32.Parse(valeur.ToString()));
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    resBoucle.EmpileErreur("Erreur SetValeurChamp Id : " + nIdChamp + ". " + ex.Message);
-                                                }
-                                            }
-                                            else
-                                                resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, valeur);
-
-                                            if (!resBoucle)
-                                                result.EmpileErreur(resBoucle.MessageErreur);
-                                            var newValeur = CUtilElementAChamps.GetValeurChamp(elementEdite, nIdChamp);
-                                            resBoucle = champ.IsCorrectValue(newValeur);
-                                            if (!resBoucle)
-                                                result.EmpileErreur(resBoucle.MessageErreur);
+                                            CCaracteristiqueEntite caracTimos = objCarac as CCaracteristiqueEntite;
+                                            caracTimos.CreateNewInCurrentContexte();
+                                            caracTimos.Libelle = strLibelle;
+                                            CTypeCaracteristiqueEntite typeCarac = new CTypeCaracteristiqueEntite(ctx);
+                                            if (typeCarac.ReadIfExists(nIdMetaType))
+                                                caracTimos.TypeCaracteristique = typeCarac;
+                                            caracTimos.ElementSuivi = objParent as CObjetDonneeAIdNumerique;
+                                        }
+                                        else if (objCarac is CDossierSuivi)
+                                        {
+                                            CDossierSuivi dossierTimos = objCarac as CDossierSuivi;
+                                            dossierTimos.CreateNewInCurrentContexte();
+                                            dossierTimos.Libelle = strLibelle;
+                                            CTypeDossierSuivi typeDossier = new CTypeDossierSuivi(ctx);
+                                            if (typeDossier.ReadIfExists(nIdMetaType))
+                                                dossierTimos.TypeDossier = typeDossier;
+                                            dossierTimos.ElementSuivi = objParent as CObjetDonneeAIdNumerique;
+                                        }
+                                        else if (objCarac is CSite)
+                                        {
+                                            CSite siteTimos = objCarac as CSite;
+                                            siteTimos.CreateNewInCurrentContexte();
+                                            siteTimos.Libelle = strLibelle;
+                                            siteTimos.Code = "ND";
+                                            CTypeSite typeSite = new CTypeSite(ctx);
+                                            if (typeSite.ReadIfExists(nIdMetaType))
+                                                siteTimos.TypeSite = typeSite;
                                         }
                                     }
+                                    else
+                                    {
+                                        result.EmpileErreur("L'élément parent id " + nIdElementParent + " n'existe pas dans Timos");
+                                        return result;
+                                    }
+                                }
+                            }
+                        }
+                        DataTable dtValeurs = dataSet.Tables[CCaracValeurChamp.c_nomTable];
+                        if (dtValeurs != null)
+                        {
+                            CResultAErreur resBoucle = CResultAErreur.True;
+                            foreach (DataRow row in dtValeurs.Rows)
+                            {
+                                int nIdChamp = (int)row[CCaracValeurChamp.c_champId];
+                                var valeur = row[CCaracValeurChamp.c_champValeur];
 
-                                }
-                                if (!result)
+                                CChampCustom champ = new CChampCustom(ctx);
+                                if (champ.ReadIfExists(nIdChamp))
                                 {
-                                    result.EmpileErreur("Erreur de sauvegarde dans Timos");
-                                    return result;
+                                    if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+                                    {
+                                        try
+                                        {
+                                            resBoucle = CUtilElementAChamps.SetValeurChamp(objCarac, nIdChamp, Int32.Parse(valeur.ToString()));
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            resBoucle.EmpileErreur("Erreur SetValeurChamp Id : " + nIdChamp + ". " + ex.Message);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        resBoucle = CUtilElementAChamps.SetValeurChamp(objCarac, nIdChamp, valeur);
+                                    }
+                                    if (!resBoucle)
+                                        result.EmpileErreur(resBoucle.MessageErreur);
+                                    var newValeur = CUtilElementAChamps.GetValeurChamp(objCarac, nIdChamp);
+                                    if(valeur.ToString() != "")
+                                        resBoucle = champ.IsCorrectValue(newValeur);
+                                    if (!resBoucle)
+                                        result.EmpileErreur("Controle de valeur de champ Timos : " + resBoucle.MessageErreur);
                                 }
-                                result = ctx.SaveAll(true);
+                            }
+                            if (!result)
+                            {
+                                result.EmpileErreur("Erreur de sauvegarde dans Timos");
                                 return result;
                             }
                         }
-                        else
-                        {
-                            result.EmpileErreur("L'élément parent id " + nIdElementParent + " n'existe pas dans Timos");
+                        result = ctx.SaveAll(true);
+                        if (!result)
                             return result;
-                        }
-                    }
 
+                        DataSet dsRetour = new DataSet(c_dataSetName);
+
+
+                        DataTable tableTodos = CTodoTimosWebApp.GetStructureTable();
+                        DataTable tableGroupesChamps = CGroupeChamps.GetStructureTable();
+                        DataTable tableCaracteristiques = CCaracteristique.GetStructureTable();
+                        DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
+                        DataTable tableTodoValeursChamps = CTodoValeurChamp.GetStructureTable();
+                        DataTable tableCaracValeursChamps = CCaracValeurChamp.GetStructureTable();
+                        DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
+
+                        dsRetour.Tables.Add(tableTodos);
+                        dsRetour.Tables.Add(tableGroupesChamps);
+                        dsRetour.Tables.Add(tableCaracteristiques);
+                        dsRetour.Tables.Add(tableChampsTimosWeb);
+                        dsRetour.Tables.Add(tableTodoValeursChamps);
+                        dsRetour.Tables.Add(tableCaracValeursChamps);
+                        dsRetour.Tables.Add(tableValeursPossibles);
+
+                        result = FillDataSet(etapeEnCours, dsRetour);
+                        result.Data = dsRetour;
+                        return result;
+                    }
                     else
                     {
                         result.EmpileErreur("Le todo id " + nIdTodo + " n'existe pas dans Timos");

@@ -213,7 +213,7 @@ namespace timos.data.serveur.Aspectize
 
         //---------------------------------------------------------------------------------------------------------
         // Enregistre les données d'une Carateristique
-        public CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdMetaType, int nIdTodo, int nIdElementParent, string strTypeElmentParent)
+        public CResultAErreur SaveCaracteristique(int nIdSession, DataSet dataSet, int nIdCarac, string strTypeElement, int nIdTodo)
         {
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
             CResultAErreur result = CUtilTimosWebApp.SaveCaracteristique(
@@ -221,14 +221,22 @@ namespace timos.data.serveur.Aspectize
                 dataSet,
                 nIdCarac,
                 strTypeElement,
-                nIdMetaType,
-                nIdTodo,
-                nIdElementParent,
-                strTypeElmentParent);
+                nIdTodo);
 
             return result;
         }
 
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur DeleteCaracteristique(int nIdSession, int nIdCarac, string strTypeElement)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.DeleteCaracteristique(
+                nIdSession,
+                nIdCarac,
+                strTypeElement);
+
+            return result;
+        }
 
         //---------------------------------------------------------------------------------------------------------
         public CResultAErreur AddFile(int nIdSession, string strNompFichier, byte[] octets)

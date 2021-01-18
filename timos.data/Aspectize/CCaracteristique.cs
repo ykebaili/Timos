@@ -27,12 +27,14 @@ namespace timos.data.Aspectize
         public const string c_champIdGroupeChamps = "IdGroupeChamps";
         public const string c_champIsTemplate = "IsTemplate";
         public const string c_champIdMetaType = "IdMetaType";
+        public const string c_champParentElementType = "ParentElementType";
+        public const string c_champParentElementId = "ParentElementId";
 
         DataRow m_row;
         IObjetDonneeAIdNumeriqueAuto m_objetEdite;
         static int s_nIdNegatif = -1; // Utile pour les carac template vides
 
-        public CCaracteristique(DataSet ds, IObjetDonneeAIdNumeriqueAuto objetEdite, Type typeObjetEdite, int nOrdre, int nIdGroupe, bool isTemplate)
+        public CCaracteristique(DataSet ds, IObjetDonneeAIdNumeriqueAuto objetEdite, Type typeObjetEdite, string strParentElementType, int nParentElementId, int nOrdre, int nIdGroupe, bool isTemplate)
         {
             m_objetEdite = objetEdite; // Cela peut être une caractéristique, mais pas frocément
             DataTable dt = ds.Tables[c_nomTable];
@@ -92,6 +94,8 @@ namespace timos.data.Aspectize
             row[c_champIdGroupeChamps] = nIdGroupe;
             row[c_champIsTemplate] = isTemplate;
             row[c_champIdMetaType] = nIdMetaType;
+            row[c_champParentElementType] = strParentElementType;
+            row[c_champParentElementId] = nParentElementId;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -192,6 +196,8 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
             dt.Columns.Add(c_champIsTemplate, typeof(bool));
             dt.Columns.Add(c_champIdMetaType, typeof(int));
+            dt.Columns.Add(c_champParentElementType, typeof(string));
+            dt.Columns.Add(c_champParentElementId, typeof(int));
 
             return dt;
         }

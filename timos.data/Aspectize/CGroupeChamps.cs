@@ -21,6 +21,7 @@ namespace timos.data.Aspectize
         public const string c_champTitre = "Titre";
         public const string c_champOrdreAffichage = "OrdreAffichage";
         public const string c_champIsInfosSecondaires = "InfosSecondaires";
+        public const string c_champCanAddCaracteristiques = "CanAddCaracteristiques";
 
         DataRow m_row;
         CFormulaire m_formulaire;
@@ -53,6 +54,7 @@ namespace timos.data.Aspectize
             row[c_champTitre] = strTitreFormulaire;
             row[c_champOrdreAffichage] = nOrdreAffichage;
             row[c_champIsInfosSecondaires] = bIsInfosSecondaires;
+            row[c_champCanAddCaracteristiques] = false;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -77,6 +79,8 @@ namespace timos.data.Aspectize
         public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre, IObjetDonneeAChamps objetEdite)
         {
             CResultAErreur result = CResultAErreur.True;
+            if (m_formulaire == null)
+                return result;
 
             if (fenetre != null)
             {
@@ -133,10 +137,11 @@ namespace timos.data.Aspectize
                     {
                         C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
                         C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
+                        m_row[c_champCanAddCaracteristiques] = childZone.HasAddButton;
 
-                        CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
                         if (childZone.SourceFormula != null)
                         {
+                            CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
                             C2iExpression source = childZone.SourceFormula;
                             Type tp = source.TypeDonnee.TypeDotNetNatif;
                             CResultAErreur resEval = source.Eval(ctxEval);
@@ -161,7 +166,15 @@ namespace timos.data.Aspectize
                                         IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
                                         if (objEdite != null)
                                         {
-                                            CCaracteristique caracWeb = new CCaracteristique(ds, objEdite as IObjetDonneeAIdNumeriqueAuto, tp, nOrdre++, m_formulaire.Id, false);
+                                            CCaracteristique caracWeb = new CCaracteristique(
+                                                ds,
+                                                objEdite as IObjetDonneeAIdNumeriqueAuto, 
+                                                tp,
+                                                objetEdite.GetType().ToString(),
+                                                ((IObjetDonneeAIdNumeriqueAuto)objetEdite).Id,
+                                                nOrdre++, 
+                                                m_formulaire.Id,
+                                                false);
                                             caracWeb.FillDataSet(ds, sousFenetre, objEdite);
                                         }
                                     }
@@ -197,7 +210,15 @@ namespace timos.data.Aspectize
                                             {
                                                 result.EmpileErreur(I.T("Some values cannot be assigned|20004"));
                                             }
-                                            CCaracteristique caracTemplate = new CCaracteristique(ds, newObj as IObjetDonneeAIdNumeriqueAuto, tp, nOrdre++, m_formulaire.Id, true);
+                                            CCaracteristique caracTemplate = new CCaracteristique(
+                                                ds,
+                                                newObj as IObjetDonneeAIdNumeriqueAuto, 
+                                                tp,
+                                                objetEdite.GetType().ToString(),
+                                                ((IObjetDonneeAIdNumeriqueAuto)objetEdite).Id,
+                                                nOrdre++, 
+                                                m_formulaire.Id,
+                                                true);
                                             caracTemplate.FillDataSet(ds, sousFenetre, newObj as IObjetDonneeAChamps);
                                         }
                                     }
@@ -236,6 +257,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champTitre, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));
             dt.Columns.Add(c_champIsInfosSecondaires, typeof(bool));
+            dt.Columns.Add(c_champCanAddCaracteristiques, typeof(bool));
 
             return dt;
         }
