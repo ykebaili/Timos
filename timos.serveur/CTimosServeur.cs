@@ -34,14 +34,7 @@ using timos.securite;
 using timos.acteurs;
 using timos.client;
 using System.Data.OracleClient;
-using sc2i.common.synchronisation;
-using futurocom.snmp.Proxy;
-using timos.data.snmp.Proxy;
 using System.Net;
-using futurocom.snmp;
-using futurocom.snmp.mediation;
-using timos.data.snmp.serveur.synchronisation;
-using timos.data.serveur.snmp.Proxy;
 using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using data.hotel.client;
@@ -540,8 +533,6 @@ namespace timos.serveur
                 //Démarre les autoexecs, mais pas les services en tâche de fond
                 CAutoexecuteurClasses.RunAutoexecsWithExclude(AutoExecAttribute.BackGroundService);
 
-                ////////////////////////////////////////////////////////////////////////
-                CSessionClientSurServeur.RegisterFournisseurTransactions(CGestionnaireTransactionsSynchroniseur.GetInstance());
 
                 //Initialisation du serveur de documents GED
                 AvancerIndicateur(I.T("EDM documents server initialisation...|30016"));
@@ -705,26 +696,6 @@ namespace timos.serveur
 
                 //Initialise la gestion du nombre d'élément comptés
                 CLicenceCheckElementNb.GetInstance();
-
-                CSnmpConnexion.SynchroniseurDeServiceMediation = new CSynchroniseurBaseProxy();
-                CSnmpConnexion.FournisseurDeConfigurationProxy = new CFournisseurDeConfigurationProxy();
-                using (CContexteDonnee ctx = new CContexteDonnee(0, true, false))
-                {
-                    System.Net.IPHostEntry moiMeme = System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName());
-                    foreach (IPAddress adresse in moiMeme.AddressList)
-                    {
-                        CSnmpProxyInDb proxy = new CSnmpProxyInDb(ctx);
-                        if (proxy.ReadIfExists(new CFiltreData(CSnmpProxyInDb.c_champSnmpIp + "=@1",
-                            adresse.ToString())))
-                        {
-                            CSnmpConnexion snmpCnx = new CSnmpConnexion();
-                            snmpCnx.EndPoint = new IPEndPoint(IPAddress.Parse(proxy.AdresseIp), proxy.Port);
-                            snmpCnx.NotifyProxyNecessiteMAJ(proxy.Id, true, true,true);
-                            break;
-                        }
-                    }
-                    CServiceMediation.GetDefaultInstance().Start();
-                }
 
                
 

@@ -53,7 +53,8 @@ namespace timos.data.Aspectize
 
             if (objetEdite != null)
             {
-                nTimosId = objetEdite.Id;
+                if(!isTemplate)
+                    nTimosId = objetEdite.Id;
                 strTypeElement = objetEdite.GetType().ToString();
                 int nLastPoint = strTypeElement.LastIndexOf(".");
                 strId = strTypeElement.Substring(nLastPoint + 1, strTypeElement.Length - nLastPoint - 1) + nTimosId;
@@ -118,7 +119,7 @@ namespace timos.data.Aspectize
         }
 
         //------------------------------------------------------------------------------------------------
-        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre, IObjetDonneeAChamps objetEdite)
+        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre, IObjetDonneeAChamps objetEdite, CListeRestrictionsUtilisateurSurType lstRestrictions)
         {
             CResultAErreur result = CResultAErreur.True;
 
@@ -136,7 +137,16 @@ namespace timos.data.Aspectize
                         CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, strIdCarac);
+                            // Applique les restrictions
+                            bool bIsEditable = true;
+                            CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
+                            if (restrictionSurObjetEdite != null)
+                            {
+                                ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
+                                if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
+                                    bIsEditable = false;
+                            }
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, strIdCarac, bIsEditable);
                             result = champWeb.FillDataSet(ds);
 
                             CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, strTypeElement, wndChamp, strIdCarac);

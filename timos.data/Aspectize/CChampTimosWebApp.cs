@@ -30,7 +30,7 @@ namespace timos.data.Aspectize
         DataRow m_row = null;
         CChampCustom m_champ;
 
-        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe, string strIdCarac)
+        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe, string strIdCarac, bool bIsEditable)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -45,7 +45,6 @@ namespace timos.data.Aspectize
             int nTypeDonneeChamp = 2; // par défaut type string
             bool bIsChoixParmis = false;
             bool bIsMultiline = wndChamp.MultiLine;
-            bool bIsEditable = false;
 
             CChampCustom champ = wndChamp.ChampCustom;
             if (champ != null)

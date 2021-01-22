@@ -262,6 +262,8 @@ namespace timos.data.Aspectize
                 return result;
             }
 
+            CListeRestrictionsUtilisateurSurType lstRestrictions = blocFormulaire.Restrictions;
+            
             // Traite la liste des formulaires associés pour trouver les champs customs
             foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
             {
@@ -269,7 +271,7 @@ namespace timos.data.Aspectize
                 if (formulaire.ReadIfExists(keyForm))
                 {
                     CGroupeChamps groupe = new CGroupeChamps(ds, formulaire, this, false);
-                    result = groupe.FillDataSet(ds, formulaire.Formulaire, ObjetEditePrincipal);
+                    result = groupe.FillDataSet(ds, formulaire.Formulaire, ObjetEditePrincipal, lstRestrictions);
                 }
             }
             // Formulaire d'informations secondaires
@@ -280,9 +282,10 @@ namespace timos.data.Aspectize
                 if (formulaireSecondaire.ReadIfExists(keyFormSecondaire))
                 {
                     CGroupeChamps groupe = new CGroupeChamps(ds, formulaireSecondaire, this, true);
-                    result = groupe.FillDataSet(ds, formulaireSecondaire.Formulaire, ObjetEditeSecondaire);
+                    result = groupe.FillDataSet(ds, formulaireSecondaire.Formulaire, ObjetEditeSecondaire, lstRestrictions);
                 }
             }
+
 
             // Gestion des documents attendus
             CCaracteristiqueEntite[] liste = GetDocumentsAttendus();

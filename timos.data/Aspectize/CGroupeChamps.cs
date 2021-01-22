@@ -72,11 +72,11 @@ namespace timos.data.Aspectize
 
         public CResultAErreur FillDataSet(DataSet ds)
         {
-            return FillDataSet(ds, m_formulaire.Formulaire, m_todo.ObjetEditePrincipal);
+            return FillDataSet(ds, m_formulaire.Formulaire, m_todo.ObjetEditePrincipal, null);
         }
 
 
-        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre, IObjetDonneeAChamps objetEdite)
+        public CResultAErreur FillDataSet(DataSet ds, C2iWnd fenetre, IObjetDonneeAChamps objetEdite, CListeRestrictionsUtilisateurSurType lstRestrictions)
         {
             CResultAErreur result = CResultAErreur.True;
             if (m_formulaire == null)
@@ -94,7 +94,24 @@ namespace timos.data.Aspectize
                         CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, "-1");
+                            CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
+                            C2iExpression expVisible = wndChamp.Visiblity;
+                            if (expVisible != null)
+                            {
+                                CResultAErreur resVisible = expVisible.Eval(ctx);
+                                if (resVisible && (bool)resVisible.Data == false)
+                                    continue;
+                            }
+                            // Applique les restrictions
+                            bool bIsEditable = true;
+                            CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
+                            if (restrictionSurObjetEdite != null)
+                            {
+                                ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
+                                if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
+                                    bIsEditable = false;
+                            }
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, "-1", bIsEditable);
                             result = champWeb.FillDataSet(ds);
                             CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp, m_formulaire.Id);
                             result = valeur.FillDataSet(ds);
@@ -125,7 +142,7 @@ namespace timos.data.Aspectize
                                     if (objEdite != null)
                                     {
                                         bConserverCeGroupe = true;
-                                        FillDataSet(ds, frm, objEdite);
+                                        FillDataSet(ds, frm, objEdite, lstRestrictions);
                                     }
 
                                 }
@@ -175,7 +192,7 @@ namespace timos.data.Aspectize
                                                 nOrdre++, 
                                                 m_formulaire.Id,
                                                 false);
-                                            caracWeb.FillDataSet(ds, sousFenetre, objEdite);
+                                            caracWeb.FillDataSet(ds, sousFenetre, objEdite, lstRestrictions);
                                         }
                                     }
                                     // Création d'un template
@@ -219,7 +236,7 @@ namespace timos.data.Aspectize
                                                 nOrdre++, 
                                                 m_formulaire.Id,
                                                 true);
-                                            caracTemplate.FillDataSet(ds, sousFenetre, newObj as IObjetDonneeAChamps);
+                                            caracTemplate.FillDataSet(ds, sousFenetre, newObj as IObjetDonneeAChamps, lstRestrictions);
                                         }
                                     }
                                 }
@@ -229,7 +246,7 @@ namespace timos.data.Aspectize
                                     IObjetDonneeAChamps objEdite = datas as IObjetDonneeAChamps;
                                     if (objEdite != null)
                                     {
-                                        FillDataSet(ds, sousFenetre, objEdite);
+                                        FillDataSet(ds, sousFenetre, objEdite, lstRestrictions);
                                     }
                                 }
                             }

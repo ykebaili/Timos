@@ -488,11 +488,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\futurocom.snmp\futurocom.snmp.csproj">
-      <Project>{D40EACEE-48DA-4559-86D2-63BC6F89E821}</Project>
+      <Project>{d40eacee-48da-4559-86d2-63bc6f89e821}</Project>
       <Name>futurocom.snmp</Name>
     </ProjectReference>
     <ProjectReference Include="..\futurocom.supervision\futurocom.supervision.csproj">
-      <Project>{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}</Project>
+      <Project>{6b0b5e44-0be9-4680-92d5-16d8af4034a2}</Project>
       <Name>futurocom.supervision</Name>
     </ProjectReference>
     <ProjectReference Include="..\timos.client\timos.client.csproj">

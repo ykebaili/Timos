@@ -20,7 +20,7 @@ namespace timos.data.serveur.supervision
     /// <summary>
     /// traite les alarmes issues des services de médiation
     /// </summary>
-    [AutoExec("Autoexec", AutoExecAttribute.BackGroundService)]
+    //[AutoExec("Autoexec", AutoExecAttribute.BackGroundService)]
     public class CTraiteurAlarmesFromMediation : ITraiteurAlarmeFromMediation
     {
         private CSessionClient m_sessionClient = null;
