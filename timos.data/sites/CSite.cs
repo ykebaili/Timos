@@ -129,7 +129,10 @@ namespace timos.data
 		{
 			get
 			{
-				return I.T("Site: @1|275",Libelle);
+                //return I.T("Site: @1|275",Libelle);
+                if(Code != "")
+                    return Code;
+                return Libelle;
 			}
 		}
 

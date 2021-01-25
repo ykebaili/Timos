@@ -184,7 +184,9 @@ namespace sc2i.workflow
 		{
 			get
 			{
-				return I.T("WorkBook @1|305", Libelle);
+                if (Libelle != "")
+                    return Libelle;
+				return I.T("WorkBook @1|305", Id.ToString());
 			}
 		}
 		
