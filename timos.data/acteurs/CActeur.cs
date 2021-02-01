@@ -144,7 +144,7 @@ namespace timos.acteurs
 		{
 			get
 			{
-				return I.T("Member: @1|277", IdentiteComplete);
+                return IdentiteComplete;
 			}
 		}
 
@@ -251,19 +251,19 @@ namespace timos.acteurs
 		/// Identité complete : Nom + Prénom
 		/// </summary>
 		[DynamicField("Identity")]
-		[DescriptionField]
-		public string IdentiteComplete
-		{
-			get
-			{
-				if ( Row[c_champNom] == DBNull.Value || Row[c_champPrenom] == DBNull.Value )
-					return "";
-				string strVal = Nom;
-				if ( Prenom != "" )
-					strVal = Prenom+" "+Nom;
-				return strVal;
-			}
-		}
+        [DescriptionField]
+        public string IdentiteComplete
+        {
+            get
+            {
+                if (Row[c_champNom] == DBNull.Value || Row[c_champPrenom] == DBNull.Value)
+                    return "";
+                string strVal = Nom;
+                if (Prenom != "")
+                    strVal = Prenom + " " + Nom;
+                return strVal;
+            }
+        }
 		//-------------------------------------------------------------------
 		/// <summary>
 		/// Identite complete ameliorée : Civilité + Nom + Prénom

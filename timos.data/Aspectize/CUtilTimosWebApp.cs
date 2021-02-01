@@ -243,21 +243,25 @@ namespace timos.data.Aspectize
             CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
             if (session != null)
             {
-                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                using (CContexteDonnee ctx = new CContexteDonnee(nIdSession , true, false))
                 {
                     CEtapeWorkflow etapeATerminer = new CEtapeWorkflow(ctx);
                     if (etapeATerminer.ReadIfExists(nIdTodo))
                     {
+                        //etapeATerminer = etapeATerminer.GetObjetInContexte(ctx) as CEtapeWorkflow;
                         if (etapeATerminer.EtatCode == (int)EEtatEtapeWorkflow.Démarrée)
                         {
                             result = etapeATerminer.EndEtapeAndSaveIfOk();
+                            if (result)
+                            {
 
-                            DataSet ds = new DataSet(c_dataSetName);
-                            DataTable dt = CTodoTimosWebApp.GetStructureTable();
-                            ds.Tables.Add(dt);
-                            CTodoTimosWebApp todoTermine = new CTodoTimosWebApp(ds, etapeATerminer);
+                                DataSet ds = new DataSet(c_dataSetName);
+                                DataTable dt = CTodoTimosWebApp.GetStructureTable();
+                                ds.Tables.Add(dt);
+                                CTodoTimosWebApp todoTermine = new CTodoTimosWebApp(ds, etapeATerminer);
+                                result.Data = ds;
 
-                            result.Data = ds;
+                            }
                         }
                         else
                         {
@@ -396,7 +400,9 @@ namespace timos.data.Aspectize
                                     {
                                         try
                                         {
-                                            resBoucle = CUtilElementAChamps.SetValeurChamp(objCarac, nIdChamp, Int32.Parse(valeur.ToString()));
+                                            int nIdvaleur = -1;
+                                            if(Int32.TryParse(valeur.ToString(), out nIdvaleur))
+                                                resBoucle = CUtilElementAChamps.SetValeurChamp(objCarac, nIdChamp, nIdvaleur);
                                         }
                                         catch (Exception ex)
                                         {

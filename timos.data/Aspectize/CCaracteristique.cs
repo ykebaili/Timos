@@ -137,6 +137,18 @@ namespace timos.data.Aspectize
                         CChampCustom cc = wndChamp.ChampCustom;
                         if (cc != null)
                         {
+                            // Traite la visibilité du champ
+                            CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
+                            C2iExpression expVisible = wndChamp.Visiblity;
+                            if (expVisible != null)
+                            {
+                                CResultAErreur resVisible = expVisible.Eval(ctx);
+                                if (resVisible && resVisible.Data != null)
+                                {
+                                    if (resVisible.Data.ToString() == "0" || resVisible.Data.ToString().ToUpper() == "FALSE")
+                                        continue;
+                                }
+                            }
                             // Applique les restrictions
                             bool bIsEditable = true;
                             CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());

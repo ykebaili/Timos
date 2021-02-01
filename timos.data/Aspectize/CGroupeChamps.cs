@@ -80,188 +80,201 @@ namespace timos.data.Aspectize
         {
             CResultAErreur result = CResultAErreur.True;
             if (m_formulaire == null)
+            {
+                result.EmpileErreur("m_formulaire is null");
                 return result;
-
+            }
             if (fenetre != null)
             {
-                ArrayList lst = fenetre.AllChilds();
-                bool bConserverCeGroupe = false;
-                foreach (object obj in lst)
+                try
                 {
-                    if (obj is C2iWndChampCustom)
+                    ArrayList lst = fenetre.AllChilds();
+                    bool bConserverCeGroupe = false;
+                    foreach (object obj in lst)
                     {
-                        C2iWndChampCustom wndChamp = (C2iWndChampCustom)obj;
-                        CChampCustom cc = wndChamp.ChampCustom;
-                        if (cc != null)
+                        if (obj is C2iWndChampCustom)
                         {
-                            CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
-                            C2iExpression expVisible = wndChamp.Visiblity;
-                            if (expVisible != null)
+                            C2iWndChampCustom wndChamp = (C2iWndChampCustom)obj;
+                            CChampCustom cc = wndChamp.ChampCustom;
+                            if (cc != null)
                             {
-                                CResultAErreur resVisible = expVisible.Eval(ctx);
-                                if (resVisible && (bool)resVisible.Data == false)
-                                    continue;
-                            }
-                            // Applique les restrictions
-                            bool bIsEditable = true;
-                            CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
-                            if (restrictionSurObjetEdite != null)
-                            {
-                                ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
-                                if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
-                                    bIsEditable = false;
-                            }
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, "-1", bIsEditable);
-                            result = champWeb.FillDataSet(ds);
-                            CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp, m_formulaire.Id);
-                            result = valeur.FillDataSet(ds);
-                            bConserverCeGroupe = true;
-                        }
-
-                    }
-                    // Traitement dans le cas d'un sous-formulaire
-                    else if (obj is C2iWndConteneurSousFormulaire)
-                    {
-                        C2iWndConteneurSousFormulaire subForm = (C2iWndConteneurSousFormulaire)obj;
-                        if (subForm != null && subForm.SubFormReference != null)
-                        {
-                            C2iWnd frm = sc2i.formulaire.subform.C2iWndProvider.GetForm(subForm.SubFormReference);
-                            if (frm != null)
-                            {
-                                if (subForm.EditedElement != null)
+                                // Traite la visibilité du champ
+                                CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
+                                C2iExpression expVisible = wndChamp.Visiblity;
+                                if (expVisible != null)
                                 {
-                                    C2iExpression expression = subForm.EditedElement;
-                                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
-                                    CResultAErreur resEval = expression.Eval(ctx);
-                                    if (!resEval)
+                                    CResultAErreur resVisible = expVisible.Eval(ctx);
+                                    if (resVisible && resVisible.Data != null)
                                     {
-                                        result += resEval;
-                                        return result;
+                                        if (resVisible.Data.ToString() == "0" || resVisible.Data.ToString().ToUpper() == "FALSE")
+                                            continue;
                                     }
-                                    IObjetDonneeAChamps objEdite = resEval.Data as IObjetDonneeAChamps;
-                                    if (objEdite != null)
-                                    {
-                                        bConserverCeGroupe = true;
-                                        FillDataSet(ds, frm, objEdite, lstRestrictions);
-                                    }
-
                                 }
-                            }
-                        }
-                    }
-                    // Traitement dans le cas d'une Child Zone
-                    else if (obj is C2iWndZoneMultiple)
-                    {
-                        C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
-                        C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
-                        m_row[c_champCanAddCaracteristiques] = childZone.HasAddButton;
-
-                        if (childZone.SourceFormula != null)
-                        {
-                            CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
-                            C2iExpression source = childZone.SourceFormula;
-                            Type tp = source.TypeDonnee.TypeDotNetNatif;
-                            CResultAErreur resEval = source.Eval(ctxEval);
-                            if (!resEval)
-                            {
-                                result += resEval;
-                                return result;
-                            }
-                            object datas = resEval.Data;
-                            if (datas != null)
-                            {
-                                bConserverCeGroupe = true;
-
-                                IEnumerable collection = datas as IEnumerable;
-                                if (collection != null)
+                                // Applique les restrictions
+                                bool bIsEditable = true;
+                                CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
+                                if (restrictionSurObjetEdite != null)
                                 {
-                                    // La source de données est une collection, il s'agit certainement de caractéristiques
-                                    // Mais c'est peut-être aussi un Workbook, un Site, un Projet... on ne sait pas car ça dépend du paramétrage
-                                    int nOrdre = 0;
-                                    foreach (var data in collection)
+                                    ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
+                                    if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
+                                        bIsEditable = false;
+                                }
+                                CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, m_formulaire.Id, "-1", bIsEditable);
+                                result = champWeb.FillDataSet(ds);
+                                CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp, m_formulaire.Id);
+                                result = valeur.FillDataSet(ds);
+                                bConserverCeGroupe = true;
+                            }
+
+                        }
+                        // Traitement dans le cas d'un sous-formulaire
+                        else if (obj is C2iWndConteneurSousFormulaire)
+                        {
+                            C2iWndConteneurSousFormulaire subForm = (C2iWndConteneurSousFormulaire)obj;
+                            if (subForm != null && subForm.SubFormReference != null)
+                            {
+                                C2iWnd frm = sc2i.formulaire.subform.C2iWndProvider.GetForm(subForm.SubFormReference);
+                                if (frm != null)
+                                {
+                                    if (subForm.EditedElement != null)
                                     {
-                                        IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
+                                        C2iExpression expression = subForm.EditedElement;
+                                        CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
+                                        CResultAErreur resEval = expression.Eval(ctx);
+                                        if (!resEval)
+                                        {
+                                            result += resEval;
+                                            return result;
+                                        }
+                                        IObjetDonneeAChamps objEdite = resEval.Data as IObjetDonneeAChamps;
                                         if (objEdite != null)
                                         {
-                                            CCaracteristique caracWeb = new CCaracteristique(
-                                                ds,
-                                                objEdite as IObjetDonneeAIdNumeriqueAuto, 
-                                                tp,
-                                                objetEdite.GetType().ToString(),
-                                                ((IObjetDonneeAIdNumeriqueAuto)objetEdite).Id,
-                                                nOrdre++, 
-                                                m_formulaire.Id,
-                                                false);
-                                            caracWeb.FillDataSet(ds, sousFenetre, objEdite, lstRestrictions);
+                                            bConserverCeGroupe = true;
+                                            FillDataSet(ds, frm, objEdite, lstRestrictions);
                                         }
-                                    }
-                                    // Création d'un template
-                                    if (childZone.Affectations.Count > 0)
-                                    {
-                                        CAffectationsProprietes affectation = childZone.Affectations[0];
-                                        if (tp != null && affectation != null)
-                                        {
-                                            IAllocateurSupprimeurElements allocateur = objetEdite as IAllocateurSupprimeurElements;
-                                            object newObj = null;
-                                            try
-                                            {
-                                                if (allocateur != null)
-                                                {
-                                                    result = allocateur.AlloueElement(tp);
-                                                    if (result)
-                                                        newObj = result.Data;
-                                                }
-                                                else
-                                                    newObj = Activator.CreateInstance(tp);
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                result.EmpileErreur(new CErreurException(ex));
-                                            }
-                                            if (newObj == null | !result)
-                                            {
-                                                result.EmpileErreur(I.T("Error while allocating element|20003"));
-                                            }
-                                            result = affectation.AffecteProprietes(newObj, objetEdite, new CFournisseurPropDynStd(true));
-                                            if (!result)
-                                            {
-                                                result.EmpileErreur(I.T("Some values cannot be assigned|20004"));
-                                            }
-                                            CCaracteristique caracTemplate = new CCaracteristique(
-                                                ds,
-                                                newObj as IObjetDonneeAIdNumeriqueAuto, 
-                                                tp,
-                                                objetEdite.GetType().ToString(),
-                                                ((IObjetDonneeAIdNumeriqueAuto)objetEdite).Id,
-                                                nOrdre++, 
-                                                m_formulaire.Id,
-                                                true);
-                                            caracTemplate.FillDataSet(ds, sousFenetre, newObj as IObjetDonneeAChamps, lstRestrictions);
-                                        }
+
                                     }
                                 }
-                                else
+                            }
+                        }
+                        // Traitement dans le cas d'une Child Zone
+                        else if (obj is C2iWndZoneMultiple)
+                        {
+                            C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
+                            C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
+                            m_row[c_champCanAddCaracteristiques] = childZone.HasAddButton;
+
+                            if (childZone.SourceFormula != null)
+                            {
+                                CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
+                                C2iExpression source = childZone.SourceFormula;
+                                Type tp = source.TypeDonnee.TypeDotNetNatif;
+                                CResultAErreur resEval = source.Eval(ctxEval);
+                                if (!resEval)
                                 {
-                                    // La source de donnée est un objet unique
-                                    IObjetDonneeAChamps objEdite = datas as IObjetDonneeAChamps;
-                                    if (objEdite != null)
+                                    result += resEval;
+                                    return result;
+                                }
+                                object datas = resEval.Data;
+                                if (datas != null)
+                                {
+                                    bConserverCeGroupe = true;
+
+                                    IEnumerable collection = datas as IEnumerable;
+                                    if (collection != null)
                                     {
-                                        FillDataSet(ds, sousFenetre, objEdite, lstRestrictions);
+                                        // La source de données est une collection, il s'agit certainement de caractéristiques
+                                        // Mais c'est peut-être aussi un Workbook, un Site, un Projet... on ne sait pas car ça dépend du paramétrage
+                                        int nOrdre = 0;
+                                        foreach (var data in collection)
+                                        {
+                                            IObjetDonneeAChamps objEdite = data as IObjetDonneeAChamps;
+                                            if (objEdite != null)
+                                            {
+                                                CCaracteristique caracWeb = new CCaracteristique(
+                                                    ds,
+                                                    objEdite as IObjetDonneeAIdNumeriqueAuto,
+                                                    tp,
+                                                    objetEdite.GetType().ToString(),
+                                                    ((IObjetDonneeAIdNumeriqueAuto)objetEdite).Id,
+                                                    nOrdre++,
+                                                    m_formulaire.Id,
+                                                    false);
+                                                caracWeb.FillDataSet(ds, sousFenetre, objEdite, lstRestrictions);
+                                            }
+                                        }
+                                        // Création d'un template
+                                        if (childZone.Affectations.Count > 0)
+                                        {
+                                            CAffectationsProprietes affectation = childZone.Affectations[0];
+                                            if (tp != null && affectation != null)
+                                            {
+                                                IAllocateurSupprimeurElements allocateur = objetEdite as IAllocateurSupprimeurElements;
+                                                object newObj = null;
+                                                try
+                                                {
+                                                    if (allocateur != null)
+                                                    {
+                                                        result = allocateur.AlloueElement(tp);
+                                                        if (result)
+                                                            newObj = result.Data;
+                                                    }
+                                                    else
+                                                        newObj = Activator.CreateInstance(tp);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    result.EmpileErreur(new CErreurException(ex));
+                                                }
+                                                if (newObj == null | !result)
+                                                {
+                                                    result.EmpileErreur(I.T("Error while allocating element|20003"));
+                                                }
+                                                result = affectation.AffecteProprietes(newObj, objetEdite, new CFournisseurPropDynStd(true));
+                                                if (!result)
+                                                {
+                                                    result.EmpileErreur(I.T("Some values cannot be assigned|20004"));
+                                                }
+                                                CCaracteristique caracTemplate = new CCaracteristique(
+                                                    ds,
+                                                    newObj as IObjetDonneeAIdNumeriqueAuto,
+                                                    tp,
+                                                    objetEdite.GetType().ToString(),
+                                                    ((IObjetDonneeAIdNumeriqueAuto)objetEdite).Id,
+                                                    nOrdre++,
+                                                    m_formulaire.Id,
+                                                    true);
+                                                caracTemplate.FillDataSet(ds, sousFenetre, newObj as IObjetDonneeAChamps, lstRestrictions);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // La source de donnée est un objet unique
+                                        IObjetDonneeAChamps objEdite = datas as IObjetDonneeAChamps;
+                                        if (objEdite != null)
+                                        {
+                                            FillDataSet(ds, sousFenetre, objEdite, lstRestrictions);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    /*if (!bConserverCeGroupe)
+                    {
+                        DataTable dt = ds.Tables[c_nomTable];
+                        if (dt != null)
+                            dt.Rows.Remove(m_row);
+                    }*/
+
                 }
-                /*if (!bConserverCeGroupe)
+                catch (Exception ex)
                 {
-                    DataTable dt = ds.Tables[c_nomTable];
-                    if (dt != null)
-                        dt.Rows.Remove(m_row);
-                }*/
-
+                    result.EmpileErreur(ex.Message);
+                    return result;
+                }
             }
-
             return result;
         }
 
