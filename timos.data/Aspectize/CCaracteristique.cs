@@ -166,7 +166,7 @@ namespace timos.data.Aspectize
                         }
 
                     }
-                    /*/ Traitement dans le cas d'un sous-formulaire
+                    // Traitement dans le cas d'un sous-formulaire
                     else if (obj is C2iWndConteneurSousFormulaire)
                     {
                         C2iWndConteneurSousFormulaire subForm = (C2iWndConteneurSousFormulaire)obj;
@@ -185,10 +185,22 @@ namespace timos.data.Aspectize
                                         result += resEval;
                                         return result;
                                     }
-                                    IObjetDonneeAChamps objEdite = resEval.Data as IObjetDonneeAChamps;
-                                    if (objEdite != null)
+                                    IObjetDonneeAChamps sousObjetEdite = resEval.Data as IObjetDonneeAChamps;
+                                    if (sousObjetEdite != null)
                                     {
-                                        FillDataSet(ds, frm, objEdite);
+                                        // Traite la visibilité du champ
+                                        ctx = new CContexteEvaluationExpression(sousObjetEdite);
+                                        C2iExpression expVisible = subForm.Visiblity;
+                                        if (expVisible != null)
+                                        {
+                                            CResultAErreur resVisible = expVisible.Eval(ctx);
+                                            if (resVisible && resVisible.Data != null)
+                                            {
+                                                if (resVisible.Data.ToString() == "0" || resVisible.Data.ToString().ToUpper() == "FALSE")
+                                                    continue;
+                                            }
+                                        }
+                                        FillDataSet(ds, frm, sousObjetEdite, lstRestrictions);
                                     }
 
                                 }
