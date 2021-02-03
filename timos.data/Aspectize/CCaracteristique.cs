@@ -202,18 +202,12 @@ namespace timos.data.Aspectize
                                         }
                                         FillDataSet(ds, frm, sousObjetEdite, lstRestrictions);
                                     }
-
                                 }
                             }
                         }
                     }//*/
-
-                  
                 }
- 
             }
-
-
             return result;
         }
 
