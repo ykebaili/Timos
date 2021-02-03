@@ -137,13 +137,13 @@ namespace timos.serveur
 		#region CheckLicence
 		private System.Timers.Timer m_timerCheck = new System.Timers.Timer();
 
-		private void StartLicenceTrigger()
+		/*private void StartLicenceTrigger()
 		{
 			m_timerCheck.AutoReset = true;
             m_timerCheck.Interval = 1000000;//toutes les Dix minutes
 			m_timerCheck.Elapsed += new ElapsedEventHandler(m_timerCheck_Elapsed);
 			m_timerCheck.Start();
-		}
+		}*/
 
         /// <summary>
         /// Retrieves the linker timestamp.
@@ -225,7 +225,7 @@ namespace timos.serveur
             if (sp.TotalHours > 12)//Toutes les 2 heures, vérification d'une MAJ de licence
                 //sur le site WEB
             {
-                UpdateLicenceFromWeb();
+                //UpdateLicenceFromWeb();
                 m_lastDateConnexionSite = DateTime.Now;
             }
 
@@ -358,11 +358,11 @@ namespace timos.serveur
                         result = CheckLicenceOK();
                         if (!result)
                         {
-                            UpdateLicenceFromWeb();
+                            //UpdateLicenceFromWeb();
                             result = CheckLicenceOK();
                         }
-                        if (result)
-                            StartLicenceTrigger();
+                        /*if (result)
+                            StartLicenceTrigger();*/
 
                     }
                 }
