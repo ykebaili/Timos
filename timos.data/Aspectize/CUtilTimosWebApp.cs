@@ -153,7 +153,6 @@ namespace timos.data.Aspectize
             {
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
-
                     CEtapeWorkflow etapeEnCours = new CEtapeWorkflow(ctx);
                     if (etapeEnCours.ReadIfExists(nIdTodo))
                     {
@@ -206,14 +205,15 @@ namespace timos.data.Aspectize
                                                 result.EmpileErreur(resBoucle.MessageErreur);
                                         }
                                     }
-                                    
                                 }
                                 if(!result)
                                 {
                                     result.EmpileErreur("Erreur de sauvegarde dans Timos");
                                     return result;
                                 }
+                                
                                 result = ctx.SaveAll(true);
+
                                 return result;
                             }
                         }

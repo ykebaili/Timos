@@ -44,6 +44,7 @@ using timos.data.supervision;
 using timos.serveur.Licence;
 using timos.client.Licence;
 using sc2i.data.Package;
+using sc2i.common.synchronisation;
 
 namespace timos.serveur
 {
@@ -533,6 +534,8 @@ namespace timos.serveur
                 //Démarre les autoexecs, mais pas les services en tâche de fond
                 CAutoexecuteurClasses.RunAutoexecsWithExclude(AutoExecAttribute.BackGroundService);
 
+                // 
+                CSessionClientSurServeur.RegisterFournisseurTransactions(CGestionnaireTransactionsSynchroniseur.GetInstance());
 
                 //Initialisation du serveur de documents GED
                 AvancerIndicateur(I.T("EDM documents server initialisation...|30016"));

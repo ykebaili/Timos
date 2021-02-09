@@ -209,6 +209,10 @@
       <Project>{B80DAAA9-FC7E-4F41-A1DC-A147ACACE69B}</Project>
       <Name>futurocom.sig</Name>
     </ProjectReference>
+    <ProjectReference Include="..\futurocom.supervision\futurocom.supervision.csproj">
+      <Project>{6B0B5E44-0BE9-4680-92D5-16D8AF4034A2}</Project>
+      <Name>futurocom.supervision</Name>
+    </ProjectReference>
     <ProjectReference Include="..\timos.client\timos.client.csproj">
       <Project>{2F14D268-9349-4A75-95D0-3D989859837D}</Project>
       <Name>timos.client</Name>
