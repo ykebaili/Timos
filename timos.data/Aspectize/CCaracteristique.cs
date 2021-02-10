@@ -158,7 +158,7 @@ namespace timos.data.Aspectize
                                 if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
                                     bIsEditable = false;
                             }
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, -1, strIdCarac, bIsEditable);
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, objetEdite, -1, strIdCarac, bIsEditable);
                             result = champWeb.FillDataSet(ds);
 
                             CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, strTypeElement, wndChamp, strIdCarac);

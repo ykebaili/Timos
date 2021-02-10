@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using sc2i.common;
 using System.Collections;
 using sc2i.data;
+using sc2i.expression;
 
 namespace timos.data.Aspectize
 {
@@ -26,15 +27,18 @@ namespace timos.data.Aspectize
         public const string c_champIdGroupeChamps = "TIMOS_FIELD_ID_GROUPE";
         public const string c_champIdCaracteristique = "TIMOS_FIELD_ID_CARAC";
 
+        public const string c_champElementSource = "Source element";
 
         DataRow m_row = null;
         CChampCustom m_champ;
+        IElementAVariables m_elementAVariables = null;
 
-        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, int nIdGroupe, string strIdCarac, bool bIsEditable)
+        public CChampTimosWebApp(DataSet ds, C2iWndChampCustom wndChamp, IElementAVariables elementEdite, int nIdGroupe, string strIdCarac, bool bIsEditable)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
                 return;
+            m_elementAVariables = elementEdite;
 
             DataRow row = dt.NewRow();
 
@@ -71,7 +75,7 @@ namespace timos.data.Aspectize
             m_row = row;
             dt.Rows.Add(row);
         }
-         
+
 
         //---------------------------------------------------------------------------------------
         public DataRow Row
@@ -111,6 +115,7 @@ namespace timos.data.Aspectize
             return dt;
         }
 
+        //---------------------------------------------------------------------------------------
         public CResultAErreur FillDataSet(DataSet ds)
         {
             CResultAErreur result = CResultAErreur.True;
@@ -128,11 +133,20 @@ namespace timos.data.Aspectize
                 if (m_champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto && listeValeurs is CListeObjetsDonnees)
                 {
                     CListeObjetsDonnees listeObjets = (CListeObjetsDonnees)listeValeurs;
+                    CFiltreData filtre = listeObjets.Filtre;
+                    CFiltreDynamique filtreDyn = m_champ.FiltreObjetDonnee;
+                    if (filtreDyn != null)
+                    {
+                        filtre = GetFiltre(filtreDyn);
+                    }
+                    if (filtre != null)
+                        listeObjets.Filtre = filtre;
+                    CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, "-1", "(à définir)", nIndex++, nIdGroupeAssocie, strIdCaracAssociee);
                     foreach (IObjetDonneeAIdNumerique objetTimos in listeObjets)
                     {
                         strStore = objetTimos.Id.ToString();
                         strDisplay = objetTimos.DescriptionElement;
-                        CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, strIdCaracAssociee);
+                        valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, strStore, strDisplay, nIndex++, nIdGroupeAssocie, strIdCaracAssociee);
                     }
                 }
                 else
@@ -147,6 +161,45 @@ namespace timos.data.Aspectize
             }
 
             return result;
+        }
+
+        //---------------------------------------------------------------------------------------
+        private CFiltreData GetFiltre(CFiltreDynamique filtre)
+        {
+            if (filtre == null)
+                return null;
+            if (m_elementAVariables != null)
+            {
+                IVariableDynamique variable = AssureVariableElementCible(filtre, m_elementAVariables.GetType());
+                filtre.SetValeurChamp(variable.IdVariable, m_elementAVariables);
+            }
+            CResultAErreur result = filtre.GetFiltreData();
+            if (result)
+                return (CFiltreData)result.Data;
+            return null;
+        }
+
+        //---------------------------------------------------------------------------------------
+        private IVariableDynamique AssureVariableElementCible(CFiltreDynamique filtre, Type typeElement)
+        {
+            IVariableDynamique variableASupprimer = null;
+            foreach (IVariableDynamique variable in filtre.ListeVariables)
+            {
+                if (variable.Nom == c_champElementSource)
+                {
+                    if (variable.TypeDonnee.TypeDotNetNatif != typeElement)
+                        variableASupprimer = variable;
+                    else
+                        return variable;
+                }
+            }
+            if (variableASupprimer != null)
+                filtre.RemoveVariable(variableASupprimer);
+            CVariableDynamiqueSysteme newVariable = new CVariableDynamiqueSysteme(filtre);
+            newVariable.Nom = c_champElementSource;
+            newVariable.SetTypeDonnee(new sc2i.expression.CTypeResultatExpression(typeElement, false));
+            filtre.AddVariablePropreAuFiltre(newVariable);
+            return newVariable;
         }
     }
 }
