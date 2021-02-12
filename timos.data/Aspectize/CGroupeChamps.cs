@@ -112,16 +112,25 @@ namespace timos.data.Aspectize
                                 }
                                 // Applique les restrictions
                                 bool bIsEditable = true;
-                                CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
-                                if (restrictionSurObjetEdite != null)
+                                if ((bool)m_row[c_champIsInfosSecondaires])
                                 {
-                                    ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
-                                    if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
-                                        bIsEditable = false;
+                                    // Si c'est un groupe d'infos secondaire, aucun champ n'est éditable
+                                    bIsEditable = false;
+                                }
+                                else
+                                {
+                                    // Sinon on regarde les restrictions du champ
+                                    CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
+                                    if (restrictionSurObjetEdite != null)
+                                    {
+                                        ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
+                                        if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
+                                            bIsEditable = false;
+                                    }
                                 }
                                 CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, objetEdite, m_formulaire.Id, "-1", bIsEditable);
                                 result = champWeb.FillDataSet(ds);
-                                CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp, m_formulaire.Id);
+                                CTodoValeurChamp valeur = new CTodoValeurChamp(ds, objetEdite, wndChamp, m_formulaire.Id, bIsEditable);
                                 result = valeur.FillDataSet(ds);
                                 bConserverCeGroupe = true;
                             }

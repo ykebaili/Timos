@@ -26,7 +26,7 @@ namespace timos.data.Aspectize
         DataRow m_row;
         object m_valeur;
 
-        public CTodoValeurChamp(DataSet ds, IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, int nIdGroupeAssocie)
+        public CTodoValeurChamp(DataSet ds, IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, int nIdGroupeAssocie, bool bIsEditable)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -57,7 +57,33 @@ namespace timos.data.Aspectize
                         {
                             IObjetDonneeAIdNumerique objetValeur = m_valeur as IObjetDonneeAIdNumerique;
                             if (objetValeur != null)
-                                strValeur = objetValeur.Id.ToString();
+                            {
+                                try
+                                {
+                                    if (bIsEditable)
+                                        strValeur = objetValeur.Id.ToString();
+                                    else
+                                        strValeur = objetValeur.DescriptionElement;
+                                }
+                                catch
+                                {
+                                    strValeur = "";
+                                }
+                            }
+                        }
+                        else if(champ.IsChoixParmis())
+                        {
+                            try
+                            {
+                                if (bIsEditable)
+                                    strValeur = m_valeur.ToString();
+                                else
+                                    strValeur = champ.DisplayFromValue(m_valeur);
+                            }
+                            catch
+                            {
+                                strValeur = "";
+                            }
                         }
                         else
                         {
@@ -73,7 +99,7 @@ namespace timos.data.Aspectize
                     }
                 }
             }
-            row[c_champId] = nIdChamp;
+            row[c_champId] = bIsEditable ? nIdChamp : 0 - nIdChamp;
             row[c_champLibelle] = strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champValeur] = strValeur;

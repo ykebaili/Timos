@@ -61,12 +61,12 @@ namespace timos.data.Aspectize
                 // bIsEditable = à implémenter
             }
 
-            row[c_champId] = nIdChampCustom;
+            row[c_champId] = bIsEditable ? nIdChampCustom : 0 - nIdChampCustom;
             row[c_champNom] = strNomChamp;
             row[c_champLibelleConvivial] = strLibelleWeb == "" ? strNomChamp : strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champTypeDonne] = nTypeDonneeChamp;
-            row[c_champIsChoixParmis] = bIsChoixParmis;
+            row[c_champIsChoixParmis] = bIsChoixParmis && bIsEditable;
             row[c_champIsMultiline] = bIsMultiline;
             row[c_champIsEditable] = bIsEditable;
             row[c_champIdGroupeChamps] = nIdGroupe;
@@ -95,32 +95,12 @@ namespace timos.data.Aspectize
             }
         }
 
-
-        //---------------------------------------------------------------------------------------
-        public static DataTable GetStructureTable()
-        {
-            DataTable dt = new DataTable(c_nomTable);
-
-            dt.Columns.Add(c_champId, typeof(int));
-            dt.Columns.Add(c_champNom, typeof(string));
-            dt.Columns.Add(c_champLibelleConvivial, typeof(string));
-            dt.Columns.Add(c_champOrdreAffichage, typeof(int));
-            dt.Columns.Add(c_champTypeDonne, typeof(int));
-            dt.Columns.Add(c_champIsChoixParmis, typeof(bool));
-            dt.Columns.Add(c_champIsMultiline, typeof(bool));
-            dt.Columns.Add(c_champIsEditable, typeof(bool));
-            dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
-            dt.Columns.Add(c_champIdCaracteristique, typeof(string));
-
-            return dt;
-        }
-
         //---------------------------------------------------------------------------------------
         public CResultAErreur FillDataSet(DataSet ds)
         {
             CResultAErreur result = CResultAErreur.True;
 
-            if (m_champ.IsChoixParmis())
+            if ((bool)m_row[c_champIsChoixParmis])
             {
                 string strStore = "";
                 string strDisplay = "";
@@ -200,6 +180,25 @@ namespace timos.data.Aspectize
             newVariable.SetTypeDonnee(new sc2i.expression.CTypeResultatExpression(typeElement, false));
             filtre.AddVariablePropreAuFiltre(newVariable);
             return newVariable;
+        }
+
+        //---------------------------------------------------------------------------------------
+        public static DataTable GetStructureTable()
+        {
+            DataTable dt = new DataTable(c_nomTable);
+
+            dt.Columns.Add(c_champId, typeof(int));
+            dt.Columns.Add(c_champNom, typeof(string));
+            dt.Columns.Add(c_champLibelleConvivial, typeof(string));
+            dt.Columns.Add(c_champOrdreAffichage, typeof(int));
+            dt.Columns.Add(c_champTypeDonne, typeof(int));
+            dt.Columns.Add(c_champIsChoixParmis, typeof(bool));
+            dt.Columns.Add(c_champIsMultiline, typeof(bool));
+            dt.Columns.Add(c_champIsEditable, typeof(bool));
+            dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
+            dt.Columns.Add(c_champIdCaracteristique, typeof(string));
+
+            return dt;
         }
     }
 }
