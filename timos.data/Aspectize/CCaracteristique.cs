@@ -11,6 +11,7 @@ using System.Collections;
 using sc2i.expression;
 using sc2i.data;
 using sc2i.workflow;
+using sc2i.formulaire.web;
 
 namespace timos.data.Aspectize
 {
@@ -131,15 +132,18 @@ namespace timos.data.Aspectize
                 ArrayList lst = fenetre.AllChilds();
                 foreach (object obj in lst)
                 {
-                    if (obj is C2iWndChampCustom)
+                    if (obj is I2iWebControl)
                     {
-                        C2iWndChampCustom wndChamp = (C2iWndChampCustom)obj;
-                        CChampCustom cc = wndChamp.ChampCustom;
-                        if (cc != null)
+                        I2iWebControl webControl = (I2iWebControl)obj;
+                        if (webControl.WebLabel == "")
+                            continue;
+
+                        C2iWnd wndControl = webControl as C2iWnd;
+                        if (wndControl != null)
                         {
                             // Traite la visibilité du champ
                             CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
-                            C2iExpression expVisible = wndChamp.Visiblity;
+                            C2iExpression expVisible = wndControl.Visiblity;
                             if (expVisible != null)
                             {
                                 CResultAErreur resVisible = expVisible.Eval(ctx);
@@ -151,17 +155,27 @@ namespace timos.data.Aspectize
                             }
                             // Applique les restrictions
                             bool bIsEditable = true;
-                            CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
-                            if (restrictionSurObjetEdite != null)
+                            if (wndControl is C2iWndFormule || wndControl is C2iWndPanel || wndControl is C2iWndSlidingPanel)
                             {
-                                ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
-                                if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
-                                    bIsEditable = false;
+                                bIsEditable = false;
                             }
-                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, wndChamp, objetEdite, -1, strIdCarac, bIsEditable);
+                            else if (wndControl is C2iWndChampCustom)
+                            {
+                                // Sinon on regarde les restrictions du champ
+                                C2iWndChampCustom wndChamp = (C2iWndChampCustom)wndControl;
+                                CChampCustom cc = wndChamp.ChampCustom;
+                                CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
+                                if (restrictionSurObjetEdite != null)
+                                {
+                                    ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
+                                    if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
+                                        bIsEditable = false;
+                                }
+                            }
+                            CChampTimosWebApp champWeb = new CChampTimosWebApp(ds, webControl, objetEdite, -1, strIdCarac, bIsEditable);
                             result = champWeb.FillDataSet(ds);
 
-                            CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, strTypeElement, wndChamp, strIdCarac);
+                            CCaracValeurChamp valeur = new CCaracValeurChamp(ds, objetEdite, champWeb, strTypeElement, strIdCarac, bIsEditable);
                             result = valeur.FillDataSet(ds);
                         }
 

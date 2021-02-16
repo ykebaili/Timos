@@ -1,6 +1,7 @@
 ﻿using sc2i.common;
 using sc2i.data;
 using sc2i.data.dynamic;
+using sc2i.expression;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,7 +27,7 @@ namespace timos.data.Aspectize
         DataRow m_row;
         object m_valeur = null;
 
-        public CCaracValeurChamp(DataSet ds, IObjetDonneeAChamps obj, string strTypeElement, C2iWndChampCustom wndChamp, string strIdCaracAssociee)
+        public CCaracValeurChamp(DataSet ds, IObjetDonneeAChamps obj, CChampTimosWebApp champWeb, string strTypeElement, string strIdCaracAssociee, bool bIsEditable)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -34,42 +35,80 @@ namespace timos.data.Aspectize
 
             DataRow row = dt.NewRow();
 
-            int nIdChamp = -1;
-            string strLibelleWeb = wndChamp.WebLabel;
-            int nOrdreWeb = wndChamp.WebNumOrder;
+            int nIdChamp = champWeb.Id;
+            string strLibelleWeb = champWeb.WebLabel;
+            int nOrdreWeb = champWeb.WebNumOrder;
             string strValeur = "";
             int nElementId = -1;
             string strElementType = strTypeElement;
 
-            CChampCustom champ = wndChamp.ChampCustom;
+            CChampCustom champ = champWeb.Champ;
             if (champ != null)
             {
-                nIdChamp = champ.Id;
-
                 if (obj != null)
                 {
-                    m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
                     strElementType = obj.GetType().ToString();
                     nElementId = ((IObjetDonneeAIdNumerique)obj).Id;
-                }
-                if (m_valeur != null)
-                {
-                    if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+
+                    m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+                    if (m_valeur != null)
                     {
-                        IObjetDonneeAIdNumerique objetValeur = m_valeur as IObjetDonneeAIdNumerique;
-                        if (objetValeur != null)
-                            strValeur = objetValeur.Id.ToString();
+                        if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
+                        {
+                            IObjetDonneeAIdNumerique objetValeur = m_valeur as IObjetDonneeAIdNumerique;
+                            if (objetValeur != null)
+                            {
+                                try
+                                {
+                                    if (bIsEditable)
+                                        strValeur = objetValeur.Id.ToString();
+                                    else
+                                        strValeur = objetValeur.DescriptionElement;
+                                }
+                                catch
+                                {
+                                    strValeur = "";
+                                }
+                            }
+                        }
+                        else if (champ.IsChoixParmis())
+                        {
+                            try
+                            {
+                                if (bIsEditable)
+                                    strValeur = m_valeur.ToString();
+                                else
+                                    strValeur = champ.DisplayFromValue(m_valeur);
+                            }
+                            catch
+                            {
+                                strValeur = "";
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                strValeur = m_valeur.ToString();
+                            }
+                            catch
+                            {
+                                strValeur = "";
+                            }
+                        }
                     }
-                    else
+                }
+            }
+            else
+            {
+                C2iExpression formule = champWeb.Formule;
+                if (formule != null)
+                {
+                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(obj);
+                    CResultAErreur resFormule = formule.Eval(ctx);
+                    if (resFormule && resFormule.Data != null)
                     {
-                        try
-                        {
-                            strValeur = m_valeur.ToString();
-                        }
-                        catch
-                        {
-                            strValeur = "";
-                        }
+                        strValeur = resFormule.Data.ToString();
                     }
                 }
             }

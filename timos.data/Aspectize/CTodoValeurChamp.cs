@@ -1,6 +1,8 @@
 ﻿using sc2i.common;
 using sc2i.data;
 using sc2i.data.dynamic;
+using sc2i.expression;
+using sc2i.formulaire.web;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,7 +28,7 @@ namespace timos.data.Aspectize
         DataRow m_row;
         object m_valeur;
 
-        public CTodoValeurChamp(DataSet ds, IObjetDonneeAChamps obj, C2iWndChampCustom wndChamp, int nIdGroupeAssocie, bool bIsEditable)
+        public CTodoValeurChamp(DataSet ds, IObjetDonneeAChamps obj, CChampTimosWebApp champWeb, int nIdGroupeAssocie, bool bIsEditable)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -34,17 +36,16 @@ namespace timos.data.Aspectize
 
             DataRow row = dt.NewRow();
 
-            int nIdChamp = -1;
-            string strLibelleWeb = wndChamp.WebLabel;
-            int nOrdreWeb = wndChamp.WebNumOrder;
+            int nIdChamp = champWeb.Id;
+            string strLibelleWeb = champWeb.WebLabel;
+            int nOrdreWeb = champWeb.WebNumOrder;
             string strValeur = "";
             string strElementType = "";
             int nElementId = -1;
 
-            CChampCustom champ = wndChamp.ChampCustom;
+            CChampCustom champ = champWeb.Champ;
             if (champ != null)
             {
-                nIdChamp = champ.Id;
                 if (obj != null)
                 {
                     strElementType = obj.GetType().ToString();
@@ -99,7 +100,22 @@ namespace timos.data.Aspectize
                     }
                 }
             }
-            row[c_champId] = bIsEditable ? nIdChamp : 0 - nIdChamp;
+            else
+            {
+                C2iExpression formule = champWeb.Formule;
+                if(formule != null)
+                {
+                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(obj);
+                    CResultAErreur resFormule = formule.Eval(ctx);
+                    if(resFormule && resFormule.Data != null)
+                    {
+                        strValeur = resFormule.Data.ToString();
+                    }
+                }
+            }
+
+
+            row[c_champId] = nIdChamp;
             row[c_champLibelle] = strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champValeur] = strValeur;
