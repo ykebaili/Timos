@@ -198,7 +198,6 @@ namespace timos.data.Aspectize
                             C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
                             C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
                             m_row[c_champCanAddCaracteristiques] = childZone.HasAddButton;
-                            m_row[c_champTitreCaracteristiques] = childZone.WebLabel;
 
                             if (childZone.SourceFormula != null)
                             {
@@ -221,6 +220,8 @@ namespace timos.data.Aspectize
                                     {
                                         // La source de données est une collection, il s'agit certainement de caractéristiques
                                         // Mais c'est peut-être aussi un Workbook, un Site, un Projet... on ne sait pas car ça dépend du paramétrage
+                                        m_row[c_champTitreCaracteristiques] = childZone.WebLabel;
+
                                         int nOrdre = 0;
                                         foreach (var data in collection)
                                         {

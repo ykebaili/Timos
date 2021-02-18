@@ -432,26 +432,29 @@ namespace timos.data.Aspectize
                         if (!result)
                             return result;
 
+                        
                         DataSet dsRetour = new DataSet(c_dataSetName);
+                        // On rempli le DataSet uniquement si c'est une création de Caractéristique
+                        if (nIdCarac < 0)
+                        {
+                            DataTable tableTodos = CTodoTimosWebApp.GetStructureTable();
+                            DataTable tableGroupesChamps = CGroupeChamps.GetStructureTable();
+                            DataTable tableCaracteristiques = CCaracteristique.GetStructureTable();
+                            DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
+                            DataTable tableTodoValeursChamps = CTodoValeurChamp.GetStructureTable();
+                            DataTable tableCaracValeursChamps = CCaracValeurChamp.GetStructureTable();
+                            DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
 
+                            dsRetour.Tables.Add(tableTodos);
+                            dsRetour.Tables.Add(tableGroupesChamps);
+                            dsRetour.Tables.Add(tableCaracteristiques);
+                            dsRetour.Tables.Add(tableChampsTimosWeb);
+                            dsRetour.Tables.Add(tableTodoValeursChamps);
+                            dsRetour.Tables.Add(tableCaracValeursChamps);
+                            dsRetour.Tables.Add(tableValeursPossibles);
 
-                        DataTable tableTodos = CTodoTimosWebApp.GetStructureTable();
-                        DataTable tableGroupesChamps = CGroupeChamps.GetStructureTable();
-                        DataTable tableCaracteristiques = CCaracteristique.GetStructureTable();
-                        DataTable tableChampsTimosWeb = CChampTimosWebApp.GetStructureTable();
-                        DataTable tableTodoValeursChamps = CTodoValeurChamp.GetStructureTable();
-                        DataTable tableCaracValeursChamps = CCaracValeurChamp.GetStructureTable();
-                        DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
-
-                        dsRetour.Tables.Add(tableTodos);
-                        dsRetour.Tables.Add(tableGroupesChamps);
-                        dsRetour.Tables.Add(tableCaracteristiques);
-                        dsRetour.Tables.Add(tableChampsTimosWeb);
-                        dsRetour.Tables.Add(tableTodoValeursChamps);
-                        dsRetour.Tables.Add(tableCaracValeursChamps);
-                        dsRetour.Tables.Add(tableValeursPossibles);
-
-                        result = FillDataSet(etapeEnCours, dsRetour);
+                            result = FillDataSet(etapeEnCours, dsRetour);
+                        }
                         result.Data = dsRetour;
                         return result;
                     }

@@ -40,7 +40,7 @@ namespace timos.data.Aspectize
         {
             m_etape = etape;
             DataTable dt = ds.Tables[c_nomTable];
-            if(dt != null)
+            if (dt != null)
             {
                 DataRow row = dt.NewRow();
 
@@ -65,7 +65,7 @@ namespace timos.data.Aspectize
                     m_objetEditeSecondaire = objEdite as IObjetDonneeAChamps;
                 }
 
-                    row[c_champId] = etape.Id;
+                row[c_champId] = etape.Id;
                 row[c_champDateDebut] = etape.DateDebut.Value;
                 row[c_champLibelle] = etape.Libelle;
                 row[c_champInstructions] = strInstrcution;

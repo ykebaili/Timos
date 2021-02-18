@@ -172,6 +172,9 @@ namespace timos.data.Aspectize
             if (m_champ == null)
                 return result;
 
+            if (!ds.Tables.Contains(CChampValeursPossibles.c_nomTable))
+                return result;
+
             if ((bool)m_row[c_champIsChoixParmis])
             {
                 string strStore = "";
