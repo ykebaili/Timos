@@ -18,7 +18,8 @@ namespace timos.data.Aspectize
     {
         public const string c_nomTable = "TIMOS_FIELDS";
 
-        public const string c_champId = "TIMOS_FIELD_ID";
+        public const string c_champId = "FIELD_ID"; // Id unique pour l'appli web
+        public const string c_champIdTimos = "TIMOS_FIELD_ID"; // Id Timos réel
         public const string c_champNom = "TIMOS_FIELD_NAME";
         public const string c_champLibelleConvivial = "TIMOS_FIELD_WEB_LABEL";
         public const string c_champOrdreAffichage = "TIMOS_FIELD_DISP_ORDER";
@@ -95,6 +96,7 @@ namespace timos.data.Aspectize
             }
 
             row[c_champId] = bIsEditable ? nIdChampCustom : nIdChampFictif;
+            row[c_champIdTimos] = nIdChampCustom;
             row[c_champNom] = strNomChamp;
             row[c_champLibelleConvivial] = strLibelleWeb == "" ? strNomChamp : strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
@@ -139,6 +141,10 @@ namespace timos.data.Aspectize
         }
 
         //---------------------------------------------------------------------------------------
+        /// <summary>
+        /// Id unique pour l'application web
+        /// Il est possible qu'il soit le même que l'Id Timos si le champ est éditable
+        /// </summary>
         public int Id
         {
             get
@@ -146,7 +152,19 @@ namespace timos.data.Aspectize
                 return (int)m_row[c_champId];
             }
         }
-        
+
+        //---------------------------------------------------------------------------------------
+        /// <summary>
+        /// Id réel dans la base Timos
+        /// </summary>
+        public int IdTimos
+        {
+            get
+            {
+                return (int)m_row[c_champIdTimos];
+            }
+        }
+
         //---------------------------------------------------------------------------------------
         public string WebLabel
         {
@@ -263,6 +281,7 @@ namespace timos.data.Aspectize
             DataTable dt = new DataTable(c_nomTable);
 
             dt.Columns.Add(c_champId, typeof(int));
+            dt.Columns.Add(c_champIdTimos, typeof(int));
             dt.Columns.Add(c_champNom, typeof(string));
             dt.Columns.Add(c_champLibelleConvivial, typeof(string));
             dt.Columns.Add(c_champOrdreAffichage, typeof(int));

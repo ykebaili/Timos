@@ -36,7 +36,8 @@ namespace timos.data.Aspectize
 
             DataRow row = dt.NewRow();
 
-            int nIdChamp = champWeb.Id;
+            int nIdChampWeb = champWeb.Id;
+            int nIdChampTimos = champWeb.IdTimos;
             string strLibelleWeb = champWeb.WebLabel;
             int nOrdreWeb = champWeb.WebNumOrder;
             string strValeur = "";
@@ -51,7 +52,7 @@ namespace timos.data.Aspectize
                     strElementType = obj.GetType().ToString();
                     nElementId = ((IObjetDonneeAIdNumerique)obj).Id;
 
-                    m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChamp);
+                    m_valeur = CUtilElementAChamps.GetValeurChamp(obj, nIdChampTimos);
                     if (m_valeur != null)
                     {
                         if (champ.TypeDonneeChamp.TypeDonnee == TypeDonnee.tObjetDonneeAIdNumeriqueAuto)
@@ -115,7 +116,7 @@ namespace timos.data.Aspectize
             }
 
 
-            row[c_champId] = nIdChamp;
+            row[c_champId] = nIdChampWeb;
             row[c_champLibelle] = strLibelleWeb;
             row[c_champOrdreAffichage] = nOrdreWeb;
             row[c_champValeur] = strValeur;
