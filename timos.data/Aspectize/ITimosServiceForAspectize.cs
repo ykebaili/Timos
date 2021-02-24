@@ -30,6 +30,8 @@ namespace timos.data.Aspectize
         CResultAErreur DeleteFile(int nIdSession, string strKeyFile);
         CResultAErreur DownloadFile(int nIdSession, string strKeyFile);
         CResultAErreur SaveDocument(int nIdSession, DataSet ds, int nIdDocument, int nIdCategorie);
+        CResultAErreur GetActionsDisponibles(int nIdSession, string strTypeCible);
+        CResultAErreur ExecuteAction(int nIdSession, int nIdAction, string strTypeCible, int nIdElementCible);
 
     }
 }

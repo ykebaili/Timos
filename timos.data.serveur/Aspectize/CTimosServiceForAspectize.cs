@@ -277,5 +277,22 @@ namespace timos.data.serveur.Aspectize
             CResultAErreur result = CUtilTimosWebApp.EndTodo(nIdSession, nIdTodo);
             return result;
         }
+
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur GetActionsDisponibles(int nIdSession, string strTypeCible)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.GetActionsDisponibles(nIdSession, strTypeCible);
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public CResultAErreur ExecuteAction(int nIdSession, int nIdAction, string strTypeCible, int nIdElementCible)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.ExecuteAction(nIdSession, nIdAction, strTypeCible, nIdElementCible);
+            return result;
+        }
+
     }
 }

@@ -274,7 +274,6 @@ namespace timos.data.Aspectize
             return result;
         }
 
-
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur DeleteCaracteristique(int nIdSession, int nIdCarac, string strTypeElement)
         {
@@ -586,7 +585,6 @@ namespace timos.data.Aspectize
             return result;
         }
 
-
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur SaveDocument(int nIdSession, DataSet ds, int nIdDocument, int nIdCategorie)
         {
@@ -653,7 +651,22 @@ namespace timos.data.Aspectize
 
             return result;
         }
+        
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur GetActionsDisponibles(int nIdSession, string strTypeCible)
+        {
+            CResultAErreur result = CResultAErreur.True;
 
+            return result;
+        }
+
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur ExecuteAction(int nIdSession, int nIdAction, string strTypeCible, int nIdElementCible)
+        {
+            CResultAErreur result = CResultAErreur.True;
+
+            return result;
+        }
 
     }
 

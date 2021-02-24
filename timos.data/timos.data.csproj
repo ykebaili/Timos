@@ -161,6 +161,7 @@
   <ItemGroup>
     <Compile Include="acteurs\CDonneeNotificationMessageInstantane.cs" />
     <Compile Include="acteurs\ITypeElementAContacts.cs" />
+    <Compile Include="Aspectize\CActionWeb.cs" />
     <Compile Include="Aspectize\CCaracteristique.cs" />
     <Compile Include="Aspectize\CChampTimosWebApp.cs" />
     <Compile Include="Aspectize\CChampValeursPossibles.cs" />
