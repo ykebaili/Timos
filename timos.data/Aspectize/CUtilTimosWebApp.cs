@@ -99,6 +99,7 @@ namespace timos.data.Aspectize
                         DataTable tableValeursPossibles = CChampValeursPossibles.GetStructureTable();
                         DataTable tableDocuementsAttendus = CDocumentAttendu.GetStructureTable();
                         DataTable tableFichiersGED = CFichierAttache.GetStructureTable();
+                        DataTable tableActions = CActionWeb.GetStructureTable();
 
                         ds.Tables.Add(tableTodos);
                         ds.Tables.Add(tableGroupesChamps);
@@ -109,6 +110,7 @@ namespace timos.data.Aspectize
                         ds.Tables.Add(tableValeursPossibles);
                         ds.Tables.Add(tableDocuementsAttendus);
                         ds.Tables.Add(tableFichiersGED);
+                        ds.Tables.Add(tableActions);
 
                         result = FillDataSet(etapeEnCours, ds);
 

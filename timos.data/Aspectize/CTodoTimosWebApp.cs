@@ -4,6 +4,7 @@ using sc2i.data.dynamic;
 using sc2i.data.dynamic.NommageEntite;
 using sc2i.expression;
 using sc2i.formulaire;
+using sc2i.process;
 using sc2i.process.workflow;
 using sc2i.process.workflow.blocs;
 using System;
@@ -249,6 +250,25 @@ namespace timos.data.Aspectize
             return null;
         }
 
+        //------------------------------------------------------------------------------------------------
+        private CProcessInDb[] GetActionsDisponibles()
+        {
+
+            if (m_objetEdite != null)
+            {
+                CFiltreData filtre = new CFiltreData(
+                    CProcessInDb.c_champTypeCible + " = @1 and " +
+                    CProcessInDb.c_champWebVisible + " = @2",
+                    m_objetEdite.GetType().ToString(),
+                    true);
+
+                CListeObjetDonneeGenerique<CProcessInDb> listeActions = new CListeObjetDonneeGenerique<CProcessInDb>(m_objetEdite.ContexteDonnee, filtre);
+                return listeActions.ToArray<CProcessInDb>();
+            }
+
+            return null;
+        }
+
 
         //------------------------------------------------------------------------------------------------
         public CResultAErreur FillDataSet(DataSet ds)
@@ -292,7 +312,15 @@ namespace timos.data.Aspectize
             foreach (CCaracteristiqueEntite caracDoc in liste)
             {
                 CDocumentAttendu doc = new CDocumentAttendu(ds, caracDoc);
-                result = doc.FillDataSet(ds);
+                result += doc.FillDataSet(ds);
+            }
+
+            // Gestion des Actions disponibles
+            CProcessInDb[] actionsDisponibles = GetActionsDisponibles();
+            foreach (CProcessInDb action in actionsDisponibles)
+            {
+                CActionWeb actionWeb = new CActionWeb(ds, action);
+                result += actionWeb.FillDataSet(ds);
             }
 
             return result;
