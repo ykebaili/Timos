@@ -23,6 +23,7 @@ namespace timos.data.Aspectize
         public const string c_champElementType = "ElementType";
         public const string c_champElementId = "ElementId";
         public const string c_champIdGroupeChamps = "TIMOS_FIELD_ID_GROUPE";
+        public const string c_champUseAutoComplete = "UseAutoComplete";
 
 
         DataRow m_row;
@@ -123,6 +124,7 @@ namespace timos.data.Aspectize
             row[c_champElementType] = strElementType;
             row[c_champElementId] = nElementId;
             row[c_champIdGroupeChamps] = nIdGroupeAssocie;
+            row[c_champUseAutoComplete] = champWeb.UseAutoComplete;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -159,6 +161,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champElementType, typeof(string));
             dt.Columns.Add(c_champElementId, typeof(int));
             dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
+            dt.Columns.Add(c_champUseAutoComplete, typeof(bool));
 
             return dt;
         }

@@ -30,6 +30,7 @@ namespace timos.data.Aspectize
         public const string c_champCustomClass = "TIMOS_FIELD_CLASS";
         public const string c_champIdGroupeChamps = "TIMOS_FIELD_ID_GROUPE";
         public const string c_champIdCaracteristique = "TIMOS_FIELD_ID_CARAC";
+        public const string c_champUseAutoComplete = "UseAutoComplete";
 
         public const string c_champElementSource = "Source element";
         public static int s_nIdChampFictif = 900000; // Id fictif pour tous les champs en lecture seule
@@ -107,6 +108,7 @@ namespace timos.data.Aspectize
             row[c_champCustomClass] = strCustomClass;
             row[c_champIdGroupeChamps] = nIdGroupe;
             row[c_champIdCaracteristique] = strIdCarac;
+            row[c_champUseAutoComplete] = false;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -184,6 +186,15 @@ namespace timos.data.Aspectize
         }
 
         //---------------------------------------------------------------------------------------
+        public bool UseAutoComplete
+        {
+            get
+            {
+                return (bool)m_row[c_champUseAutoComplete];
+            }
+        }
+
+        //---------------------------------------------------------------------------------------
         public CResultAErreur FillDataSet(DataSet ds)
         {
             CResultAErreur result = CResultAErreur.True;
@@ -214,6 +225,9 @@ namespace timos.data.Aspectize
                     }
                     if (filtre != null)
                         listeObjets.Filtre = filtre;
+                    if (listeObjets.CountNoLoad > 200)
+                        m_row[c_champUseAutoComplete] = true;
+
                     CChampValeursPossibles valeurPossible = new CChampValeursPossibles(ds, m_champ.Id, "-1", "(à définir)", nIndex++, nIdGroupeAssocie, strIdCaracAssociee);
                     foreach (IObjetDonneeAIdNumerique objetTimos in listeObjets)
                     {
@@ -292,6 +306,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champCustomClass, typeof(string));
             dt.Columns.Add(c_champIdGroupeChamps, typeof(int));
             dt.Columns.Add(c_champIdCaracteristique, typeof(string));
+            dt.Columns.Add(c_champUseAutoComplete, typeof(bool));
 
             return dt;
         }
