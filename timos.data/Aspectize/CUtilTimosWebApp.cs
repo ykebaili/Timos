@@ -6,6 +6,7 @@ using sc2i.documents;
 using sc2i.expression;
 using sc2i.formulaire;
 using sc2i.multitiers.client;
+using sc2i.process;
 using sc2i.process.workflow;
 using sc2i.process.workflow.blocs;
 using sc2i.workflow;
@@ -663,10 +664,68 @@ namespace timos.data.Aspectize
         }
 
         //---------------------------------------------------------------------------------------------------------
-        public static CResultAErreur ExecuteAction(int nIdSession, int nIdAction, string strTypeCible, int nIdElementCible)
+        public static CResultAErreur ExecuteAction(int nIdSession, DataSet ds, int nIdAction, string strTypeCible, int nIdElementCible)
         {
             CResultAErreur result = CResultAErreur.True;
 
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    CProcessInDb process = new CProcessInDb(ctx);
+                    if (process.ReadIfExists(nIdAction))
+                    {
+                        CProcess processToExecute = process.Process;
+                        if (process != null)
+                        {
+                            Type tp = CActivatorSurChaine.GetType(strTypeCible);
+                            if (tp == null)
+                            {
+                                result.EmpileErreur("Le type " + strTypeCible + " n'existe pas dans Timos");
+                                return result;
+                            }
+                            CObjetDonnee cibleProcess = (CObjetDonnee)Activator.CreateInstance(tp, new object[] { ctx });
+                            if (cibleProcess.ReadIfExists(nIdElementCible))
+                            {
+                                if (process.TypeCible.IsAssignableFrom(cibleProcess.GetType()) && cibleProcess is CObjetDonnee)
+                                {
+                                    CReferenceObjetDonnee refCible = new CReferenceObjetDonnee(cibleProcess);
+
+                                    // Affecte les vairables du process
+                                    DataTable tableActions = ds.Tables[CActionWeb.c_nomTable];
+                                    if (tableActions != null && tableActions.Rows.Count > 0)
+                                    {
+                                        DataRow row = tableActions.Rows[0];
+                                        foreach (CVariableDynamique variable in processToExecute.ListeVariables)
+                                        {
+                                            foreach (DataColumn col in tableActions.Columns)
+                                            {
+                                                if (col.DataType == typeof(string) && row[col] != DBNull.Value && (string)row[col] == variable.IdVariable)
+                                                {
+                                                    string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
+                                                    nomCol = nomCol.Replace("ID", "VAL");
+                                                    object valeur = row[nomCol];
+                                                    processToExecute.SetValeurChamp(variable.IdVariable, valeur);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    // Start Process
+                                    return CProcessEnExecutionInDb.StartProcess(
+                                        processToExecute,
+                                        new CInfoDeclencheurProcess(TypeEvenement.Manuel),
+                                        refCible,
+                                        nIdSession,
+                                        ctx.IdVersionDeTravail,
+                                        null);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
             return result;
         }
 

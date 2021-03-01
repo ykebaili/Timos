@@ -287,10 +287,10 @@ namespace timos.data.serveur.Aspectize
         }
 
         //---------------------------------------------------------------------------------------------------------
-        public CResultAErreur ExecuteAction(int nIdSession, int nIdAction, string strTypeCible, int nIdElementCible)
+        public CResultAErreur ExecuteAction(int nIdSession, DataSet ds, int nIdAction, string strTypeCible, int nIdElementCible)
         {
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
-            CResultAErreur result = CUtilTimosWebApp.ExecuteAction(nIdSession, nIdAction, strTypeCible, nIdElementCible);
+            CResultAErreur result = CUtilTimosWebApp.ExecuteAction(nIdSession, ds, nIdAction, strTypeCible, nIdElementCible);
             return result;
         }
 
