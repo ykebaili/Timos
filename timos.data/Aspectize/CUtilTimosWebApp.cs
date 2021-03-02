@@ -144,8 +144,8 @@ namespace timos.data.Aspectize
 
             return result;
         }
-            
-            
+
+
         //------------------------------------------------------------------------------------------------------
         public static CResultAErreur SaveTodo(int nIdSession, DataSet ds, int nIdTodo, string elementPrincipalType, int elementPrincipalId)
         {
@@ -169,7 +169,7 @@ namespace timos.data.Aspectize
                         if (obj.ReadIfExists(elementPrincipalId))
                         {
                             DataTable dt = ds.Tables[CTodoValeurChamp.c_nomTable];
-                            if(dt != null)
+                            if (dt != null)
                             {
                                 CResultAErreur resBoucle = CResultAErreur.True;
                                 foreach (DataRow row in dt.Rows)
@@ -209,12 +209,12 @@ namespace timos.data.Aspectize
                                         }
                                     }
                                 }
-                                if(!result)
+                                if (!result)
                                 {
                                     result.EmpileErreur("Erreur de sauvegarde dans Timos");
                                     return result;
                                 }
-                                
+
                                 result = ctx.SaveAll(true);
 
                                 return result;
@@ -246,7 +246,7 @@ namespace timos.data.Aspectize
             CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
             if (session != null)
             {
-                using (CContexteDonnee ctx = new CContexteDonnee(nIdSession , true, false))
+                using (CContexteDonnee ctx = new CContexteDonnee(nIdSession, true, false))
                 {
                     CEtapeWorkflow etapeATerminer = new CEtapeWorkflow(ctx);
                     if (etapeATerminer.ReadIfExists(nIdTodo))
@@ -403,7 +403,7 @@ namespace timos.data.Aspectize
                                         try
                                         {
                                             int nIdvaleur = -1;
-                                            if(Int32.TryParse(valeur.ToString(), out nIdvaleur))
+                                            if (Int32.TryParse(valeur.ToString(), out nIdvaleur))
                                                 resBoucle = CUtilElementAChamps.SetValeurChamp(objCarac, nIdChamp, nIdvaleur);
                                         }
                                         catch (Exception ex)
@@ -418,7 +418,7 @@ namespace timos.data.Aspectize
                                     if (!resBoucle)
                                         result.EmpileErreur(resBoucle.MessageErreur);
                                     var newValeur = CUtilElementAChamps.GetValeurChamp(objCarac, nIdChamp);
-                                    if(valeur.ToString() != "")
+                                    if (valeur.ToString() != "")
                                         resBoucle = champ.IsCorrectValue(newValeur);
                                     if (!resBoucle)
                                         result.EmpileErreur("Controle de valeur de champ Timos : " + resBoucle.MessageErreur);
@@ -434,7 +434,7 @@ namespace timos.data.Aspectize
                         if (!result)
                             return result;
 
-                        
+
                         DataSet dsRetour = new DataSet(c_dataSetName);
                         // On rempli le DataSet uniquement si c'est une création de Caractéristique
                         if (nIdCarac < 0)
@@ -497,7 +497,7 @@ namespace timos.data.Aspectize
                 fs.Close();
             }
 
-            if(result)
+            if (result)
                 result.Data = fichierTemporaire.NomFichier;
 
             return result;
@@ -526,7 +526,7 @@ namespace timos.data.Aspectize
                             return result;
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         result.EmpileErreur("Erreur de suppression du document GED : " + ex.Message);
                         return result;
@@ -564,9 +564,9 @@ namespace timos.data.Aspectize
                             {
                                 byte[] octets = reader.ReadBytes((int)fs.Length);
                                 result.Data = octets;
-                                
+
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 result.EmpileErreur(ex.Message);
                             }
@@ -654,7 +654,7 @@ namespace timos.data.Aspectize
 
             return result;
         }
-        
+
         //---------------------------------------------------------------------------------------------------------
         public static CResultAErreur GetActionsDisponibles(int nIdSession, string strTypeCible)
         {
@@ -723,7 +723,6 @@ namespace timos.data.Aspectize
                             }
                         }
                     }
-
                 }
             }
             return result;
