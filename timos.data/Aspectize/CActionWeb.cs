@@ -73,7 +73,7 @@ namespace timos.data.Aspectize
             foreach (DataColumn col in dt.Columns)
             {
                 if (col.DataType == typeof(string))
-                    row[col] = "";
+                    row[col] = "hidden";
             }
 
             if(processDb != null)

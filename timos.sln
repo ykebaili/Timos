@@ -5,6 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dep", "dep", "{DCDD488C-378E-4DB4-BBCA-C9E7280402D9}"
 	ProjectSection(SolutionItems) = preProject
+		lng\timos.mes = lng\timos.mes
 		conf\timos.Remoting.config = conf\timos.Remoting.config
 	EndProjectSection
 EndProject

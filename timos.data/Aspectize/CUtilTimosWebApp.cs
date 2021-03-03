@@ -701,12 +701,19 @@ namespace timos.data.Aspectize
                                         {
                                             foreach (DataColumn col in tableActions.Columns)
                                             {
-                                                if (col.DataType == typeof(string) && row[col] != DBNull.Value && (string)row[col] == variable.IdVariable)
+                                                try
                                                 {
-                                                    string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
-                                                    nomCol = nomCol.Replace("ID", "VAL");
-                                                    object valeur = row[nomCol];
-                                                    processToExecute.SetValeurChamp(variable.IdVariable, valeur);
+                                                    if (col.DataType == typeof(string) && row[col] != DBNull.Value && (string)row[col] == variable.IdVariable)
+                                                    {
+                                                        string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
+                                                        nomCol = nomCol.Replace("ID", "VAL");
+                                                        object valeur = row[nomCol];
+                                                        processToExecute.SetValeurChamp(variable.IdVariable, valeur);
+                                                    }
+                                                }
+                                                catch(Exception ex)
+                                                {
+                                                    result.EmpileErreur(ex.Message);
                                                 }
                                             }
                                         }
