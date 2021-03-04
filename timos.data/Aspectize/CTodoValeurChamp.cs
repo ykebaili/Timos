@@ -46,6 +46,7 @@ namespace timos.data.Aspectize
             int nElementId = -1;
 
             CChampCustom champ = champWeb.Champ;
+            bool bAutoComplete = champWeb.UseAutoComplete;
             if (champ != null)
             {
                 if (obj != null)
@@ -63,7 +64,7 @@ namespace timos.data.Aspectize
                             {
                                 try
                                 {
-                                    if (bIsEditable)
+                                    if (bIsEditable && !bAutoComplete)
                                         strValeur = objetValeur.Id.ToString();
                                     else
                                         strValeur = objetValeur.DescriptionElement;

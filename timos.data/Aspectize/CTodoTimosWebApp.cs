@@ -316,11 +316,17 @@ namespace timos.data.Aspectize
             }
 
             // Gestion des Actions disponibles
+            string strStepId = m_etape.TypeEtape.UniversalId;
             CProcessInDb[] actionsDisponibles = GetActionsDisponibles();
             foreach (CProcessInDb action in actionsDisponibles)
             {
-                CActionWeb actionWeb = new CActionWeb(ds, action);
-                result += actionWeb.FillDataSet(ds);
+                List<string> lstNommages = new List<string>(action.GetSrongNames());
+                lstNommages = lstNommages.Where(nom => nom.Contains(strStepId)).ToList();
+                if (lstNommages.Count > 0)
+                {
+                    CActionWeb actionWeb = new CActionWeb(ds, action);
+                    result += actionWeb.FillDataSet(ds);
+                }
             }
 
             return result;
