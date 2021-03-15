@@ -119,7 +119,7 @@ namespace timos.data.Aspectize
                         foreach (C2iWndVariable wndVariable in lstWndVariables)
                         {
                             CVariableDynamique variable = wndVariable.Variable as CVariableDynamique;
-                            if (wndVariable.WebLabel != "" && variable != null)
+                            if (wndVariable.WebLabel != "" && variable != null && variable is CVariableDynamiqueSaisie)
                             {
                                 switch (((CVariableDynamiqueSaisie)variable).TypeDonnee2i.TypeDonnee)
                                 {
