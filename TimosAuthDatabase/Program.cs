@@ -16,16 +16,27 @@ namespace TimosAuthDatabase
 {
     class Program
     {
+        private const string c_champId = "USERID";
+        private const string c_champPrenom = "FIRSTNAME";
+        private const string c_champNom = "NAME";
+        private const string c_champLogin = "LOGIN";
+        private const string c_champMotDePasse = "PASSWORD";
+        private const string c_champMobile = "MOBILE";
+        private const string c_champEmail = "EMAIL";
+
+
+        /// <summary>
+        /// Exemple ligne de commande
+        /// TimosAuthDataBase.exe 127.0.0.1 TIMOS_USERS_PREPROD "Data Source=DESKTOP-VMDEVYK\SQLEXPRESS;Initial Catalog=TIMOS_USERS_DB;Integrated Security=True;Pooling=False"
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             CResultAErreur result = CResultAErreur.True;
 
-            result = UpdateDatabase();
-            return;
-
             string strURL = "tcp://127.0.0.1:8160";
             string strNomTable = "TIMOS_USERS_PREPROD";
-            string strChaineDeConnexion = @"Data Source=DESKTOP-VMDEVYK\SQLEXPRESS;Initial Catalog=UTILISATEURS_PROD;Integrated Security=True;Pooling=False";
+            string strChaineDeConnexion = @"Data Source=DESKTOP-VMDEVYK\SQLEXPRESS;Initial Catalog=TIMOS_USERS_DB;Integrated Security=True;Pooling=False";
 
             if (args.Length > 0)
             {
@@ -35,7 +46,12 @@ namespace TimosAuthDatabase
                 if (args.Length > 2)
                     strChaineDeConnexion = args[2];
             }
-            result = CInitialiseurClientTimos.InitClientTimos(strURL, 0, "", null);
+            try
+            {
+                result = CInitialiseurClientTimos.InitClientTimos(strURL, 0, "", null);
+            }
+            catch { }
+
             if (result)
             {
                 CSessionClient session = CSessionClient.CreateInstance();
@@ -50,9 +66,10 @@ namespace TimosAuthDatabase
                     Console.WriteLine("Argument 2 = " + strNomTable);
 
                     result = GetTimosUsers(session.IdSession, strNomTable);
-                    if(result)
+                    if (result && result.Data != null)
                     {
-                        result = UpdateDatabase();
+                        DataSet dataSource = result.Data as DataSet;
+                        result = UpdateDatabase(strChaineDeConnexion, strNomTable, dataSource);
                     }
                     session.CloseSession();
                 }
@@ -61,7 +78,7 @@ namespace TimosAuthDatabase
             {
                 Console.WriteLine(result.MessageErreur);
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         //------------------------------------------------------------------------------------------------------------------------
@@ -69,94 +86,118 @@ namespace TimosAuthDatabase
         {
             CResultAErreur result = CResultAErreur.True;
 
+            DataSet ds = new DataSet("TIMOS_USERS");
+            DataTable dt = new DataTable(strTableName);
+            dt.Columns.Add(c_champId, typeof(int));
+            dt.Columns.Add(c_champPrenom, typeof(string));
+            dt.Columns.Add(c_champNom, typeof(string));
+            dt.Columns.Add(c_champLogin, typeof(string));
+            dt.Columns.Add(c_champMotDePasse, typeof(string));
+            dt.Columns.Add(c_champMobile, typeof(string));
+            dt.Columns.Add(c_champEmail, typeof(string));
+            ds.Tables.Add(dt);
+
             using (CContexteDonnee ctx = new CContexteDonnee(nIdSession, true, false))
             {
                 CListeObjetDonneeGenerique<CDonneesActeurUtilisateur> listUsers = new CListeObjetDonneeGenerique<CDonneesActeurUtilisateur>(ctx);
 
                 foreach (CDonneesActeurUtilisateur user in listUsers)
                 {
-                    string nom = user.Acteur.Nom;
+                    int id = user.Acteur.Id;
                     string prenom = user.Acteur.Prenom;
+                    string nom = user.Acteur.Nom;
                     string login = user.Login;
-                    string pwd = user.Password;
+                    string pwd = user.PasswordClear;
                     string mobile = user.Acteur.Portable;
+                    string email = user.Acteur.EMail;
 
-                    Console.WriteLine(nom + "|" + prenom + "|" + login + "|" + pwd + "|" + mobile);
+                    Console.WriteLine(id.ToString() + "|" + prenom + "|" + nom + "|" + login + "|" + pwd + "|" + mobile);
+
+                    DataRow newRow = dt.NewRow();
+                    newRow[c_champId] = id;
+                    newRow[c_champPrenom] = prenom;
+                    newRow[c_champNom] = nom;
+                    newRow[c_champLogin] = login;
+                    newRow[c_champMotDePasse] = pwd;
+                    newRow[c_champMobile] = mobile;
+                    newRow[c_champEmail] = email;
+
+                    dt.Rows.Add(newRow);
                 }
             }
 
+            result.Data = ds;
             return result;
         }
 
         //------------------------------------------------------------------------------------------------------------------------
-        static CResultAErreur UpdateDatabase()
+        static CResultAErreur UpdateDatabase(string strConnectionString, string strTableName, DataSet dataSource)
         {
             CResultAErreur result = CResultAErreur.True;
 
-            string strConnexionString = @"Data Source=DESKTOP-VMDEVYK\SQLEXPRESS;Initial Catalog=UTILISATEURS_PROD;Integrated Security=True;Pooling=False";
-            //string strConnexionString = @"Data Source=DESKTOP-VMDEVYK\SQLEXPRESS;Initial Catalog=UTILISATEURS_PROD;Integrated Security=False;Pooling=False;User ID=UserName;Password=Password";
-
-            using (SqlConnection connexion = new SqlConnection(strConnexionString))
+            using (SqlConnection connexion = new SqlConnection(strConnectionString))
             {
                 try
                 {
                     connexion.Open();
-                    Console.WriteLine("Connexion SQL Server OK : " + strConnexionString);
+                    Console.WriteLine("Connexion SQL Server OK : " + strConnectionString);
 
-                    /*string strRequete = "SELECT * FROM TIMOS_USERS";
-                    using (SqlCommand command = new SqlCommand(strRequete, connexion))
+                    // Construction du DataSet cible
+                    DataSet dataSet = new DataSet("TIMOS_USERS_DB");
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    // Select command
+                    string strRequeteSelect = "SELECT * FROM " + strTableName;
+                    adapter.SelectCommand = new SqlCommand(strRequeteSelect, connexion);
+                    // Insert command
+                    string strRequeteInsert = 
+                        "INSERT INTO " + strTableName + 
+                        " (USERID,FIRSTNAME,NAME,LOGIN,PASSWORD,MOBILE,EMAIL) VALUES (@id, @prenom, @nom, @login, CONVERT(NVARCHAR(32),HASHBYTES('SHA2_256', cast(@mdp as varchar)),2), @mobile, @email)";
+                    adapter.InsertCommand = new SqlCommand(strRequeteInsert, connexion);
+                    adapter.InsertCommand.Parameters.Add("@id", SqlDbType.Int, 32, c_champId);
+                    adapter.InsertCommand.Parameters.Add("@prenom", SqlDbType.NVarChar, 50, c_champPrenom);
+                    adapter.InsertCommand.Parameters.Add("@nom", SqlDbType.NVarChar, 50, c_champNom);
+                    adapter.InsertCommand.Parameters.Add("@login", SqlDbType.NVarChar, 50, c_champLogin);
+                    adapter.InsertCommand.Parameters.Add("@mdp", SqlDbType.NVarChar, 50, c_champMotDePasse);
+                    adapter.InsertCommand.Parameters.Add("@mobile", SqlDbType.NVarChar, 50, c_champMobile);
+                    adapter.InsertCommand.Parameters.Add("@email", SqlDbType.NVarChar, 50, c_champEmail);
+                    // Update command
+                    string strRequeteUpdate =
+                        "UPDATE " + strTableName +
+                        " SET FIRSTNAME=@prenom, NAME=@nom, LOGIN=@login, PASSWORD=CONVERT(NVARCHAR(32),HASHBYTES('SHA2_256', cast(@mdp as varchar)),2), MOBILE=@mobile, EMAIL=@email WHERE USERID=@id";
+                    adapter.UpdateCommand = new SqlCommand(strRequeteUpdate, connexion);
+                    adapter.UpdateCommand.Parameters.Add("@id", SqlDbType.Int, 32, c_champId);
+                    adapter.UpdateCommand.Parameters.Add("@prenom", SqlDbType.NVarChar, 50, c_champPrenom);
+                    adapter.UpdateCommand.Parameters.Add("@nom", SqlDbType.NVarChar, 50, c_champNom);
+                    adapter.UpdateCommand.Parameters.Add("@login", SqlDbType.NVarChar, 50, c_champLogin);
+                    adapter.UpdateCommand.Parameters.Add("@mdp", SqlDbType.NVarChar, 50, c_champMotDePasse);
+                    adapter.UpdateCommand.Parameters.Add("@mobile", SqlDbType.NVarChar, 50, c_champMobile);
+                    adapter.UpdateCommand.Parameters.Add("@email", SqlDbType.NVarChar, 50, c_champEmail);
+
+                    adapter.Fill(dataSet, strTableName);
+
+                    if (dataSource.Tables.Contains(strTableName) && dataSet.Tables.Contains(strTableName))
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        DataTable tableExistante = dataSet.Tables[strTableName];
+                        foreach (DataRow rowSource in dataSource.Tables[strTableName].Rows)
                         {
-                            while (reader.Read())
+                            int nIdUser = (int)rowSource[c_champId];
+                            var collection = tableExistante.AsEnumerable().Where(row => (int)row[c_champId] == nIdUser);
+                            if (collection.Count() > 0)
                             {
-                                Console.WriteLine("{0} - {1} - {2} - {3}", reader.GetValue(0), reader.GetValue(1), reader.GetValue(2), reader.GetValue(3));
+                                DataRow rowExistante = collection.First();
+                                rowExistante.ItemArray = rowSource.ItemArray.Clone() as object[];
+                            }
+                            else
+                            {
+                                tableExistante.ImportRow(rowSource);
                             }
 
-                            reader.Close();
                         }
-                    }*/
 
-                    SqlDataAdapter adapter = new SqlDataAdapter();
-                    DataSet dataSet = new DataSet("UTILISATEURS");
-                     // Select command
-                    string strRequeteSelect = "SELECT * FROM TIMOS_USERS";
-                    adapter.SelectCommand = new SqlCommand(strRequeteSelect, connexion);
-                    adapter.Fill(dataSet, "TIMOS_USERS");
+                        int nRep = adapter.Update(dataSet, strTableName);
+                        
+                    }
 
-                    DataRow newRow = dataSet.Tables["TIMOS_USERS"].NewRow();
-                    newRow["USERID"] = 12;
-                    newRow["FIRSTNAME"] = "charlie";
-                    newRow["PASSWORD"] = "charlie12";
-                    dataSet.Tables["TIMOS_USERS"].Rows.Add(newRow);
-                    newRow = dataSet.Tables["TIMOS_USERS"].NewRow();
-                    newRow["USERID"] = 13;
-                    newRow["FIRSTNAME"] = "delta";
-                    newRow["PASSWORD"] = "delta13";
-                    dataSet.Tables["TIMOS_USERS"].Rows.Add(newRow);
-
-                    adapter.Fill(dataSet, "TIMOS_USERS");
-
-
-                    /*/ Insert command
-                    string strRequeteInsert = "INSERT INTO TIMOS_USERS (USERID,FIRSTNAME,PASSWORD) VALUES (@id, @prenom, @mdp)";
-                    adapter.InsertCommand = new SqlCommand(strRequeteInsert, connexion);
-                    adapter.InsertCommand.Parameters.Add("@id", SqlDbType.Int, 32, "USERID");
-                    adapter.InsertCommand.Parameters.Add("@prenom", SqlDbType.NVarChar, 50, "FIRSTNAME");
-                    adapter.InsertCommand.Parameters.Add("@mdp", SqlDbType.NVarChar, 50, "PASSWORD");
-                    //*/
-
-                    /*/
-                    newRow = dataSet.Tables["TIMOS_USERS"].NewRow();
-                    newRow["USERID"] = 12;
-                    newRow["FIRSTNAME"] = "charlie";
-                    newRow["PASSWORD"] = "charlie12";
-                    dataSet.Tables["TIMOS_USERS"].Rows.Add(newRow);
-
-                    adapter.Update(dataSet, "TIMOS_USERS");
-                    dataSet.Clear();
-                    adapter.Fill(dataSet, "TIMOS_USERS");
-                    //*/
                 }
                 catch (Exception ex)
                 {

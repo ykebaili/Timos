@@ -39,6 +39,10 @@
     <Reference Include="sc2i.data.client">
       <HintPath>..\dep\sc2i.data.client.dll</HintPath>
     </Reference>
+    <Reference Include="sc2i.data.dynamic, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dep\sc2i.data.dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="sc2i.multitiers.client">
       <HintPath>..\dep\sc2i.multitiers.client.dll</HintPath>
     </Reference>
