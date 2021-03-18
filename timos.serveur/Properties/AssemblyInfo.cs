@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Futurocom")]
 [assembly: AssemblyProduct("timos.serveur")]
-[assembly: AssemblyCopyright("Copyright © Futurocom 2007")]
+[assembly: AssemblyCopyright("Copyright © Futurocom 2007-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -24,11 +24,12 @@ using System.Runtime.InteropServices;
 
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //
-//      Version principale6//      Version secondaire 
+//      Version principale
+//      Version secondaire 
 //      Numéro de build
 //      Révision
 //
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de révision et de build par défaut 
 // en utilisant '*', comme indiqué ci-dessous :
-[assembly: AssemblyVersion("4.1.1.4")]
-[assembly: AssemblyFileVersion("4.1.1.4")]
+[assembly: AssemblyVersion("4.1.1.5")]
+[assembly: AssemblyFileVersion("4.1.1.5")]

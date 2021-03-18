@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Futurocom")]
 [assembly: AssemblyProduct("Timos")]
-[assembly: AssemblyCopyright("Copyright © Futurocom 2007-2014")]
+[assembly: AssemblyCopyright("Copyright © Futurocom 2007-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Numéro de build
 //      Révision
 //
-[assembly: AssemblyVersion("4.1.1.4")]
-[assembly: AssemblyFileVersion("4.1.1.4")]
+[assembly: AssemblyVersion("4.1.1.5")]
+[assembly: AssemblyFileVersion("4.1.1.5")]
