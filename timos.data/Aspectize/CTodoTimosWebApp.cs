@@ -275,10 +275,20 @@ namespace timos.data.Aspectize
         {
             CResultAErreur result = CResultAErreur.True;
 
+            if(m_etape == null)
+            {
+                result.EmpileErreur("m_etape is null");
+                return result;
+            }
+            if(ObjetEditePrincipal == null)
+            {
+                result.EmpileErreur("ObjetEditePrincipal is null");
+                return result;
+            }
             CBlocWorkflowFormulaire blocFormulaire = m_etape.TypeEtape != null ? m_etape.TypeEtape.Bloc as CBlocWorkflowFormulaire : null;
             if (blocFormulaire == null)
             {
-                result.EmpileErreur("Erreur GetTodoDetails : Ce To do n'a pas de formulaire associé dans Timos");
+                result.EmpileErreur("m_etape.Id = " + m_etape.Id + ". Cette Etape n'a pas de formulaire associé dans Timos");
                 return result;
             }
 
@@ -295,17 +305,19 @@ namespace timos.data.Aspectize
                 }
             }
             // Formulaire d'informations secondaires
-            CDbKey keyFormSecondaire = blocFormulaire.DbKeyFormulaireSecondaire;
-            if(keyFormSecondaire != null)
+            if (ObjetEditeSecondaire != null)
             {
-                CFormulaire formulaireSecondaire = new CFormulaire(m_etape.ContexteDonnee);
-                if (formulaireSecondaire.ReadIfExists(keyFormSecondaire))
+                CDbKey keyFormSecondaire = blocFormulaire.DbKeyFormulaireSecondaire;
+                if (keyFormSecondaire != null)
                 {
-                    CGroupeChamps groupe = new CGroupeChamps(ds, formulaireSecondaire, this, true);
-                    result = groupe.FillDataSet(ds, formulaireSecondaire.Formulaire, ObjetEditeSecondaire, lstRestrictions);
+                    CFormulaire formulaireSecondaire = new CFormulaire(m_etape.ContexteDonnee);
+                    if (formulaireSecondaire.ReadIfExists(keyFormSecondaire))
+                    {
+                        CGroupeChamps groupe = new CGroupeChamps(ds, formulaireSecondaire, this, true);
+                        result = groupe.FillDataSet(ds, formulaireSecondaire.Formulaire, ObjetEditeSecondaire, lstRestrictions);
+                    }
                 }
             }
-
 
             // Gestion des documents attendus
             CCaracteristiqueEntite[] liste = GetDocumentsAttendus();

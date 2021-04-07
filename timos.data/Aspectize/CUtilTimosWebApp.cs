@@ -35,6 +35,8 @@ namespace timos.data.Aspectize
         {
             CResultAErreur result = CResultAErreur.True;
             DataSet ds = new DataSet(c_dataSetName);
+            ds.RemotingFormat = SerializationFormat.Binary;
+
             CSessionClient session = CSessionClient.GetSessionForIdSession(nIdsession);
             if (session != null)
             {
@@ -83,6 +85,8 @@ namespace timos.data.Aspectize
         {
             CResultAErreur result = CResultAErreur.True;
             DataSet ds = new DataSet(c_dataSetName);
+            ds.RemotingFormat = SerializationFormat.Binary;
+
             CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
             if (session != null)
             {
@@ -259,6 +263,7 @@ namespace timos.data.Aspectize
                             {
 
                                 DataSet ds = new DataSet(c_dataSetName);
+                                ds.RemotingFormat = SerializationFormat.Binary;
                                 DataTable dt = CTodoTimosWebApp.GetStructureTable();
                                 ds.Tables.Add(dt);
                                 CTodoTimosWebApp todoTermine = new CTodoTimosWebApp(ds, etapeATerminer);
@@ -433,9 +438,10 @@ namespace timos.data.Aspectize
                         result = ctx.SaveAll(true);
                         if (!result)
                             return result;
-
-
+                        
                         DataSet dsRetour = new DataSet(c_dataSetName);
+                        dsRetour.RemotingFormat = SerializationFormat.Binary;
+
                         // On rempli le DataSet uniquement si c'est une création de Caractéristique
                         if (nIdCarac < 0)
                         {
