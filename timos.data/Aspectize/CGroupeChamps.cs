@@ -197,13 +197,23 @@ namespace timos.data.Aspectize
                         {
                             C2iWndZoneMultiple childZone = (C2iWndZoneMultiple)obj;
                             C2iWndSousFormulaire sousFenetre = childZone.FormulaireFils;
-                            m_row[c_champCanAddCaracteristiques] = childZone.HasAddButton;
+                            bool bHasAddButton = childZone.HasAddButton;
+                            bool bCanCreate = false;
 
                             if (childZone.SourceFormula != null)
                             {
                                 CContexteEvaluationExpression ctxEval = new CContexteEvaluationExpression(objetEdite);
                                 C2iExpression source = childZone.SourceFormula;
                                 Type tp = source.TypeDonnee.TypeDotNetNatif;
+                                if(tp != null)
+                                {
+                                    // Gestion des restrictions
+                                    CRestrictionUtilisateurSurType restrictions = lstRestrictions.GetRestriction(tp);
+                                    if (restrictions != null)
+                                    {
+                                        bCanCreate = restrictions.CanCreateType();
+                                    }
+                                }
                                 CResultAErreur resEval = source.Eval(ctxEval);
                                 if (!resEval)
                                 {
@@ -221,6 +231,7 @@ namespace timos.data.Aspectize
                                         // La source de données est une collection, il s'agit certainement de caractéristiques
                                         // Mais c'est peut-être aussi un Workbook, un Site, un Projet... on ne sait pas car ça dépend du paramétrage
                                         m_row[c_champTitreCaracteristiques] = childZone.WebLabel;
+                                        m_row[c_champCanAddCaracteristiques] = bHasAddButton && bCanCreate;
 
                                         int nOrdre = 0;
                                         foreach (var data in collection)
