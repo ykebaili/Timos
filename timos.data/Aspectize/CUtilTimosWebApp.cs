@@ -741,6 +741,47 @@ namespace timos.data.Aspectize
             return result;
         }
 
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur GetExportsForUser(int nIdSession, string keyUtilisateur)
+        {
+            CResultAErreur result = CResultAErreur.True;
+            DataSet ds = new DataSet(c_dataSetName);
+            ds.RemotingFormat = SerializationFormat.Binary;
+
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    CDonneesActeurUtilisateur user = CUtilSession.GetUserForSession(ctx);
+                    if (user != null && user.DbKey.StringValue == keyUtilisateur)
+                    {
+                        CListeObjetDonneeGenerique<C2iStructureExportInDB> listeStructures = new CListeObjetDonneeGenerique<C2iStructureExportInDB>(ctx);
+                        try
+                        {
+                            DataTable dt = CExportWeb.GetStructureTable();
+                            ds.Tables.Add(dt);
+                            foreach (C2iStructureExportInDB structure in listeStructures)
+                            {
+                                CExportWeb export = new CExportWeb(ds, structure);
+                            }
+                            result.Data = ds;
+                        }
+                        catch (Exception ex)
+                        {
+                            result.EmpileErreur("ERREUR : " + ex.Message);
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        result.EmpileErreur("Utilisateur " + keyUtilisateur + " non valide");
+                    }
+                }
+            }
+            return result;
+        }
+
     }
 
 }
