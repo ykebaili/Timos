@@ -1394,6 +1394,7 @@ namespace timos.serveur
             C2iDataBaseUpdateOperationList lstV28 = new C2iDataBaseUpdateOperationList();
 
             lstV28.Add(typeof(CRelationFormulaireChampCustom));
+            lstV28.Add(typeof(C2iStructureExportInDB));
 
             // Pas de passage en V 28
             lstV28.Add(new C2iDataBaseUpdateOperationNoSetVersionBase());

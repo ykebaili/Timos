@@ -22,7 +22,10 @@ namespace timos
 		private System.Windows.Forms.Label label2;
 		private sc2i.win32.common.C2iTextBox m_txtLibelle;
 		private sc2i.win32.data.dynamic.CPanelEditMultiStructure m_panelMultiStructure;
-		private System.ComponentModel.IContainer components = null;
+        private Label label3;
+        private sc2i.win32.common.C2iTextBox m_txtDescription;
+        private CheckBox m_chkWebVisible;
+        private System.ComponentModel.IContainer components = null;
 
 		//-------------------------------------------------------------------------
 		public CFormEditionStructureDonnee()
@@ -74,6 +77,9 @@ namespace timos
             this.c2iPanelOmbre1 = new sc2i.win32.common.C2iPanelOmbre();
             this.m_panelMultiStructure = new sc2i.win32.data.dynamic.CPanelEditMultiStructure();
             this.c2iPanelOmbre2 = new sc2i.win32.common.C2iPanelOmbre();
+            this.m_txtDescription = new sc2i.win32.common.C2iTextBox();
+            this.m_chkWebVisible = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.m_txtLibelle = new sc2i.win32.common.C2iTextBox();
             this.m_panelNavigation.SuspendLayout();
@@ -120,7 +126,7 @@ namespace timos
             // 
             // m_panelNavigation
             // 
-            this.m_panelNavigation.Location = new System.Drawing.Point(623, 0);
+            this.m_panelNavigation.Location = new System.Drawing.Point(631, 0);
             this.m_panelNavigation.Size = new System.Drawing.Size(175, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelNavigation, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelNavigation, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
@@ -152,14 +158,14 @@ namespace timos
             // 
             // m_panelCle
             // 
-            this.m_panelCle.Location = new System.Drawing.Point(515, 0);
+            this.m_panelCle.Location = new System.Drawing.Point(523, 0);
             this.m_panelCle.Size = new System.Drawing.Size(108, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelCle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelCle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             // 
             // m_panelMenu
             // 
-            this.m_panelMenu.Size = new System.Drawing.Size(830, 28);
+            this.m_panelMenu.Size = new System.Drawing.Size(838, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelMenu, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelMenu, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             // 
@@ -187,12 +193,12 @@ namespace timos
             this.c2iPanelOmbre1.Controls.Add(this.m_panelMultiStructure);
             this.m_extLinkField.SetLinkField(this.c2iPanelOmbre1, "");
             this.m_extLinkField.SetLinkFieldAutoUpdate(this.c2iPanelOmbre1, false);
-            this.c2iPanelOmbre1.Location = new System.Drawing.Point(12, 96);
+            this.c2iPanelOmbre1.Location = new System.Drawing.Point(12, 162);
             this.c2iPanelOmbre1.LockEdition = false;
             this.m_gestionnaireModeEdition.SetModeEdition(this.c2iPanelOmbre1, sc2i.win32.common.TypeModeEdition.Autonome);
             this.m_extModulesAssociator.SetModules(this.c2iPanelOmbre1, "");
             this.c2iPanelOmbre1.Name = "c2iPanelOmbre1";
-            this.c2iPanelOmbre1.Size = new System.Drawing.Size(818, 434);
+            this.c2iPanelOmbre1.Size = new System.Drawing.Size(826, 325);
             this.m_extStyle.SetStyleBackColor(this.c2iPanelOmbre1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.c2iPanelOmbre1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.c2iPanelOmbre1.TabIndex = 1;
@@ -212,7 +218,7 @@ namespace timos
             this.m_gestionnaireModeEdition.SetModeEdition(this.m_panelMultiStructure, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
             this.m_extModulesAssociator.SetModules(this.m_panelMultiStructure, "");
             this.m_panelMultiStructure.Name = "m_panelMultiStructure";
-            this.m_panelMultiStructure.Size = new System.Drawing.Size(802, 421);
+            this.m_panelMultiStructure.Size = new System.Drawing.Size(814, 304);
             this.m_extStyle.SetStyleBackColor(this.m_panelMultiStructure, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorFondPanel);
             this.m_extStyle.SetStyleForeColor(this.m_panelMultiStructure, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorTextePanel);
             this.m_panelMultiStructure.TabColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
@@ -222,6 +228,9 @@ namespace timos
             // c2iPanelOmbre2
             // 
             this.c2iPanelOmbre2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
+            this.c2iPanelOmbre2.Controls.Add(this.m_txtDescription);
+            this.c2iPanelOmbre2.Controls.Add(this.m_chkWebVisible);
+            this.c2iPanelOmbre2.Controls.Add(this.label3);
             this.c2iPanelOmbre2.Controls.Add(this.label2);
             this.c2iPanelOmbre2.Controls.Add(this.m_txtLibelle);
             this.c2iPanelOmbre2.ForeColor = System.Drawing.Color.Black;
@@ -232,17 +241,65 @@ namespace timos
             this.m_gestionnaireModeEdition.SetModeEdition(this.c2iPanelOmbre2, sc2i.win32.common.TypeModeEdition.Autonome);
             this.m_extModulesAssociator.SetModules(this.c2iPanelOmbre2, "");
             this.c2iPanelOmbre2.Name = "c2iPanelOmbre2";
-            this.c2iPanelOmbre2.Size = new System.Drawing.Size(517, 56);
+            this.c2iPanelOmbre2.Size = new System.Drawing.Size(611, 119);
             this.m_extStyle.SetStyleBackColor(this.c2iPanelOmbre2, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorFondPanel);
             this.m_extStyle.SetStyleForeColor(this.c2iPanelOmbre2, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorTextePanel);
             this.c2iPanelOmbre2.TabIndex = 0;
+            // 
+            // m_txtDescription
+            // 
+            this.m_txtDescription.EmptyText = "";
+            this.m_extLinkField.SetLinkField(this.m_txtDescription, "Description");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.m_txtDescription, true);
+            this.m_txtDescription.Location = new System.Drawing.Point(75, 40);
+            this.m_txtDescription.LockEdition = false;
+            this.m_gestionnaireModeEdition.SetModeEdition(this.m_txtDescription, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
+            this.m_extModulesAssociator.SetModules(this.m_txtDescription, "");
+            this.m_txtDescription.Multiline = true;
+            this.m_txtDescription.Name = "m_txtDescription";
+            this.m_txtDescription.Size = new System.Drawing.Size(505, 48);
+            this.m_extStyle.SetStyleBackColor(this.m_txtDescription, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.m_txtDescription, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_txtDescription.TabIndex = 4007;
+            this.m_txtDescription.Text = "[Description]";
+            // 
+            // m_chkWebVisible
+            // 
+            this.m_chkWebVisible.AutoSize = true;
+            this.m_extLinkField.SetLinkField(this.m_chkWebVisible, "WebVisible");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.m_chkWebVisible, true);
+            this.m_chkWebVisible.Location = new System.Drawing.Point(397, 12);
+            this.m_gestionnaireModeEdition.SetModeEdition(this.m_chkWebVisible, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
+            this.m_extModulesAssociator.SetModules(this.m_chkWebVisible, "");
+            this.m_chkWebVisible.Name = "m_chkWebVisible";
+            this.m_chkWebVisible.Size = new System.Drawing.Size(81, 17);
+            this.m_extStyle.SetStyleBackColor(this.m_chkWebVisible, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.m_chkWebVisible, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_chkWebVisible.TabIndex = 4009;
+            this.m_chkWebVisible.Text = "Web visible";
+            this.m_chkWebVisible.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.m_extLinkField.SetLinkField(this.label3, "");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.label3, false);
+            this.label3.Location = new System.Drawing.Point(9, 42);
+            this.m_gestionnaireModeEdition.SetModeEdition(this.label3, sc2i.win32.common.TypeModeEdition.Autonome);
+            this.m_extModulesAssociator.SetModules(this.label3, "");
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 13);
+            this.m_extStyle.SetStyleBackColor(this.label3, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.label3, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.label3.TabIndex = 4008;
+            this.label3.Text = "Description";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.m_extLinkField.SetLinkField(this.label2, "");
             this.m_extLinkField.SetLinkFieldAutoUpdate(this.label2, false);
-            this.label2.Location = new System.Drawing.Point(12, 12);
+            this.label2.Location = new System.Drawing.Point(11, 12);
             this.m_gestionnaireModeEdition.SetModeEdition(this.label2, sc2i.win32.common.TypeModeEdition.Autonome);
             this.m_extModulesAssociator.SetModules(this.label2, "");
             this.label2.Name = "label2";
@@ -257,12 +314,12 @@ namespace timos
             this.m_txtLibelle.EmptyText = "";
             this.m_extLinkField.SetLinkField(this.m_txtLibelle, "Libelle");
             this.m_extLinkField.SetLinkFieldAutoUpdate(this.m_txtLibelle, true);
-            this.m_txtLibelle.Location = new System.Drawing.Point(64, 8);
+            this.m_txtLibelle.Location = new System.Drawing.Point(76, 8);
             this.m_txtLibelle.LockEdition = false;
             this.m_gestionnaireModeEdition.SetModeEdition(this.m_txtLibelle, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
             this.m_extModulesAssociator.SetModules(this.m_txtLibelle, "");
             this.m_txtLibelle.Name = "m_txtLibelle";
-            this.m_txtLibelle.Size = new System.Drawing.Size(414, 20);
+            this.m_txtLibelle.Size = new System.Drawing.Size(294, 20);
             this.m_extStyle.SetStyleBackColor(this.m_txtLibelle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_txtLibelle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_txtLibelle.TabIndex = 4007;
@@ -271,7 +328,7 @@ namespace timos
             // CFormEditionStructureDonnee
             // 
             this.AffectationsPourNouvelElement = ((System.Collections.Generic.IEnumerable<sc2i.formulaire.CAffectationsProprietes>)(resources.GetObject("$this.AffectationsPourNouvelElement")));
-            this.ClientSize = new System.Drawing.Size(830, 530);
+            this.ClientSize = new System.Drawing.Size(838, 487);
             this.Controls.Add(this.c2iPanelOmbre2);
             this.Controls.Add(this.c2iPanelOmbre1);
             this.m_extLinkField.SetLinkField(this, "");
