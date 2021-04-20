@@ -438,7 +438,7 @@ namespace timos.data.Aspectize
                         result = ctx.SaveAll(true);
                         if (!result)
                             return result;
-                        
+
                         DataSet dsRetour = new DataSet(c_dataSetName);
                         dsRetour.RemotingFormat = SerializationFormat.Binary;
 
@@ -717,7 +717,7 @@ namespace timos.data.Aspectize
                                                         processToExecute.SetValeurChamp(variable.IdVariable, valeur);
                                                     }
                                                 }
-                                                catch(Exception ex)
+                                                catch (Exception ex)
                                                 {
                                                     result.EmpileErreur(ex.Message);
                                                 }
@@ -757,6 +757,7 @@ namespace timos.data.Aspectize
                     if (user != null && user.DbKey.StringValue == keyUtilisateur)
                     {
                         CListeObjetDonneeGenerique<C2iStructureExportInDB> listeStructures = new CListeObjetDonneeGenerique<C2iStructureExportInDB>(ctx);
+                        listeStructures.Filtre = new CFiltreData(C2iStructureExportInDB.c_champWebVisible + " = @1", true);
                         try
                         {
                             DataTable dt = CExportWeb.GetStructureTable();
@@ -782,6 +783,32 @@ namespace timos.data.Aspectize
             return result;
         }
 
-    }
+        //---------------------------------------------------------------------------------------------------------
+        public static CResultAErreur GetDataSetExport(int nIdSession, string keyExport)
+        {
+            CResultAErreur result = CResultAErreur.True;
 
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    C2iStructureExportInDB structureExport = new C2iStructureExportInDB(ctx);
+                    if(structureExport.ReadIfExists(CDbKey.CreateFromStringValue(keyExport)))
+                    {
+                        CMultiStructureExport structure = structureExport.MultiStructure;
+                        if(structure != null)
+                        {
+                            result = structure.GetDataSet(false);
+                        }
+                    }
+                    else
+                    {
+                        result.EmpileErreur("Structure d'Export " + keyExport + " non valide");
+                    }
+                }
+            }
+            return result;
+        }
+    }
 }

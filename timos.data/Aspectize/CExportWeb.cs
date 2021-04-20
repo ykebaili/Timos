@@ -30,7 +30,7 @@ namespace timos.data.Aspectize
             {
                 DataRow row = dt.NewRow();
 
-                row[c_champId] = structureExport.Id;
+                row[c_champId] = structureExport.IdUniversel;
                 row[c_champLibelle] = structureExport.Libelle;
                 row[c_champDescription] = structureExport.Description;
                 row[c_champDateDonnees] = DateTime.Now;
@@ -59,7 +59,7 @@ namespace timos.data.Aspectize
         {
             DataTable dt = new DataTable(c_nomTable);
 
-            dt.Columns.Add(c_champId, typeof(int));
+            dt.Columns.Add(c_champId, typeof(string));
             dt.Columns.Add(c_champLibelle, typeof(string));
             dt.Columns.Add(c_champDescription, typeof(string));
             dt.Columns.Add(c_champDateDonnees, typeof(DateTime));

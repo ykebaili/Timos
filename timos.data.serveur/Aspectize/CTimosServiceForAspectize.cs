@@ -192,14 +192,6 @@ namespace timos.data.serveur.Aspectize
             return result;
         }
 
-        //------------------------------------------------------------------------------------------------------
-        public CResultAErreur GetExportsForUser(int nIdsession, string keyUtilisateur)
-        {
-            CInfoSessionAspectize.RenouvelleSession(nIdsession);
-            CResultAErreur result = CUtilTimosWebApp.GetExportsForUser(nIdsession, keyUtilisateur);
-            return result;
-        }
-
         //---------------------------------------------------------------------------------------------------------
         // Retourne le détail des champs d'un todo unique
         public CResultAErreur GetTodoDetails(int nIdSession, int nIdTodo)
@@ -302,5 +294,19 @@ namespace timos.data.serveur.Aspectize
             return result;
         }
 
+        //------------------------------------------------------------------------------------------------------
+        public CResultAErreur GetExportsForUser(int nIdsession, string keyUtilisateur)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdsession);
+            CResultAErreur result = CUtilTimosWebApp.GetExportsForUser(nIdsession, keyUtilisateur);
+            return result;
+        }
+        //------------------------------------------------------------------------------------------------------
+        public CResultAErreur GetDataSetExport(int nIdSession, string keyExport)
+        {
+            CInfoSessionAspectize.RenouvelleSession(nIdSession);
+            CResultAErreur result = CUtilTimosWebApp.GetDataSetExport(nIdSession, keyExport);
+            return result;
+        }
     }
 }
