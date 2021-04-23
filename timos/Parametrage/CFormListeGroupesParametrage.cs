@@ -10,6 +10,7 @@ using sc2i.win32.data;
 using sc2i.workflow;
 using sc2i.process;
 using sc2i.common;
+using sc2i.data.dynamic;
 
 using timos.acteurs;
 

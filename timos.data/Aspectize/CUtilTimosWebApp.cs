@@ -764,7 +764,25 @@ namespace timos.data.Aspectize
                             ds.Tables.Add(dt);
                             foreach (C2iStructureExportInDB structure in listeStructures)
                             {
-                                CExportWeb export = new CExportWeb(ds, structure);
+                                try
+                                {
+                                    if (structure.GroupeParametrage != null)
+                                    {
+                                        C2iExpression formuleCondition = structure.GroupeParametrage.FormuleCondition;
+                                        if (formuleCondition != null)
+                                        {
+                                            CContexteEvaluationExpression ctxFormule = new CContexteEvaluationExpression(structure.GroupeParametrage);
+                                            CResultAErreur resCondiction = formuleCondition.Eval(ctxFormule);
+                                            if (resCondiction && resCondiction.Data != null)
+                                            {
+                                                if (resCondiction.Data.ToString() == "0" || resCondiction.Data.ToString().ToUpper() == "FALSE")
+                                                    continue;
+                                            }
+                                        }
+                                    }
+                                    CExportWeb export = new CExportWeb(ds, structure);
+                                }
+                                catch { }
                             }
                             result.Data = ds;
                         }

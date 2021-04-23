@@ -14,54 +14,56 @@ using sc2i.process;
 using sc2i.multitiers.client;
 
 using timos.process;
+using sc2i.data.dynamic;
 
 namespace timos
 {
-	[sc2i.win32.data.navigation.ObjectEditeur(typeof(CProcessInDb))]
-	public class CFormEditionProcess : CFormEditionStdTimos, IFormNavigable
-	{
-		#region Designer generated code
-		private CCtrlSauvegardeProfilDesigner m_ctrlSavProfilDesigner;
-		private sc2i.win32.common.C2iPanelOmbre c2iPanelOmbre1;
-		private System.Windows.Forms.Label label1;
-		private sc2i.win32.common.C2iTextBox m_txtLibelle;
-		private System.Windows.Forms.Label label2;
-		private sc2i.win32.common.C2iTextBox c2iTextBox1;
-		private sc2i.win32.common.C2iPanelOmbre c2iPanelOmbre2;
-		private sc2i.win32.process.CProcessEditor m_processEditor;
-		private System.Windows.Forms.LinkLabel m_lnkTester;
-		private sc2i.win32.data.navigation.CComboBoxLinkListeObjetsDonnees m_cmbGroupeParametrage;
-		private System.Windows.Forms.Label label3;
+    [sc2i.win32.data.navigation.ObjectEditeur(typeof(CProcessInDb))]
+    public class CFormEditionProcess : CFormEditionStdTimos, IFormNavigable
+    {
+        #region Designer generated code
+        private CCtrlSauvegardeProfilDesigner m_ctrlSavProfilDesigner;
+        private sc2i.win32.common.C2iPanelOmbre c2iPanelOmbre1;
+        private System.Windows.Forms.Label label1;
+        private sc2i.win32.common.C2iTextBox m_txtLibelle;
+        private System.Windows.Forms.Label label2;
+        private sc2i.win32.common.C2iTextBox c2iTextBox1;
+        private sc2i.win32.common.C2iPanelOmbre c2iPanelOmbre2;
+        private sc2i.win32.process.CProcessEditor m_processEditor;
+        private System.Windows.Forms.LinkLabel m_lnkTester;
+        private sc2i.win32.data.navigation.CComboBoxLinkListeObjetsDonnees m_cmbGroupeParametrage;
+        private System.Windows.Forms.Label label3;
         private Label label4;
         private CheckBox checkBox1;
-		private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components = null;
 
-	
-		//-------------------------------------------------------------------------
 
-		/// <summary>
-		/// Nettoyage des ressources utilisées.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if (components != null) 
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        //-------------------------------------------------------------------------
 
-		/// <summary>
-		/// Méthode requise pour la prise en charge du concepteur - ne modifiez pas
-		/// le contenu de cette méthode avec l'éditeur de code.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Nettoyage des ressources utilisées.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Méthode requise pour la prise en charge du concepteur - ne modifiez pas
+        /// le contenu de cette méthode avec l'éditeur de code.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CFormEditionProcess));
             this.c2iPanelOmbre1 = new sc2i.win32.common.C2iPanelOmbre();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.m_txtLibelle = new sc2i.win32.common.C2iTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.m_cmbGroupeParametrage = new sc2i.win32.data.navigation.CComboBoxLinkListeObjetsDonnees();
@@ -73,7 +75,6 @@ namespace timos
             this.m_ctrlSavProfilDesigner = new timos.CCtrlSauvegardeProfilDesigner();
             this.m_processEditor = new sc2i.win32.process.CProcessEditor();
             this.c2iPanelOmbre2 = new sc2i.win32.common.C2iPanelOmbre();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.m_panelNavigation.SuspendLayout();
             this.m_panelCle.SuspendLayout();
             this.m_panelMenu.SuspendLayout();
@@ -122,7 +123,7 @@ namespace timos
             // 
             // m_panelNavigation
             // 
-            this.m_panelNavigation.Location = new System.Drawing.Point(655, 0);
+            this.m_panelNavigation.Location = new System.Drawing.Point(623, 0);
             this.m_panelNavigation.Size = new System.Drawing.Size(175, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelNavigation, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelNavigation, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
@@ -154,7 +155,7 @@ namespace timos
             // 
             // m_panelCle
             // 
-            this.m_panelCle.Location = new System.Drawing.Point(547, 0);
+            this.m_panelCle.Location = new System.Drawing.Point(515, 0);
             this.m_panelCle.Size = new System.Drawing.Size(108, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelCle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelCle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
@@ -203,6 +204,22 @@ namespace timos
             this.m_extStyle.SetStyleBackColor(this.c2iPanelOmbre1, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorFondPanel);
             this.m_extStyle.SetStyleForeColor(this.c2iPanelOmbre1, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorTextePanel);
             this.c2iPanelOmbre1.TabIndex = 0;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.m_extLinkField.SetLinkField(this.checkBox1, "WebVisible");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.checkBox1, true);
+            this.checkBox1.Location = new System.Drawing.Point(547, 31);
+            this.m_gestionnaireModeEdition.SetModeEdition(this.checkBox1, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
+            this.m_extModulesAssociator.SetModules(this.checkBox1, "");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(125, 17);
+            this.m_extStyle.SetStyleBackColor(this.checkBox1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.checkBox1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.checkBox1.TabIndex = 4009;
+            this.checkBox1.Text = "Allow web call|20754";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // m_txtLibelle
             // 
@@ -265,8 +282,8 @@ namespace timos
             // 
             // c2iTextBox1
             // 
-            this.c2iTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.c2iTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.c2iTextBox1.EmptyText = "";
             this.m_extLinkField.SetLinkField(this.c2iTextBox1, "Description");
             this.m_extLinkField.SetLinkFieldAutoUpdate(this.c2iTextBox1, true);
@@ -350,9 +367,9 @@ namespace timos
             // 
             // m_processEditor
             // 
-            this.m_processEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_processEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_processEditor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
             this.m_processEditor.DisableTypeElement = false;
             this.m_processEditor.ForeColor = System.Drawing.Color.Black;
@@ -372,9 +389,9 @@ namespace timos
             // 
             // c2iPanelOmbre2
             // 
-            this.c2iPanelOmbre2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.c2iPanelOmbre2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.c2iPanelOmbre2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
             this.c2iPanelOmbre2.Controls.Add(this.m_processEditor);
             this.c2iPanelOmbre2.ForeColor = System.Drawing.Color.Black;
@@ -389,22 +406,6 @@ namespace timos
             this.m_extStyle.SetStyleBackColor(this.c2iPanelOmbre2, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorFondPanel);
             this.m_extStyle.SetStyleForeColor(this.c2iPanelOmbre2, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorTextePanel);
             this.c2iPanelOmbre2.TabIndex = 4002;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.m_extLinkField.SetLinkField(this.checkBox1, "WebVisible");
-            this.m_extLinkField.SetLinkFieldAutoUpdate(this.checkBox1, true);
-            this.checkBox1.Location = new System.Drawing.Point(535, 32);
-            this.m_gestionnaireModeEdition.SetModeEdition(this.checkBox1, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
-            this.m_extModulesAssociator.SetModules(this.checkBox1, "");
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(125, 17);
-            this.m_extStyle.SetStyleBackColor(this.checkBox1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
-            this.m_extStyle.SetStyleForeColor(this.checkBox1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
-            this.checkBox1.TabIndex = 4009;
-            this.checkBox1.Text = "Allow web call|20754";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // CFormEditionProcess
             // 
@@ -435,100 +436,100 @@ namespace timos
             this.c2iPanelOmbre2.PerformLayout();
             this.ResumeLayout(false);
 
-		}
-		#endregion
+        }
+        #endregion
 
-		public CFormEditionProcess()
-			: base()
-		{
-			InitializeComponent();
-		}
-		//-------------------------------------------------------------------------
-		public CFormEditionProcess(CProcessInDb process)
-			: base(process)
-		{
-			InitializeComponent();
-		}
-		//-------------------------------------------------------------------------
-		public CFormEditionProcess(CProcessInDb espece, CListeObjetsDonnees liste)
-			: base(espece, liste)
-		{
-			InitializeComponent();
-		}
+        public CFormEditionProcess()
+            : base()
+        {
+            InitializeComponent();
+        }
+        //-------------------------------------------------------------------------
+        public CFormEditionProcess(CProcessInDb process)
+            : base(process)
+        {
+            InitializeComponent();
+        }
+        //-------------------------------------------------------------------------
+        public CFormEditionProcess(CProcessInDb espece, CListeObjetsDonnees liste)
+            : base(espece, liste)
+        {
+            InitializeComponent();
+        }
 
 
-		//-------------------------------------------------------------------------
-		protected override CResultAErreur MyInitChamps()
-		{
+        //-------------------------------------------------------------------------
+        protected override CResultAErreur MyInitChamps()
+        {
             CResultAErreur result = base.MyInitChamps();
-			AffecterTitre("Action " + Process.Libelle);
-			m_processEditor.Process = Process.Process;
-			m_cmbGroupeParametrage.Init ( 
-				typeof( CGroupeParametrage ),
-				null,
-				"Libelle",
-				typeof ( CFormEditionGroupeParametrage ),
-				false );
-			m_cmbGroupeParametrage.ElementSelectionne = Process.GroupeParametrage;
-			return result;
-		}
+            AffecterTitre("Action " + Process.Libelle);
+            m_processEditor.Process = Process.Process;
+            m_cmbGroupeParametrage.Init(
+                typeof(CGroupeParametrage),
+                null,
+                "Libelle",
+                typeof(CFormEditionGroupeParametrage),
+                false);
+            m_cmbGroupeParametrage.ElementSelectionne = Process.GroupeParametrage;
+            return result;
+        }
 
-		protected override CResultAErreur MAJ_Champs()
-		{
-			CResultAErreur result = base.MAJ_Champs();
-			if ( result )
-				Process.Process = m_processEditor.Process;
+        protected override CResultAErreur MAJ_Champs()
+        {
+            CResultAErreur result = base.MAJ_Champs();
+            if (result)
+                Process.Process = m_processEditor.Process;
 
-			Process.GroupeParametrage = (CGroupeParametrage)m_cmbGroupeParametrage.ElementSelectionne;
-			return result;
-		}
+            Process.GroupeParametrage = (CGroupeParametrage)m_cmbGroupeParametrage.ElementSelectionne;
+            return result;
+        }
 
-		//-------------------------------------------------------------------------
-		private void m_lnkTester_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-		{
-			CResultAErreur result = CResultAErreur.True;
-			//Débute une transaction pour tester dans le vide !!!
-			CSessionClient session = CTimosApp.SessionClient;
-			result = session.BeginTrans();
-			if ( result )
-			{
-				try
-				{
-					CInfoDeclencheurProcess info = new CInfoDeclencheurProcess(TypeEvenement.Manuel);
-					result = CProcessEnExecutionInDb.StartProcess ( 
-						Process.Process, 
-						info, 
-						CTimosApp.SessionClient.IdSession, 
-						Process.ContexteDonnee.IdVersionDeTravail,
-						null );
-				}
-				catch ( Exception ep )
-				{
-					result.EmpileErreur ( new CErreurException(ep));
-				}
-				finally
-				{
-					session.RollbackTrans();
-				}
-			}
-			if ( !result )
-			{
-				CFormAlerte.Afficher ( result.Erreur );
-			}
-			else
-			{
-				CFormAlerte.Afficher(I.T("Execution successful|30226"));
-			}
-		}
+        //-------------------------------------------------------------------------
+        private void m_lnkTester_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            CResultAErreur result = CResultAErreur.True;
+            //Débute une transaction pour tester dans le vide !!!
+            CSessionClient session = CTimosApp.SessionClient;
+            result = session.BeginTrans();
+            if (result)
+            {
+                try
+                {
+                    CInfoDeclencheurProcess info = new CInfoDeclencheurProcess(TypeEvenement.Manuel);
+                    result = CProcessEnExecutionInDb.StartProcess(
+                        Process.Process,
+                        info,
+                        CTimosApp.SessionClient.IdSession,
+                        Process.ContexteDonnee.IdVersionDeTravail,
+                        null);
+                }
+                catch (Exception ep)
+                {
+                    result.EmpileErreur(new CErreurException(ep));
+                }
+                finally
+                {
+                    session.RollbackTrans();
+                }
+            }
+            if (!result)
+            {
+                CFormAlerte.Afficher(result.Erreur);
+            }
+            else
+            {
+                CFormAlerte.Afficher(I.T("Execution successful|30226"));
+            }
+        }
 
-		//-------------------------------------------------------------------------
-		private CProcessInDb Process
-		{
-			get
-			{
-				return ((CProcessInDb)ObjetEdite);
-			}
-		}
-	}
+        //-------------------------------------------------------------------------
+        private CProcessInDb Process
+        {
+            get
+            {
+                return ((CProcessInDb)ObjetEdite);
+            }
+        }
+    }
 }
 
