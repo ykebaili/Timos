@@ -21,6 +21,7 @@ namespace timos.data.Aspectize
         public const string c_champId = "Id";
         public const string c_champLibelle = "Libelle";
         public const string c_champInstructions = "Instructions";
+        public const string c_champIsGlobale = "IsGlobale";
 
         // Vairables de type Texte (ou Decimal)
         public const string c_champIdVarText1 = "IdVarText1";
@@ -71,7 +72,7 @@ namespace timos.data.Aspectize
         DataRow m_row;
 
         //---------------------------------------------------------------------------------------
-        public CActionWeb(DataSet ds, CProcessInDb processDb)
+        public CActionWeb(DataSet ds, CProcessInDb processDb, bool bIsGlobale)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -212,6 +213,7 @@ namespace timos.data.Aspectize
             row[c_champId] = nId;
             row[c_champLibelle] = strLibelle;
             row[c_champInstructions] = strInstructions;
+            row[c_champIsGlobale] = bIsGlobale;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -244,6 +246,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champId, typeof(int));
             dt.Columns.Add(c_champLibelle, typeof(string));
             dt.Columns.Add(c_champInstructions, typeof(string));
+            dt.Columns.Add(c_champIsGlobale, typeof(bool));
 
             dt.Columns.Add(c_champIdVarText1, typeof(string));
             dt.Columns.Add(c_champLabelVarText1, typeof(string));

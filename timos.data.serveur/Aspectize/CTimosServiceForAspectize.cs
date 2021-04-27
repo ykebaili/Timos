@@ -279,10 +279,10 @@ namespace timos.data.serveur.Aspectize
         }
 
         //---------------------------------------------------------------------------------------------------------
-        public CResultAErreur GetActionsDisponibles(int nIdSession, string strTypeCible)
+        public CResultAErreur GetActionsForUser(int nIdSession, string keyUser)
         {
             CInfoSessionAspectize.RenouvelleSession(nIdSession);
-            CResultAErreur result = CUtilTimosWebApp.GetActionsDisponibles(nIdSession, strTypeCible);
+            CResultAErreur result = CUtilTimosWebApp.GetActionsDisponibles(nIdSession, keyUser);
             return result;
         }
 

@@ -662,10 +662,62 @@ namespace timos.data.Aspectize
         }
 
         //---------------------------------------------------------------------------------------------------------
-        public static CResultAErreur GetActionsDisponibles(int nIdSession, string strTypeCible)
+        public static CResultAErreur GetActionsDisponibles(int nIdSession, string keyUtilisateur)
         {
             CResultAErreur result = CResultAErreur.True;
+            DataSet ds = new DataSet(c_dataSetName);
+            ds.RemotingFormat = SerializationFormat.Binary;
 
+            CSessionClient session = CSessionClient.GetSessionForIdSession(nIdSession);
+            if (session != null)
+            {
+                using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
+                {
+                    CDonneesActeurUtilisateur user = CUtilSession.GetUserForSession(ctx);
+                    if (user != null && user.DbKey.StringValue == keyUtilisateur)
+                    {
+                        CListeObjetDonneeGenerique<CProcessInDb> listeStructures = new CListeObjetDonneeGenerique<CProcessInDb>(ctx);
+                        listeStructures.Filtre = new CFiltreData(CProcessInDb.c_champWebVisible + " = @1", true);
+                        try
+                        {
+                            DataTable dt = CActionWeb.GetStructureTable();
+                            ds.Tables.Add(dt);
+                            foreach (CProcessInDb action in listeStructures)
+                            {
+                                try
+                                {
+                                    if (action.GroupeParametrage != null)
+                                    {
+                                        C2iExpression formuleCondition = action.GroupeParametrage.FormuleCondition;
+                                        if (formuleCondition != null)
+                                        {
+                                            CContexteEvaluationExpression ctxFormule = new CContexteEvaluationExpression(action.GroupeParametrage);
+                                            CResultAErreur resCondiction = formuleCondition.Eval(ctxFormule);
+                                            if (resCondiction && resCondiction.Data != null)
+                                            {
+                                                if (resCondiction.Data.ToString() == "0" || resCondiction.Data.ToString().ToUpper() == "FALSE")
+                                                    continue;
+                                            }
+                                        }
+                                    }
+                                    CActionWeb export = new CActionWeb(ds, action, true);
+                                }
+                                catch { }
+                            }
+                            result.Data = ds;
+                        }
+                        catch (Exception ex)
+                        {
+                            result.EmpileErreur("ERREUR : " + ex.Message);
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        result.EmpileErreur("Utilisateur " + keyUtilisateur + " non valide");
+                    }
+                }
+            }
             return result;
         }
 
@@ -691,39 +743,44 @@ namespace timos.data.Aspectize
                                 result.EmpileErreur("Le type " + strTypeCible + " n'existe pas dans Timos");
                                 return result;
                             }
-                            CObjetDonnee cibleProcess = (CObjetDonnee)Activator.CreateInstance(tp, new object[] { ctx });
-                            if (cibleProcess.ReadIfExists(nIdElementCible))
+                            CObjetDonnee targetElement = (CObjetDonnee)Activator.CreateInstance(tp, new object[] { ctx });
+                            if (targetElement.ReadIfExists(nIdElementCible))
                             {
-                                if (process.TypeCible.IsAssignableFrom(cibleProcess.GetType()) && cibleProcess is CObjetDonnee)
+                                if (process.TypeCible != null && !process.TypeCible.IsAssignableFrom(targetElement.GetType()))
                                 {
-                                    CReferenceObjetDonnee refCible = new CReferenceObjetDonnee(cibleProcess);
+                                    result.EmpileErreur("Le type " + strTypeCible + " n'est pas du type attendu " + process.TypeCible.ToString());
+                                    return result;
+                                }
+                                CReferenceObjetDonnee refCible = new CReferenceObjetDonnee(targetElement);
 
-                                    // Affecte les vairables du process
-                                    DataTable tableActions = ds.Tables[CActionWeb.c_nomTable];
-                                    if (tableActions != null && tableActions.Rows.Count > 0)
+                                // Affecte les variables du process
+                                DataTable tableActions = ds.Tables[CActionWeb.c_nomTable];
+                                if (tableActions != null && tableActions.Rows.Count > 0)
+                                {
+                                    DataRow row = tableActions.Rows[0];
+                                    foreach (CVariableDynamique variable in processToExecute.ListeVariables)
                                     {
-                                        DataRow row = tableActions.Rows[0];
-                                        foreach (CVariableDynamique variable in processToExecute.ListeVariables)
+                                        foreach (DataColumn col in tableActions.Columns)
                                         {
-                                            foreach (DataColumn col in tableActions.Columns)
+                                            try
                                             {
-                                                try
+                                                if (col.DataType == typeof(string) && row[col] != DBNull.Value && (string)row[col] == variable.IdVariable)
                                                 {
-                                                    if (col.DataType == typeof(string) && row[col] != DBNull.Value && (string)row[col] == variable.IdVariable)
-                                                    {
-                                                        string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
-                                                        nomCol = nomCol.Replace("ID", "VAL");
-                                                        object valeur = row[nomCol];
-                                                        processToExecute.SetValeurChamp(variable.IdVariable, valeur);
-                                                    }
+                                                    string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
+                                                    nomCol = nomCol.Replace("ID", "VAL");
+                                                    object valeur = row[nomCol];
+                                                    processToExecute.SetValeurChamp(variable.IdVariable, valeur);
                                                 }
-                                                catch (Exception ex)
-                                                {
-                                                    result.EmpileErreur(ex.Message);
-                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                result.EmpileErreur(ex.Message);
                                             }
                                         }
                                     }
+                                }
+                                try
+                                {
                                     // Start Process
                                     return CProcessEnExecutionInDb.StartProcess(
                                         processToExecute,
@@ -733,7 +790,12 @@ namespace timos.data.Aspectize
                                         ctx.IdVersionDeTravail,
                                         null);
                                 }
+                                catch (Exception exrun)
+                                {
+                                    result.EmpileErreur(exrun.Message);
+                                }
                             }
+
                         }
                     }
                 }

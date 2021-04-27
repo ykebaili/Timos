@@ -336,7 +336,7 @@ namespace timos.data.Aspectize
                 lstNommages = lstNommages.Where(nom => nom.Contains(strStepId)).ToList();
                 if (lstNommages.Count > 0)
                 {
-                    CActionWeb actionWeb = new CActionWeb(ds, action);
+                    CActionWeb actionWeb = new CActionWeb(ds, action, false);
                     result += actionWeb.FillDataSet(ds);
                 }
             }
