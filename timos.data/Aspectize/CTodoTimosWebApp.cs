@@ -293,14 +293,22 @@ namespace timos.data.Aspectize
             }
 
             CListeRestrictionsUtilisateurSurType lstRestrictions = blocFormulaire.Restrictions;
-            
+            CRestrictionUtilisateurSurType restriction = lstRestrictions.GetRestriction(ObjetEditePrincipal.GetType());
+
             // Traite la liste des formulaires associés pour trouver les champs customs
             foreach (CDbKey keyForm in blocFormulaire.ListeDbKeysFormulaires)
             {
                 CFormulaire formulaire = new CFormulaire(m_etape.ContexteDonnee);
                 if (formulaire.ReadIfExists(keyForm))
                 {
-                    CGroupeChamps groupe = new CGroupeChamps(ds, formulaire, this, false);
+                    bool bGroupeEditable = true;
+                    if(restriction != null)
+                    {
+                        ERestriction rest = restriction.GetRestriction(formulaire.CleRestriction);
+                        if ((rest & ERestriction.ReadOnly) == ERestriction.ReadOnly)
+                            bGroupeEditable = false;
+                    }
+                    CGroupeChamps groupe = new CGroupeChamps(ds, formulaire, this, false, bGroupeEditable);
                     result = groupe.FillDataSet(ds, formulaire.Formulaire, ObjetEditePrincipal, lstRestrictions);
                 }
             }
@@ -313,7 +321,7 @@ namespace timos.data.Aspectize
                     CFormulaire formulaireSecondaire = new CFormulaire(m_etape.ContexteDonnee);
                     if (formulaireSecondaire.ReadIfExists(keyFormSecondaire))
                     {
-                        CGroupeChamps groupe = new CGroupeChamps(ds, formulaireSecondaire, this, true);
+                        CGroupeChamps groupe = new CGroupeChamps(ds, formulaireSecondaire, this, true, false);
                         result = groupe.FillDataSet(ds, formulaireSecondaire.Formulaire, ObjetEditeSecondaire, lstRestrictions);
                     }
                 }

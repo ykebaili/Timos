@@ -24,13 +24,14 @@ namespace timos.data.Aspectize
         public const string c_champIsInfosSecondaires = "InfosSecondaires";
         public const string c_champCanAddCaracteristiques = "CanAddCaracteristiques";
         public const string c_champTitreCaracteristiques = "TitreCaracteristiques";
+        public const string c_champIsEditable = "Editable";
 
         DataRow m_row;
         CFormulaire m_formulaire;
         CTodoTimosWebApp m_todo;
         bool m_bIsInfosSecondaires = false;
 
-        public CGroupeChamps(DataSet ds, CFormulaire formulaire, CTodoTimosWebApp todo, bool bIsInfosSecondaires)
+        public CGroupeChamps(DataSet ds, CFormulaire formulaire, CTodoTimosWebApp todo, bool bIsInfosSecondaires, bool bIsEditable)
         {
             DataTable dt = ds.Tables[c_nomTable];
             if (dt == null)
@@ -58,6 +59,7 @@ namespace timos.data.Aspectize
             row[c_champIsInfosSecondaires] = bIsInfosSecondaires;
             row[c_champCanAddCaracteristiques] = false;
             row[c_champTitreCaracteristiques] = "";
+            row[c_champIsEditable] = bIsEditable;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -93,6 +95,8 @@ namespace timos.data.Aspectize
                 {
                     ArrayList lst = fenetre.AllChilds();
                     bool bConserverCeGroupe = false;
+                    CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
+
                     foreach (object obj in lst)
                     {
                         if (obj is I2iWebControl)
@@ -105,10 +109,10 @@ namespace timos.data.Aspectize
                             if (wndControl != null)
                             {
                                 // Traite la visibilité du champ
-                                CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
                                 C2iExpression expVisible = wndControl.Visiblity;
                                 if (expVisible != null)
                                 {
+                                    CContexteEvaluationExpression ctx = new CContexteEvaluationExpression(objetEdite);
                                     CResultAErreur resVisible = expVisible.Eval(ctx);
                                     if (resVisible && resVisible.Data != null)
                                     {
@@ -132,7 +136,6 @@ namespace timos.data.Aspectize
                                     // Sinon on regarde les restrictions du champ
                                     C2iWndChampCustom wndChamp = (C2iWndChampCustom)wndControl;
                                     CChampCustom cc = wndChamp.ChampCustom;
-                                    CRestrictionUtilisateurSurType restrictionSurObjetEdite = lstRestrictions.GetRestriction(objetEdite.GetType());
                                     if (restrictionSurObjetEdite != null)
                                     {
                                         ERestriction rest = restrictionSurObjetEdite.GetRestriction(cc.CleRestriction);
@@ -173,11 +176,11 @@ namespace timos.data.Aspectize
                                         if (sousObjetEdite != null)
                                         {
                                             // Traite la visibilité du champ
-                                            ctx = new CContexteEvaluationExpression(sousObjetEdite);
+                                            var ctxSousObjet = new CContexteEvaluationExpression(sousObjetEdite);
                                             C2iExpression expVisible = subForm.Visiblity;
                                             if (expVisible != null)
                                             {
-                                                CResultAErreur resVisible = expVisible.Eval(ctx);
+                                                CResultAErreur resVisible = expVisible.Eval(ctxSousObjet);
                                                 if (resVisible && resVisible.Data != null)
                                                 {
                                                     if (resVisible.Data.ToString() == "0" || resVisible.Data.ToString().ToUpper() == "FALSE")
@@ -337,6 +340,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champIsInfosSecondaires, typeof(bool));
             dt.Columns.Add(c_champCanAddCaracteristiques, typeof(bool));
             dt.Columns.Add(c_champTitreCaracteristiques, typeof(string));
+            dt.Columns.Add(c_champIsEditable, typeof(bool));
 
             return dt;
         }

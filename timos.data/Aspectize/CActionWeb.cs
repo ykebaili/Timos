@@ -22,6 +22,7 @@ namespace timos.data.Aspectize
         public const string c_champLibelle = "Libelle";
         public const string c_champInstructions = "Instructions";
         public const string c_champIsGlobale = "IsGlobale";
+        public const string c_champHasForm = "HasForm";
 
         // Vairables de type Texte (ou Decimal)
         public const string c_champIdVarText1 = "IdVarText1";
@@ -83,6 +84,7 @@ namespace timos.data.Aspectize
             int nId = -1;
             string strLibelle = "";
             string strInstructions = "";
+            bool bHasForm = false;
 
             // Forecer toutes les valeurs par défaut à chaine vide
             foreach (DataColumn col in dt.Columns)
@@ -96,7 +98,7 @@ namespace timos.data.Aspectize
                 }
             }
 
-            if(processDb != null)
+            if (processDb != null)
             {
                 nId = processDb.Id;
                 strLibelle = processDb.Libelle;
@@ -109,7 +111,7 @@ namespace timos.data.Aspectize
 
                 // Remplissage des variables
                 CProcess process = processDb.Process;
-                if(process != null)
+                if (process != null)
                 {
                     CActionFormulaire actionFormulaire = null;
 
@@ -125,6 +127,7 @@ namespace timos.data.Aspectize
 
                     if (actionFormulaire != null)
                     {
+                        bHasForm = true;
                         C2iWndFenetre fenetre = actionFormulaire.Formulaire;
                         ArrayList lstChilds = fenetre.AllChilds();
 
@@ -148,7 +151,7 @@ namespace timos.data.Aspectize
                                 {
                                     foreach (CValeurVariableDynamiqueSaisie val in variableSaisie.Valeurs)
                                         sbValeurs.Append(val.Value + "#" + val.Display + "#");
-                                    sbValeurs.Remove(sbValeurs.Length-1, 1);
+                                    sbValeurs.Remove(sbValeurs.Length - 1, 1);
                                 }
                                 //string valeurs = sbValeurs.ToString();
 
@@ -206,6 +209,11 @@ namespace timos.data.Aspectize
                             }
                         }
                     }
+                    else
+                    {
+                        // C'est un process sans formulaire
+                        bHasForm = false;
+                    }
                 }
 
             }
@@ -214,6 +222,7 @@ namespace timos.data.Aspectize
             row[c_champLibelle] = strLibelle;
             row[c_champInstructions] = strInstructions;
             row[c_champIsGlobale] = bIsGlobale;
+            row[c_champHasForm] = bHasForm;
 
             m_row = row;
             dt.Rows.Add(row);
@@ -247,6 +256,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champLibelle, typeof(string));
             dt.Columns.Add(c_champInstructions, typeof(string));
             dt.Columns.Add(c_champIsGlobale, typeof(bool));
+            dt.Columns.Add(c_champHasForm, typeof(bool));
 
             dt.Columns.Add(c_champIdVarText1, typeof(string));
             dt.Columns.Add(c_champLabelVarText1, typeof(string));
