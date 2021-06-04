@@ -114,7 +114,6 @@ namespace timos.data.Aspectize
                 if (process != null)
                 {
                     CActionFormulaire actionFormulaire = null;
-
                     foreach (CAction action in process.ListeActions)
                     {
                         if (action is CActionFormulaire)
@@ -124,6 +123,7 @@ namespace timos.data.Aspectize
                             break;
                         }
                     }
+
 
                     if (actionFormulaire != null)
                     {

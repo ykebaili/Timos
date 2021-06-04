@@ -692,10 +692,10 @@ namespace timos.data.Aspectize
                                         if (formuleCondition != null)
                                         {
                                             CContexteEvaluationExpression ctxFormule = new CContexteEvaluationExpression(action.GroupeParametrage);
-                                            CResultAErreur resCondiction = formuleCondition.Eval(ctxFormule);
-                                            if (resCondiction && resCondiction.Data != null)
+                                            CResultAErreur resCondition = formuleCondition.Eval(ctxFormule);
+                                            if (resCondition && resCondition.Data != null)
                                             {
-                                                if (resCondiction.Data.ToString() == "0" || resCondiction.Data.ToString().ToUpper() == "FALSE")
+                                                if (resCondition.Data.ToString() == "0" || resCondition.Data.ToString().ToUpper() == "FALSE")
                                                     continue;
                                             }
                                         }
@@ -816,7 +816,7 @@ namespace timos.data.Aspectize
                 using (CContexteDonnee ctx = new CContexteDonnee(session.IdSession, true, false))
                 {
                     CDonneesActeurUtilisateur user = CUtilSession.GetUserForSession(ctx);
-                    if (user != null && user.DbKey.StringValue == keyUtilisateur)
+                    if (keyUtilisateur == "" || (user != null && user.DbKey.StringValue == keyUtilisateur))
                     {
                         CListeObjetDonneeGenerique<C2iStructureExportInDB> listeStructures = new CListeObjetDonneeGenerique<C2iStructureExportInDB>(ctx);
                         listeStructures.Filtre = new CFiltreData(C2iStructureExportInDB.c_champWebVisible + " = @1", true);
@@ -828,7 +828,7 @@ namespace timos.data.Aspectize
                             {
                                 try
                                 {
-                                    if (structure.GroupeParametrage != null)
+                                    if (keyUtilisateur != "" && structure.GroupeParametrage != null)
                                     {
                                         C2iExpression formuleCondition = structure.GroupeParametrage.FormuleCondition;
                                         if (formuleCondition != null)
