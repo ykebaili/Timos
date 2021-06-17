@@ -1,4 +1,5 @@
 ﻿using sc2i.common;
+using sc2i.common.unites;
 using sc2i.data;
 using sc2i.data.dynamic;
 using sc2i.data.dynamic.NommageEntite;
@@ -202,8 +203,37 @@ namespace timos.data.Aspectize
                                                 }
                                             }
                                             else
+                                            {
+                                                // On tente de convertir en CValeurUnite
+                                                CValeurUnite valeurUnite = null;
+                                                try
+                                                {
+                                                    string texte = valeur.ToString();
+                                                    valeurUnite = CValeurUnite.FromString(texte);
+                                                    if (valeurUnite != null)
+                                                    {
+                                                        valeurUnite.Format = CValeurUnite.GetFormat(texte);
+                                                    }
+                                                    if (valeurUnite == null)
+                                                    {
+                                                        if (texte.Trim().Length > 0)
+                                                        {
+                                                            try
+                                                            {
+                                                                double fVal = CUtilDouble.DoubleFromString(texte);
+                                                                valeurUnite = new CValeurUnite(fVal, "");
+                                                            }
+                                                            catch { }
+                                                        }
+                                                    }
+                                                    if (valeurUnite != null && valeurUnite.Format != "")
+                                                        valeur = valeurUnite;
+                                                }
+                                                catch
+                                                {
+                                                }
                                                 resBoucle = CUtilElementAChamps.SetValeurChamp(elementEdite, nIdChamp, valeur);
-
+                                            }
                                             if (!resBoucle)
                                                 result.EmpileErreur(resBoucle.MessageErreur);
                                             var newValeur = CUtilElementAChamps.GetValeurChamp(elementEdite, nIdChamp);
@@ -418,6 +448,34 @@ namespace timos.data.Aspectize
                                     }
                                     else
                                     {
+                                        // On tente de convertir en CValeurUnite
+                                        CValeurUnite valeurUnite = null;
+                                        try
+                                        {
+                                            string texte = valeur.ToString();
+                                            valeurUnite = CValeurUnite.FromString(texte);
+                                            if (valeurUnite != null)
+                                            {
+                                                valeurUnite.Format = CValeurUnite.GetFormat(texte);
+                                            }
+                                            if (valeurUnite == null)
+                                            {
+                                                if (texte.Trim().Length > 0)
+                                                {
+                                                    try
+                                                    {
+                                                        double fVal = CUtilDouble.DoubleFromString(texte);
+                                                        valeurUnite = new CValeurUnite(fVal, "");
+                                                    }
+                                                    catch { }
+                                                }
+                                            }
+                                            if (valeurUnite != null && valeurUnite.Format != "")
+                                                valeur = valeurUnite;
+                                        }
+                                        catch
+                                        {
+                                        }
                                         resBoucle = CUtilElementAChamps.SetValeurChamp(objCarac, nIdChamp, valeur);
                                     }
                                     if (!resBoucle)
@@ -769,6 +827,35 @@ namespace timos.data.Aspectize
                                                     string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
                                                     nomCol = nomCol.Replace("ID", "VAL");
                                                     object valeur = row[nomCol];
+                                                    // On tente de convertir en CValeurUnite
+                                                    CValeurUnite valeurUnite = null;
+                                                    try
+                                                    {
+                                                        string texte = valeur.ToString();
+                                                        valeurUnite = CValeurUnite.FromString(texte);
+                                                        if (valeurUnite != null)
+                                                        {
+                                                            valeurUnite.Format = CValeurUnite.GetFormat(texte);
+                                                        }
+                                                        if (valeurUnite == null)
+                                                        {
+                                                            if (texte.Trim().Length > 0)
+                                                            {
+                                                                try
+                                                                {
+                                                                    double fVal = CUtilDouble.DoubleFromString(texte);
+                                                                    valeurUnite = new CValeurUnite(fVal, "");
+                                                                }
+                                                                catch { }
+                                                            }
+                                                        }
+                                                        if(valeurUnite != null && valeurUnite.Format != "")
+                                                            valeur = valeurUnite;
+                                                    }
+                                                    catch
+                                                    {
+                                                    }
+
                                                     processToExecute.SetValeurChamp(variable.IdVariable, valeur);
                                                 }
                                             }

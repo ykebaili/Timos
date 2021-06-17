@@ -41,6 +41,20 @@ namespace timos.data.Aspectize
         public const string c_champValeursVarText3 = "ValeursVarText3";
         public const string c_champValeursVarText4 = "ValeursVarText4";
         public const string c_champValeursVarText5 = "ValeursVarText5";
+        // 17/06/2021 ajout de variables supplémentaires
+        public const string c_champIdVarText6 = "IdVarText6";
+        public const string c_champLabelVarText6 = "LabelVarText6";
+        public const string c_champValeursVarText6 = "ValeursVarText6";
+        public const string c_champIdVarText7 = "IdVarText7";
+        public const string c_champLabelVarText7 = "LabelVarText7";
+        public const string c_champValeursVarText7 = "ValeursVarText7";
+        public const string c_champIdVarText8 = "IdVarText8";
+        public const string c_champLabelVarText8 = "LabelVarText8";
+        public const string c_champValeursVarText8 = "ValeursVarText8";
+        public const string c_champIdVarText9 = "IdVarText9";
+        public const string c_champLabelVarText9 = "LabelVarText9";
+        public const string c_champValeursVarText9 = "ValeursVarText9";
+
 
         // Vairables de type Entier
         public const string c_champIdVarInt1 = "IdVarInt1";
@@ -49,7 +63,7 @@ namespace timos.data.Aspectize
         public const string c_champLabelVarInt2 = "LabelVarInt2";
         public const string c_champIdVarInt3 = "IdVarInt3";
         public const string c_champLabelVarInt3 = "LabelVarInt3";
-        // Valeurs possibles des variables texte
+        // Valeurs possibles des variables int
         public const string c_champValeursVarInt1 = "ValeursVarInt1";
         public const string c_champValeursVarInt2 = "ValeursVarInt2";
         public const string c_champValeursVarInt3 = "ValeursVarInt3";
@@ -167,7 +181,7 @@ namespace timos.data.Aspectize
                                         }
                                         break;
                                     case TypeDonnee.tDouble:
-                                        if (nIndexTextVar <= 5)
+                                        if (nIndexTextVar <= 9)
                                         {
                                             row["IdVarText" + nIndexTextVar] = variable.IdVariable;
                                             row["LabelVarText" + nIndexTextVar] = wndVariable.WebLabel;
@@ -176,7 +190,7 @@ namespace timos.data.Aspectize
                                         }
                                         break;
                                     case TypeDonnee.tString:
-                                        if (nIndexTextVar <= 5)
+                                        if (nIndexTextVar <= 9)
                                         {
                                             row["IdVarText" + nIndexTextVar] = variable.IdVariable;
                                             row["LabelVarText" + nIndexTextVar] = wndVariable.WebLabel;
@@ -268,12 +282,24 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champLabelVarText4, typeof(string));
             dt.Columns.Add(c_champIdVarText5, typeof(string));
             dt.Columns.Add(c_champLabelVarText5, typeof(string));
+            dt.Columns.Add(c_champIdVarText6, typeof(string));
+            dt.Columns.Add(c_champLabelVarText6, typeof(string));
+            dt.Columns.Add(c_champIdVarText7, typeof(string));
+            dt.Columns.Add(c_champLabelVarText7, typeof(string));
+            dt.Columns.Add(c_champIdVarText8, typeof(string));
+            dt.Columns.Add(c_champLabelVarText8, typeof(string));
+            dt.Columns.Add(c_champIdVarText9, typeof(string));
+            dt.Columns.Add(c_champLabelVarText9, typeof(string));
 
             dt.Columns.Add(c_champValeursVarText1, typeof(string));
             dt.Columns.Add(c_champValeursVarText2, typeof(string));
             dt.Columns.Add(c_champValeursVarText3, typeof(string));
             dt.Columns.Add(c_champValeursVarText4, typeof(string));
             dt.Columns.Add(c_champValeursVarText5, typeof(string));
+            dt.Columns.Add(c_champValeursVarText6, typeof(string));
+            dt.Columns.Add(c_champValeursVarText7, typeof(string));
+            dt.Columns.Add(c_champValeursVarText8, typeof(string));
+            dt.Columns.Add(c_champValeursVarText9, typeof(string));
 
             dt.Columns.Add(c_champIdVarInt1, typeof(string));
             dt.Columns.Add(c_champLabelVarInt1, typeof(string));
