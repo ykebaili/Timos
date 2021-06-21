@@ -10,7 +10,7 @@ using sc2i.common;
 using sc2i.expression;
 using sc2i.data;
 using sc2i.data.dynamic;
-
+using sc2i.win32.common;
 
 namespace timos
 {
@@ -27,6 +27,8 @@ namespace timos
         private CheckBox m_chkWebVisible;
         private sc2i.win32.data.navigation.CComboBoxLinkListeObjetsDonnees m_cmbGroupeParametrage;
         private Label label4;
+        private NumericUpDown m_numPeriod;
+        private Label label5;
         private System.ComponentModel.IContainer components = null;
 
         //-------------------------------------------------------------------------
@@ -79,13 +81,15 @@ namespace timos
             this.c2iPanelOmbre1 = new sc2i.win32.common.C2iPanelOmbre();
             this.m_panelMultiStructure = new sc2i.win32.data.dynamic.CPanelEditMultiStructure();
             this.c2iPanelOmbre2 = new sc2i.win32.common.C2iPanelOmbre();
+            this.m_cmbGroupeParametrage = new sc2i.win32.data.navigation.CComboBoxLinkListeObjetsDonnees();
+            this.label4 = new System.Windows.Forms.Label();
             this.m_txtDescription = new sc2i.win32.common.C2iTextBox();
             this.m_chkWebVisible = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.m_txtLibelle = new sc2i.win32.common.C2iTextBox();
-            this.m_cmbGroupeParametrage = new sc2i.win32.data.navigation.CComboBoxLinkListeObjetsDonnees();
-            this.label4 = new System.Windows.Forms.Label();
+            this.m_numPeriod = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             this.m_panelNavigation.SuspendLayout();
             this.m_panelCle.SuspendLayout();
             this.m_panelMenu.SuspendLayout();
@@ -94,6 +98,7 @@ namespace timos
             ((System.ComponentModel.ISupportInitialize)(this.m_btnChercherObjet)).BeginInit();
             this.c2iPanelOmbre1.SuspendLayout();
             this.c2iPanelOmbre2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.m_numPeriod)).BeginInit();
             this.SuspendLayout();
             // 
             // m_btnAnnulerModifications
@@ -130,7 +135,7 @@ namespace timos
             // 
             // m_panelNavigation
             // 
-            this.m_panelNavigation.Location = new System.Drawing.Point(631, 0);
+            this.m_panelNavigation.Location = new System.Drawing.Point(726, 0);
             this.m_panelNavigation.Size = new System.Drawing.Size(175, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelNavigation, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelNavigation, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
@@ -162,14 +167,14 @@ namespace timos
             // 
             // m_panelCle
             // 
-            this.m_panelCle.Location = new System.Drawing.Point(523, 0);
+            this.m_panelCle.Location = new System.Drawing.Point(618, 0);
             this.m_panelCle.Size = new System.Drawing.Size(108, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelCle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelCle, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             // 
             // m_panelMenu
             // 
-            this.m_panelMenu.Size = new System.Drawing.Size(838, 28);
+            this.m_panelMenu.Size = new System.Drawing.Size(933, 28);
             this.m_extStyle.SetStyleBackColor(this.m_panelMenu, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_panelMenu, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             // 
@@ -190,8 +195,8 @@ namespace timos
             // 
             // c2iPanelOmbre1
             // 
-            this.c2iPanelOmbre1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.c2iPanelOmbre1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.c2iPanelOmbre1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
             this.c2iPanelOmbre1.Controls.Add(this.m_panelMultiStructure);
@@ -202,15 +207,15 @@ namespace timos
             this.m_gestionnaireModeEdition.SetModeEdition(this.c2iPanelOmbre1, sc2i.win32.common.TypeModeEdition.Autonome);
             this.m_extModulesAssociator.SetModules(this.c2iPanelOmbre1, "");
             this.c2iPanelOmbre1.Name = "c2iPanelOmbre1";
-            this.c2iPanelOmbre1.Size = new System.Drawing.Size(826, 301);
+            this.c2iPanelOmbre1.Size = new System.Drawing.Size(921, 301);
             this.m_extStyle.SetStyleBackColor(this.c2iPanelOmbre1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.c2iPanelOmbre1, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.c2iPanelOmbre1.TabIndex = 1;
             // 
             // m_panelMultiStructure
             // 
-            this.m_panelMultiStructure.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.m_panelMultiStructure.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.m_panelMultiStructure.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
             this.m_panelMultiStructure.FiltreDynamique = null;
@@ -222,7 +227,7 @@ namespace timos
             this.m_gestionnaireModeEdition.SetModeEdition(this.m_panelMultiStructure, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
             this.m_extModulesAssociator.SetModules(this.m_panelMultiStructure, "");
             this.m_panelMultiStructure.Name = "m_panelMultiStructure";
-            this.m_panelMultiStructure.Size = new System.Drawing.Size(814, 280);
+            this.m_panelMultiStructure.Size = new System.Drawing.Size(909, 280);
             this.m_extStyle.SetStyleBackColor(this.m_panelMultiStructure, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorFondPanel);
             this.m_extStyle.SetStyleForeColor(this.m_panelMultiStructure, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorTextePanel);
             this.m_panelMultiStructure.TabColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
@@ -232,6 +237,8 @@ namespace timos
             // c2iPanelOmbre2
             // 
             this.c2iPanelOmbre2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
+            this.c2iPanelOmbre2.Controls.Add(this.m_numPeriod);
+            this.c2iPanelOmbre2.Controls.Add(this.label5);
             this.c2iPanelOmbre2.Controls.Add(this.m_cmbGroupeParametrage);
             this.c2iPanelOmbre2.Controls.Add(this.label4);
             this.c2iPanelOmbre2.Controls.Add(this.m_txtDescription);
@@ -247,10 +254,52 @@ namespace timos
             this.m_gestionnaireModeEdition.SetModeEdition(this.c2iPanelOmbre2, sc2i.win32.common.TypeModeEdition.Autonome);
             this.m_extModulesAssociator.SetModules(this.c2iPanelOmbre2, "");
             this.c2iPanelOmbre2.Name = "c2iPanelOmbre2";
-            this.c2iPanelOmbre2.Size = new System.Drawing.Size(654, 140);
+            this.c2iPanelOmbre2.Size = new System.Drawing.Size(793, 140);
             this.m_extStyle.SetStyleBackColor(this.c2iPanelOmbre2, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorFondPanel);
             this.m_extStyle.SetStyleForeColor(this.c2iPanelOmbre2, sc2i.win32.common.CExtStyle.EnumCouleurs.ColorTextePanel);
             this.c2iPanelOmbre2.TabIndex = 0;
+            // 
+            // m_cmbGroupeParametrage
+            // 
+            this.m_cmbGroupeParametrage.ComportementLinkStd = true;
+            this.m_cmbGroupeParametrage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.m_cmbGroupeParametrage.ElementSelectionne = null;
+            this.m_cmbGroupeParametrage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.m_cmbGroupeParametrage.IsLink = true;
+            this.m_extLinkField.SetLinkField(this.m_cmbGroupeParametrage, "");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.m_cmbGroupeParametrage, false);
+            this.m_cmbGroupeParametrage.LinkProperty = "";
+            this.m_cmbGroupeParametrage.ListDonnees = null;
+            this.m_cmbGroupeParametrage.Location = new System.Drawing.Point(76, 36);
+            this.m_cmbGroupeParametrage.LockEdition = false;
+            this.m_gestionnaireModeEdition.SetModeEdition(this.m_cmbGroupeParametrage, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
+            this.m_extModulesAssociator.SetModules(this.m_cmbGroupeParametrage, "");
+            this.m_cmbGroupeParametrage.Name = "m_cmbGroupeParametrage";
+            this.m_cmbGroupeParametrage.NullAutorise = true;
+            this.m_cmbGroupeParametrage.ProprieteAffichee = null;
+            this.m_cmbGroupeParametrage.ProprieteParentListeObjets = null;
+            this.m_cmbGroupeParametrage.SelectionneurParent = null;
+            this.m_cmbGroupeParametrage.Size = new System.Drawing.Size(403, 21);
+            this.m_extStyle.SetStyleBackColor(this.m_cmbGroupeParametrage, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.m_cmbGroupeParametrage, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_cmbGroupeParametrage.TabIndex = 4010;
+            this.m_cmbGroupeParametrage.TextNull = "(none)";
+            this.m_cmbGroupeParametrage.Tri = true;
+            this.m_cmbGroupeParametrage.TypeFormEdition = null;
+            // 
+            // label4
+            // 
+            this.m_extLinkField.SetLinkField(this.label4, "");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.label4, false);
+            this.label4.Location = new System.Drawing.Point(6, 38);
+            this.m_gestionnaireModeEdition.SetModeEdition(this.label4, sc2i.win32.common.TypeModeEdition.Autonome);
+            this.m_extModulesAssociator.SetModules(this.label4, "");
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 16);
+            this.m_extStyle.SetStyleBackColor(this.label4, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.label4, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.label4.TabIndex = 4011;
+            this.label4.Text = "Group|165";
             // 
             // m_txtDescription
             // 
@@ -263,7 +312,7 @@ namespace timos
             this.m_extModulesAssociator.SetModules(this.m_txtDescription, "");
             this.m_txtDescription.Multiline = true;
             this.m_txtDescription.Name = "m_txtDescription";
-            this.m_txtDescription.Size = new System.Drawing.Size(537, 48);
+            this.m_txtDescription.Size = new System.Drawing.Size(403, 48);
             this.m_extStyle.SetStyleBackColor(this.m_txtDescription, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_extStyle.SetStyleForeColor(this.m_txtDescription, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
             this.m_txtDescription.TabIndex = 4007;
@@ -274,7 +323,7 @@ namespace timos
             this.m_chkWebVisible.AutoSize = true;
             this.m_extLinkField.SetLinkField(this.m_chkWebVisible, "WebVisible");
             this.m_extLinkField.SetLinkFieldAutoUpdate(this.m_chkWebVisible, true);
-            this.m_chkWebVisible.Location = new System.Drawing.Point(500, 37);
+            this.m_chkWebVisible.Location = new System.Drawing.Point(517, 11);
             this.m_gestionnaireModeEdition.SetModeEdition(this.m_chkWebVisible, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
             this.m_extModulesAssociator.SetModules(this.m_chkWebVisible, "");
             this.m_chkWebVisible.Name = "m_chkWebVisible";
@@ -331,52 +380,38 @@ namespace timos
             this.m_txtLibelle.TabIndex = 4007;
             this.m_txtLibelle.Text = "[Libelle]";
             // 
-            // m_cmbGroupeParametrage
+            // m_numPeriod
             // 
-            this.m_cmbGroupeParametrage.ComportementLinkStd = true;
-            this.m_cmbGroupeParametrage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cmbGroupeParametrage.ElementSelectionne = null;
-            this.m_cmbGroupeParametrage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_cmbGroupeParametrage.IsLink = true;
-            this.m_extLinkField.SetLinkField(this.m_cmbGroupeParametrage, "");
-            this.m_extLinkField.SetLinkFieldAutoUpdate(this.m_cmbGroupeParametrage, false);
-            this.m_cmbGroupeParametrage.LinkProperty = "";
-            this.m_cmbGroupeParametrage.ListDonnees = null;
-            this.m_cmbGroupeParametrage.Location = new System.Drawing.Point(76, 36);
-            this.m_cmbGroupeParametrage.LockEdition = false;
-            this.m_gestionnaireModeEdition.SetModeEdition(this.m_cmbGroupeParametrage, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
-            this.m_extModulesAssociator.SetModules(this.m_cmbGroupeParametrage, "");
-            this.m_cmbGroupeParametrage.Name = "m_cmbGroupeParametrage";
-            this.m_cmbGroupeParametrage.NullAutorise = true;
-            this.m_cmbGroupeParametrage.ProprieteAffichee = null;
-            this.m_cmbGroupeParametrage.ProprieteParentListeObjets = null;
-            this.m_cmbGroupeParametrage.SelectionneurParent = null;
-            this.m_cmbGroupeParametrage.Size = new System.Drawing.Size(403, 21);
-            this.m_extStyle.SetStyleBackColor(this.m_cmbGroupeParametrage, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
-            this.m_extStyle.SetStyleForeColor(this.m_cmbGroupeParametrage, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
-            this.m_cmbGroupeParametrage.TabIndex = 4010;
-            this.m_cmbGroupeParametrage.TextNull = "(none)";
-            this.m_cmbGroupeParametrage.Tri = true;
-            this.m_cmbGroupeParametrage.TypeFormEdition = null;
+            this.m_extLinkField.SetLinkField(this.m_numPeriod, "UpdatePeriod");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.m_numPeriod, true);
+            this.m_numPeriod.Location = new System.Drawing.Point(517, 55);
+            this.m_gestionnaireModeEdition.SetModeEdition(this.m_numPeriod, sc2i.win32.common.TypeModeEdition.EnableSurEdition);
+            this.m_extModulesAssociator.SetModules(this.m_numPeriod, "");
+            this.m_numPeriod.Name = "m_numPeriod";
+            this.m_numPeriod.Size = new System.Drawing.Size(79, 20);
+            this.m_extStyle.SetStyleBackColor(this.m_numPeriod, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.m_numPeriod, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_numPeriod.TabIndex = 4012;
             // 
-            // label4
+            // label5
             // 
-            this.m_extLinkField.SetLinkField(this.label4, "");
-            this.m_extLinkField.SetLinkFieldAutoUpdate(this.label4, false);
-            this.label4.Location = new System.Drawing.Point(6, 38);
-            this.m_gestionnaireModeEdition.SetModeEdition(this.label4, sc2i.win32.common.TypeModeEdition.Autonome);
-            this.m_extModulesAssociator.SetModules(this.label4, "");
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 16);
-            this.m_extStyle.SetStyleBackColor(this.label4, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
-            this.m_extStyle.SetStyleForeColor(this.label4, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
-            this.label4.TabIndex = 4011;
-            this.label4.Text = "Group|165";
+            this.label5.AutoSize = true;
+            this.m_extLinkField.SetLinkField(this.label5, "");
+            this.m_extLinkField.SetLinkFieldAutoUpdate(this.label5, true);
+            this.label5.Location = new System.Drawing.Point(514, 39);
+            this.m_gestionnaireModeEdition.SetModeEdition(this.label5, sc2i.win32.common.TypeModeEdition.Autonome);
+            this.m_extModulesAssociator.SetModules(this.label5, "");
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(235, 13);
+            this.m_extStyle.SetStyleBackColor(this.label5, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.m_extStyle.SetStyleForeColor(this.label5, sc2i.win32.common.CExtStyle.EnumCouleurs.None);
+            this.label5.TabIndex = 4013;
+            this.label5.Text = "Période de recalcul en heures (web uniquement)";
             // 
             // CFormEditionStructureDonnee
             // 
             this.AffectationsPourNouvelElement = ((System.Collections.Generic.IEnumerable<sc2i.formulaire.CAffectationsProprietes>)(resources.GetObject("$this.AffectationsPourNouvelElement")));
-            this.ClientSize = new System.Drawing.Size(838, 487);
+            this.ClientSize = new System.Drawing.Size(933, 487);
             this.Controls.Add(this.c2iPanelOmbre2);
             this.Controls.Add(this.c2iPanelOmbre1);
             this.m_extLinkField.SetLinkField(this, "");
@@ -400,6 +435,7 @@ namespace timos
             this.c2iPanelOmbre1.PerformLayout();
             this.c2iPanelOmbre2.ResumeLayout(false);
             this.c2iPanelOmbre2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.m_numPeriod)).EndInit();
             this.ResumeLayout(false);
 
         }

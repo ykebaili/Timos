@@ -17,6 +17,7 @@ namespace timos.data.Aspectize
         public const string c_champLibelle = "Libelle";
         public const string c_champDescription = "Description";
         public const string c_champDateDonnees = "DataDate";
+        public const string c_champPeriode = "UpdatePeriod";
 
         DataRow m_row;
 
@@ -34,6 +35,7 @@ namespace timos.data.Aspectize
                 row[c_champLibelle] = structureExport.Libelle;
                 row[c_champDescription] = structureExport.Description;
                 row[c_champDateDonnees] = DateTime.Now;
+                row[c_champPeriode] = structureExport.UpdatePeriod;
 
                 m_row = row;
                 dt.Rows.Add(row);
@@ -63,6 +65,7 @@ namespace timos.data.Aspectize
             dt.Columns.Add(c_champLibelle, typeof(string));
             dt.Columns.Add(c_champDescription, typeof(string));
             dt.Columns.Add(c_champDateDonnees, typeof(DateTime));
+            dt.Columns.Add(c_champPeriode, typeof(int));
 
             return dt;
         }
