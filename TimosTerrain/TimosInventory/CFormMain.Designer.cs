@@ -59,8 +59,8 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(6, 35);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(227, 50);
@@ -135,8 +135,8 @@
             // 
             // m_panelTransmitReleves
             // 
-            this.m_panelTransmitReleves.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_panelTransmitReleves.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_panelTransmitReleves.Controls.Add(this.m_lnkSupprimerReleves);
             this.m_panelTransmitReleves.Controls.Add(this.m_lnkEnvoyerReleves);
             this.m_panelTransmitReleves.Location = new System.Drawing.Point(6, 306);
@@ -190,9 +190,9 @@
             // 
             // m_wndListeReleves
             // 
-            this.m_wndListeReleves.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_wndListeReleves.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.m_wndListeReleves.CheckBoxes = true;
             this.m_wndListeReleves.ColorActive = System.Drawing.Color.Red;
             this.m_wndListeReleves.ColorDesactive = System.Drawing.Color.Blue;
@@ -209,8 +209,8 @@
             this.m_wndListeReleves.TabIndex = 6;
             this.m_wndListeReleves.UseCompatibleStateImageBehavior = false;
             this.m_wndListeReleves.View = System.Windows.Forms.View.Details;
-            this.m_wndListeReleves.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.m_wndListeReleves_ItemChecked);
             this.m_wndListeReleves.ItemClick += new sc2i.win32.common.ListLinkItemClickEventHandler(this.m_wndListeReleves_ItemClick);
+            this.m_wndListeReleves.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.m_wndListeReleves_ItemChecked);
             // 
             // label5
             // 
@@ -266,9 +266,9 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.m_wndListeSites);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.label3);

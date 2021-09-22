@@ -23,7 +23,7 @@ namespace TimosInventory
             CTraducteur.ReadFichier("TimosInventory.mes");
 
 
-            CAutoexecuteurClasses.RunAutoexecs();
+            CAutoexecuteurClasses.RunAllAutoexecs();
 
 
             Application.Run(new CFormMain());
