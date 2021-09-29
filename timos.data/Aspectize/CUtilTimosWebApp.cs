@@ -793,96 +793,99 @@ namespace timos.data.Aspectize
                     if (process.ReadIfExists(nIdAction))
                     {
                         CProcess processToExecute = process.Process;
-                        if (process != null)
+                        if (processToExecute != null)
                         {
-                            Type tp = CActivatorSurChaine.GetType(strTypeCible);
-                            if (tp == null)
+                            CReferenceObjetDonnee refCible = null;
+                            if (processToExecute.TypeCible != null)
                             {
-                                result.EmpileErreur("Le type " + strTypeCible + " n'existe pas dans Timos");
-                                return result;
-                            }
-                            CObjetDonnee targetElement = (CObjetDonnee)Activator.CreateInstance(tp, new object[] { ctx });
-                            if (targetElement.ReadIfExists(nIdElementCible))
-                            {
-                                if (process.TypeCible != null && !process.TypeCible.IsAssignableFrom(targetElement.GetType()))
+                                Type tp = CActivatorSurChaine.GetType(strTypeCible);
+                                if (tp == null)
                                 {
-                                    result.EmpileErreur("Le type " + strTypeCible + " n'est pas du type attendu " + process.TypeCible.ToString());
+                                    result.EmpileErreur("Le type " + strTypeCible + " n'existe pas dans Timos");
                                     return result;
                                 }
-                                CReferenceObjetDonnee refCible = new CReferenceObjetDonnee(targetElement);
-
-                                // Affecte les variables du process
-                                DataTable tableActions = ds.Tables[CActionWeb.c_nomTable];
-                                if (tableActions != null && tableActions.Rows.Count > 0)
+                                CObjetDonnee targetElement = (CObjetDonnee)Activator.CreateInstance(tp, new object[] { ctx });
+                                if (targetElement.ReadIfExists(nIdElementCible))
                                 {
-                                    DataRow row = tableActions.Rows[0];
-                                    foreach (CVariableDynamique variable in processToExecute.ListeVariables)
+                                    if (!processToExecute.TypeCible.IsAssignableFrom(targetElement.GetType()))
                                     {
-                                        foreach (DataColumn col in tableActions.Columns)
+                                        result.EmpileErreur("Le type " + strTypeCible + " n'est pas du type attendu " + process.TypeCible.ToString());
+                                        return result;
+                                    }
+                                    refCible = new CReferenceObjetDonnee(targetElement);
+                                }
+                            }
+                            // Affecte les variables du process
+                            DataTable tableActions = ds.Tables[CActionWeb.c_nomTable];
+                            if (tableActions != null && tableActions.Rows.Count > 0)
+                            {
+                                DataRow row = tableActions.Rows[0];
+                                foreach (CVariableDynamique variable in processToExecute.ListeVariables)
+                                {
+                                    foreach (DataColumn col in tableActions.Columns)
+                                    {
+                                        try
                                         {
-                                            try
+                                            if (col.DataType == typeof(string) && row[col] != DBNull.Value && (string)row[col] == variable.IdVariable)
                                             {
-                                                if (col.DataType == typeof(string) && row[col] != DBNull.Value && (string)row[col] == variable.IdVariable)
+                                                string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
+                                                nomCol = nomCol.Replace("ID", "VAL");
+                                                object valeur = row[nomCol];
+                                                // On tente de convertir en CValeurUnite
+                                                CValeurUnite valeurUnite = null;
+                                                try
                                                 {
-                                                    string nomCol = col.ColumnName; // Ex: IDT3, IDN2, IDD1
-                                                    nomCol = nomCol.Replace("ID", "VAL");
-                                                    object valeur = row[nomCol];
-                                                    // On tente de convertir en CValeurUnite
-                                                    CValeurUnite valeurUnite = null;
-                                                    try
+                                                    string texte = valeur.ToString();
+                                                    valeurUnite = CValeurUnite.FromString(texte);
+                                                    if (valeurUnite != null)
                                                     {
-                                                        string texte = valeur.ToString();
-                                                        valeurUnite = CValeurUnite.FromString(texte);
-                                                        if (valeurUnite != null)
+                                                        valeurUnite.Format = CValeurUnite.GetFormat(texte);
+                                                    }
+                                                    if (valeurUnite == null)
+                                                    {
+                                                        if (texte.Trim().Length > 0)
                                                         {
-                                                            valeurUnite.Format = CValeurUnite.GetFormat(texte);
-                                                        }
-                                                        if (valeurUnite == null)
-                                                        {
-                                                            if (texte.Trim().Length > 0)
+                                                            try
                                                             {
-                                                                try
-                                                                {
-                                                                    double fVal = CUtilDouble.DoubleFromString(texte);
-                                                                    valeurUnite = new CValeurUnite(fVal, "");
-                                                                }
-                                                                catch { }
+                                                                double fVal = CUtilDouble.DoubleFromString(texte);
+                                                                valeurUnite = new CValeurUnite(fVal, "");
                                                             }
+                                                            catch { }
                                                         }
-                                                        if(valeurUnite != null && valeurUnite.Format != "")
-                                                            valeur = valeurUnite;
                                                     }
-                                                    catch
-                                                    {
-                                                    }
-
-                                                    processToExecute.SetValeurChamp(variable.IdVariable, valeur);
+                                                    if (valeurUnite != null && valeurUnite.Format != "")
+                                                        valeur = valeurUnite;
                                                 }
+                                                catch
+                                                {
+                                                }
+
+                                                processToExecute.SetValeurChamp(variable.IdVariable, valeur);
                                             }
-                                            catch (Exception ex)
-                                            {
-                                                result.EmpileErreur(ex.Message);
-                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            result.EmpileErreur(ex.Message);
                                         }
                                     }
                                 }
-                                try
-                                {
-                                    // Start Process
-                                    return CProcessEnExecutionInDb.StartProcess(
-                                        processToExecute,
-                                        new CInfoDeclencheurProcess(TypeEvenement.Manuel),
-                                        refCible,
-                                        nIdSession,
-                                        ctx.IdVersionDeTravail,
-                                        null);
-                                }
-                                catch (Exception exrun)
-                                {
-                                    result.EmpileErreur(exrun.Message);
-                                }
                             }
-
+                            try
+                            {
+                                // Start Process
+                                return CProcessEnExecutionInDb.StartProcess(
+                                    processToExecute,
+                                    new CInfoDeclencheurProcess(TypeEvenement.Manuel),
+                                    refCible,
+                                    nIdSession,
+                                    ctx.IdVersionDeTravail,
+                                    null);
+                            }
+                            catch (Exception exrun)
+                            {
+                                result.EmpileErreur(exrun.Message);
+                                return result;
+                            }
                         }
                     }
                 }
