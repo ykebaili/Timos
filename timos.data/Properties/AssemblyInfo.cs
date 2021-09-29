@@ -33,8 +33,8 @@ using timos.data;
 //
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de révision et de build par défaut 
 // en utilisant '*', comme indiqué ci-dessous :
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("4.1.3.2")]
+[assembly: AssemblyFileVersion("4.1.3.2")]
 
 
 //Documentation : Menu
