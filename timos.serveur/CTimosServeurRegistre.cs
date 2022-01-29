@@ -188,8 +188,8 @@ namespace timos.serveur
 		{
 			get
 			{
-				return new CTimosServeurRegistre().GetIntValue("database", "enable archiving", 0) != 0;
-			}
+				return new CTimosServeurRegistre().GetIntValue("database", "EnableArchiving", 0) != 0; // EnableArchiving
+            }
 		}
 
         public static string PrefixeTablesSMT

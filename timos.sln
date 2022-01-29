@@ -60,9 +60,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportDocsMyanmar", "ImportDocsMyanmar\ImportDocsMyanmar.csproj", "{38D93712-F288-43FE-9BCE-1330014BDDAF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8E37DD59-4F20-4F46-9DC0-D0A154D21BEA}"
-	ProjectSection(SolutionItems) = preProject
-		Performance1.psess = Performance1.psess
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimosAuthDatabase", "TimosAuthDatabase\TimosAuthDatabase.csproj", "{0D82D056-0534-4948-BAB3-4E6090B42C62}"
 EndProject

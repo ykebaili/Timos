@@ -517,7 +517,9 @@ namespace timos.serveur
                 }
 
                 foreach (Assembly ass in AppDomain.CurrentDomain.GetAssemblies())
+                {
                     CContexteDonnee.AddAssembly(ass);
+                }
                 #endregion
 
 
@@ -694,20 +696,16 @@ namespace timos.serveur
                     return result;
 
                 CVersionDonneesObjet.EnableJournalisation = ModulesApplication.GetRestrictionForModuleApp(CConfigModulesTimos.c_appModule_Journalisation_ID) != ERestriction.Hide;
+                CVersionDonneesObjet.EnableJournalisation = CVersionDonneesObjet.EnableJournalisation & CTimosServeurRegistre.EnableJournalisation;
 
                 CGestionnaireObjetsAttachesASession.OnAttacheObjet += new LinkObjectEventHandler(CGestionnaireObjetsAttachesASession_OnAttacheObjet);
 
                 //Initialise la gestion du nombre d'élément comptés
                 CLicenceCheckElementNb.GetInstance();
 
-               
-
                 //Démarre les services en tâche de fond
                 //Démarre les autoexecs, mais pas les services en tâche de fond
                 CAutoexecuteurClasses.RunAutoexecsIncludeOnly(AutoExecAttribute.BackGroundService);
-
-               
-                
 
             }
             catch (ReflectionTypeLoadException loadex)

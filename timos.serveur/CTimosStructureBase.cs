@@ -1397,6 +1397,18 @@ namespace timos.serveur
             lstV28.Add(typeof(C2iStructureExportInDB));
             lstV28.Add(typeof(CGroupeParametrage));
 
+            //------------- Recréation des tables de versionning ------------------
+            // 1 - Recréation des Tables
+            lstV28.Add(typeof(CVersionDonnees));
+            lstV28.Add(typeof(CVersionDonneesObjet));
+            lstV28.Add(typeof(CVersionDonneesObjetOperation));
+            // 2 - Recréation des conttraintes
+            lstV28.Add(typeof(CAuditVersion));
+            lstV28.Add(typeof(CProjet));
+            lstV28.Add(typeof(CReleveSite));
+            lstV28.Add(typeof(CIntervention));
+
+
             // Pas de passage en V 28
             lstV28.Add(new C2iDataBaseUpdateOperationNoSetVersionBase());
 

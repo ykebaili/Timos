@@ -75,7 +75,6 @@ namespace timos.serveur
 
             try
             {
-
                 string strServeur = "";
                 string strUser = "";
                 string strPass = "";
@@ -96,22 +95,32 @@ namespace timos.serveur
                     strPass = CTimosServeurRegistre.SMTPPassword;
                 }
 
-                SmtpClient clientSmtp = new SmtpClient();
-
-                clientSmtp.Host = strServeur;
-                if (nPort > 0)
-                    clientSmtp.Port = nPort;
-
-                if (strUser != "" || strPass != "")
-                    clientSmtp.Credentials = new NetworkCredential(strUser, strPass);
-                else
-                    clientSmtp.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
-                clientSmtp.Send(message);
+                using (SmtpClient clientSmtp = new SmtpClient())
+                {
+                    clientSmtp.Host = strServeur;
+                    if (nPort > 0)
+                    {
+                        clientSmtp.Port = nPort;
+                    }
+                    if (strUser != "" || strPass != "")
+                    {
+                        clientSmtp.Credentials = new NetworkCredential(strUser, strPass);
+                    }
+                    else
+                    {
+                        clientSmtp.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
+                    }
+                    clientSmtp.Send(message);
+                }
             }
             catch (Exception e)
             {
                 result.EmpileErreur(e.ToString());
                 result.EmpileErreur(I.T("Error while sending mail|30000"));
+            }
+            finally
+            {
+                message.Dispose();
             }
             foreach (CProxyGED proxy in lstProxy)
                 proxy.Dispose();
