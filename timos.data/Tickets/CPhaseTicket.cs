@@ -46,9 +46,8 @@ namespace timos.data
 								IElementGelable,
                                 IElementAEvenementsDefinis,
 								IElementATypeStructurant<CTypePhase>,
-                                IElementAOperationsRealisees
-
-                                
+                                IElementAOperationsRealisees,
+                                IObjetSansVersion
 	{
         public const string c_nomTiag = "Ticket Phase";
         public const string c_nomTable = "TICKET_PHASE";

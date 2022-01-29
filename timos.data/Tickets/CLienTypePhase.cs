@@ -25,7 +25,7 @@ namespace timos.data
     [sc2i.doccode.DocRefMenusOrMenuItems(CDocLabels.c_iTicket)]
     [Lys.Licence.AModulesApp(Lys.Applications.Timos.Smt.CConfigModulesTimos.c_appModule_IntersCorrectives_ID)]
     [Lys.Licence.AModulesClient(Lys.Applications.Timos.Smt.CConfigModulesTimos.c_clientModule_ParamTickets_ID)]
-    public class CLienTypePhase : CObjetDonneeAIdNumeriqueAuto
+    public class CLienTypePhase : CObjetDonneeAIdNumeriqueAuto, IObjetSansVersion
                                 
 	{
 		public const string c_nomTable = "PHASE_TYPE_LINK";

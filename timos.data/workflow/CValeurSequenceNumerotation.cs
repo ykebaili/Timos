@@ -20,8 +20,7 @@ namespace sc2i.workflow
 	[FullTableSync]
 	[ObjetServeurURI("CValeurSequenceNumerotationServeur")]
     [Unique(true, "Value already exists", CSequenceNumerotation.c_champId, CValeurSequenceNumerotation.c_champCle)]
-	public class CValeurSequenceNumerotation : CObjetDonneeAIdNumeriqueAuto,
-		IObjetALectureTableComplete
+	public class CValeurSequenceNumerotation : CObjetDonneeAIdNumeriqueAuto, IObjetALectureTableComplete, IObjetSansVersion
 	{
 		public const string c_nomTable = "NUM_SEQUENCE_VALUE";
 		public const string c_champId = "NSV_ID";

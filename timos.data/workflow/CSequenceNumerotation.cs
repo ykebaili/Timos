@@ -235,10 +235,10 @@ namespace sc2i.workflow
             }
             //Cherche la dernière valeur pour cette clé
             CValeurSequenceNumerotation valeur = new CValeurSequenceNumerotation(ContexteDonnee);
-            if ( !valeur.ReadIfExists ( new CFiltreData(CValeurSequenceNumerotation.c_champCle+"=@1 and "+
-                CSequenceNumerotation.c_champId+"=@2",
+            if (!valeur.ReadIfExists(new CFiltreData(CValeurSequenceNumerotation.c_champCle + "=@1 and " +
+                CSequenceNumerotation.c_champId + "=@2",
                 strCle,
-                Id ) ))
+                Id)))
             {
                 valeur.CreateNewInCurrentContexte();
                 valeur.SequenceNumerotation = this;
@@ -246,7 +246,9 @@ namespace sc2i.workflow
                 valeur.Cle = strCle;
             }
             else
-                valeur.DerniereValeur ++;
+            {
+                valeur.DerniereValeur++;
+            }
             string strValeur = strCle+FormatNumerotation.GetReference(valeur.DerniereValeur).Data.ToString();
             return strValeur;
         }

@@ -35,8 +35,7 @@ namespace timos.data
 	[ObjetServeurURI("CRemplacementEquipementServeur")]
 	[Unique(true, "Un remplacement existe déjà pour cette opération", 
 		COperation.c_champId)]
-	public class CRemplacementEquipement : 
-		CObjetDonneeAIdNumeriqueAuto
+	public class CRemplacementEquipement : CObjetDonneeAIdNumeriqueAuto, IObjetSansVersion
 
 	{
 		public const string c_nomTable = "EQUIPMENT_REPLACEMENT";

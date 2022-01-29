@@ -93,7 +93,7 @@ namespace timos.securite
 		{
 			get
 			{
-				return I.T("Organisational Entity @1|292",Libelle);
+                return Libelle;
 			}
 		}
 

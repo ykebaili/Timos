@@ -19,7 +19,7 @@ namespace sc2i.workflow
 	[DynamicClass("Planified task / cumulated data")]
     //[Lys.Licence.AModulesClient(Lys.Applications.Timos.Smt.CConfigModulesTimos.c_clientModule_TachesPlanif_ID)]
     public class CRelationTachePlanifieeTypeDonneeCumulee : CObjetDonneeAIdNumeriqueAuto
-	{
+    {
 		public const string c_nomTable = "PLANIFIED_TASK_PRECDAT";
 		
 		public const string c_champId = "PLTSKPRECDAT_ID";

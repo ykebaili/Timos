@@ -21,7 +21,7 @@ namespace sc2i.workflow
 	[DynamicClass("Planified task / process")]
     //[Lys.Licence.AModulesClient(Lys.Applications.Timos.Smt.CConfigModulesTimos.c_clientModule_TachesPlanif_ID)]
     public class CRelationTachePlanifieeProcess : CObjetDonneeAIdNumeriqueAuto
-	{
+    {
 		public const string c_nomTable = "PLANIFIED_TASK_PROCESS";
 		
 		public const string c_champId = "PLTSKPROCESS_ID";

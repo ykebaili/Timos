@@ -16,7 +16,7 @@ namespace timos.data
 	[Table(CRelationPhase_ChampCustomValeur.c_nomTable, CRelationPhase_ChampCustomValeur.c_champId,true)]
 	[FullTableSync]
     [Lys.Licence.AModulesApp(Lys.Applications.Timos.Smt.CConfigModulesTimos.c_appModule_IntersCorrectives_ID)]
-    public class CRelationPhase_ChampCustomValeur : CRelationElementAChamp_ChampCustom
+    public class CRelationPhase_ChampCustomValeur : CRelationElementAChamp_ChampCustom, IObjetSansVersion
 	{
 		public const string c_nomTable = "TICKETPHASE_CUSTOMFIELD";
 		public const string c_champId = "TKTPH_CUSTFLD_ID";

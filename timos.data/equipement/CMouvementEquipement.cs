@@ -27,7 +27,7 @@ namespace timos.data
     [NoMacro]
 	public class CMouvementEquipement :
 		CObjetDonneeAIdNumeriqueAuto,
-        IObjetDonneeAutoReference
+        IObjetDonneeAutoReference, IObjetSansVersion
 	{
 		public const string c_nomTable = "EQUIPEMENT_MOVEMENT";
 

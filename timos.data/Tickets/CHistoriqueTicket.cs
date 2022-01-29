@@ -31,8 +31,7 @@ namespace timos.data
     [ObjetServeurURI("CHistoriqueTicketServeur")]
     [sc2i.doccode.DocRefMenusOrMenuItems(CDocLabels.c_iTicket)]
     [Lys.Licence.AModulesApp(Lys.Applications.Timos.Smt.CConfigModulesTimos.c_appModule_IntersCorrectives_ID)]
-    public class CHistoriqueTicket : 
-		CObjetDonneeAIdNumeriqueAuto
+    public class CHistoriqueTicket : CObjetDonneeAIdNumeriqueAuto, IObjetSansVersion
     {
         public const string c_nomTable = "TICKET_HISTORY";
 

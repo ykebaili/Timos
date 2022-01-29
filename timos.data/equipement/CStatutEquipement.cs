@@ -23,8 +23,10 @@ namespace timos.data
 	[FullTableSync]
 	[ObjetServeurURI("CStatutEquipementServeur")]
 	[TiagClass(CStatutEquipement.c_nomTiag, "Id", true)]
-	public class CStatutEquipement : CObjetDonneeAIdNumeriqueAuto, IObjetALectureTableComplete,
-								IElementAInterfaceTiag
+	public class CStatutEquipement : CObjetDonneeAIdNumeriqueAuto, 
+                            IObjetALectureTableComplete,
+							IElementAInterfaceTiag,
+                            IObjetSansVersion
 	{
 		public const string c_nomTiag = "Equipment status";
 		public const string c_nomTable = "EQUIPMENT_STATUTE";

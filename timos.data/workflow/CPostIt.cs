@@ -95,7 +95,7 @@ namespace sc2i.workflow
 	[ObjetServeurURI("CPostItServeur")]
 	[Table(CPostIt.c_nomTable, CPostIt.c_champId,true)]
 	[RelationToPostit]
-	public class CPostIt : CObjetDonneeAIdNumeriqueAuto
+	public class CPostIt : CObjetDonneeAIdNumeriqueAuto, IObjetSansVersion
 	{
 		#region Déclaration des constantes
 		public const string c_nomTable = "POSTIT";
