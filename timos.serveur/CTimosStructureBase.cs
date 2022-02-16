@@ -51,7 +51,7 @@ namespace timos.serveur
 		//---------------------------------------------------------------------------
 		public int GetLastVersion()
 		{
-			return 28;
+			return 29;
 		}
 		//---------------------------------------------------------------------------
 		public C2iDataBaseUpdateOperationList GetListeTypeOfVersion(int nVersion)
@@ -87,6 +87,7 @@ namespace timos.serveur
                 case 26: lstRtr = UpdateVersion26(); break;
                 case 27: lstRtr = UpdateVersion27(); break;
                 case 28: lstRtr = UpdateVersion28(); break;
+                case 29: lstRtr = UpdateVersion29(); break;
                 default:
 					break;
 			}
@@ -1397,27 +1398,39 @@ namespace timos.serveur
             lstV28.Add(typeof(C2iStructureExportInDB));
             lstV28.Add(typeof(CGroupeParametrage));
 
-            //------------- Recréation des tables de versionning ------------------
-            // 1 - Recréation des Tables
-            lstV28.Add(typeof(CVersionDonnees));
-            lstV28.Add(typeof(CVersionDonneesObjet));
-            lstV28.Add(typeof(CVersionDonneesObjetOperation));
-            // 2 - Recréation des conttraintes
-            lstV28.Add(typeof(CAuditVersion));
-            lstV28.Add(typeof(CProjet));
-            lstV28.Add(typeof(CReleveSite));
-            lstV28.Add(typeof(CIntervention));
-
-
             // Pas de passage en V 28
-            lstV28.Add(new C2iDataBaseUpdateOperationNoSetVersionBase());
+            //lstV28.Add(new C2iDataBaseUpdateOperationNoSetVersionBase());
 
             return lstV28;
         }
 
-		#region Fonctions de mise à jour
+        //------------------------------- V 29 ---------------------------------------
+        public C2iDataBaseUpdateOperationList UpdateVersion29()
+        {
+            C2iDataBaseUpdateOperationList lstV29 = new C2iDataBaseUpdateOperationList();
 
-		public CResultAErreur CreationTypeInter(IDataBaseCreator creator)
+            //------------- Recréation des tables de versionning ------------------
+            // 1 - Recréation des Tables
+            lstV29.Add(typeof(CVersionDonnees));
+            lstV29.Add(typeof(CVersionDonneesObjet));
+            lstV29.Add(typeof(CVersionDonneesObjetOperation));
+
+            // 2 - Recréation des conttraintes
+            lstV29.Add(typeof(CAuditVersion));
+            lstV29.Add(typeof(CProjet));
+            lstV29.Add(typeof(CReleveSite));
+            lstV29.Add(typeof(CIntervention));
+                        
+
+            // Pas de passage en V 28
+            lstV29.Add(new C2iDataBaseUpdateOperationNoSetVersionBase());
+
+            return lstV29;
+        }
+
+        #region Fonctions de mise à jour
+
+        public CResultAErreur CreationTypeInter(IDataBaseCreator creator)
 		{
 			IDatabaseConnexion cnx = creator.Connection;
 			return CreationElementStandardPourNouveauChampObligatoire(typeof(CContrat_ListeOperations), CTypeIntervention.c_champId, GetObjetStandard_TypeIntervention, true, cnx);
